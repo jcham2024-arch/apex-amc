@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     backgroundColor: '#ef4444',
     alignItems: 'center',
-    justify.content: 'center',
+    justifyContent: 'center',
   },
   shotNumber: { color: '#ffffff', fontSize: 7, fontWeight: '900' },
   card: { backgroundColor: '#1e293b', padding: 12, borderRadius: 8, borderWidth: 1, borderColor: '#334155' },
