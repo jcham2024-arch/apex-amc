@@ -11,6 +11,11 @@
  */
 
 export * from './atmosphere.ts';
+
+// Weather conditions with per-field provenance. See the module header for why a
+// local measurement is preferred over a forecast, and why the two are never
+// silently blended.
+export * from './weather.ts';
 export * from './dispersion.ts';
 export * from './reloading.ts';
 
