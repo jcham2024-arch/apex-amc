@@ -184,22 +184,60 @@ describe('solveTrajectory - zero handling', () => {
     });
 
 
-    test('a farther zero means less drop below the line of sight', () => {
-        // The line of sight through a 250 yd zero is steeper, so the bullet sits
-        // closer to it at 500 yd than it does to a 100 yd line of sight. The step
-        // must resolve the zero distance or the solver clamps to the first sample.
-        const at100 = solveTrajectory({ ...REFERENCE, zeroYd: 100, stepYd: 50 });
-        const at250 = solveTrajectory({ ...REFERENCE, zeroYd: 250, stepYd: 50 });
+    test('the drop is zero at the zero distance, at any output step', () => {
+        // The zero is encoded in the launch angle, so this holds regardless of
+        // how the output table is sampled. It used to depend on the step, which
+        // is how a coarse step produced a 400 in hold at a 1000 yd zero.
+        // Each step divides its zero distance, so the zero is always sampled.
+        for (const [zeroYd, steps] of [
+            [100, [25, 50, 100]],
+            [200, [50, 100, 200]],
+            [500, [50, 100, 250]],
+            [1000, [100, 250, 500]],
+        ] as const) {
+            for (const stepYd of steps) {
+                const s = solveTrajectory({ ...REFERENCE, zeroYd, stepYd, maxRangeYd: 1000 });
+                const at = s.points.find((p) => Math.abs(p.rangeYd - zeroYd) < 1e-6);
+                assert.ok(at !== undefined, `step ${stepYd} did not sample ${zeroYd} yd`);
+                assert.ok(
+                    Math.abs(at!.dropIn) < 0.5,
+                    `zero ${zeroYd} yd at step ${stepYd} gave ${at!.dropIn.toFixed(2)} in, expected ~0`,
+                );
+            }
+        }
+    });
 
-        const zeroPoint = at250.points.find((p) => p.rangeYd === 250)!;
-        assert.ok(Math.abs(zeroPoint.dropIn) < 0.01, '250 yd zero must be 0.00 in at 250 yd');
+    test('inside the zero the bullet is high, beyond it low', () => {
+        // The signature of a real zero: a rifle zeroed at 500 yd strikes high
+        // inside 500 and low beyond it, because the bore is raised to make the
+        // bullet cross the line of sight exactly at 500.
+        const s = solveTrajectory({ ...REFERENCE, zeroYd: 500, stepYd: 100, maxRangeYd: 1000 });
+        const at300 = s.points.find((p) => p.rangeYd === 300)!.dropIn;
+        const at500 = s.points.find((p) => p.rangeYd === 500)!.dropIn;
+        const at800 = s.points.find((p) => p.rangeYd === 800)!.dropIn;
+        assert.ok(at300 > 0, `at 300 yd the bullet should be high, got ${at300.toFixed(1)} in`);
+        assert.ok(Math.abs(at500) < 0.5, 'at 500 yd it must be on the line of sight');
+        assert.ok(at800 < 0, `at 800 yd the bullet should be low, got ${at800.toFixed(1)} in`);
+    });
+    test('drop at a short range is monotonic in the zero distance', () => {
 
-        const a = at100.points.find((p) => p.rangeYd === 500)!.dropIn;
-        const b = at250.points.find((p) => p.rangeYd === 500)!.dropIn;
-        assert.ok(
-            b > a,
-            `250 yd zero (${b.toFixed(1)} in) must drop LESS than 100 yd (${a.toFixed(1)} in)`,
-        );
+        // Beyond its zero a rifle sits low; short of its zero it sits high. So at
+        // 300 yd the drop must rise monotonically as the zero distance increases:
+        //   100 yd zero -> -17.6 in (already past zero, dropped)
+        //   300 yd zero ->    0.0 in
+        //   500 yd zero -> +21.0 in (not yet reached zero)
+        // That is the whole point of knowing your zero, and it is a strong check
+        // that the launch-angle model is right rather than merely self-consistent.
+        const at = (zeroYd: number) =>
+            solveTrajectory({ ...REFERENCE, zeroYd, stepYd: 100, maxRangeYd: 1000 })
+                .points.find((p) => p.rangeYd === 300)!.dropIn;
+        const d100 = at(100);
+        const d300 = at(300);
+        const d500 = at(500);
+        assert.ok(d100 < 0, `a 100 yd zero must have dropped by 300 yd, got ${d100.toFixed(1)} in`);
+        assert.ok(Math.abs(d300) < 0.5, `a 300 yd zero must be on the line at 300, got ${d300.toFixed(2)} in`);
+        assert.ok(d500 > 0, `a 500 yd zero must still be high at 300, got ${d500.toFixed(1)} in`);
+        assert.ok(d100 < d300 && d300 < d500, 'drop must increase monotonically with zero distance');
     });
 
     test('a non-zero scope reference shifts the line of sight', () => {
@@ -402,5 +440,55 @@ describe('solveTrajectory - validation', () => {
     test('requires an ambient temperature rather than assuming one', () => {
         const req = { ...REFERENCE, environment: {} as SolveRequest['environment'] };
         assert.throws(() => solveTrajectory(req), InvalidSolveRequest);
+    });
+});
+
+describe('solver output-step independence', () => {
+    // Regression guard for a bug found while building the device pipeline.
+    //
+    // `buildFiringSolution` originally solved with `stepYd: rangeYd`, which put
+    // the only output sample AT the target. The zero at 100 yd was therefore
+    // never sampled, the solver clamped the zero to that single point, and the
+    // line-of-sight slope came out inverted: +362 MOA of "elevation" at 1000 yd
+    // where the correct answer is -37.7 MOA.
+    //
+    // The physics never changed. The presentation step did, and the zero
+    // resolution depended on it, which should never be true: an output step is
+    // a display choice and must not be able to alter the answer.
+    const base = {
+        muzzleVelocityFps: 2650,
+        bulletWeightGr: 168,
+        bulletDiameterIn: 0.308,
+        bcG1: 0.462,
+        dragModel: 'G1' as const,
+        zeroYd: 100,
+        zeroMoa: 0,
+        maxRangeYd: 1000,
+    };
+    const environment = { tempF: 59, densityRatio: 1 };
+
+    test('the hold at 1000 yd does not depend on the output step', () => {
+        const results = [25, 50, 100, 250, 500].map((stepYd) => {
+            const s = solveTrajectory({ ...base, stepYd, environment });
+            return s.points.find((p) => p.rangeYd >= 1000 - 1e-6)!.elevationMoa;
+        });
+        for (const r of results) {
+            assert.ok(
+                Math.abs(r - results[0]!) < 0.1,
+                `elevation varied with output step: ${results.map((x) => x.toFixed(2)).join(', ')}`,
+            );
+        }
+    });
+
+    test('a coarse step still produces a plausible hold', () => {
+        // The specific failure produced +362 MOA, which is a full turn of a
+        // scope. Assert the sign and a sane magnitude.
+        const s = solveTrajectory({ ...base, stepYd: 1000, environment });
+        const at1000 = s.points[s.points.length - 1]!;
+        assert.ok(at1000.elevationMoa < 0, 'a 1000 yd shot from a 100 yd zero is LOW');
+        assert.ok(
+            Math.abs(at1000.elevationMoa) < 100,
+            `absurd hold of ${at1000.elevationMoa.toFixed(1)} MOA suggests a broken zero`,
+        );
     });
 });

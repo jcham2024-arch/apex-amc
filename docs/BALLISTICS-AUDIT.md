@@ -281,3 +281,148 @@ tracer limit rather than against a guessed figure.
 4. **The DOPE card is not yet rewired.** `DopeCardScreen.jsx` still uses
    `0.00008 * Math.pow(yd, 2.3)`, which returns 53 ft of drop at 1000 yd where
    this solver returns 31 ft. That screen must not ship.
+
+---
+
+# Device integration layer (30 Sep 2026)
+
+`packages/ballistics-core/src/devices/` is the contract for talking to shooting
+hardware. It has no vendor-specific code, and nothing in it imports React,
+React Native, or Expo.
+
+## What is built
+
+| File | Purpose |
+|---|---|
+| `types.ts` | `DeviceDriver`, `Capabilities`, `TurretControl`, `DeviceReadError` |
+| `solution.ts` | `buildFiringSolution()`, `applyAdjustment()`, `DriverRegistry` |
+| `drivers/simulated.ts` | Simulated rangefinder, weather meter, turret, scope camera |
+
+## Adding a device later
+
+Write one file implementing `DeviceDriver`, declare its `Capabilities`, and
+register it. No change to the solver, the solution layer, or the UI is needed
+unless the UI wants a brand-specific affordance — which it should not.
+
+That is the whole point of the capability model. The first design would have
+been a `DeviceType` enum, and every new rangefinder would have been a change to
+the core plus a `switch` in the UI. Instead the UI asks "is there a live wind
+source?" and does not care which device answers.
+
+## The turret gate
+
+Automated turret movement is designed, documented and tested, and **there is no
+driver for it, because no manufacturer permits it.** See below.
+
+`applyAdjustment()` refuses to move a turret unless the caller passes
+`acknowledged: true`. That single boolean is the entire mechanism, and it is
+deliberately not a setting or a "trusted mode" toggle, because those can be set
+once and forgotten, and the failure mode is a rifle pointed at a solution nobody
+chose.
+
+Other enforced rules:
+
+- **No trigger, ever.** There is no `fire()` anywhere in the interface. A test
+  asserts that `fire`, `fireRound`, `trigger` and `shoot` are all undefined, so
+  a future change that adds one fails the build rather than shipping.
+- **No auto-retry.** A failed move is reported once. Retrying a mechanical
+  movement behind the shooter's back is how a rifle ends up somewhere unintended.
+- **Unverifiable moves warn even on success.** A driver that can move a turret
+  but not read it back must declare `verification: 'none'`, and the outcome
+  carries a "verify by hand" warning.
+- **Backlash is modelled.** `TurretControl.backlashClicks` lets a driver declare
+  its slack, and a move smaller than that is flagged as possibly not having
+  happened at all.
+- **A driver that lies about its capabilities is caught.** Claiming
+  `writesTurret` without implementing `moveTurret` is reported as a driver bug
+  rather than silently tolerated.
+
+## Why there is no scope driver
+
+**No major scope manufacturer exposes a public API for third-party read or
+control of turrets.** SIG BDX, Nightforce NFOR, Leupold LR/TX, Vortex Venom and
+Swarovski all speak proprietary protocols to their own apps. There is no open
+standard, and no way to read a turret position or command a turret without a
+vendor partnership or a protocol reverse-engineered from firmware.
+
+So the capability exists and the pipeline is built, but the driver does not.
+That is the honest state, and it is recorded in `DriverStatus` as
+`'contract-only'` so a UI can say so.
+
+Rangefinders and weather meters are a different matter: several expose
+Bluetooth today, and those are the drivers worth writing first.
+
+---
+
+# Solver correction: the zero is a launch angle (30 Sep 2026)
+
+Found while wiring the device pipeline, and it was the most consequential bug in
+the project so far.
+
+## What was wrong
+
+The solver fired the bullet **horizontally** and then subtracted a straight line
+to fake the zero. That is wrong in three independent ways, all of which were
+live at once:
+
+1. **The zero was read from the first output sample.** With a coarse output
+   step, the first sample can lie beyond the zero distance, so the zero was
+   taken from the wrong range entirely. A `stepYd` of 1000 with a 100 yd zero
+   reported **+362 MOA of elevation** at 1000 yd, where the correct answer is
+   -37.7 MOA. A 1000 yd zero reported a 400 inch hold at 1000 yards.
+2. **The line-of-sight slope had the wrong sign**, which inverted every hold.
+3. **Velocity and time of flight were those of a horizontal shot**, not of the
+   bore angle the rifle is actually firing at — so the numbers a shooter would
+   most want to sanity-check were wrong too.
+
+None of this was caught by the reference-table tests, because those all used
+`stepYd: 100`, which happens to sample the zero distance exactly. **The bug was
+invisible to every test until the device pipeline asked for a solution at an
+arbitrary range.**
+
+## The correct model
+
+A zeroed rifle does not fire horizontally. The shooter raised the bore until the
+bullet crossed the line of sight at the zero distance, so:
+
+```
+Pass 1:  integrate a horizontal launch to zeroYd, measure the fall
+Pass 2:  launch along the slope that cancels that fall
+         drop(x) = trajectory height, which is zero at zeroYd by construction
+```
+
+The second integration is not an optimisation to avoid. Gravity and drag act on
+the air-relative velocity, so a constant launch angle only subtracts a straight
+line — but firing along the real bore angle makes the reported velocity and time
+of flight physical, which is what a shooter uses to sanity-check a solution.
+
+Validated result, unchanged where it was already correct:
+
+| Range | Drop in | MOA | Velocity | Time |
+|---|---|---|---|---|
+| 100 | 0.0 | 0.0 | 2491 | 0.12 |
+| 300 | -17.6 | -5.9 | 2190 | 0.37 |
+| 500 | -64.3 | -12.9 | 1914 | 0.67 |
+| 700 | -149.3 | -23.9 | 1662 | 1.00 |
+| 1000 | -376.8 | -37.7 | 1334 | 1.61 |
+
+## New regression tests
+
+- **Zero holds at any output step.** Four zero distances, three step sizes each,
+  all within 0.5 inch. This is the test that was missing and that let the bug
+  through.
+- **Inside the zero the bullet is high, beyond it low.** A 500 yd zero gives
+  +21.0 in at 300 yd, 0.0 at 500, and -24.1 at 600. This is the physical
+  signature of a real zero.
+- **Drop is monotonic in the zero distance.** At 300 yd: a 100 yd zero gives
+  -17.6 in, a 300 yd zero gives 0.0, a 500 yd zero gives +21.0 in. A strong check
+  that the launch-angle model is right rather than merely self-consistent.
+
+## Lesson worth keeping
+
+The earlier validation was thorough about the *physics* and blind to the
+*geometry*. Every test used a step size that happened to align with the zero
+distance. Adding a second consumer that asked an awkward question — "what is the
+hold at whatever range the rangefinder just reported?" — found it immediately.
+
+Tests that only exercise the case you designed for are not validation.

@@ -64,15 +64,27 @@
  *    provenance/constants.ts as named constants so the mistake cannot recur.
  *
  *
- *   Pass 1: integrate with no zero, recording raw height y at each range.
- *   Pass 2: interpolate raw y at zeroYd, then subtract that single offset
- *           from every sample.
+ * 4. ZERO APPLIED AS A POST-HOC OFFSET. A zeroed rifle does not fire
+ *    horizontally. The shooter raised the bore until the bullet crossed the
+ *    line of sight at the zero distance, so the zero is really a LAUNCH ANGLE.
+ *    An earlier version integrated one horizontal trajectory and then subtracted
+ *    a straight line to fake the zero, which got three things wrong at once: the
+ *    zero was read from the first output sample (so a coarse step read it from
+ *    the wrong range, and a 1000 yd zero produced a 400 in hold at 1000 yd); the
+ *    slope had the wrong sign, inverting every hold; and the reported velocity
+ *    and time of flight were those of a horizontal shot rather than the actual
+ *    bore angle the rifle is firing at.
  *
- * This makes "0.0 MOA at the zero distance" true by construction rather than
- * by fitting. The alternative - solving for an elevation angle that produces
- * zero drop at zeroYd - needs a second integration and converges poorly for
- * steeply inclined shots.
+ *    The solver now integrates twice. Pass 1 fires horizontally to the zero
+ *    distance and measures the fall. Pass 2 launches along the slope that
+ *    cancels that fall, so the trajectory is zero at the zero distance by
+ *    construction and the reported hold is the trajectory height itself. The
+ *    second integration is not an optimisation to avoid: it is what makes the
+ *    velocity and time of flight physical.
  *
+ * --------------------------------------------------------------------------
+ * VALIDATION
+ * --------------------------------------------------------------------------
  * ---------------------------------------------------------------------------
  * VALIDATION
  * ---------------------------------------------------------------------------
@@ -478,12 +490,6 @@ function rk4Step(
     s.t += dt;
 }
 
-/** Linear interpolation of `y` at `x` from two bracketing samples. */
-function interpolate(x: number, x0: number, y0: number, x1: number, y1: number): number {
-    if (x1 - x0 <= 0) return y0;
-    return y0 + ((x - x0) / (x1 - x0)) * (y1 - y0);
-}
-
 /**
  * Validate a request before integrating.
  *
@@ -607,126 +613,118 @@ export function solveTrajectory(req: SolveRequest): Solution {
     void req.bulletDiameterIn;
     void GRAINS_PER_POUND.value;
 
-    const maxRangeFt = req.maxRangeYd * FEET_PER_YARD;
+    const muzzleVelocityFps = req.muzzleVelocityFps;
     const sampleStepFt = stepYd * FEET_PER_YARD;
 
-    const state: State = {
-        x: 0,
-        y: 0,
-        z: 0,
-        u: req.muzzleVelocityFps * r.cosIncline,
-        v: req.muzzleVelocityFps * r.sinIncline,
-        w: 0,
-        t: 0,
+    // -----------------------------------------------------------------------
+    // PASS 1: find the bore angle
+    // -----------------------------------------------------------------------
+    //
+    // A zeroed rifle does not fire horizontally. The shooter raised the bore until
+    // the bullet crossed the line of sight at the zero distance, so the bullet is
+    // LAUNCHED along an inclined line and the hold is the fall BELOW that line.
+    //
+    // The bore angle is therefore not an input. It is whatever angle makes the
+    // bullet return to the muzzle's height at `zeroYd`. Integrating once from a
+    // horizontal launch gives the fall, and the required angle follows from it:
+    //
+    //     tan(bore) = -fall_at_zero / zero_distance
+    //
+    // (negative because the solver integrates y downward, so a rise is a positive
+    // slope against a negative fall).
+    //
+    // Integrating twice is not an optimisation to avoid. A first pass fired
+    // horizontally and a second pass fired along the bore give the same ANSWER for
+    // the hold, because gravity and drag both act on the air-relative velocity and
+    // a constant launch angle simply subtracts a straight line. Doing it this way
+    // keeps the reported trajectory physical, so a shooter reading velocity and
+    // time of flight sees what their round actually does.
+
+    const integrateTo = (targetFt: number, launchSlope: number, collect: boolean): RawSample[] => {
+        const s: State = {
+            x: 0,
+            y: 0,
+            z: 0,
+            u: muzzleVelocityFps * Math.sqrt(1 - launchSlope * launchSlope),
+            v: muzzleVelocityFps * launchSlope,
+            w: 0,
+            t: 0,
+        };
+        const out: RawSample[] = [];
+        let prevX = 0;
+        let prevY = 0;
+        let prevZ = 0;
+        let nextSampleX = collect ? sampleStepFt : targetFt;
+        let n = 0;
+        while (s.x < targetFt) {
+            rk4Step(s, r, table, formFactor, bc, DT_SECONDS);
+            if (++n > MAX_STEPS) {
+                throw new InvalidSolveRequest('Integration failed to reach the requested range.');
+            }
+            if (s.x >= nextSampleX) {
+                const frac = (nextSampleX - prevX) / (s.x - prevX || 1);
+                out.push({
+                    x: nextSampleX,
+                    y: prevY + frac * (s.y - prevY),
+                    z: prevZ + frac * (s.z - prevZ),
+                    u: s.u,
+                    t: s.t,
+                });
+                nextSampleX += sampleStepFt;
+                prevX = s.x;
+                prevY = s.y;
+                prevZ = s.z;
+            }
+        }
+        return out;
     };
 
-    // Pass 1: integrate, recording raw height and lateral offset at each
-    // output range. Sampling is interpolated onto the exact output grid so the
-    // table is regular regardless of where integration steps land.
-    const raw: RawSample[] = [];
-    let prevX = 0;
-    let prevY = 0;
-    let prevZ = 0;
-    let nextSampleX = sampleStepFt;
-    let steps = 0;
+    // Pass 1: integrate a horizontal launch to the zero distance to find the
+    // bore angle.
+    const zeroXft = req.zeroYd * FEET_PER_YARD;
+    const probe = integrateTo(zeroXft, 0, false);
+    const fallAtZero = probe[probe.length - 1]!.y;
+    const boreSlope = -fallAtZero / zeroXft;
 
-    while (state.x < maxRangeFt) {
-        rk4Step(state, r, table, formFactor, bc, DT_SECONDS);
-        if (++steps > MAX_STEPS) {
-            throw new InvalidSolveRequest('Integration failed to reach the requested range.');
-        }
-        if (state.x >= nextSampleX) {
-            const span = state.x - prevX || 1;
-            const frac = (nextSampleX - prevX) / span;
-            raw.push({
-                x: nextSampleX,
-                y: prevY + frac * (state.y - prevY),
-                z: prevZ + frac * (state.z - prevZ),
-                u: state.u,
-                t: state.t,
-            });
-            nextSampleX += sampleStepFt;
-            prevX = state.x;
-            prevY = state.y;
-            prevZ = state.z;
-        }
-    }
+    // Pass 2: integrate along the bore, sampling the output grid.
+    const maxRangeFt = req.maxRangeYd * FEET_PER_YARD;
+    const raw = integrateTo(maxRangeFt, boreSlope, true);
 
     if (raw.length === 0) {
         throw new InvalidSolveRequest('Requested range is too short to produce a sample.');
     }
 
-    // Pass 2: locate the raw height at the zero distance and remove it.
-    const zeroX = req.zeroYd * FEET_PER_YARD;
-    const last = raw[raw.length - 1]!;
-    let rawAtZero: number;
-    if (zeroX <= raw[0]!.x) {
-        rawAtZero = raw[0]!.y;
-    } else if (zeroX >= last.x) {
-        rawAtZero = last.y;
-    } else {
-        let lo = 0;
-        let hi = raw.length - 1;
-        while (hi - lo > 1) {
-            const mid = (lo + hi) >> 1;
-            if (raw[mid]!.x < zeroX) lo = mid;
-            else hi = mid;
-        }
-        rawAtZero = interpolate(zeroX, raw[lo]!.x, raw[lo]!.y, raw[hi]!.x, raw[hi]!.y);
-    }
-
-    // The scope may be zeroed a few MOA above the bore, so the line of sight
-    // sits above the trajectory. Add that to the offset so the reported drop
-    // is relative to the line of sight the shooter is actually using.
-
-    // A scope zeroed `zeroMoa` above the bore raises the line of sight by that
-    // angle. 1 MOA subtends 1 inch at 100 yards, so at zeroYd the rise is
-    //   zeroMoa inches * (zeroYd / 100) inches
-    // which is then converted to feet for the subtraction below.
-
-    // Pass 3: build the line of sight as a STRAIGHT LINE THROUGH the zero
-    // point, not a parallel shift of the trajectory.
+    // -----------------------------------------------------------------------
+    // THE LINE OF SIGHT AND THE REPORTED DROP
+    // -----------------------------------------------------------------------
     //
-    // A scope is bored parallel to the line of sight. A rifle zeroed at
-    // 100 yd therefore has a bore that is INCLINED, and the line of sight is
-    // a straight line from the muzzle through the zero point. Subtracting a
-    // single constant offset (as an earlier version of this file did) measures
-    // drop relative to a HORIZONTAL line through the zero point instead, which
-    // overstates the required hold by 100-300% beyond the zero distance. That
-    // bug produced -400 in at 1000 yd where the reference is -341 in.
+    // The bullet was launched along the bore, so the line of sight is that same
+    // line. The drop is therefore the fall below it, which is already correct at
+    // the zero distance by construction.
     //
-    // Bore slope = (raw height at the zero distance) / (zero distance),
-    // with the scope's own zero offset added on top.
-    const zeroXft = req.zeroYd * FEET_PER_YARD;
-    const boreSlope = rawAtZero / zeroXft;
-
-    // The scope sits `zeroMoa` above the bore, and that offset is an ANGLE,
-    // not a fixed height. It must therefore be added to the line-of-sight
-    // SLOPE, so it grows with range like any other angular correction.
-    //
-    // Adding it as a constant height (as an earlier version did) made a 1 MOA
-    // scope reference shift the whole table by 1 inch at every range, instead of
-    // 1 inch at 100 yd and 10 inches at 1000 yd. That understated the hold a
-    // shooter needs to make at long range by an order of magnitude.
-    //
-
-    // 1 MOA subtends 1 INCH at 100 yd. As a slope that is
-    //   (1 in / 12 ft per in) / (100 yd * 3 ft per yd) = 1 / 3600 ft per ft.
-    // The inches-to-feet factor is easy to omit, and doing so makes a 1 MOA scope
-    // reference 12x too large: 120 in of hold at 1000 yd instead of 10 in.
+    // The scope may sit zeroMoa above the bore, which is an ANGLE and so adds to
+    // the slope rather than as a constant height.
     const scopeSlope =
         req.zeroMoa / (INCHES_PER_FOOT * MOA_INCHES_AT_100YD_YARDS * FEET_PER_YARD);
 
-    // The line of sight is the bore line raised by the scope angle.
-    const losSlope = boreSlope + scopeSlope;
+    // NOTE: the line of sight IS the bore line, so it is not subtracted again
+    // below. Only the scope offset, which sits above the bore, is.
 
     const points: SolutionPoint[] = raw.map((sm) => {
         const rangeYd = sm.x * YARDS_PER_FOOT;
-        // Height of the line of sight above the muzzle-horizontal at this range.
-        const losFt = losSlope * sm.x;
-        // Drop below the line of sight. Negative means the bullet is low.
-        const dropFt = sm.y - losFt;
-        // 1 MOA subtends 1 inch at 100 yd, so at rangeYd one MOA is
+        // Drop below the line of sight. Because the bullet was launched along
+        // the bore, subtracting the bore line recovers the fall below the aim
+        // point, which is exactly the hold the shooter must apply.
+        // The zero is already encoded in the launch angle: pass 1 measured the
+        // fall at the zero distance and pass 2 launched along the slope that
+        // cancels it there. The trajectory height is therefore already measured
+        // from the line of sight, and is zero at the zero distance by
+        // construction. Subtracting a line again would remove the aim point a
+        // second time, which is what made a 1000 yd zero report a 400 in hold.
+        //
+        // The scope offset is the one exception: it raises the line of sight
+        // above the bore, so it must be subtracted here.
+        const dropFt = sm.y - scopeSlope * sm.x;
         // (rangeYd / 100) inches.
         const moaAtRange = rangeYd / MOA_INCHES_AT_100YD_YARDS;
         const elevationMoa = (dropFt * INCHES_PER_FOOT) / moaAtRange;

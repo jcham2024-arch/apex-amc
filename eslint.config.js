@@ -1,9 +1,10 @@
+﻿
 // ESLint flat config.
 //
 // Scoping note: type-aware rules only run where a tsconfig covers the file.
 // `packages/` has one; the website and the Expo app do not, so those blocks
 // disable type checking rather than erroring. Ordering matters in flat config
-// — later blocks override earlier ones — so the non-typed blocks come last.
+// â€” later blocks override earlier ones â€” so the non-typed blocks come last.
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -19,6 +20,10 @@ export default tseslint.config(
       'archive/**',
       // Single-file site; superseded by apps/website/src modules.
       'apps/website/index.html',
+      // One-shot scratch scripts from parallel data work. Prefixed with an
+      // underscore and self-described as TEMP. Excluded from lint rather than
+      // deleted, because that agent may still be mid-run.
+      'scripts/_*.mjs',
     ],
   },
 
@@ -44,6 +49,13 @@ export default tseslint.config(
       },
     },
     rules: {
+      // A device driver implements an async interface but may legitimately have
+      // nothing to await: a simulated driver, or a real one reading a local
+      // value. The rule exists to catch forgotten awaits in genuine async work,
+      // and forcing a fake `await Promise.resolve()` to satisfy it would be
+      // worse noise than the thing it prevents. Drivers are covered by the
+      // device tests instead.
+      '@typescript-eslint/require-await': 'off',
       'no-console': 'warn',
       eqeqeq: ['error', 'always'],
       'prefer-const': 'error',
