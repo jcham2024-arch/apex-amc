@@ -1,0 +1,235 @@
+cartridge_name,saami_piezo_ksi,cip_piezo_ksi,saami_cup,cip_cup,other,footnote,unit_note
+.17 Mach 2,24,26,,,,,ksi_rounded_up_to_1000psi
+.17 HMR,26,26,,,,,ksi_rounded_up_to_1000psi
+.17 WSM,33,32,,,,,ksi_rounded_up_to_1000psi
+.17 Hornet,50,,,,,,ksi_rounded_up_to_1000psi
+.17 Mach 4,,60,,52,,*,ksi_rounded_up_to_1000psi
+.17 Fireball,55,,,,,,ksi_rounded_up_to_1000psi
+.17 Rem,63,62,52,53,,,ksi_rounded_up_to_1000psi
+.204 Ruger,58,59,,,,,ksi_rounded_up_to_1000psi
+.22 Short,21,15,,,10,,ksi_rounded_up_to_1000psi
+.22 Long,24,,,,,,ksi_rounded_up_to_1000psi
+.22 LR,24,25,,,12,,ksi_rounded_up_to_1000psi
+.22 WR,20,,,,15,,ksi_rounded_up_to_1000psi
+.22 WMRF,24,23,,,,,ksi_rounded_up_to_1000psi
+5.6x35R,,39,,35,,,ksi_rounded_up_to_1000psi
+.22 Hornet,49,44,43,41,,?,ksi_rounded_up_to_1000psi
+.218 Bee,,46,40,41,,,ksi_rounded_up_to_1000psi
+.22 Rem Jet,,37,40,,,,ksi_rounded_up_to_1000psi
+.221 Rem,,46,52,,,,ksi_rounded_up_to_1000psi
+5.6x50R,,49,,44,,,ksi_rounded_up_to_1000psi
+.222,50,54,46,46,,,ksi_rounded_up_to_1000psi
+.222 Mag.,,59,50,51,,,ksi_rounded_up_to_1000psi
+.223,55,62,52,54,,,ksi_rounded_up_to_1000psi
+.219 Zip.,,41,,37,,,ksi_rounded_up_to_1000psi
+.225 Win.,,57,50,49,,,ksi_rounded_up_to_1000psi
+.22-250,65,59,53,51,,,ksi_rounded_up_to_1000psi
+.220 Swift,62,62,54,54,,,ksi_rounded_up_to_1000psi
+.224 Wea,64,,,,,,ksi_rounded_up_to_1000psi
+.223 WSSM,65,65,,,,,ksi_rounded_up_to_1000psi
+5.6x61R v.H.,,55,,,,,ksi_rounded_up_to_1000psi
+5.6x52R,,48,,42,,,ksi_rounded_up_to_1000psi
+.22 Sav.,,48,,42,49,,ksi_rounded_up_to_1000psi
+6x70R,,38,,,,,ksi_rounded_up_to_1000psi
+6x45,55,,,,,,ksi_rounded_up_to_1000psi
+6x50R,,64,,,,,ksi_rounded_up_to_1000psi
+6x52R Bret.,,48,,,,,ksi_rounded_up_to_1000psi
+.243 WSSM,65,65,,,,,ksi_rounded_up_to_1000psi
+.243 Win.,60,60,52,52,,,ksi_rounded_up_to_1000psi
+6 Rem.,65,62,52,54,,,ksi_rounded_up_to_1000psi
+.240 Wea.,,64,,55,,,ksi_rounded_up_to_1000psi
+6x62,,62,,54,,,ksi_rounded_up_to_1000psi
+6x62R,,62,,54,,,ksi_rounded_up_to_1000psi
+.240 Fl.NE,,46,,41,,,ksi_rounded_up_to_1000psi
+.25-20,,39,28,35,21/29,,ksi_rounded_up_to_1000psi
+.256 Win.,,51,43,44,,,ksi_rounded_up_to_1000psi
+.25-35,,44,37,39,33,,ksi_rounded_up_to_1000psi
+.25 Rem.,,36,,,35,,ksi_rounded_up_to_1000psi
+.250 Sav.,,53,45,46,52?,,ksi_rounded_up_to_1000psi
+.25 WSSM,65,,,,,,ksi_rounded_up_to_1000psi
+.257 Rob.,54,51,45,45,,,ksi_rounded_up_to_1000psi
+.25-06,63,65,53,56,,,ksi_rounded_up_to_1000psi
+.257 Wea,,64,,55,,,ksi_rounded_up_to_1000psi
+6.5 Grendel,52,,,,,,ksi_rounded_up_to_1000psi
+6.5x52R,,36,,32,,,ksi_rounded_up_to_1000psi
+6.5 Jap.,,43,,38,,,ksi_rounded_up_to_1000psi
+6.5x50R,,53,,46,,,ksi_rounded_up_to_1000psi
+6.5x70R,,41,,36,,,ksi_rounded_up_to_1000psi
+6.5x52 Car.,,41,,,,,ksi_rounded_up_to_1000psi
+6.5x53R,,46,,41,,*,ksi_rounded_up_to_1000psi
+6.5x54 M-S,,53,,46,,,ksi_rounded_up_to_1000psi
+6.5x54 Mauser,,44,,39,,,ksi_rounded_up_to_1000psi
+.260 Rem,60,60,,,,,ksi_rounded_up_to_1000psi
+6.5x55,51,55,46,,,,ksi_rounded_up_to_1000psi
+6.5x58R,,41,,36,,,ksi_rounded_up_to_1000psi
+6.5x57,,57,,49,,,ksi_rounded_up_to_1000psi
+6.5x58 Mauser,,51,,45,,,ksi_rounded_up_to_1000psi
+6.5x57R,,48,,42,,,ksi_rounded_up_to_1000psi
+6.5 Creedm,52,63,,,,,ksi_rounded_up_to_1000psi
+6.5x70R,,41,,,,,ksi_rounded_up_to_1000psi
+6.5x72R,,55,,48,,*,ksi_rounded_up_to_1000psi
+6.5-06 A-S,65,,,,,,ksi_rounded_up_to_1000psi
+6.5 Rem Mag,,63,53,54,,,ksi_rounded_up_to_1000psi
+.264 Win Mag,64,62,54,54,,,ksi_rounded_up_to_1000psi
+6.8 SPC,55,59,,,,,ksi_rounded_up_to_1000psi
+.270,65,62,52,54,,,ksi_rounded_up_to_1000psi
+.270 WSM,65,65,,,,,ksi_rounded_up_to_1000psi
+.270 Wea,63,64,,,,,ksi_rounded_up_to_1000psi
+7x50R,,53,,,,,ksi_rounded_up_to_1000psi
+7-30 Wat.,45,49,40,,,,ksi_rounded_up_to_1000psi
+7x72R,,41,,36,,,ksi_rounded_up_to_1000psi
+7-08,61,60,52,,,,ksi_rounded_up_to_1000psi
+7x57,51,57,46,49,,,ksi_rounded_up_to_1000psi
+7x57R,,49,,44,,,ksi_rounded_up_to_1000psi
+7 Fl.Mag.,,48,,42,,,ksi_rounded_up_to_1000psi
+7x65R,,55,,48,,,ksi_rounded_up_to_1000psi
+7x75R v.H.,,60,,52,,,ksi_rounded_up_to_1000psi
+.284 Win,56,64,54,55,,,ksi_rounded_up_to_1000psi
+.280 Rem,60,59,50,51,,,ksi_rounded_up_to_1000psi
+7 WSM,,65,,,,,ksi_rounded_up_to_1000psi
+7 Rem Mag,61,62,52,54,,,ksi_rounded_up_to_1000psi
+7 Wea,65,64,,,,,ksi_rounded_up_to_1000psi
+7 STW,65,,,,,,ksi_rounded_up_to_1000psi
+.280 Fl.NE,,43,,38,,,ksi_rounded_up_to_1000psi
+.30 Carb.,40,46,40,,,,ksi_rounded_up_to_1000psi
+.30-357 AeT,,44,,,,,ksi_rounded_up_to_1000psi
+.30 Rem AR,55,,,,,,ksi_rounded_up_to_1000psi
+.30-30,42,46,38,41,38,,ksi_rounded_up_to_1000psi
+.30 Rem,,41,35,36,,,ksi_rounded_up_to_1000psi
+.300 Sav,47,53,46,46,,,ksi_rounded_up_to_1000psi
+.308 Marlin,48,,,,,,ksi_rounded_up_to_1000psi
+.30 Fl.Purdey,,46,,41,,,ksi_rounded_up_to_1000psi
+.30-40,,47,40,41,38,,ksi_rounded_up_to_1000psi
+.307 Win,,60,52,52,,,ksi_rounded_up_to_1000psi
+.308 Win,62,60,52,52,,,ksi_rounded_up_to_1000psi
+.30-06,60,59,50,51,,,ksi_rounded_up_to_1000psi
+.30 R Blaser,,59,,51,,,ksi_rounded_up_to_1000psi
+.300 WSM,,65,,,,,ksi_rounded_up_to_1000psi
+.30 Super Belt,,53,,,,,ksi_rounded_up_to_1000psi
+.300 RCM,65,,,,,,ksi_rounded_up_to_1000psi
+.300 H&H,58,62,54,54,,,ksi_rounded_up_to_1000psi
+.300 Win,64,62,54,54,,,ksi_rounded_up_to_1000psi
+.300 WSM,64,,,,,,ksi_rounded_up_to_1000psi
+.30 Super Fl.,,46,,41,,,ksi_rounded_up_to_1000psi
+.308 Norma,,64,,,,,ksi_rounded_up_to_1000psi
+.300 Wea,65,64,55,55,,,ksi_rounded_up_to_1000psi
+.300 RUM,65,65,,,,,ksi_rounded_up_to_1000psi
+.300 Lap Mag,,68,,,,,ksi_rounded_up_to_1000psi
+.30-378 Wea,,64,,,,,ksi_rounded_up_to_1000psi
+7.62x39,45,,,,,,ksi_rounded_up_to_1000psi
+.303 Sav,,39,34,35,43?,,ksi_rounded_up_to_1000psi
+.303 Brit,49,53,45,46,,,ksi_rounded_up_to_1000psi
+7.62x53R,,57,,,,,ksi_rounded_up_to_1000psi
+7.62x54R,,57,,46,,,ksi_rounded_up_to_1000psi
+.32 H & R,,21,21,24,,,ksi_rounded_up_to_1000psi
+.32-20,,30,16,28,18/26,,ksi_rounded_up_to_1000psi
+.327 Fed,45,,,,,,ksi_rounded_up_to_1000psi
+8x72R,,41,,36,,,ksi_rounded_up_to_1000psi
+.32-40,,34,30,30,18/35,,ksi_rounded_up_to_1000psi
+.32 Spl.,42,44,38,39,,,ksi_rounded_up_to_1000psi
+.32 Rem,,43,37,38,,,ksi_rounded_up_to_1000psi
+8x50R,,51,,45,,!!,ksi_rounded_up_to_1000psi
+8 Lebel,,,,51,,!,ksi_rounded_up_to_1000psi
+8x57 JRS,,48,,42,,,ksi_rounded_up_to_1000psi
+8x57 JS,35,57,37,49,,,ksi_rounded_up_to_1000psi
+8x60RS,,49,,44,,,ksi_rounded_up_to_1000psi
+8x64S,,59,,51,,,ksi_rounded_up_to_1000psi
+8x65RS,,59,,51,,,ksi_rounded_up_to_1000psi
+8x75RS,,55,,48,,,ksi_rounded_up_to_1000psi
+8 Rem Mag,65,67,54,57,,,ksi_rounded_up_to_1000psi
+.318,,48,,42,,,ksi_rounded_up_to_1000psi
+.333 Riml.NE,,48,,42,,,ksi_rounded_up_to_1000psi
+.338 Fed,62,,,,,,ksi_rounded_up_to_1000psi
+.338 Marlin,46,,,,,,ksi_rounded_up_to_1000psi
+.33 WCF,,44,,39,35,,ksi_rounded_up_to_1000psi
+.338-06 A-Sq.,63,,52,,,,ksi_rounded_up_to_1000psi
+.338 RCM,65,,,,,,ksi_rounded_up_to_1000psi
+.338 Win,64,62,54,54,,,ksi_rounded_up_to_1000psi
+.340 Wea,63,,,,,,ksi_rounded_up_to_1000psi
+.338 RUM,65,,,,,,ksi_rounded_up_to_1000psi
+.338-378 Wea,,64,,,,,ksi_rounded_up_to_1000psi
+.348,,46,40,41,,,ksi_rounded_up_to_1000psi
+.351 Win SL,,53,45,,,,ksi_rounded_up_to_1000psi
+9 Luger,35,34,33,,,,ksi_rounded_up_to_1000psi
+9x57,,41,,36,,,ksi_rounded_up_to_1000psi
+9x57R,,41,,36,,,ksi_rounded_up_to_1000psi
+.38 Spl,17,22,17,,,,ksi_rounded_up_to_1000psi
+.357 Mag,35,44,45,,,,ksi_rounded_up_to_1000psi
+.357 Max,40,45,48,,,,ksi_rounded_up_to_1000psi
+400/350,,41,,36,,,ksi_rounded_up_to_1000psi
+.350 No.2,,48,,42,,,ksi_rounded_up_to_1000psi
+.350 Mag Rigby,,45,,,,,ksi_rounded_up_to_1000psi
+.35 Rem,34,40,35,36,35,,ksi_rounded_up_to_1000psi
+.35 WCF,,44,39,39,40,,ksi_rounded_up_to_1000psi
+.356 Win,,60,52,52,,,ksi_rounded_up_to_1000psi
+.358 Win,,59,52,51,,,ksi_rounded_up_to_1000psi
+.350 Rem Mag,,62,53,54,,,ksi_rounded_up_to_1000psi
+.35 Whelen,62,58,52,,,,ksi_rounded_up_to_1000psi
+.358 STA,65,,,,,,ksi_rounded_up_to_1000psi
+9x53R,,49,,,,,ksi_rounded_up_to_1000psi
+.360 NE 2&frac14,,,36,,32,,ksi_rounded_up_to_1000psi
+9.3x72R,,29,,26,,,ksi_rounded_up_to_1000psi
+9.3x57,,44,,38,,,ksi_rounded_up_to_1000psi
+9.3x62,,57,,49,,,ksi_rounded_up_to_1000psi
+9.3x64,,64,,55,,,ksi_rounded_up_to_1000psi
+9.3x72R,,29,,,,,ksi_rounded_up_to_1000psi
+9.3x74R,,49,,44,,,ksi_rounded_up_to_1000psi
+9.3x65R,,55,,48,,*,ksi_rounded_up_to_1000psi
+.375 Win,,55,52,55,,,ksi_rounded_up_to_1000psi
+.375 NE 2&frac12,,,32,,29,,ksi_rounded_up_to_1000psi
+9.5x57 M-S,,44,,,,,ksi_rounded_up_to_1000psi
+.376 Steyr,62,62,,,,,ksi_rounded_up_to_1000psi
+.375 H&H,62,62,53,54,,,ksi_rounded_up_to_1000psi
+.375 Ruger,62,,,,,,ksi_rounded_up_to_1000psi
+.375 Wea,,64,,,,,ksi_rounded_up_to_1000psi
+.375 Fl.Mag.,,47,,41,,,ksi_rounded_up_to_1000psi
+.369 NE,,44,,39,,,ksi_rounded_up_to_1000psi
+.378 Wea,,64,,55,,,ksi_rounded_up_to_1000psi
+.38-55,,35,30,31,20/32,,ksi_rounded_up_to_1000psi
+.40 S&W,35,33,,,,,ksi_rounded_up_to_1000psi
+10 Auto,38,34,,,,,ksi_rounded_up_to_1000psi
+.38-40,,17,14,15,16/22,,ksi_rounded_up_to_1000psi
+.40-60 Win,,28,,,,,ksi_rounded_up_to_1000psi
+.40-82 Win,,24,,22,,,ksi_rounded_up_to_1000psi
+.41 Rem Mag,36,44,40,,,,ksi_rounded_up_to_1000psi
+.400 Jef.,,41,,36,,,ksi_rounded_up_to_1000psi
+450/400 3&frac1,,,43,,38,;,ksi_rounded_up_to_1000psi
+.400 H&H,,64,,,,,ksi_rounded_up_to_1000psi
+.405 WCF,46,36,,32,44,,ksi_rounded_up_to_1000psi
+.416 Taylor,65,,,,,,ksi_rounded_up_to_1000psi
+.416 Ruger,62,,,,,,ksi_rounded_up_to_1000psi
+.416 Rem.,65,62,54,54,,,ksi_rounded_up_to_1000psi
+.416 Rigby,52,47,,41,,,ksi_rounded_up_to_1000psi
+.404 Jef.,,53,,46,,,ksi_rounded_up_to_1000psi
+.44-40,11,16,13,15,14/19,,ksi_rounded_up_to_1000psi
+.44 Spl,16,15,14,,,,ksi_rounded_up_to_1000psi
+.44 Rem Mag,36,41,40,,,,ksi_rounded_up_to_1000psi
+.444,42,51,44,45,,,ksi_rounded_up_to_1000psi
+.45 ACP,21,19,18,,,,ksi_rounded_up_to_1000psi
+.45 Colt,14,16,14,,,,ksi_rounded_up_to_1000psi
+.45 Win Mag,,,40,,,,ksi_rounded_up_to_1000psi
+.454 Casull,,57,,,,,ksi_rounded_up_to_1000psi
+.45-60 Win,,28,,,,,ksi_rounded_up_to_1000psi
+.45-70,28,32,28,29,25,,ksi_rounded_up_to_1000psi
+.45-75 Win,,30,,,,,ksi_rounded_up_to_1000psi
+.450 Mar,44,,,,,,ksi_rounded_up_to_1000psi
+.458 Win.,60,62,53,54,,,ksi_rounded_up_to_1000psi
+.458 Lott,63,62,,,54~,,ksi_rounded_up_to_1000psi
+.450 NE 3&frac14,,,44,,39,,ksi_rounded_up_to_1000psi
+.450 No.2 NE,,41,,,36~,,ksi_rounded_up_to_1000psi
+.460 Wea,,64,,55,,,ksi_rounded_up_to_1000psi
+.465 Belted,,62,,,,,ksi_rounded_up_to_1000psi
+500/465,,36,,32,,,ksi_rounded_up_to_1000psi
+.480 Ruger,48,48,,,,,ksi_rounded_up_to_1000psi
+.475 Linebaugh,,50,,,,,ksi_rounded_up_to_1000psi
+.475 Turnbull,42,,,,,,ksi_rounded_up_to_1000psi
+.470 NE,41,39,35,35,,,ksi_rounded_up_to_1000psi
+.475 No.2 NE,,40,,,36~,,ksi_rounded_up_to_1000psi
+.505 Gibbs,,39,,35,,,ksi_rounded_up_to_1000psi
+.500 Jef.,,48,,,41~,,ksi_rounded_up_to_1000psi
+".500 NE 3""",,41,,36,,,ksi_rounded_up_to_1000psi
+.50 BMG,,54,,,,,ksi_rounded_up_to_1000psi
+".577 3"" NE",,36,,32,,,ksi_rounded_up_to_1000psi
+.600 NE,,36,,32,,,ksi_rounded_up_to_1000psi
+.700 NE,,40,,,,,ksi_rounded_up_to_1000psi
+4 Bore Rifle,,36,,,,,ksi_rounded_up_to_1000psi

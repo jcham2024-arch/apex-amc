@@ -1,0 +1,40 @@
+{
+  "name": "@apex/ballistics",
+  "version": "1.0.0",
+  "private": true,
+  "main": "node_modules/expo/AppEntry.js",
+  "description": "Offline field ballistics app for reloading data and shooting metrics.",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web"
+  },
+  "dependencies": {
+    "@apex/ballistics-core": "*",
+    "@expo/metro-runtime": "~57.0.16",
+    "@react-navigation/bottom-tabs": "^7.19.2",
+    "@react-navigation/native": "^7.4.1",
+    "@types/react": "~19.2.4",
+    "expo": "^57.0.26",
+    "expo-document-picker": "~57.0.3",
+    "expo-file-system": "^57.0.7",
+    "expo-sharing": "^57.0.22",
+    "expo-sqlite": "^57.0.3",
+    "expo-status-bar": "~57.0.1",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-native": "0.86.3",
+    "react-native-safe-area-context": "~5.7.0",
+    "react-native-screens": "~4.26.0",
+    "react-native-web": "^0.21.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.20.0"
+  },
+  "overrides": {
+    "uuid": "^11.1.1"
+  }
+}
+
+

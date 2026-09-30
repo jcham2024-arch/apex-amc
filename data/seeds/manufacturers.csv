@@ -1,0 +1,38 @@
+slug,name,kinds,website,country,region,status,notes,source_url
+sierra,Sierra Bullets,bullet,https://www.sierrabullets.com,United States,north_america,active,"MatchKing and GameKing lines; Clarus then LongMcArthur ownership",https://www.sierrabullets.com
+hornady,Hornady,ammo;bullet;brass,https://www.hornady.com,United States,north_america,active,"ELD-M, ELD-X, SST, InterLock, CX/GMX monolithic lines",https://www.hornady.com
+berger,Berger Bullets,bullet,https://bergerbullets.com,United States,north_america,active,"Nammo Group (Lapua, SK, Vihtavuori); Hybrid and Juggernaut match lines",https://bergerbullets.com
+nosler,Nosler,ammo;bullet;brass,https://www.nosler.com,United States,north_america,active,"Bonded AccuBond, ballistic tip, RDF match and E-Tip monolithic",https://www.nosler.com
+barnes,Barnes Bullets,ammo;bullet,https://www.barnesbullets.com,United States,north_america,active,"Revelyst; TSX, TTSX and LRX copper monolithic",https://www.barnesbullets.com
+lapua,Lapua,ammo;brass;bullet,https://www.lapua.com,Finland,europe,active,"Nammo Group; Scenar and Scenar-L match projectiles",https://www.lapua.com
+norma,Norma,ammo;brass;bullet;powder,https://www.norma-ammunition.com,Sweden,europe,active,"Beretta Holding; Norma projectiles plus brand powders",https://www.norma-ammunition.com
+speer,Speer,ammo;bullet,https://www.speer.com,United States,north_america,active,"CCI and Speer are Revelyst brands",https://www.speer.com
+winchester,Winchester,ammo;brass;primer;powder,https://www.winchester.com,United States,north_america,active,"Olin; the Winchester powder line is a Hodgdon brand",https://www.winchester.com
+remington,Remington,ammo;brass;primer,https://www.remingtonammunition.com,United States,north_america,active,"Core-Lokt line; Remington ammunition now under Revelyst",https://www.remingtonammunition.com
+federal,Federal,ammo;brass;primer;bullet,https://www.federalpremium.com,United States,north_america,active,"Revelyst; Fusion, Trophy Copper and Gold Medal lines",https://www.federalpremium.com
+swift,Swift Bullets,bullet,https://www.swiftbullets.com,United States,north_america,active,"A-Frame and Scirocco bonded hunting bullets",https://www.swiftbullets.com
+cutting-edge,Cutting Edge Bullets,bullet,https://cuttingedgebullets.com,United States,north_america,active,"Copper solid hunting and match projectiles",https://cuttingedgebullets.com
+hammer,Hammer Bullets,bullet,https://hammerbullets.com,United States,north_america,active,"Monolithic copper, high weight-retention hunting bullets",https://hammerbullets.com
+lehigh-defense,Lehigh Defense,bullet,https://www.lehighdefense.com,United States,north_america,active,"Copper projectiles including the CX line",https://www.lehighdefense.com
+maker,Maker Bullets,bullet,https://makerbullets.com,United States,north_america,active,"CNC-machined copper projectiles",https://makerbullets.com
+peregrine,Peregrine Monolithics,bullet,https://peregrinemonolithics.com,United States,north_america,active,"Copper solids; publishes its own relative quickness chart",https://peregrinemonolithics.com
+warner,Warner Tool Company,bullet,https://www.warnertool.com,United States,north_america,active,"Flat Line solid match bullets",https://www.warnertool.com
+missouri-bullet,Missouri Bullet Company,bullet,https://missouribullet.com,United States,north_america,active,"Cast lead bullets; publishes weekly product sample data",https://missouribullet.com
+bayou,Bayou Bullets,bullet,https://bayoubullets.com,United States,north_america,active,"Cast and powder-coated lead bullets",https://bayoubullets.com
+blue-bullets,Blue Bullets,bullet,https://bluebulletsusa.com,United States,north_america,active,"Powder-coated cast bullets",https://bluebulletsusa.com
+acme,Acme Bullet Company,bullet,https://acmebullet.com,United States,north_america,active,"Powder-coated lead bullets",https://acmebullet.com
+bear-creek,Bear Creek Supply,bullet,https://www.bearcreeksupply.com,United States,north_america,active,"Cast lead bullets",https://www.bearcreeksupply.com
+berries,Berry's Bullets,bullet,https://www.berrysbullets.com,United States,north_america,active,"Copper-plated bullets for handgun and rifle",https://www.berrysbullets.com
+xtreme,X-Treme Bullets,bullet,https://xtremebullets.com,United States,north_america,active,"Copper-plated bullets",https://xtremebullets.com
+rainier,Rainier Bullets,bullet,https://www.rainierballistics.com,United States,north_america,active,"Plated bullets",https://www.rainierballistics.com
+rmr,RMR Bullets,bullet,https://rmrbullets.com,United States,north_america,active,"JHP and plated bullets",https://rmrbullets.com
+precision-delta,Precision Delta,bullet,https://www.precisiondelta.com,United States,north_america,active,"FMJ projectiles for training ammunition",https://www.precisiondelta.com
+montana-gold,Montana Gold Bullets,bullet,https://montanagoldammo.com,United States,north_america,active,"Competition FMJ projectiles",https://montanagoldammo.com
+geco,GECO,ammo;bullet;brass,https://www.geco.com,Switzerland,europe,active,"RUAG Ammotec brand",https://www.geco.com
+rws,RWS,ammo;bullet;brass,https://www.rws-ammunition.com,Germany,europe,active,"RUAG Ammotec; RWS and Rottweil brands",https://www.rws-ammunition.com
+fiocchi,Fiocchi,ammo;brass;primer,https://www.fiocchi.com,Italy,europe,active,"Fiocchi Munizioni; Fiocchi of America for US production",https://www.fiocchi.com
+sellier-bellot,Sellier & Bellot,ammo;brass;primer,https://www.sellier-bellot.com,Czechia,europe,active,"Revelyst; boxer-primed brass widely reused",https://www.sellier-bellot.com
+prvi-partizan,Prvi Partizan,ammo;brass;bullet,https://prvipartizan.com,Serbia,europe,active,"PPU brand; boxer-primed brass widely scavenged",https://prvipartizan.com
+starline,Starline Brass,brass,https://www.starlinebrass.com,United States,north_america,active,"Dedicated case manufacturer; a common first choice for handloaders",https://www.starlinebrass.com
+
+woodleigh,Woodleigh Bullets,bullet,https://www.woodleigh.com.au,Australia,oceania,active,"Bonded brass-clad bullets for dangerous game",https://www.woodleigh.com.au

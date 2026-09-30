@@ -1,0 +1,22 @@
+{
+  "name": "@apex/website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "apex-amc.com - ammunition catalog, cost calculator, and reloading directory.",
+  "scripts": {
+    "dev": "wrangler pages dev dist --compatibility-date=2026-04-01",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && wrangler pages deploy dist",
+    "db:local": "wrangler d1 migrations apply apex-amc --local",
+    "db:remote": "wrangler d1 migrations apply apex-amc --remote"
+  },
+  "dependencies": {
+    "@apex/ballistics-core": "*"
+  },
+  "devDependencies": {
+    "vite": "^7.1.0",
+    "wrangler": "^4.42.0"
+  }
+}

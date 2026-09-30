@@ -1,0 +1,115 @@
+cartridge_name,pressure_value,pressure_unit,family,source_url,source_kind,source_note
+5 mm RFM,37000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.30-30 Winchester,42000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.17 Rem,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.30-06 Springfield,60000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22RF Short,21000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.30-30 Winchester (Saboted),38000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22RF Long & LR,24000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.300 Savage,47000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22WRF,19000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.300 Weatherby Magnum,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22WRM,24000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.300 H&H Mag,54000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22 Hornet,43000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.300 Win Mag,64000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.218 Bee,40000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.303 British,49000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22-250 Remington,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.307 Win,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+220 Swift,54000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.308 Winchester,62000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.222 Remington,50000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.308 Winchester (Saboted),52000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.222 Rem Mag,50000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32 Win Special,42000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.223 Remington,55000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32 Rem,37000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.243 Winchester,60000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32-20,16000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.25-06 Remington,63000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32-40,30000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.250 Savage,45000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+8mm Mauser,35000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.256 Win,43000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+8mm Rem Magnum,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.257 Roberts,54000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.338 Win Mag,64000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.257 Roberts +P,58000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.348 Win,40000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.264 Win Mag,64000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.35 Remington,33500,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.270 Winchester,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.351 Win SL,45000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.280 Remington,60000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.35 Whelan,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.284 Winchester,56000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.350 Rem Mag,56200,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+6mm Remington,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.356 Win,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+6 mm BR-REM,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.358 Win,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+6.5x55,46000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.375 H&H,62000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+6.5 Rem Mag,56200,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.375 Win,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7mm BR Rem,52000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38-40 Win,14000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7mm Mauser,51000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38-55 Win,30000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7mm Rem Mag,61000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.416 Rem Mag,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7mm Weatherby Mag,65000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.444 Marlin,44000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7mm-08,61000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45-70 Government,28000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7-30 Waters,45000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.458 Win Mag,53000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+7.62x39,45000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.470 NE,35000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.30 Carbine,40000,psi,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.30-40 Krag,40000,cup,rifle,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.221 Rem Fireball,52000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 Colt,12000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.22 Jet,40000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.357 Magnum,35000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.25 ACP,25000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.357 Maximum,40000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.30 Luger,28000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.40 S&W,35000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32 ACP,20500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+10 mm,37500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32 S&W Long,15000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.41 AE,35000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.32 H&R Mag,21000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.41 Magnum,36000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.380 ACP,21500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.44 Special,15500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+9 mm Luger,35000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.44-40,13000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+9.mm Luger +P,38500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.44 Magnum,36000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+9 mm Win Mag,45000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45 Auto Rim,15000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 Auto,26500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45 ACP,21000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 S&W,14500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45 ACP +P,23000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 Special,17000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45 Colt,14000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 Special +P,18500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45 Colt (Ruger),25000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38-40,14000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.45 Win Mag,40000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 Super +P,36500,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.454 Casull,50000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.38 S&W,13000,cup,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+.50 AE,35000,psi,pistol,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+10 gauge,11000,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+12 gauge,115000,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+"12 gauge 3 1/2"" mag",14000,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+16 gauge,11500,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+20 Gauge,12000,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+28 gauge,12500,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+".410 Bore 2 1/2""",12500,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup
+".410 Bore 3""",13500,psi,shotgun,https://www.leverguns.com/articles/saami_pressures.htm,compilation,SAAMI specs as of 2004; values given in psi unless marked cup

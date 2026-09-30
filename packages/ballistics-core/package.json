@@ -1,0 +1,11 @@
+{
+  "name": "@apex/ballistics-core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Pure, testable ballistics and unit-conversion logic shared by the website and the field app.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test"
+  }
+}

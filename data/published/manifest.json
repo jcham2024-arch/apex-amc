@@ -1,0 +1,227 @@
+{
+  "note": "Provenance manifest for archived published reloading data. Read by scripts/fetch-published-data.mjs, which downloads each `url` to data/published/<file> and regenerates MANIFEST.md. These documents belong to their publishers and are archived locally for citation and traceability only. They are gitignored and must not be redistributed by the site. Only derived facts (a cartridge's pressure limit, a bullet's BC) are republished, always with attribution.",
+  "documents": [
+    {
+      "file": "saami-z299.3-2022-centerfire-pistol-revolver.pdf",
+      "url": "https://saami.org/wp-content/uploads/2025/05/SAAMI-Z299.3-2022-Centerfire-Pistol-Revolver-Approved-12-13-2022.pdf",
+      "publisher": "SAAMI",
+      "title": "ANSI/SAAMI Z299.3-2022 - Pressure and Velocity of Centerfire Pistol and Revolver Ammunition",
+      "doc_type": "standard",
+      "year": 2022,
+      "kind": "primary",
+      "provides": "SAAMI MAP in psi and CUP for centerfire pistol/revolver cartridges; reference velocities."
+    },
+    {
+      "file": "saami-z299.4-2025-centerfire-rifle.pdf",
+      "url": "https://saami.org/wp-content/uploads/2026/04/SAAMI-Z299.4-CFR-2025-Centerfire-Rifle-Approved-2-10-2025-2026-04-27.pdf",
+      "publisher": "SAAMI",
+      "title": "ANSI/SAAMI Z299.4-2025 - Pressure and Velocity of Centerfire Rifle Ammunition",
+      "doc_type": "standard",
+      "year": 2025,
+      "kind": "primary",
+      "provides": "SAAMI MAP in psi and CUP for centerfire rifle cartridges; reference velocities; definitive proof loads."
+    },
+    {
+      "file": "saami-z299.2-2019-shotshell.pdf",
+      "url": "https://saami.org/wp-content/uploads/2025/09/ANSI-SAAMI-Z299.2-Shotshell-2019-Approved-2025-09-23.pdf",
+      "publisher": "SAAMI",
+      "title": "ANSI/SAAMI Z299.2-2019 - Pressure and Velocity of Shotshell Ammunition",
+      "doc_type": "standard",
+      "year": 2019,
+      "kind": "primary",
+      "provides": "Shotshell pressure and velocity limits (psi, lead and steel)."
+    },
+    {
+      "file": "saami-2018-velocity-pressure-data.pdf",
+      "url": "https://saami.org/wp-content/uploads/2018/01/206.pdf",
+      "publisher": "SAAMI",
+      "title": "Velocity and Pressure Data (free standards excerpt, 2018)",
+      "doc_type": "standard",
+      "year": 2018,
+      "kind": "primary",
+      "provides": "Freely published extract of SAAMI cartridge velocity and pressure tables."
+    },
+    {
+      "file": "saami-shotshell-reference-ammo-supplemental-2024.pdf",
+      "url": "https://saami.org/wp-content/uploads/2024/10/Shotshell-Reference-Ammunition-Supplemental-Information-Table-Revised-2024-09-04.pdf",
+      "publisher": "SAAMI",
+      "title": "Shotshell Reference Ammunition Supplemental Information Tables (rev. 2024-09-04)",
+      "doc_type": "standard",
+      "year": 2024,
+      "kind": "primary"
+    },
+    {
+      "file": "saami-public-introduction-25-creedmoor.pdf",
+      "url": "https://saami.org/wp-content/uploads/2025/01/Public-Introduction-25-Creedmoor-2025-01-27.pdf",
+      "publisher": "SAAMI",
+      "title": "Public Introduction - 25 Creedmoor (2025-01-27)",
+      "doc_type": "drawing_release",
+      "year": 2025,
+      "kind": "primary"
+    },
+    {
+      "file": "saami-public-introduction-5.7x28-fn.pdf",
+      "url": "https://saami.org/wp-content/uploads/2024/07/Public-Introduction-5.7-X-28-FN-2024-07-23.pdf",
+      "publisher": "SAAMI",
+      "title": "Public Introduction - 5.7 x 28 FN (2024-07-23)",
+      "doc_type": "drawing_release",
+      "year": 2024,
+      "kind": "primary"
+    },
+    {
+      "file": "saami-public-revision-16ga-2-3-4.pdf",
+      "url": "https://saami.org/wp-content/uploads/2025/10/Public-Revision-16-gauge-2%C2%BE-2025-10-01.pdf",
+      "publisher": "SAAMI",
+      "title": "Public Revision - 16 Gauge 2-3/4 in (2025-10-01)",
+      "doc_type": "drawing_release",
+      "year": 2025,
+      "kind": "primary"
+    },
+    {
+      "file": "saami-revised-drawings-44-40-win.pdf",
+      "url": "https://saami.org/wp-content/uploads/2026/02/Revised-Drawings-Announcement-44-40-Win-2026-02-13.pdf",
+      "publisher": "SAAMI",
+      "title": "Revised Drawings - 44-40 Winchester (2026-02-13)",
+      "doc_type": "drawing_release",
+      "year": 2026,
+      "kind": "primary"
+    },
+    {
+      "file": "hodgdon-2024-relative-burn-rate-chart.pdf",
+      "url": "https://hodgdonpowderco.com/wp-content/uploads/2024/02/2024-Smokeless-Relative-Burn-Rate-Chart-WEBSITE.pdf",
+      "publisher": "Hodgdon",
+      "title": "2024 Smokeless Relative Burn Rate Chart",
+      "doc_type": "burn_rate_chart",
+      "year": 2024,
+      "kind": "primary",
+      "provides": "Consolidated relative burn-rate ordering across Hodgdon, IMR, Winchester, Accurate, Ramshot and others."
+    },
+    {
+      "file": "vihtavuori-reloading-guide-2025-eng.pdf",
+      "url": "https://www.vihtavuori.com/wp-content/uploads/2025/11/Vihtavuori_Reloading_Guide_2025_ENG-compressed.pdf",
+      "publisher": "Vihtavuori",
+      "title": "Vihtavuori Reloading Guide 2025 (ENG)",
+      "doc_type": "reloading_guide",
+      "year": 2025,
+      "kind": "primary"
+    },
+    {
+      "file": "vihtavuori-burning-rate-chart-tabloid.pdf",
+      "url": "https://vihtavuori.com/wp-content/uploads/2025/11/Vihtavuori_BurningRateChart_Tabloid.pdf",
+      "publisher": "Vihtavuori",
+      "title": "Vihtavuori Burning Rate Chart",
+      "doc_type": "burn_rate_chart",
+      "year": 2025,
+      "kind": "primary"
+    },
+    {
+      "file": "alliant-reloaders-guide-2021.pdf",
+      "url": "https://www.alliantpowder.com/resources/catalog/AP395_2021_AlliantPowderCatalog_Single_NoCrops.pdf",
+      "publisher": "Alliant Powder",
+      "title": "Alliant Powder 2021 Reloader's Guide",
+      "doc_type": "reloading_guide",
+      "year": 2021,
+      "kind": "primary"
+    },
+    {
+      "file": "alliant-reloaders-guide-2020.pdf",
+      "url": "https://alliantpowder.com/resources/catalog/AP392_2020_AlliantPowderCatalog_SinglePages.pdf",
+      "publisher": "Alliant Powder",
+      "title": "Alliant Powder 2020 Reloader's Guide",
+      "doc_type": "reloading_guide",
+      "year": 2020,
+      "kind": "primary"
+    },
+    {
+      "file": "shooters-world-reloading-manual.pdf",
+      "url": "https://shootersworldpowder.com/wp-content/uploads/2018/07/ShootersWorldMaualInterior_072618.pdf",
+      "publisher": "Shooters World",
+      "title": "Shooters World Reloading Manual",
+      "doc_type": "reloading_guide",
+      "year": 2018,
+      "kind": "primary",
+      "optional": true,
+      "note": "shootersworldpowder.com returns HTTP 403 to all automated requests (verified with both fetch() and curl.exe, with and without a browser UA and Referer). Open the URL in a browser to archive it manually."
+    },
+    {
+      "file": "vectan-reloading-catalogue-2025.pdf",
+      "url": "https://shootersworldpowder.com/wp-content/uploads/2025/05/Vectan-Reloading-catalogue_vUS_compressed.pdf",
+      "publisher": "Vectan (Nobel Sport)",
+      "title": "Vectan Reloading Catalogue",
+      "doc_type": "reloading_guide",
+      "year": 2025,
+      "kind": "primary",
+      "optional": true,
+      "note": "Hosted on shootersworldpowder.com, which returns HTTP 403 to all automated requests. Open the URL in a browser to archive it manually."
+    },
+    {
+      "file": "accurate-ramshot-burn-rate-chart.pdf",
+      "url": "https://m-b-r.co.uk/HTML/Ramshot_burnrate.pdf",
+      "publisher": "Ramshot / Accurate (manufacturer chart via third-party host)",
+      "title": "Ramshot / Accurate Powder Burn Rate Chart",
+      "doc_type": "burn_rate_chart",
+      "year": null,
+      "kind": "primary",
+      "provides": "Manufacturer chart hosted by a third party; treat the host as non-authoritative."
+    },
+    {
+      "file": "ballistic-assistant-relative-burn-rate-chart-v5-2025.pdf",
+      "url": "https://www.theballisticassistant.com/wp-content/uploads/2025/05/Powder-Relative-Burn-Rate-Chart-v5-25-2025.pdf",
+      "publisher": "The Ballistic Assistant",
+      "title": "Powder Relative Burn Rate Chart v5 (2025-05-25), merged across all manufacturers",
+      "doc_type": "burn_rate_chart",
+      "year": 2025,
+      "kind": "compilation",
+      "provides": "One numbered scale placing Hodgdon, IMR, Winchester, Accurate, Ramshot, Alliant, Vihtavuori, Norma, Somchem, ADI, Lovex, Vectan, Reload Swiss, Bofors and Rottweil together. Best cross-brand ordering source."
+    },
+    {
+      "file": "longrangehunting-powder-relative-burn-rate-2021.pdf",
+      "url": "https://cdn.longrangehunting.com/a/301580-aec7412ae2e2043d14b43f5c8d8478cb/Powder-Relative-Burn-Rate-3-9-2021.pdf",
+      "publisher": "LongRangeHunting (community)",
+      "title": "Powder Relative Burn Rate (2021-03-09)",
+      "doc_type": "burn_rate_chart",
+      "year": 2021,
+      "kind": "community"
+    },
+    {
+      "file": "kwk-cartridge-pressure-standards.html",
+      "url": "http://kwk.us/pressures.html",
+      "publisher": "kwk.us (Damon Rarey)",
+      "title": "Cartridge Pressure Standards - SAAMI vs CIP cross-reference",
+      "doc_type": "pressure_table",
+      "year": 2023,
+      "kind": "compilation",
+      "provides": "Four-column cross reference per cartridge: SAAMI piezo psi, CIP piezo psi, SAAMI CUP, CIP CUP. Compiled from SAAMI Z299.x and CIP. Use as an index; the standards remain the authority."
+    },
+    {
+      "file": "cip-tdcc-index.html",
+      "url": "https://www.cip-bobp.org/en/tdcc",
+      "publisher": "CIP (Permanent International Commission for the Proof of Small Arms)",
+      "title": "TDCC - Tables of Dimensions of Cartridges and Chambers (index)",
+      "doc_type": "index_page",
+      "year": 2025,
+      "kind": "primary",
+      "provides": "Official CIP entry point for per-cartridge TDCC PDFs carrying Pmax in bar plus full case and chamber dimensions."
+    },
+    {
+      "file": "saami-cartridge-chamber-drawings-index.html",
+      "url": "https://saami.org/technical-information/cartridge-chamber-drawings/",
+      "publisher": "SAAMI",
+      "title": "New & Revised Cartridge & Chamber Drawings (index)",
+      "doc_type": "index_page",
+      "year": 2026,
+      "kind": "primary",
+      "provides": "SAAMI's free index of cartridge and chamber drawing PDFs for cartridges introduced or revised since the last full standard."
+    },
+    {
+      "file": "saami-ansi-standards-index.html",
+      "url": "https://saami.org/technical-information/ansi-saami-standards/",
+      "publisher": "SAAMI",
+      "title": "ANSI/SAAMI Standards index (Z299.1 through Z299.6)",
+      "doc_type": "index_page",
+      "year": 2026,
+      "kind": "primary",
+      "provides": "Authoritative index of every current ANSI/SAAMI standard and its scope."
+    }
+  ]
+}

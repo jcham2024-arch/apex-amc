@@ -1,0 +1,14 @@
+name = "apex-amc"
+compatibility_date = "2026-04-01"
+pages_build_output_dir = "dist"
+
+# Cloudflare D1 - free tier: 5M rows read/day, 100k rows written/day, 5 GB storage.
+# This is the "free database backend" for the ammunition catalog, reviews,
+# and outbound marketplace/affiliate links.
+[[d1_databases]]
+binding = "DB"
+database_name = "apex-amc"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+migrations_dir = "data/schema"
+[vars]
+SITE_ORIGIN = "https://apex-amc.com"

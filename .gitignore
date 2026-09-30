@@ -1,4 +1,46 @@
-.expo/ 
-node_modules/ 
-dist/ 
-.web/ 
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+.web/
+expo-env.d.ts
+
+# Build output
+build/
+out/
+.next/
+.wrangler/
+
+# Environment / secrets - never commit
+.env
+.env.*
+!.env.example
+
+# Cloudflare D1 local state
+*.sqlite
+*.sqlite-journal
+.d1/
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.log
+npm-debug.log*
+
+# Archived third-party published documents. Retained locally for citation so a
+# data row's source can be re-checked; they are other people's copyright and
+# must never be redistributed by the site. The provenance manifest is committed.
+data/published/*
+!data/published/manifest.json
+!data/published/MANIFEST.md
+
+# Research staging area produced by the harvesting agents. The curated results
+# land in data/seeds/; raw drops are not reference data.
+data/incoming/
+
+# Archive is kept in git for provenance, but exclude the huge
+# raw AI transcript from language servers and typecheckers.
+archive/**/*.txt
+
