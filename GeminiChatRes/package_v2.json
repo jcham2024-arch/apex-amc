@@ -1,0 +1,269 @@
+[
+  {
+    "cartridge": "9mm Luger",
+    "cartridge_category": "handgun",
+    "saami_max_psi": 35000,
+    "source": {
+      "name": "Hodgdon Reloading Data Center",
+      "edition": "2024 Online Edition",
+      "publication_year": 2024
+    },
+    "bullet": {
+      "manufacturer": "Speer",
+      "name": "TMJ Round Nose",
+      "weight_grains": 115.0,
+      "diameter_inches": 0.355,
+      "bc_g1": 0.140
+    },
+    "powder": {
+      "manufacturer": "Hodgdon",
+      "name": "Titegroup",
+      "burn_rate_class": "pistol"
+    },
+    "primer": {
+      "manufacturer": "CCI",
+      "model": "No. 500 Small Pistol",
+      "type": "Small Pistol"
+    },
+    "case_brand": "Winchester",
+    "test_barrel_length_in": 4.0,
+    "test_twist_rate": "1:10\"",
+    "published_coal_in": 1.100,
+    "min_charge_grains": 3.9,
+    "min_velocity_fps": 1058,
+    "max_charge_grains": 4.3,
+    "max_velocity_fps": 1151,
+    "max_pressure": 30500,
+    "pressure_unit": "PSI",
+    "notes": "Tested in 4.0-inch universal receiver barrel."
+  },
+  {
+    "cartridge": "9mm Luger",
+    "cartridge_category": "handgun",
+    "saami_max_psi": 35000,
+    "source": {
+      "name": "Vihtavuori Reloading Guide",
+      "edition": "2024.1",
+      "publication_year": 2024
+    },
+    "bullet": {
+      "manufacturer": "Hornady",
+      "name": "HAP / XTP",
+      "weight_grains": 124.0,
+      "diameter_inches": 0.355,
+      "bc_g1": 0.145
+    },
+    "powder": {
+      "manufacturer": "Vihtavuori",
+      "name": "N320",
+      "burn_rate_class": "pistol"
+    },
+    "primer": {
+      "manufacturer": "Federal",
+      "model": "No. 100 Small Pistol Premium",
+      "type": "Small Pistol"
+    },
+    "case_brand": "Lapua",
+    "test_barrel_length_in": 4.0,
+    "test_twist_rate": "1:10\"",
+    "published_coal_in": 1.142,
+    "min_charge_grains": 3.7,
+    "min_velocity_fps": 1010,
+    "max_charge_grains": 4.1,
+    "max_velocity_fps": 1090,
+    "max_pressure": 33000,
+    "pressure_unit": "PSI",
+    "notes": "Clean burning competition load."
+  },
+  {
+    "cartridge": ".223 Remington",
+    "cartridge_category": "rifle",
+    "saami_max_psi": 55000,
+    "source": {
+      "name": "Hodgdon Reloading Data Center",
+      "edition": "2024 Online Edition",
+      "publication_year": 2024
+    },
+    "bullet": {
+      "manufacturer": "Hornady",
+      "name": "V-MAX",
+      "weight_grains": 55.0,
+      "diameter_inches": 0.224,
+      "bc_g1": 0.255
+    },
+    "powder": {
+      "manufacturer": "Hodgdon",
+      "name": "H335",
+      "burn_rate_class": "rifle_medium"
+    },
+    "primer": {
+      "manufacturer": "CCI",
+      "model": "No. 400 Small Rifle",
+      "type": "Small Rifle"
+    },
+    "case_brand": "Winchester",
+    "test_barrel_length_in": 24.0,
+    "test_twist_rate": "1:12\"",
+    "published_coal_in": 2.250,
+    "min_charge_grains": 23.2,
+    "min_velocity_fps": 3110,
+    "max_charge_grains": 25.3,
+    "max_velocity_fps": 3325,
+    "max_pressure": 51200,
+    "pressure_unit": "PSI",
+    "notes": "Popular varmint and target loading."
+  },
+  {
+    "cartridge": ".308 Winchester",
+    "cartridge_category": "rifle",
+    "saami_max_psi": 62000,
+    "source": {
+      "name": "Sierra Bullets 6th Edition",
+      "edition": "6th Edition Manual",
+      "publication_year": 2019
+    },
+    "bullet": {
+      "manufacturer": "Sierra",
+      "name": "MatchKing HPBT",
+      "weight_grains": 168.0,
+      "diameter_inches": 0.308,
+      "bc_g1": 0.462
+    },
+    "powder": {
+      "manufacturer": "IMR",
+      "name": "I4064",
+      "burn_rate_class": "rifle_medium"
+    },
+    "primer": {
+      "manufacturer": "Federal",
+      "model": "210M Gold Medal Large Rifle Match",
+      "type": "Large Rifle Match"
+    },
+    "case_brand": "Federal",
+    "test_barrel_length_in": 24.0,
+    "test_twist_rate": "1:10\"",
+    "published_coal_in": 2.800,
+    "min_charge_grains": 41.5,
+    "min_velocity_fps": 2450,
+    "max_charge_grains": 45.0,
+    "max_velocity_fps": 2700,
+    "max_pressure": 58800,
+    "pressure_unit": "PSI",
+    "notes": "Gold standard match load for .308 Winchester."
+  },
+  {
+    "cartridge": ".308 Winchester",
+    "cartridge_category": "rifle",
+    "saami_max_psi": 62000,
+    "source": {
+      "name": "Hodgdon Reloading Data Center",
+      "edition": "2024 Online Edition",
+      "publication_year": 2024
+    },
+    "bullet": {
+      "manufacturer": "Sierra",
+      "name": "MatchKing HPBT",
+      "weight_grains": 168.0,
+      "diameter_inches": 0.308,
+      "bc_g1": 0.462
+    },
+    "powder": {
+      "manufacturer": "Hodgdon",
+      "name": "Varget",
+      "burn_rate_class": "rifle_medium"
+    },
+    "primer": {
+      "manufacturer": "CCI",
+      "model": "No. 200 Large Rifle",
+      "type": "Large Rifle"
+    },
+    "case_brand": "Winchester",
+    "test_barrel_length_in": 24.0,
+    "test_twist_rate": "1:12\"",
+    "published_coal_in": 2.800,
+    "min_charge_grains": 42.0,
+    "min_velocity_fps": 2520,
+    "max_charge_grains": 46.0,
+    "max_velocity_fps": 2730,
+    "max_pressure": 59000,
+    "pressure_unit": "PSI",
+    "notes": "Extremely temperature-insensitive powder."
+  },
+  {
+    "cartridge": "6.5 Creedmoor",
+    "cartridge_category": "rifle",
+    "saami_max_psi": 62000,
+    "source": {
+      "name": "Hornady Handbook of Cartridge Reloading",
+      "edition": "11th Edition",
+      "publication_year": 2021
+    },
+    "bullet": {
+      "manufacturer": "Hornady",
+      "name": "ELD Match",
+      "weight_grains": 140.0,
+      "diameter_inches": 0.264,
+      "bc_g1": 0.621,
+      "bc_g7": 0.313
+    },
+    "powder": {
+      "manufacturer": "Hodgdon",
+      "name": "H4350",
+      "burn_rate_class": "rifle_slow"
+    },
+    "primer": {
+      "manufacturer": "CCI",
+      "model": "BR-2 Large Rifle Benchrest",
+      "type": "Large Rifle Benchrest"
+    },
+    "case_brand": "Hornady",
+    "test_barrel_length_in": 24.0,
+    "test_twist_rate": "1:8\"",
+    "published_coal_in": 2.800,
+    "min_charge_grains": 38.0,
+    "min_velocity_fps": 2450,
+    "max_charge_grains": 41.5,
+    "max_velocity_fps": 2680,
+    "max_pressure": 60500,
+    "pressure_unit": "PSI",
+    "notes": "Standard PRS competition combination."
+  },
+  {
+    "cartridge": ".45 ACP",
+    "cartridge_category": "handgun",
+    "saami_max_psi": 21000,
+    "source": {
+      "name": "Alliant Powder Reloader Guide",
+      "edition": "2024 Online",
+      "publication_year": 2024
+    },
+    "bullet": {
+      "manufacturer": "Speer",
+      "name": "TMJ Round Nose",
+      "weight_grains": 230.0,
+      "diameter_inches": 0.451,
+      "bc_g1": 0.180
+    },
+    "powder": {
+      "manufacturer": "Alliant",
+      "name": "Bullseye",
+      "burn_rate_class": "pistol"
+    },
+    "primer": {
+      "manufacturer": "Winchester",
+      "model": "WLP Large Pistol",
+      "type": "Large Pistol"
+    },
+    "case_brand": "Federal",
+    "test_barrel_length_in": 5.0,
+    "test_twist_rate": "1:16\"",
+    "published_coal_in": 1.260,
+    "min_charge_grains": 4.5,
+    "min_velocity_fps": 790,
+    "max_charge_grains": 5.0,
+    "max_velocity_fps": 855,
+    "max_pressure": 19800,
+    "pressure_unit": "PSI",
+    "notes": "Classic target ball velocity load."
+  }
+]

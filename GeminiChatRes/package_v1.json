@@ -1,0 +1,36 @@
+[
+  {
+    "cartridge": ".308 Winchester",
+    "cartridge_category": "rifle",
+    "saami_max_psi": 62000,
+    "source": {
+      "name": "Hodgdon Reloading Data Center",
+      "edition": "2024 Online",
+      "publication_year": 2024
+    },
+    "bullet": {
+      "manufacturer": "Sierra",
+      "name": "MatchKing HPBT",
+      "weight_grains": 168.0,
+      "diameter_inches": 0.308,
+      "bc_g1": 0.462
+    },
+    "powder": {
+      "manufacturer": "IMR",
+      "name": "I4064",
+      "burn_rate_class": "rifle_medium"
+    },
+    "primer": "Federal 210M Large Rifle",
+    "case_brand": "Winchester",
+    "test_barrel_length_in": 24.0,
+    "test_twist_rate": "1:10\"",
+    "published_coal_in": 2.800,
+    "min_charge_grains": 41.5,
+    "min_velocity_fps": 2450,
+    "max_charge_grains": 45.0,
+    "max_velocity_fps": 2700,
+    "max_pressure": 58800,
+    "pressure_unit": "PSI",
+    "notes": "Tested in universal receiver."
+  }
+]
