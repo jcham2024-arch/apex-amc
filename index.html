@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apex AMC | Ammunition & Components Intelligence</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- React & ReactDOM CDNs -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    
+    <!-- Babel standalone to compile JSX in browser -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-[#090d16] text-slate-100 font-sans antialiased min-h-screen selection:bg-emerald-500 selection:text-slate-950">
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useEffect } = React;
+
+        const CALIBER_PRESETS = {
+            '9mm': { factoryBoxPrice: 14.00, factoryBoxCount: 50, bulletPrice: 90.00, bulletCount: 1000, primerPrice: 80.00, primerCount: 1000, powderPriceLb: 38.00, powderGrains: 4.2, freeBrass: true, brassPrice100: 12.00, brassReuses: 5 },
+            '223': { factoryBoxPrice: 10.00, factoryBoxCount: 20, bulletPrice: 150.00, bulletCount: 1000, primerPrice: 90.00, primerCount: 1000, powderPriceLb: 42.00, powderGrains: 25.0, freeBrass: true, brassPrice100: 18.00, brassReuses: 6 },
+            '308': { factoryBoxPrice: 24.00, factoryBoxCount: 20, bulletPrice: 380.00, bulletCount: 1000, primerPrice: 100.00, primerCount: 1000, powderPriceLb: 45.00, powderGrains: 44.0, freeBrass: false, brassPrice100: 35.00, brassReuses: 5 },
+            '65': { factoryBoxPrice: 29.00, factoryBoxCount: 20, bulletPrice: 420.00, bulletCount: 1000, primerPrice: 100.00, primerCount: 1000, powderPriceLb: 48.00, powderGrains: 41.5, freeBrass: false, brassPrice100: 45.00, brassReuses: 5 },
+            '9mmSub': { factoryBoxPrice: 21.00, factoryBoxCount: 50, bulletPrice: 120.00, bulletCount: 1000, primerPrice: 80.00, primerCount: 1000, powderPriceLb: 40.00, powderGrains: 3.8, freeBrass: true, brassPrice100: 12.00, brassReuses: 5 }
+        };
+
+        const RETAILERS = [
+            { name: 'MidwayUSA', specialty: 'Reloading & Shooting Supplies', cat: ['reloading', 'components', 'bulk', 'optics'], rating: 4.9, badge: 'Top Choice', description: 'Premier supplier of reloading presses, dies, bullets, brass, powder, and gear.', link: 'https://www.midwayusa.com' },
+            { name: 'Brownells', specialty: 'Gunsmithing & Ammo', cat: ['reloading', 'components', 'bulk'], rating: 4.8, badge: 'Gunsmith Specialist', description: 'Huge inventory of hard-to-find parts, reloading tools, and factory ammo.', link: 'https://www.brownells.com' },
+            { name: 'Natchez Shooters Supplies', specialty: 'Powder, Primers & Optics', cat: ['components', 'reloading', 'optics'], rating: 4.7, badge: 'Component Stock Leader', description: 'Distributor known for competitive prices on powders, primers, and bulk rounds.', link: 'https://www.natchezss.com' },
+            { name: 'Palmetto State Armory', specialty: 'Bulk Ammo & Firearms', cat: ['bulk', 'components'], rating: 4.8, badge: 'AAC Ammo Maker', description: 'Direct manufacturer and retailer offering deals on bulk 9mm, 5.56, and AAC ammo.', link: 'https://palmettostatearmory.com' },
+            { name: 'Target Sports USA', specialty: 'Bulk Ammo & Free Shipping', cat: ['bulk'], rating: 4.9, badge: 'Prime Ammo Club', description: 'Specializes in bulk case sales with free shipping options on case orders.', link: 'https://www.targetsportsusa.com' },
+            { name: 'Powder Valley', specialty: 'Powder & Primers', cat: ['components', 'reloading'], rating: 4.9, badge: 'Powder Authority', description: 'The go-to supplier for smokeless powder, primers, and match bullets.', link: 'https://www.powdervalleyinc.com' }
+        ];
+
+        const CHECKLIST_ITEMS = [
+            { id: 'press', title: 'Reloading Press', desc: 'Single-stage press (e.g. Lee Breech Lock or RCBS Rock Chucker) or Progressive press.' },
+            { id: 'dies', title: 'Caliber Die Set', desc: 'Sizing/Depriming die, Expanding die, and Seating/Crimping die for your caliber.' },
+            { id: 'scale', title: 'Digital or Beam Powder Scale', desc: 'Accurate scale capable of measuring down to 0.1 grains.' },
+            { id: 'calipers', title: 'Digital / Dial Calipers', desc: 'Essential for measuring case length and Overall Cartridge Length (OAL).' },
+            { id: 'manual', title: 'Published Reloading Manual', desc: 'Lyman 51st Edition or Hornady Handbook of Cartridge Reloading.' },
+            { id: 'caseprep', title: 'Case Prep Tools', desc: 'Chamfer & deburring tool, primer pocket cleaner, and case lube.' },
+            { id: 'funnel', title: 'Powder Funnel & Trays', desc: 'Caliber-specific powder funnel and reloading block tray to hold cases.' }
+        ];
+
+        function App() {
+            const [mobileMenu, setMobileMenu] = useState(false);
+            const [toastMsg, setToastMsg] = useState('');
+            const [toastVisible, setToastVisible] = useState(false);
+
+            const [activePreset, setActivePreset] = useState('9mm');
+            const [calcState, setCalcState] = useState({
+                factoryBoxPrice: 14.00, factoryBoxCount: 50, bulletPrice: 90.00, bulletCount: 1000,
+                primerPrice: 80.00, primerCount: 1000, powderPriceLb: 38.00, powderGrains: 4.2,
+                freeBrass: true, brassPrice100: 12.00, brassReuses: 5, batchSize: 1000, equipmentCost: 450.00
+            });
+
+            const [searchQuery, setSearchQuery] = useState('');
+            const [selectedCat, setSelectedCat] = useState('all');
+            const [checkedItems, setCheckedItems] = useState({});
+
+            useEffect(() => {
+                if (window.lucide) {
+                    window.lucide.createIcons();
+                }
+            });
+
+            const showToast = (msg) => {
+                setToastMsg(msg);
+                setToastVisible(true);
+                setTimeout(() => setToastVisible(false), 3000);
+            };
+
+            const handleInputChange = (field, value) => {
+                setActivePreset('custom');
+                setCalcState(prev => ({ ...prev, [field]: value }));
+            };
+
+            const handlePresetSelect = (key) => {
+                setActivePreset(key);
+                if (key in CALIBER_PRESETS) {
+                    setCalcState(prev => ({ ...prev, ...CALIBER_PRESETS[key] }));
+                    showToast('Preset Loaded');
+                }
+            };
+
+            const calcResults = useMemo(() => {
+                const factoryCPR = calcState.factoryBoxCount > 0 ? calcState.factoryBoxPrice / calcState.factoryBoxCount : 0;
+                const bulletCPR = calcState.bulletCount > 0 ? calcState.bulletPrice / calcState.bulletCount : 0;
+                const primerCPR = calcState.primerCount > 0 ? calcState.primerPrice / calcState.primerCount : 0;
+                const powderCPR = (calcState.powderPriceLb / 7000) * calcState.powderGrains;
+                const brassCPR = (!calcState.freeBrass && calcState.brassReuses > 0) ? (calcState.brassPrice100 / 100) / calcState.brassReuses : 0;
+
+                const handloadCPR = bulletCPR + primerCPR + powderCPR + brassCPR;
+                const savingsPerRound = factoryCPR - handloadCPR;
+                const batchSavings = savingsPerRound * calcState.batchSize;
+                const kiloSavings = savingsPerRound * 1000;
+                const percentSavings = factoryCPR > 0 ? (savingsPerRound / factoryCPR) * 100 : 0;
+                const breakEvenRounds = savingsPerRound > 0 ? Math.ceil(calcState.equipmentCost / savingsPerRound) : 0;
+
+                const total = handloadCPR > 0 ? handloadCPR : 1;
+                return {
+                    factoryCPR, bulletCPR, primerCPR, powderCPR, brassCPR, handloadCPR,
+                    savingsPerRound, batchSavings, kiloSavings, percentSavings, breakEvenRounds,
+                    barBulletWidth: (bulletCPR / total) * 100,
+                    barPrimerWidth: (primerCPR / total) * 100,
+                    barPowderWidth: (powderCPR / total) * 100,
+                    barBrassWidth: (brassCPR / total) * 100
+                };
+            }, [calcState]);
+
+            const filteredRetailers = useMemo(() => {
+                return RETAILERS.filter(r => {
+                    const matchesCat = selectedCat === 'all' || r.cat.includes(selectedCat);
+                    const matchesSearch = r.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                                          r.specialty.toLowerCase().includes(searchQuery.toLowerCase());
+                    return matchesCat && matchesSearch;
+                });
+            }, [searchQuery, selectedCat]);
+
+            const copyChecklist = () => {
+                const text = CHECKLIST_ITEMS.map(i => `[${checkedItems[i.id] ? 'X' : ' '}] ${i.title}: ${i.desc}`).join('\n');
+                navigator.clipboard.writeText(text);
+                showToast('Checklist copied to clipboard!');
+            };
+
+            return (
+                <div className="flex flex-col min-h-screen">
+                    <!-- Top Notice Bar -->
+                    <div className="bg-[#0f172a] border-b border-slate-800 text-xs py-2 px-4 text-center text-slate-400">
+                        <span className="inline-flex items-center gap-1.5 text-amber-400 font-semibold mr-2">
+                            <i data-lucide="triangle-alert" class="w-3.5 h-3.5"></i> Notice:
+                        </span>
+                        Resource for apex-amc.com — Reloading savings calculator & component directory.
+                    </div>
+
+                    <!-- Header -->
+                    <header className="sticky top-0 z-50 bg-[#090d16]/90 backdrop-blur-md border-b border-slate-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+                            <a href="#" className="flex items-center gap-3">
+                                <div className="w-10 h-10 rounded-lg bg-emerald-500 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-emerald-500/20">
+                                    <i data-lucide="crosshair" class="w-6 h-6"></i>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-xl font-extrabold tracking-wider text-slate-100">
+                                        APEX <span className="text-emerald-400">AMC</span>
+                                    </span>
+                                    <span className="text-[10px] tracking-widest text-slate-400 uppercase font-semibold">apex-amc.com</span>
+                                </div>
+                            </a>
+
+                            <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+                                <a href="#calculator" className="text-slate-300 hover:text-emerald-400 flex items-center gap-2">
+                                    <i data-lucide="calculator" class="w-4 h-4 text-emerald-500"></i> Calculator
+                                </a>
+                                <a href="#directory" className="text-slate-300 hover:text-emerald-400 flex items-center gap-2">
+                                    <i data-lucide="store" class="w-4 h-4 text-emerald-500"></i> Directory
+                                </a>
+                                <a href="#checklist" className="text-slate-300 hover:text-emerald-400 flex items-center gap-2">
+                                    <i data-lucide="list-check" class="w-4 h-4 text-emerald-500"></i> Checklist
+                                </a>
+                            </nav>
+                        </div>
+                    </header>
+
+                    <!-- Hero -->
+                    <section className="py-16 text-center border-b border-slate-800/60 bg-gradient-to-b from-[#090d16] to-[#0f172a]">
+                        <div className="max-w-4xl mx-auto px-4 space-y-4">
+                            <h1 className="text-4xl sm:text-6xl font-black tracking-tight">
+                                Handload Intelligence & <br />
+                                <span className="bg-gradient-to-r from-emerald-400 to-amber-400 bg-clip-text text-transparent">Cost Per Round Calculator</span>
+                            </h1>
+                            <p className="text-slate-400 text-base max-w-2xl mx-auto">
+                                Live calculation engine for ammo costs, custom handload savings, and press break-even analysis. Built for apex-amc.com.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- Calculator Section -->
+                    <section id="calculator" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                            <!-- Input Column -->
+                            <div className="lg:col-span-7 bg-[#0f172a] border border-slate-800 rounded-2xl p-6 space-y-6">
+                                <div>
+                                    <label className="block text-xs font-bold uppercase text-slate-300 mb-2">Select Preset Caliber:</label>
+                                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                                        {[
+                                            { id: '9mm', label: '9mm Luger' },
+                                            { id: '223', label: '.223 / 5.56' },
+                                            { id: '308', label: '.308 Win' },
+                                            { id: '65', label: '6.5 Creedmoor' },
+                                            { id: '9mmSub', label: '9mm Sub 147gr' },
+                                            { id: 'custom', label: 'Custom' }
+                                        ].map(p => (
+                                            <button
+                                                key={p.id}
+                                                onClick={() => handlePresetSelect(p.id)}
+                                                className={`px-3 py-2 rounded-lg font-semibold text-xs transition-all ${
+                                                    activePreset === p.id 
+                                                        ? 'bg-slate-800 border border-emerald-500 text-emerald-400' 
+                                                        : 'bg-slate-800 border border-slate-700 text-slate-300'
+                                                }`}
+                                            >
+                                                {p.label}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="col-span-1 sm:col-span-2 bg-[#090d16] p-4 rounded-xl border border-slate-800">
+                                        <div className="text-xs font-bold text-amber-400 uppercase mb-2">Factory Ammo Benchmark</div>
+                                        <div className="grid grid-cols-2 gap-2">
+                                            <input
+                                                type="number"
+                                                step="0.01"
+                                                value={calcState.factoryBoxPrice}
+                                                onChange={e => handleInputChange('factoryBoxPrice', parseFloat(e.target.value) || 0)}
+                                                className="bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-sm text-slate-100"
+                                                placeholder="Box Price ($)"
+                                            />
+                                            <input
+                                                type="number"
+                                                value={calcState.factoryBoxCount}
+                                                onChange={e => handleInputChange('factoryBoxCount', parseFloat(e.target.value) || 0)}
+                                                className="bg-[#0f172a] border border-slate-700 rounded-lg p-2 text-sm text-slate-100"
+                                                placeholder="Count"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-300 mb-1">Bullets ($ / pack)</label>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            value={calcState.bulletPrice}
+                                            onChange={e => handleInputChange('bulletPrice', parseFloat(e.target.value) || 0)}
+                                            className="w-full bg-[#090d16] border border-slate-700 rounded-lg p-2 text-sm text-slate-100"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-300 mb-1">Primers ($ / pack)</label>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            value={calcState.primerPrice}
+                                            onChange={e => handleInputChange('primerPrice', parseFloat(e.target.value) || 0)}
+                                            className="w-full bg-[#090d16] border border-slate-700 rounded-lg p-2 text-sm text-slate-100"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-300 mb-1">Powder ($/lb)</label>
+                                        <input
+                                            type="number"
+                                            step="0.01"
+                                            value={calcState.powderPriceLb}
+                                            onChange={e => handleInputChange('powderPriceLb', parseFloat(e.target.value) || 0)}
+                                            className="w-full bg-[#090d16] border border-slate-700 rounded-lg p-2 text-sm text-slate-100"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-xs font-semibold text-slate-300 mb-1">Grains / Round</label>
+                                        <input
+                                            type="number"
+                                            step="0.1"
+                                            value={calcState.powderGrains}
+                                            onChange={e => handleInputChange('powderGrains', parseFloat(e.target.value) || 0)}
+                                            className="w-full bg-[#090d16] border border-slate-700 rounded-lg p-2 text-sm text-slate-100"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Output Column -->
+                            <div className="lg:col-span-5 bg-[#0f172a] border border-slate-800 rounded-2xl p-6 space-y-6 flex flex-col justify-between">
+                                <div className="space-y-4">
+                                    <div className="flex justify-between items-center border-b border-slate-800 pb-3">
+                                        <span className="text-xs font-bold uppercase text-slate-300">Cost Summary</span>
+                                        <span className="px-2.5 py-1 rounded-full text-xs font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                                            {calcResults.savingsPerRound > 0 ? `-${Math.round(calcResults.percentSavings)}% Savings` : 'No Savings'}
+                                        </span>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-3 text-center">
+                                        <div className="p-3 bg-[#090d16] rounded-xl border border-slate-800">
+                                            <div className="text-[10px] font-bold text-slate-400 uppercase">Factory CPR</div>
+                                            <div className="text-2xl font-black text-amber-400">${calcResults.factoryCPR.toFixed(3)}</div>
+                                        </div>
+                                        <div className="p-3 bg-[#090d16] rounded-xl border border-emerald-500/40">
+                                            <div className="text-[10px] font-bold text-emerald-400 uppercase">Handload CPR</div>
+                                            <div className="text-2xl font-black text-emerald-400">${calcResults.handloadCPR.toFixed(3)}</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="p-4 bg-[#090d16] rounded-xl border border-slate-800 space-y-2 text-xs">
+                                        <div className="flex justify-between text-slate-300">
+                                            <span>Net Savings / Round:</span>
+                                            <strong className="text-emerald-400">${calcResults.savingsPerRound.toFixed(3)}</strong>
+                                        </div>
+                                        <div className="flex justify-between text-slate-300">
+                                            <span>Savings / 1,000 Rounds:</span>
+                                            <strong className="text-emerald-400">${calcResults.kiloSavings.toFixed(2)}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="p-4 bg-gradient-to-br from-slate-800 to-[#090d16] rounded-xl border border-slate-700 text-xs">
+                                    <div className="text-amber-400 font-bold uppercase mb-1">Equipment Payoff Threshold</div>
+                                    <div className="text-slate-300">
+                                        At a press setup cost of <strong>${calcState.equipmentCost}</strong>, your gear pays for itself after loading <strong className="text-emerald-400">{calcResults.breakEvenRounds.toLocaleString()} rounds</strong>.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Directory Section -->
+                    <section id="directory" className="py-16 bg-[#0f172a] border-t border-b border-slate-800">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <h2 className="text-2xl font-extrabold text-slate-100 text-center mb-8">Verified Component Retailers</h2>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {filteredRetailers.map(r => (
+                                    <div key={r.name} className="p-6 bg-[#090d16] border border-slate-800 rounded-xl space-y-3 flex flex-col justify-between">
+                                        <div>
+                                            <span className="text-[10px] font-bold text-emerald-400 uppercase px-2 py-0.5 bg-emerald-500/10 rounded">{r.badge}</span>
+                                            <h3 className="text-lg font-bold text-slate-100 mt-2">{r.name}</h3>
+                                            <p className="text-xs text-slate-400 mt-1">{r.description}</p>
+                                        </div>
+                                        <a href={r.link} target="_blank" rel="noopener" className="w-full py-2 bg-slate-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-200 font-bold text-xs uppercase text-center rounded-lg transition-colors">
+                                            Visit Retailer
+                                        </a>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Checklist Section -->
+                    <section id="checklist" className="py-16 max-w-4xl mx-auto px-4 w-full">
+                        <div className="flex justify-between items-center mb-6">
+                            <h2 className="text-2xl font-extrabold text-slate-100">Bench Essentials Checklist</h2>
+                            <button onClick={copyChecklist} className="px-3 py-1.5 bg-slate-800 text-emerald-400 text-xs font-bold rounded-lg border border-slate-700">
+                                Copy Checklist
+                            </button>
+                        </div>
+                        <div className="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 space-y-3">
+                            {CHECKLIST_ITEMS.map(i => (
+                                <label key={i.id} className="flex items-start gap-3 p-3 bg-[#090d16] rounded-xl border border-slate-800 cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        checked={!!checkedItems[i.id]}
+                                        onChange={() => setCheckedItems(prev => ({ ...prev, [i.id]: !prev[i.id] }))}
+                                        className="mt-1"
+                                    />
+                                    <div>
+                                        <div className="text-xs font-bold text-slate-200">{i.title}</div>
+                                        <div className="text-[11px] text-slate-400">{i.desc}</div>
+                                    </div>
+                                </label>
+                            ))}
+                        </div>
+                    </section>
+
+                    <!-- Footer -->
+                    <footer className="bg-[#090d16] border-t border-slate-800 text-slate-500 text-xs py-8 text-center mt-auto">
+                        <p>&copy; {new Date().getFullYear()} Apex Ammunition & Components (apex-amc.com). All rights reserved.</p>
+                    </footer>
+
+                    <!-- Toast Notification -->
+                    <div className={`fixed bottom-6 right-6 px-4 py-3 rounded-xl bg-emerald-500 text-slate-950 font-bold text-xs shadow-2xl transition-all duration-300 ${toastVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                        {toastMsg}
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+</html>
