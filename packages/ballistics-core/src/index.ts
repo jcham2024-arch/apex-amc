@@ -32,3 +32,10 @@ export * from './domain/BallisticProfile.ts';
 // of what was wrong and how it was found.
 export * from './drag/dragTables.ts';
 export * from './drag/solver.ts';
+// Device integration. Driver contracts, the firing-solution pipeline, and the
+// turret gate. No vendor-specific code and no platform imports, so drivers
+// stay testable in Node. See the module header for the safety position on
+// automated turret movement, and docs/BALLISTICS-AUDIT.md for the record.
+export * from './devices/types.ts';
+export * from './devices/solution.ts';
+export * from './devices/drivers/simulated.ts';
