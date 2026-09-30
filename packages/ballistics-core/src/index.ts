@@ -1,8 +1,8 @@
-/**
+﻿/**
  * @apex/ballistics-core
  *
  * Pure, framework-free ballistics and reloading logic, shared by the website
- * and the field app. No React, no storage, no DOM — everything here is
+ * and the field app. No React, no storage, no DOM â€” everything here is
  * directly unit-testable.
  *
  * Safety note: `reloading.ts` produces charge weights. Its output is a
@@ -22,10 +22,8 @@ export * from './provenance/constants.ts';
 export * from './domain/BallisticProfile.ts';
 
 // Exterior ballistics.
-// NOTE: the trajectory solver is not implemented yet. See
-// docs/AGENT-HANDOFF.md Lane 1 for the specification, the calibration
-// targets, and the reference dataset. dragTables.ts is complete and tested
-// data, and is what the solver will consume.
+// documents the governing equation, the three failure modes it guards against,
+// and the conventions it uses. See docs/BALLISTICS-AUDIT.md for the full record
+// of what was wrong and how it was found.
 export * from './drag/dragTables.ts';
-
-
+export * from './drag/solver.ts';

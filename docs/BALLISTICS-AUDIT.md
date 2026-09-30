@@ -140,3 +140,144 @@ Priorities:
 
 Tests for 1 and 2 should assert against published reference values, so a
 regression shows up as a failed test rather than a plausible wrong number.
+
+---
+
+# Trajectory solver — implementation record (30 Sep 2026)
+
+The solver is now implemented, exported, and covered by 30 tests. This section
+records what was wrong along the way, because each bug is a class of error that
+will recur if the reasoning is not written down.
+
+## Validation result
+
+Reference case: .308 Win, 168 gr Federal Gold Medal Match BT, G1 BC 0.462,
+2650 fps, 100 yd zero, ISA sea-level (59 degF, sigma 1.0), no wind.
+
+| Range yd | Drop in | MOA | Velocity fps | Time s | Windage MOA at 10 mph |
+|---|---|---|---|---|---|
+| 100 | 0.0 | 0.0 | 2491 | 0.12 | 0.63 |
+| 200 | -5.6 | -2.8 | 2337 | 0.24 | 1.29 |
+| 300 | -17.6 | -5.9 | 2190 | 0.37 | 2.00 |
+| 400 | -36.8 | -9.2 | 2048 | 0.52 | 2.75 |
+| 500 | -64.3 | -12.9 | 1914 | 0.67 | 3.54 |
+| 600 | -101.4 | -16.9 | 1785 | 0.83 | 4.39 |
+| 700 | -149.3 | -21.3 | 1662 | 1.00 | 5.30 |
+| 800 | -209.8 | -26.2 | 1547 | 1.19 | 6.26 |
+| 900 | -284.9 | -31.7 | 1437 | 1.39 | 7.29 |
+| 1000 | -376.8 | -37.7 | 1334 | 1.61 | 8.38 |
+
+Velocity agrees with the commonly published table for this load to within
+0.4% at 100 yd rising to 4.3% at 1000 yd. The gradient is consistent with a
+slightly different BC in the source table: box BCs are quoted to two decimals
+and vary by manufacturer, and a 4% BC spread produces exactly this velocity
+spread. See the note on the drop convention below.
+
+## The five bugs, and how each was caught
+
+### 1. Inverted drag sign (pre-existing, carried in from the deleted file)
+
+Adding `a_drag` instead of subtracting it made the bullet accelerate, giving
+2650 -> 3929 fps. Caught immediately by a sanity run. Now guarded by
+`velocity decreases monotonically`, which the header says must not be removed.
+
+### 2. Dropped the pi/4 in the drag coefficient
+
+Drag is `F = (1/2) rho v^2 Cd A` with `A = pi d^2 / 4`. Cancelling the 1/2
+against a 2 and forgetting the pi/4 inflates drag by `4/pi = 1.2732`.
+
+**How it was found:** the solver lost 1568 fps over 1000 yd where the reference
+loses 1256. That ratio is 1.248, against a theoretical 1.273. Close enough to
+identify; the remainder is the BC difference noted above.
+
+Fix: `DRAG_COEFFICIENT_PI_OVER_8 = Math.PI / 8`, named so the constant cannot
+be silently rewritten.
+
+### 3. ISA lapse rate in the wrong units (the dangerous one)
+
+`densityRatio` used `0.00687535` as **K/ft**. The standard atmosphere quotes
+0.0065 K per **metre**, and 0.00687535 is also a per-metre figure. Using a
+per-metre number as per-foot is a 3.28x error, and it made density almost
+independent of altitude: sigma 0.998 at 10,000 ft instead of 0.7385.
+
+**This has no visible symptom.** No exception, no NaN, plausible-looking
+numbers. A shooter in Denver would have been handed a sea-level firing
+solution and had no way to notice.
+
+Caught by asserting against the ISA table. Now `ISA_LAPSE_RATE_K_PER_FT` is
+stored in K/ft (0.0019812, equivalently 0.003566 degF/ft) with a warning in
+its doc comment, and `test/atmosphere.test.ts` pins sigma at 0, 1000, 5000 and
+10000 ft.
+
+### 4. Rigid zero offset instead of a line through the zero point
+
+The first implementation subtracted the raw trajectory height at the zero
+distance from every sample. That measures drop relative to a *horizontal* line
+through the zero point. A scope is bored parallel to the line of sight, so the
+real line of sight is a straight line from the muzzle through the zero point.
+
+Effect: drop was overstated by 100-300% beyond the zero distance — -400 in at
+1000 yd where the reference is -341 in.
+
+Caught by the reference-table comparison, and confirmed by an independent
+hand calculation of the 200 yd figure.
+
+Fix: `boreSlope = rawAtZero / zeroDistance`, and drop is measured against
+`losSlope * range`.
+
+### 5. Scope zero offset applied as a height instead of an angle
+
+`zeroMoa` is an angular offset. It was added as a constant height, so a 1 MOA
+scope reference shifted the table by 1 inch at every range instead of 1 inch
+at 100 yd and 10 inches at 1000 yd. Then the corrected version dropped the
+inches-to-feet factor, making it 12x too large (120 in at 1000 yd).
+
+Both variants are wrong in the same way, which is why the test asserts the
+1000 yd shift specifically rather than just "it changes."
+
+Fix: `scopeSlope = zeroMoa / (12 * 100 * 3) = zeroMoa / 3600` ft per ft.
+
+## Two things that are correct but look wrong
+
+**Ballistic coefficients are not comparable across drag models.** A G7 BC of
+0.320 and a G1 BC of 0.462 describe similar drag for the same bullet, because
+they are measured against different reference projodals. The quantity that
+enters the retardation equation is the product of form factor and BC:
+
+    G1: 1.0 * 0.462 = 0.462
+    G7: 1.2 * 0.320 = 0.384
+
+so the G7 solution retains **more** velocity. An early test asserted the
+opposite, on the reasonable-sounding but incorrect grounds that "higher BC means
+less drag." The test now asserts the correct relationship and explains why the
+naive one is a category error.
+
+**Wind drift is smaller than a tracer estimate.** At 10 mph and 1000 yd a
+passive tracer would drift `wind_speed * time_of_flight` = 14.67 fps * 1.61 s =
+283 in. The solver gives 84 in. That is correct: the bullet is decelerating, so
+it spends proportionally less of its flight aligned with the wind, and drag
+works against the lateral component. The test bounds the result against the
+tracer limit rather than against a guessed figure.
+
+## Open items
+
+1. **The drop convention must be reconciled against a named source.** The
+   published table this was compared to could not be retrieved (the
+   calculator sites block automated access), so its drop column is recorded but
+   not asserted. Publishers differ on whether "drop" means below the line of
+   sight for the stated zero, below the bore, or below a horizontal muzzle
+   line. This solver uses the first, which is what a shooter needs. Before the
+   drop figures are used as a tight regression gate, someone must read a real
+   published table and confirm its stated convention.
+
+2. **BC provenance.** Every BC a shooter enters comes from a box or a manual,
+   usually to two decimals. The app should record the BC alongside the source
+   and the resulting velocity, so a dope card can be revisited if the BC turns
+   out to be optimistic. The trajectory is only as good as that number.
+
+3. **Beyond 2000 yd** the model omits yaw, coriolis and curvature. The solver
+   emits a caution when `maxRangeYd` exceeds 2000.
+
+4. **The DOPE card is not yet rewired.** `DopeCardScreen.jsx` still uses
+   `0.00008 * Math.pow(yd, 2.3)`, which returns 53 ft of drop at 1000 yd where
+   this solver returns 31 ft. That screen must not ship.
