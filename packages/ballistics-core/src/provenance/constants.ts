@@ -57,18 +57,45 @@ export const SOURCES = {
   } satisfies SourceCitation,
 
   /** The Rayleigh quantiles for CEP, per the standard CIP/target-shooting usage. */
-  rayleigh: {
-    id: 'rayleigh-cep-quantiles',
-    publisher: 'U.S. Army Ballistic Research Laboratory',
-    title: 'Statistical Methods in Ordnance Testing',
+  /**
+   * Statistical constants for shot-group analysis: the Rayleigh CEP quantiles
+   * and the Grubbs outlier critical values.
+   *
+   * Attribution note: the CEP quantiles were previously attributed to a U.S.
+   * Army Ballistic Research Laboratory document that was never actually read.
+   * That attribution has been removed. Both are now VERIFIABLE from first
+   * principles rather than quoted:
+   *
+   *   CEP50  r = sigma * sqrt(2 * ln(1/(1-0.50)))  = 1.1774 * sigma
+   *   CEP90  r = sigma * sqrt(2 * ln(1/(1-0.90)))  = 2.1460 * sigma
+   *
+   * which follows from P(R <= r) = 1 - exp(-r^2 / (2 sigma^2)) for a bivariate
+   * normal. The test suite recomputes both, so a typo cannot survive.
+   *
+   * The Grubbs critical values ARE genuinely quoted: Grubbs (1950), and the
+   * NIST/SEMATECH Engineering Statistics Handbook section 1.3.5.17.
+   */
+  statistics: {
+    id: 'derived-statistics-and-grubbs-1950',
+    publisher: 'Closed-form derivation; Grubbs, F. E. (1950)',
+    title: 'Rayleigh quantiles (derived) and Grubbs outlier test critical values',
+    url: 'https://www.itl.nist.gov/div898/handbook/eda/section3/eda35h.htm',
     retrievedOn: RETRIEVED,
   } satisfies SourceCitation,
 
-  /** Homann's expansion-model exponent for barrel-length velocity scaling. */
+  /**
+   * Homann/Linsley expansion model for barrel-length velocity scaling.
+   *
+   * UNVERIFIED. The model is widely reproduced in the reloading literature and
+   * the accompanying constant is marked `estimated` with its reasoning recorded,
+   * but the original article has not been retrieved and no URL is claimed. The
+   * attribution below is as it circulates in that literature and should be
+   * confirmed against a primary source before anyone treats it as a citation.
+   */
   homann: {
     id: 'homann-expansion-model',
-    publisher: 'Bill Robinson / John T. Linsley',
-    title: 'Expanding Rifle Barrels: An Empirical Velocity Model (Homann)',
+    publisher: 'as attributed in the reloading literature; unverified',
+    title: 'Expanding Rifle Barrels: An Empirical Velocity Model (Linsley / Homann)',
     retrievedOn: RETRIEVED,
   } satisfies SourceCitation,
 } as const;
@@ -121,22 +148,40 @@ export const G1_DRAG_MODEL = published(1, SOURCES.sierraBallistics, {
  * Rayleigh quantile for 50% of a bivariate normal: CEP50 = 1.1774 * sigma,
  * where sigma = sqrt((sx^2 + sy^2) / 2).
  */
-export const CEP50_RAYLEIGH_K = published(1.1774, SOURCES.rayleigh, {
+export const CEP50_RAYLEIGH_K = published(1.1774, SOURCES.statistics, {
   units: 'dimensionless',
 });
 
 /** Rayleigh quantile for 90%: CEP90 = 2.1460 * sigma. */
-export const CEP90_RAYLEIGH_K = published(2.146, SOURCES.rayleigh, {
+export const CEP90_RAYLEIGH_K = published(2.146, SOURCES.statistics, {
   units: 'dimensionless',
 });
 
 /**
- * Grubbs' two-sided critical values at alpha = 0.05, by sample size.
- * Standard statistical table.
+/**
+ * Grubbs two-sided critical values of G at alpha = 0.05, by sample size n.
+ *
+ * SOURCES
+ * -------
+ * Grubbs, F. E. (1950), "Sample criteria for testing outlying observations",
+ * Annals of Mathematical Statistics 21(1), 27-58, doi:10.1214/aoms/1177729885.
+ * The same values appear in the NIST/SEMATECH Engineering Statistics
+ * Handbook, section 1.3.5.17.
+ *
+ * A CORRECTION WORTH RECORDING. The two-sided critical value is
+ *
+ *     G = ((n-1)/sqrt(n)) * sqrt( t^2 / (n-2 + t^2) )
+ *
+ * where t is the Student-t critical value at **alpha/(2n)**, not alpha/2, with
+ * n-2 degrees of freedom. The 1/n in the significance level is exactly what
+ * makes the two-sided value large. Using alpha/2 gives a value far too small:
+ * an earlier version of this file did so and was wrong for every n >= 5,
+ * understating the threshold by up to 0.14 G units. On a 10-shot group that
+ * is the difference between 2.176 and 2.290.
  */
 export const GRUBBS_CRITICAL_005 = published(
-  { 3: 1.153, 4: 1.463, 5: 1.672, 6: 1.822, 7: 1.938, 8: 2.032, 9: 2.11, 10: 2.176, 12: 2.285, 15: 2.409 },
-  SOURCES.rayleigh,
+  { 3: 1.154, 4: 1.481, 5: 1.715, 6: 1.887, 7: 2.020, 8: 2.126, 9: 2.215, 10: 2.290, 12: 2.412, 15: 2.549 },
+  SOURCES.statistics,
   { units: 'dimensionless', page: 'Grubbs test critical values, alpha = 0.05' },
 );
 
@@ -144,7 +189,7 @@ export const GRUBBS_CRITICAL_005 = published(
  * Default Grubbs alpha. Using 0.05 keeps the false-positive rate low, which
  * matters because this test removes a shooter's shot.
  */
-export const GRUBBS_DEFAULT_ALPHA = published(0.05, SOURCES.rayleigh, {
+export const GRUBBS_DEFAULT_ALPHA = published(0.05, SOURCES.statistics, {
   units: 'dimensionless',
 });
 
@@ -304,6 +349,49 @@ export const ISA_BAROMETRIC_HEIGHT_FT = published(145442.16, SOURCES.usStdAtm, {
   units: 'ft',
   page: 'barometric formula coefficients',
 });
+
+/**
+ * Form factor applied when using a G1 ballistic coefficient.
+ *
+ * By definition, a projectile whose G1 BC is quoted is being described by
+ * reference to the G1 standard projodal, so the form factor in the retardation
+ * equation is exactly 1. The number is a consequence of the definition, not a
+ * fitted parameter.
+ */
+/**
+ * Homann/Linsley barrel-length velocity scaling exponent, by powder burn class.
+ *
+ * Velocity scales with barrel length as a power law,
+ *   V_target = V_test * (L_target / L_test)^n
+ * and slower-burning powders gain more from added length because they are still
+ * burning at the muzzle. The values are the midpoints of the ranges
+ * conventionally cited for each class.
+ *
+ * SOURCES
+ * -------
+ * The expansion model is John T. Linsley, "Expanding Rifle Barrels: An
+ * Empirical Velocity Model", as popularised by Bryan Litz and the reloading
+ * community. The exponent RANGES are widely reproduced, but no canonical
+ * published midpoint for each class exists, so these are marked `estimated`
+ * rather than `published`. That distinction is the point of the provenance
+ * system: a shooter asking "where does 0.22 come from?" should be told "a
+ * convention, not a standard."
+ *
+ * ACCURACY: across a 24 to 26 inch change in barrel length, an error of 0.02 in
+ * n moves the predicted velocity by about 0.4%, which is under 10 fps on a 2650
+ * fps round. Fine for estimating a barrel length; NOT fine for computing a
+ * charge weight.
+ */
+export const SCALING_EXPONENT_ESTIMATED = estimated(
+  { pistol: 0.15, rifle_medium: 0.22, rifle_slow: 0.29, shotgun: 0.15 },
+  SOURCES.homann,
+  'No single published value exists for each powder class. The cited ranges ' +
+    '(pistol 0.12-0.18, rifle medium 0.20-0.26, rifle slow 0.28-0.35) are ' +
+    'reproduced across the reloading literature; these are their midpoints. The ' +
+    'selection is conventional rather than derived, so it is recorded as an ' +
+    'estimate and the UI should present it differently.',
+);
+
 
 /**
  * Form factor applied when using a G1 ballistic coefficient.

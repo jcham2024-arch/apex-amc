@@ -1,10 +1,11 @@
-/**
+﻿/**
  * Reloading-domain calculations.
  *
  * Safety-critical. Everything that produces a charge weight or a velocity
  * estimate lives here so it can be unit-tested against published manual
  * values, and so the website and the field app cannot drift apart.
  */
+import { SCALING_EXPONENT_ESTIMATED } from './provenance/constants.ts';
 
 /** Burn-rate class, which selects the barrel-scaling exponent. */
 export type BurnRateClass =
@@ -25,12 +26,14 @@ export type BurnRateClass =
  * Velocity scales with barrel length as a power law; slower powders gain
  * more from added length because they are still burning at the muzzle.
  */
-export const SCALING_EXPONENT: Readonly<Record<BurnRateClass, number>> = {
-  pistol: 0.15,
-  rifle_medium: 0.22,
-  rifle_slow: 0.29,
-  shotgun: 0.15,
-};
+/**
+ * The scaling exponent by burn class, imported from the provenance module so
+ * that the tier (`estimated`) and the reasoning travel with the value. This is
+ * a CONVENTION, not a published constant, and a UI should say so when it
+ * scales a velocity for a different barrel length.
+ */
+export const SCALING_EXPONENT: Readonly<Record<BurnRateClass, number>> =
+  SCALING_EXPONENT_ESTIMATED.value;
 
 /** A load transcribed from a published manual. */
 export interface PublishedRecipe {
@@ -108,7 +111,7 @@ export function scaleVelocity(
  * Generate a work-up ladder scaled to the shooter's barrel.
  *
  * SAFETY: the returned charges are linear interpolations between published
- * minimum and maximum. That is not a load recommendation — it is a path
+ * minimum and maximum. That is not a load recommendation â€” it is a path
  * for the shooter to chronograph their way up. The UI must say so.
  */
 export function buildLadder(

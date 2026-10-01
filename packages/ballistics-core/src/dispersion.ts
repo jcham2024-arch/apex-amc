@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Shot-group dispersion statistics.
  *
  * Conventions
@@ -23,11 +23,11 @@ export interface Dispersion {
   readonly n: number;
   /** Standard deviation along each axis, inches. */
   readonly sigma: { readonly x: number; readonly y: number };
-  /** CEP50 — radius containing 50% of shots, inches. */
+  /** CEP50 â€” radius containing 50% of shots, inches. */
   readonly cep50: number;
-  /** CEP90 — radius containing 90% of shots, inches. */
+  /** CEP90 â€” radius containing 90% of shots, inches. */
   readonly cep90: number;
-  /** Extreme spread — max distance between any two shots, inches. */
+  /** Extreme spread â€” max distance between any two shots, inches. */
   readonly extremeSpread: number;
   /** Mean radius from POI, inches. */
   readonly meanRadius: number;
@@ -43,8 +43,18 @@ export interface Dispersion {
  * elongated group (common in the field, from a wind or cant bias) it
  * understates CEP. See docs/BALLISTICS-AUDIT.md.
  */
-const CEP50_K = 1.1774;
-const CEP90_K = 2.146;
+// Constants are imported from the provenance module, never redeclared here.
+// An earlier version of this file carried its own copies, which is exactly the
+// duplication that system exists to prevent, and it had already let one wrong
+// table survive in two places.
+import {
+    CEP50_RAYLEIGH_K,
+    CEP90_RAYLEIGH_K,
+    GRUBBS_CRITICAL_005,
+} from './provenance/constants.ts';
+
+const CEP50_K = CEP50_RAYLEIGH_K.value;
+const CEP90_K = CEP90_RAYLEIGH_K.value;
 
 export function centreOfImpact(shots: readonly Shot[]): Shot {
   if (shots.length === 0) return { x: 0, y: 0 };
@@ -111,7 +121,7 @@ export function dispersion(shots: readonly Shot[]): Dispersion | null {
 /**
  * Grubbs' test for a single outlier, applied to shot radii from the POI.
  *
- * IMPORTANT — this is a heuristic here, not a strict application of the
+ * IMPORTANT â€” this is a heuristic here, not a strict application of the
  * test. Grubbs' test is defined for a univariate sample; applying it to
  * radii from a fitted centre biases the statistic, and with very small
  * groups it will happily discard a legitimate shot. Callers must surface
@@ -125,20 +135,12 @@ export interface FlyerResult {
   readonly gScore: number | null;
 }
 
-/** Two-sided Grubbs critical values at alpha = 0.05, by sample size. */
-const GRUBBS_CRITICAL: Readonly<Record<number, number>> = {
-  3: 1.153,
-  4: 1.463,
-  5: 1.672,
-  6: 1.822,
-  7: 1.938,
-  8: 2.032,
-  9: 2.11,
-  10: 2.176,
-  12: 2.285,
-  15: 2.409,
-};
-
+/**
+ * Two-sided Grubbs critical values at alpha = 0.05, imported from the
+ * provenance module. See GRUBBS_CRITICAL_005 there for the source and for the
+ * correction to the alpha/(2n) significance level that this table depends on.
+ */
+const GRUBBS_CRITICAL: Readonly<Record<number, number>> = GRUBBS_CRITICAL_005.value;
 export function detectFlyer(shots: readonly Shot[]): FlyerResult {
   const n = shots.length;
   const none: FlyerResult = {
@@ -156,7 +158,7 @@ export function detectFlyer(shots: readonly Shot[]): FlyerResult {
   const variance = radii.reduce((acc, r) => acc + (r - meanR) ** 2, 0) / (n - 1);
   const stdR = Math.sqrt(variance);
 
-  // Every shot is coincident — nothing to flag, and G would divide by zero.
+  // Every shot is coincident â€” nothing to flag, and G would divide by zero.
   if (stdR === 0) return none;
 
   let maxG = 0;
@@ -169,7 +171,11 @@ export function detectFlyer(shots: readonly Shot[]): FlyerResult {
     }
   }
 
-  const gCrit = GRUBBS_CRITICAL[Math.min(n, 15)] ?? 2.2;
+    // The table is tabulated to n = 15 and the critical value rises with n, so a
+    // larger group uses the largest tabulated value. An earlier version fell
+    // back to 2.2 here, which is BELOW every tabulated value and therefore made
+    // big groups more likely to have a flyer flagged than small ones - backwards.
+    const gCrit: number = GRUBBS_CRITICAL[Math.min(n, 15)]!;
 
   if (maxG > gCrit) {
     return {

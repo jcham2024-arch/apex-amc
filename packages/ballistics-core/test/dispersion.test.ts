@@ -1,7 +1,12 @@
-import assert from 'node:assert/strict';
-import { test } from 'node:test';
+﻿import assert from 'node:assert/strict';
+import { test, describe } from 'node:test';
 
 import { dispersion, centreOfImpact, detectFlyer } from '../src/dispersion.ts';
+import {
+    CEP50_RAYLEIGH_K,
+    CEP90_RAYLEIGH_K,
+    GRUBBS_CRITICAL_005,
+} from '../src/provenance/constants.ts';
 import type { Shot } from '../src/dispersion.ts';
 
 const close = (a: number, b: number, tol = 1e-6) =>
@@ -153,4 +158,94 @@ test('detectFlyer does not divide by zero on coincident shots', () => {
 
 test('detectFlyer needs at least three shots', () => {
   assert.equal(detectFlyer([{ x: 0, y: 0 }, { x: 9, y: 9 }]).flyer, null);
+});
+
+describe('statistical constants are verified, not trusted', () => {
+    // These tests recompute the constants from first principles so that a typo
+    // or a transcription error in the table cannot pass unnoticed. A wrong
+    // Grubbs table shipped once already: it used a t critical at alpha/2
+    // instead of alpha/(2n), which understated every threshold for n >= 5.
+
+    test('the Rayleigh CEP50 factor matches the analytic quantile', () => {
+        // For a bivariate normal, P(R <= r) = 1 - exp(-r^2 / (2 sigma^2)),
+        // so the p-quantile radius is sigma * sqrt(2 * ln(1/(1-p))).
+        const k = (p: number) => Math.sqrt(2 * Math.log(1 / (1 - p)));
+        assert.ok(Math.abs(k(0.5) - 1.1774) < 1e-4, `analytic CEP50 factor is ${k(0.5)}`);
+        assert.equal(CEP50_RAYLEIGH_K.value, Number(k(0.5).toFixed(4)));
+    });
+
+    test('the Rayleigh CEP90 factor matches the analytic quantile', () => {
+        const k = (p: number) => Math.sqrt(2 * Math.log(1 / (1 - p)));
+        assert.ok(Math.abs(k(0.9) - 2.146) < 1e-3, `analytic CEP90 factor is ${k(0.9)}`);
+        assert.equal(CEP90_RAYLEIGH_K.value, Number(k(0.9).toFixed(4)));
+    });
+
+    test('the Grubbs table is strictly increasing in sample size', () => {
+        // A necessary property. The old table satisfied it too, which is why
+        // monotonicity alone was not enough to catch the error.
+        const entries = Object.entries(GRUBBS_CRITICAL_005.value).map(([n, g]) => [Number(n), g] as const);
+        for (let i = 1; i < entries.length; i++) {
+            assert.ok(
+                entries[i]![1] > entries[i - 1]![1],
+                `G must increase with n: n=${entries[i - 1]![0]} gives ${entries[i - 1]![1]}, ` +
+                `n=${entries[i]![0]} gives ${entries[i]![1]}`,
+            );
+        }
+    });
+
+    test('every Grubbs value is below its own algebraic prefactor', () => {
+        // G = ((n-1)/sqrt(n)) * sqrt(t^2 / (n-2 + t^2)). The second factor is
+        // strictly less than 1, so G must be strictly less than (n-1)/sqrt(n) for
+        // every n. A value above that ceiling cannot come from this formula at all.
+        const table = GRUBBS_CRITICAL_005.value as Readonly<Record<number, number>>;
+        for (const [n, g] of Object.entries(table)) {
+            const prefactor = (Number(n) - 1) / Math.sqrt(Number(n));
+            assert.ok(
+                g < prefactor,
+                `n=${n}: G=${g} must be below the prefactor ${prefactor.toFixed(4)}`,
+            );
+            // And it must exceed 1, since G approaches 1 from above as n grows.
+            assert.ok(g > 1, `n=${n}: G=${g} must exceed 1`);
+        }
+    });
+    test('the Grubbs table matches the published two-sided values', () => {
+        // Grubbs (1950), Annals of Mathematical Statistics 21(1) 27-58, and the
+        // NIST/SEMATECH Engineering Statistics Handbook 1.3.5.17. The two-sided
+        const published: Readonly<Record<number, number>> = {
+            3: 1.154, 4: 1.481, 5: 1.715, 6: 1.887, 7: 2.020,
+            8: 2.126, 9: 2.215, 10: 2.290, 12: 2.412, 15: 2.549,
+        };
+        const table = GRUBBS_CRITICAL_005.value;
+        for (const [n, expected] of Object.entries(published)) {
+            const actual = (table as Readonly<Record<number, number>>)[Number(n)];
+            assert.equal(actual, expected, `Grubbs G for n=${n}`);
+        }
+    });
+
+    test('groups are not over-eager about flagging flyers', () => {
+        // A regression guard on the old fallback of 2.2, which was below every
+        // tabulated value and therefore made large groups MORE likely to have a
+        // shot removed than small ones. Build groups with a known spread and
+        // confirm nothing is removed at realistic sample sizes.
+        const ring = (n: number, radius: number) =>
+            Array.from({ length: n }, (_, i) => {
+                const a = (2 * Math.PI * i) / n;
+                return { x: Math.cos(a) * radius, y: Math.sin(a) * radius };
+            });
+
+        for (const n of [5, 8, 10, 12]) {
+            // A perfectly even ring has every radius identical, so Grubbs cannot
+            // run at all. Add a small deterministic wobble.
+            const shots = ring(n, 1).map((s, i) => ({
+                x: s.x * (1 + 0.02 * (i % 3)),
+                y: s.y * (1 + 0.02 * ((i + 1) % 3)),
+            }));
+            const result = detectFlyer(shots);
+            assert.equal(
+                result.flyer,
+                null,
+                `a clean ${n}-shot group must not have a shot removed`,
+            );
+        }
+    });
 });
