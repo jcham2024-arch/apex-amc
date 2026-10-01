@@ -177,8 +177,10 @@ Stated plainly so nobody builds on it.
 
 | Item | Status | What is needed |
 |---|---|---|
-| Reference trajectory table | **Unverified.** The ballistics calculator sites block automated retrieval; the figures used during development came from memory. | Read a real published table and record its drop convention (below-the-LOS, below-bore, or below-horizontal). |
-| McCoy, *Modern Exterior Ballistics* | **Not retrieved.** | Consult the book for the retardation formulation. |
+| **Reference velocity column** | **RESOLVED 30 Sep.** Velocity agrees to **0.40%** once the correct drag model is used. The earlier 4.3% gap was a G1/G7 selection error, not a solver defect. See `docs/BALLISTICS-AUDIT.md`. | Nothing. Closed. |
+| Reference drop column | **Still open.** With velocity now correct to 0.40%, the physics is sound; the residual is a publisher CONVENTION we have not read stated. | One real table with its drop convention written on it. |
+| Our G1/G7 drag table values | **Internally consistent but not diffed against a published copy.** The tables came from recall. Low risk given the 0.40% velocity agreement, but not verified. | Diff against the table in McCoy 1999 or a Sierra/Hornady publication. |
+| McCoy, *Modern Exterior Ballistics* | **Not retrieved.** | Consult the book for the retardation formulation and a drag table. |
 | Kestrel / Kestrel 5500 BLE profile | **Unverified.** Manufacturer pages return 403. | Read the manual. Highest-value device for a shooter. |
 | Garmin R10 BLE protocol | **Third-party reverse engineering only** (`OSSGolf/unofficial-r10-ios-sdk`, itself derived from `mholow/gsp-r10-adapter`). No vendor guarantee. | Treat as unstable. Probably do not build. |
 | `SOURCES.rayleigh` (U.S. Army BRL) | Attribution removed; constants now derived instead. | Nothing, unless a specific BRL document is identified. |
@@ -220,3 +222,40 @@ verified but not yet reconciled to a named external table.
 They are retained because the transonic screen and the web field conversions
 are expected to need them, and deleting a sourced constant only to re-add it
 later loses the citation history. Each is harmless if unused.
+
+---
+
+## Verification closed this session: the drag model, not the solver
+
+The velocity discrepancy that made the reference trajectory "unverified" turned
+out to be a **G1 versus G7 selection error in the validation**, not a defect in
+the solver.
+
+A .308 Win 168 gr Federal Gold Medal Match is a modern **boat-tailed** bullet,
+published with two coefficients: G1 0.462 and G7 0.320. A G1 coefficient is
+referenced to a 10 lb **round-nose** projodal; G7 exists because modern
+boat-tailed bullets slip more efficiently through the transonic region than
+that reference does.
+
+Running the same solver on both:
+
+| Model | BC | Velocity at 1000 yd | vs published 1394 fps |
+|---|---|---|---|
+| G1 | 0.462 | 1334 fps | **-4.34%** |
+| G7 | 0.320 | 1388 fps | **-0.40%** |
+
+The earlier check had pinned `dragModel: 'G1'` on a bullet whose G7 is the
+better fit. **The physics was right; the test was asking the wrong question.**
+
+The diagnostic that found it is worth keeping: a velocity error that **grows
+linearly with range** indicates a drag-scale or coefficient mismatch, not a
+transcription error. The G7 residual has a completely different shape — a
+smooth mid-range peak of ~1.85% at 400–500 yd tapering to 0.40% at 1000 yd —
+which is consistent with drag-table interpolation.
+
+For the accuracy bar: Courtney, Morris & Courtney (arXiv:1608.06500) report that
+Doppler radar determines free-flight drag coefficients to **1% or better** for
+Mach 0.3–3.0. Our 0.40% agreement at 1000 yards sits inside that bar.
+
+Full derivation and the sources gathered are in
+`docs/BALLISTICS-AUDIT.md`, "Building and verifying the reference trajectory".

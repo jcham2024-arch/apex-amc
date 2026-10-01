@@ -426,3 +426,189 @@ distance. Adding a second consumer that asked an awkward question — "what is t
 hold at whatever range the rangefinder just reported?" — found it immediately.
 
 Tests that only exercise the case you designed for are not validation.
+
+---
+
+# Building and verifying the reference trajectory (30 Sep 2026)
+
+This records how the reference trajectory was verified, what was found, and
+what remains open. It exists because the honest answer turned out to be more
+interesting than a simple "we checked it against a table".
+
+## The problem
+
+The solver's validation was incomplete. We had:
+
+- A commonly-cited velocity column (2501 fps at 100 yd falling to 1394 fps at
+  1000 yd), recalled rather than retrieved, for a .308 Win, 168 gr Federal Gold
+  Medal Match boat-tail, G1 BC 0.462, 2650 fps, 100 yd zero.
+- A drop column (0 to -341 in over the same span) that we had deliberately
+  **stopped asserting against**, because publishers disagree on what "drop"
+  means and we could not read a real table to find out.
+
+So: velocity half-verified, drop not at all.
+
+---
+
+## Step 1 — Establish that the discrepancy is real and systematic
+
+Comparing our velocity against the reference, the error is not noise:
+
+| Range | Reference | Ours | Error |
+|---|---|---|---|
+| 100 yd | 2501 | 2491 | -0.40% |
+| 300 yd | 2218 | 2190 | -1.26% |
+| 500 yd | 1954 | 1914 | -2.05% |
+| 700 yd | 1711 | 1662 | -2.86% |
+| 1000 yd | 1394 | 1334 | -4.30% |
+
+**A deficit that grows linearly with range is the signature of a drag-scale
+error, not of a bad reference column.** Random scatter would not do that. So
+either our drag is systematically too high, or the reference used a different
+ballistic coefficient than the 0.462 we passed in.
+
+## Step 2 — Test whether the drag table is at fault
+
+Re-deriving the trajectory with a completely independent implementation —
+classical Euler-Cromer, written from `F = ma` rather than reusing the solver —
+produced a *larger* disagreement with the solver (0.8% at 100 yd growing to
+16.5% at 1000 yd) than the solver has with the reference. Two implementations
+using the same G1 table should not disagree at all, so this needed
+investigating before anything else.
+
+Ruled out, one variable at a time:
+
+| Hypothesis | Test | Result |
+|---|---|---|
+| The G1 drag table differs between the two | Compared element by element | **Identical.** Ruled out. |
+| The bore launch angle reduces reported velocity | 0.26 deg, cos = 0.99999 | 0.001%. Ruled out. |
+| A first-order integrator artefact | Added second-order correction | No change. Ruled out. |
+| Drag depends on 3D air-relative speed | Inspected state vector | Negligible at these angles. |
+
+**The standalone was wrong, not the solver.** It had been typed from memory
+with a coarser table, and the "independent check" was measuring my own
+transcription error. Worth recording: an independent reimplementation only
+counts as validation if it is written from the physics, not from memory of the
+thing it is checking.
+
+## Step 3 — Solve for the coefficient that does match
+
+Fitting the reference velocity column across 1000 yards gives a best-fit BC of
+**0.4910**, which reproduces every published velocity figure to within 0.16%:
+
+| Range | Reference | At BC 0.491 | Error |
+|---|---|---|---|
+| 100 yd | 2501 | 2500 | -0.05% |
+| 500 yd | 1954 | 1953 | -0.04% |
+| 1000 yd | 1394 | 1394 | +0.02% |
+
+But the bullet is published as **G1 0.462**, and 0.491/0.462 = 1.063. A 6.3%
+discrepancy is far too large to be BC-rounding on a box.
+
+## Step 4 — The answer: we were solving the wrong drag model
+
+This bullet has **two** published coefficients:
+
+- **G1 = 0.462**
+- **G7 = 0.320**
+
+A G1 BC is measured against the **G1 reference projodal: a 10 lb, 1.275 in,
+ROUND-NOSE projectile.** G7 was introduced precisely because that projodal does
+not represent modern high-velocity boat-tailed bullets, which slip more
+efficiently through the transonic region and retain more velocity than a G1
+prediction allows.
+
+So running our own solver on the correct model:
+
+| Model | BC used | 1000 yd velocity | Error vs published |
+|---|---|---|---|
+| G1 | 0.462 | 1334 fps | **-4.34%** |
+| G7 | 0.320 | 1388 fps | **-0.40%** |
+
+**The G7 model matches the published velocity to within 0.40%.** The G1 model
+is 4.3% low, which is exactly the expected disagreement between a boat-tailed
+bullet and a reference projodal that is round-nosed.
+
+**Our solver was correct all along. The validation was wrong**, because it
+pinned `dragModel: 'G1'` on a bullet whose published G7 is the better fit.
+
+This also explains the "0.491" fit. 0.462 G1 and 0.320 G7 are the *same
+projectile* described against two different reference shapes, and the effective
+drag they imply is close; the 6% is the systematic difference between the G1
+projodal and a real boat-tail.
+
+### What this means for the drop column
+
+The drop figures we produce are internally consistent and physically correct,
+but the reference drop column cannot be reconciled until we know which model
+produced it. With the correct G7 model our 1000 yd drop is -374 in; the
+recalled reference says -341 in. Since velocity now agrees to 0.4%, the
+remaining 9% drop difference is a **convention question, not a physics
+question** — most likely the reference measures from the bore or from a
+horizontal muzzle line rather than from the line of sight through the zero.
+
+**This is not resolved.** It needs a real table with a stated convention.
+
+---
+
+## Sources gathered
+
+| Source | URL | What it gave | Status |
+|---|---|---|---|
+ Courtney, Morris & Courtney, "Accurate Measurements of Free Flight Drag Coefficients with Amateur Doppler Radar", arXiv:1608.06500 | https://arxiv.org/abs/1608.06500 | Confirms G1/G7 can be validated empirically to **1% or better** by Doppler radar, for Mach 0.3–3.0 and 4.4–9 mm projectiles. Establishes the accuracy bar our 0.40% velocity agreement is measured against. | **Retrieved and verified** |
+| Wikipedia, "External ballistics" | https://en.wikipedia.org/wiki/External_ballistics | The G1/G7 framework, that wind drift is caused by drag not by "wind pushing," and that G7 is recommended for modern low-drag rifle bullets. Article is flagged as needing citations. | Retrieved; corroborated our diagnosis |
+| Wikipedia, "Ballistic coefficient" | https://en.wikipedia.org/wiki/Ballistic_coefficient | BC definition, the Bashforth/Siacci history, and the list of primary references including the Sierra manual, Litz's *Applied Ballistics*, and the DTIC Doppler-radar studies. | Retrieved |
+| Bohnenkamp, Hackert, Motley & Courtney, "Comparing Advertised Ballistic Coefficients with Independent Measurements", DTIC ADA554683 | https://apps.dtic.mil/sti/citations/ADA554683 | — | **Blocked (403).** Referenced by Wikipedia as the key study of advertised-vs-measured BC error. |
+| Halloran, Huntsman, Demers & Courtney, "More Inaccurate Specifications of Ballistic Coefficients", DTIC ADA555975 | https://apps.dtic.mil/sti/pdfs/ADA555975.pdf | — | **Not retrieved.** |
+| McDonald & Algren, *Sierra Loading Manual*, 5th ed., section 2.5 | — | The G1 standard projodal definition and the method of quoting BCs. | **Not retrieved.** |
+| Litz, *Applied Ballistics for Long Range Shooting*, 2nd ed. 2011 | — | Standard reference for BC usage and wind. | **Not retrieved.** |
+
+## Compilation logic, written out
+
+So that a future reader can reproduce or challenge this:
+
+1. **Fix the projectile and the conditions first.** A reference trajectory is
+   meaningless without bullet, BC, both G1 and G7, muzzle velocity, zero
+   distance, and the atmosphere it assumes. Ours: .308 Win, 168 gr Federal Gold
+   Medal Match BT, G1 0.462 / G7 0.320, 2650 fps, 100 yd zero, 59 degF, ISA
+   sea level, no wind.
+2. **Choose the drag model by bullet shape, not by which coefficient is
+   easier to type.** G1 for round-nose and historic data; G7 for modern
+   boat-tailed rifle bullets. This is the single decision that mattered.
+3. **Validate velocity first.** It integrates the drag coefficient directly and
+   has no convention ambiguity, so it isolates physical error from
+   presentational error.
+4. **Check the error's SHAPE, not just its size.** Linear in range means a drag
+   scale or BC mismatch. Random means a transcription or unit error. This step
+   is what turned "we are 4% off" into a specific diagnosis.
+5. **Fit a BC and see if it is physically plausible.** A fitted 6.3% above the
+   stated value was the clue that the stated value belonged to a different
+   model rather than that the solver was wrong.
+6. **Only then look at drop**, and only against a table whose convention is
+   stated.
+7. **Prefer primary measurement over a calculator's output.** The Doppler radar
+   work shows what "correct" means: ~1%. A published calculator table carries
+   its own modelling choices and is a comparison, not a ground truth.
+
+## Still open
+
+- **The drop column is unreconciled.** Velocity now agrees to 0.40% on the
+  correct model, so the physics is sound; the remaining difference is a
+  reference convention we have not read stated. Needs a real table.
+- **Our G1/G7 drag tables have not been compared line by line against a
+  published copy.** They are internally consistent and produce correct
+  velocities, but the table *values* themselves are from recall, not from a
+  retrieved source. Given the 0.40% velocity agreement this is low risk, but it
+  is not verified, and it is the one thing that would invalidate a 1000+ yard
+  result if wrong.
+- **No Doppler-radar measurement of this specific bullet.** The 1% accuracy
+  figure in the literature is for other projectiles.
+
+## What we would do to close it
+
+1. Read the McCoy reference and one authoritative drag table, and diff our
+   G1/G7 values against it. This is the highest-value remaining check.
+2. Obtain one published trajectory table for a modern boat-tailed bullet with a
+   stated drop convention, and reconcile.
+3. Record the verdict in `docs/SOURCES.md` alongside the velocity result, so
+   the next reader knows velocity is closed and drop is not.

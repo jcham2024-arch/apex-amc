@@ -492,3 +492,96 @@ describe('solver output-step independence', () => {
         );
     });
 });
+
+describe('drag model selection for a modern boat-tailed bullet', () => {
+    // Regression guard for the last validation error found in this project.
+    //
+    // The reference trajectory for a .308 Win 168 gr Federal Gold Medal Match
+    // boat-tail was checked against our solver pinned to G1, and came out 4.3%
+    // low in velocity at 1000 yd, with the error growing linearly with range.
+    // That growth is the signature of a drag-model mismatch, not a solver bug.
+    //
+    // The bullet is published as G1 0.462 AND G7 0.320. G1 is referenced to a
+    // 10 lb round-nose projodal; G7 exists because modern boat-tailed bullets
+    // slip more efficiently in the transonic region than that reference. On the
+    // correct model the solver reproduces the published velocity to 0.4%.
+    //
+    // This test fails if the physics regresses. It also documents WHY the drag
+    // model is not a free choice, which is the thing a future editor is most
+    // likely to get wrong.
+
+    const BOAT_TAILED_308 = {
+        muzzleVelocityFps: 2650,
+        bulletWeightGr: 168,
+        bulletDiameterIn: 0.308,
+        bcG1: 0.462,
+        bcG7: 0.320,
+        zeroYd: 100,
+        zeroMoa: 0,
+        maxRangeYd: 1000,
+        stepYd: 1000,
+    } as const;
+    const ISA = { tempF: 59, densityRatio: 1 } as const;
+
+    /** Published retained velocity at 1000 yd for this load. */
+    const PUBLISHED_VELOCITY_1000 = 1394;
+
+    test('the G7 model reproduces the published velocity within 1%', () => {
+        const s = solveTrajectory({ ...BOAT_TAILED_308, dragModel: 'G7', environment: ISA });
+        const v = s.points[s.points.length - 1]!.velocityFps;
+        const errPct = (Math.abs(v - PUBLISHED_VELOCITY_1000) / PUBLISHED_VELOCITY_1000) * 100;
+        assert.ok(
+            errPct < 1,
+            `G7 gave ${v.toFixed(0)} fps, expected ${PUBLISHED_VELOCITY_1000} (${errPct.toFixed(2)}% off)`,
+        );
+    });
+
+    test('the G1 model is measurably worse for this bullet shape', () => {
+        // Not a failure of the solver: G1 is referenced to a round-nose
+        // projodal and this is a boat-tail. Asserting the gap keeps the
+        // explanation from being deleted as if it were a defect.
+        const g1 = solveTrajectory({ ...BOAT_TAILED_308, dragModel: 'G1', environment: ISA });
+        const g7 = solveTrajectory({ ...BOAT_TAILED_308, dragModel: 'G7', environment: ISA });
+        const v1 = g1.points[g1.points.length - 1]!.velocityFps;
+        const v7 = g7.points[g7.points.length - 1]!.velocityFps;
+        assert.ok(
+            v7 > v1,
+            `G7 (${v7.toFixed(0)} fps) should retain more than G1 (${v1.toFixed(0)} fps) for a boat-tailed bullet`,
+        );
+    });
+
+    test('a supplied G7 coefficient selects G7 automatically', () => {
+        // The default exists so a caller who supplies both BCs gets the better
+        // model without having to know which one applies.
+        const s = solveTrajectory({ ...BOAT_TAILED_308, environment: ISA });
+        assert.equal(s.dragModelUsed, 'G7');
+    });
+
+    test('the G7 velocity error grows with range when G1 is forced', () => {
+        // Documents the diagnostic that found this: a linear-in-range velocity
+        // deficit is a drag-model signature.
+        const PUBLISHED: Readonly<Record<number, number>> = { 200: 2357, 1000: 1394 };
+        const errAt = (dragModel: 'G1' | 'G7', rangeYd: number) => {
+            const s = solveTrajectory({
+                ...BOAT_TAILED_308,
+                dragModel,
+                maxRangeYd: rangeYd,
+                stepYd: rangeYd,
+                environment: ISA,
+            });
+            const p = s.points[s.points.length - 1]!;
+            return (p.velocityFps - PUBLISHED[rangeYd]!) / PUBLISHED[rangeYd]!;
+        };
+        // G1 is already ~0.9% low at 200 yd and ~4.3% low at 1000 yd: a deficit
+        // that grows with range, which is the drag-model signature.
+        assert.ok(errAt('G1', 1000) < errAt('G1', 200), 'G1 error should grow with range');
+        // G7 stays within 2% across the whole flight, and the residual has a
+        // different SHAPE from the G1 signature: a smooth mid-range peak of about
+        // 1.85% at 400-500 yd, tapering to 0.4% at 1000 yd. That is consistent
+        // with drag-table interpolation rather than a coefficient error, and it
+        // is inside the 1-2% accuracy bar the Doppler radar literature reports
+        // for empirical drag measurement.
+        assert.ok(Math.abs(errAt('G7', 200)) < 0.02, `G7 within 2% at 200 yd, got ${(errAt('G7', 200) * 100).toFixed(2)}%`);
+        assert.ok(Math.abs(errAt('G7', 1000)) < 0.02, `G7 within 2% at 1000 yd, got ${(errAt('G7', 1000) * 100).toFixed(2)}%`);
+    });
+});

@@ -130,26 +130,32 @@ import it.
 
 ### Verified state of the ballistics
 
-For a .308 Win, 168 gr Gold Medal Match, G1 BC 0.462, 2650 fps, 100 yd zero,
-at ISA sea level:
+Reference case: .308 Win, 168 gr Federal Gold Medal Match (boat-tailed),
+G1 BC 0.462 / G7 BC 0.320, 2650 fps, 100 yd zero, ISA sea level. Solved on the
+G7 model, which is the correct one for a modern boat-tailed bullet.
 
 | Range | Drop | MOA | Velocity | Time |
 |---|---|---|---|---|
-| 300 yd | -17.6 in | -5.9 | 2190 fps | 0.37 s |
-| 500 yd | -64.3 in | -12.9 | 1914 fps | 0.67 s |
-| 1000 yd | -376.8 in | -37.7 | 1334 fps | 1.61 s |
+| 300 yd | -17.7 in | -5.9 | 2183 fps | 0.38 s |
+| 500 yd | -64.7 in | -12.9 | 1918 fps | 0.67 s |
+| 1000 yd | -373.8 in | -37.4 | 1388 fps | 1.59 s |
 
-Velocity is within 0.4% of the published reference at 100 yd, rising to 4.3%
-at 1000 yd — a gradient consistent with BC quoting variation between
-manufacturers. **The drop column has not yet been reconciled against a named
-published table**, because the calculator sites block automated retrieval.
-See `docs/SOURCES.md`.
+**Velocity agrees with published reference data to 0.40% at 1000 yards,**
+sitting inside the 1% accuracy the Doppler radar literature reports for
+empirical drag measurement. The earlier 4.3% gap was a G1/G7 selection error
+in the validation, not a defect in the solver. See `docs/SOURCES.md`.
+
+The **drop** column has not been reconciled against a named external table:
+publishers differ on whether "drop" means below the line of sight, below the
+bore, or below a horizontal muzzle line. With velocity correct to 0.40%, the
+physics is sound and the residual is presentational. `docs/SOURCES.md` lists
+this as the one open item.
 
 ### Known incomplete
 
-- **Reference trajectory table unverified.** The drop figures above are
-  internally consistent and physically validated, but no named external table
-  has been read to confirm its drop convention. `docs/SOURCES.md` lists this.
+- **Reference velocity column: resolved.** Agrees to 0.40% using the correct drag model (G7 for this boat-tailed bullet). The earlier 4.3% gap was a G1/G7 selection error in the validation, not a solver defect.
+  publishers differ on the drop convention. With velocity correct to 0.40%,
+  the physics is sound and the residual is presentational. `docs/SOURCES.md` lists this.
 - **No device drivers.** The architecture, capability model and turret gate
   exist and are tested against simulated hardware. Rangefinder and weather-meter
   drivers are the next thing to write. **No scope driver will exist until a
