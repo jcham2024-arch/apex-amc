@@ -306,6 +306,25 @@ const PATH_SCOPE = /`(scripts|apps|packages|data|docs)\/[A-Za-z0-9_./-]+\.[a-z]{
  * to live in a handoff document, so every line must say *why* it is still valid.
  */
 const PATH_ALLOWLIST = new Map([
+  // Archived third-party documents. .gitignore excludes data/published/* because
+  // these are other people's copyright and must never be redistributed by the
+  // site; only the manifest is committed. They exist locally so a data row's
+  // source can be re-checked.
+  //
+  // That makes every reference to one of them a path that exists on a
+  // contributor's machine and NOT in a clean checkout, so docs:check passes
+  // locally and fails in CI. This was found on the first CI run this repo ever
+  // had on ubuntu-latest, on 2 Oct 2026.
+  //
+  // Listed individually rather than by prefix, deliberately: a prefix rule
+  // would silently excuse a typo'd path, which is the defect the check exists to
+  // catch. If a genuinely new archived document is cited, add it here with the
+  // same reason.
+  ['data/published/saami-z299.4-2025-centerfire-rifle.pdf', 'gitignored: copyrighted SAAMI standard, cited in DATA-PLAN, DATA-TODO, PARALLEL-WORK-PLAN and SEED-DATA-GUIDE'],
+  ['data/published/saami-z299.3-2022-centerfire-pistol-revolver.pdf', 'gitignored: copyrighted SAAMI standard'],
+  ['data/published/saami-z299.2-2019-shotshell.pdf', 'gitignored: copyrighted SAAMI standard'],
+  ['data/published/saami-2018-velocity-pressure-data.pdf', 'gitignored: copyrighted SAAMI data'],
+
   // Never implemented. AGENTS.md names the original brief to explain that the
   // delivered scripts use .mjs and different names.
   ['scripts/import-csv.ts', 'the original brief; documented as never built'],
