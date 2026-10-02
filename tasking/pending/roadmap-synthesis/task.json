@@ -1,0 +1,28 @@
+{
+  "schema": "apex-task/1",
+  "id": "roadmap-synthesis",
+  "title": "Ranked roadmap across all completed findings",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/roadmap-synthesis/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-ranked-roadmap.md",
+    "02-owner-decisions.md"
+  ],
+  "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not modify any source file. This task produces a plan, not changes.",
+    "Do not re-summarise findings that are already written. Link to the file.",
+    "Do not propose load-synthesis or charge-weight work as attainable; see tasking/completed/interior-ballistics/KNOWLEDGE.md finding 3."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

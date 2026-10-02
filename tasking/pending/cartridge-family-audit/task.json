@@ -1,0 +1,28 @@
+{
+  "schema": "apex-task/1",
+  "id": "cartridge-family-audit",
+  "title": "Cartridges whose family disagrees with their name",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/cartridge-family-audit/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-family-defects.csv",
+    "02-blast-radius.md",
+    "03-proposed-fix.diff"
+  ],
+  "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not edit data/seeds/. Produce the diff; a human applies it.",
+    "Do not rename cartridges to match their file while you are there. Name normalisation is a separate task with its own over-merge risk."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "apex-task/1",
+  "id": "cartridge-licence-reconciliation",
+  "title": "Resolve the contradiction between two completed tasks on CIP licensing",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/cartridge-licence-reconciliation/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-the-disagreement.md",
+    "02-licence-terms.md",
+    "03-per-cartridge-verdict.csv"
+  ],
+  "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not give legal advice. State what the published terms say and where they are ambiguous.",
+    "Do not transcribe any CIP-derived dimension. Establishing permission is the deliverable."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}
