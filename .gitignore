@@ -176,6 +176,11 @@ tasking/review/*
 # works; several mechanisms exist only because I got them wrong first, and a
 # lesson with no incident attached is a slogan rather than knowledge.
 !tasking/review/LESSONS.md
+# PRODUCT.md is the owner's statement of what the site is for, plus what is
+# blocked and why. It is the test every later proposal is measured against -
+# and the reason two obvious features (live pricing, load ladders) are deliberately
+# NOT being built the obvious way.
+!tasking/review/PRODUCT.md
 # tasking/mail/ - inter-agent communication. TRACKED, unlike the other swarm tiers,
 # and the reason matters: a mailbox that is not committed is a message that never
 # arrived. The agents live in separate git worktrees, so an uncommitted message is
