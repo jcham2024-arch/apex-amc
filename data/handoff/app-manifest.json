@@ -1,9 +1,9 @@
 {
   "artefact": "apps/website/dist/index.html",
   "role": "The single-file site deployed to apex-amc.com. BUILT from apps/website/src/ by `npm run website:build`. See HANDOFF.md.",
-  "sha256": "8654a0b0cdfbfef1f53d2bff088cc5d9b91e9127a02f5ef80c97b611121923eb",
-  "bytes": 98527,
+  "sha256": "eeb52de4396c4f57de28dea286bc5fd1f095609f418cd8c74f26922bdb5e7634",
+  "bytes": 98576,
   "approvedOn": "2026-10-02",
-  "note": "2 Oct 2026: FTC/claims compliance pass. Removed 8 unsourced retailer ratings (4.6-4.9), the Verified Shipping/Suppliers claims, superlative badges and the unsourced savings figure; moved the affiliate disclosure above the retailer grid; added a meta description, canonical URL, skip link and real input labels.  Re-recorded the same day after CI proved the recorded hash was wrong. The previous value was captured from a Windows working copy that had CRLF line endings, while git stores this file as LF. The Vite build inlines index.html, so the emitted bytes differed by platform and the hash could never match on ubuntu-latest. The artefact was never wrong; the recorded hash was. Fixed by rebuilding from an LF working copy.",
-  "supersededSha256": "2a698fe34f6d165ce6dece09a85ae0c5ac5b58be8ecf364b48a9d9a3f7c52eb2"
+  "note": "Removed the registered phrase 'Apex Ammunition & Components' from all user-facing brand strings; replaced with the provisional 'Project Apex' placeholder. Reason: APEX AMMUNITION is a LIVE USPTO registration (5391055, IC 013) held by Apex Ammunition LLC, which operates apexmunition.com. Deployment identity (wrangler name, database_name, SITE_ORIGIN) deliberately unchanged. See docs/BRANDING.md.",
+  "supersededSha256": "eeb52de4396c4f57de28dea286bc5fd1f095609f418cd8c74f26922bdb5e7634"
 }

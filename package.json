@@ -2,7 +2,7 @@
   "name": "apex-project",
   "private": true,
   "type": "module",
-  "description": "Apex Ammunition & Components - ammunition catalog, cost calculator, and reloading reference.",
+  "description": "Reloading data directory, cost calculator, and ammunition reference. Name pending trademark clearance - see docs/BRANDING.md.",
   "repository": {
     "type": "git",
     "url": "https://github.com/jcham2024-arch/apex-amc.git"
@@ -12,7 +12,7 @@
     "This project is `private: true` and is not published to npm, so nothing",
     "requires a license today. The default without one is 'all rights reserved',",
     "which means nobody else may legally reuse the domain physics, the drag",
-    "tables, or the data pipeline. If Apex AMC is ever to be open source, add a",
+    "tables, or the data pipeline. If the project is ever to be open source, add a",
     "LICENSE file AND set \"license\" here. See docs/REVIEW.md P3-1."
   ],
   "workspaces": [
