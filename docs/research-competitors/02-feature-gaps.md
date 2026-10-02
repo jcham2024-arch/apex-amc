@@ -196,6 +196,36 @@ bought is the opposite of that.
   about the product. A review of a retailer is about the retailer. Mixing them
   lets commission colour an opinion.
 
+## Phase 8 - ballistics video and review links
+
+Deliberately adjacent to Phase 7 and sequenced after it, because both are
+"content written by other people, displayed by us" and they share the same
+obligation: we host, we do not author.
+
+Detail in `05-ballistics-video-sources.md`. The short version:
+
+| # | Change | Write-set |
+| --- | --- | --- |
+| 8.1 | `**Sources dataset** for third-party ballistics results, one row per (product, source, claim, cartridge, conditions) | `data/schema/021_*.sql` (SERIAL) |
+| 8.2 | **Chambering-error gate for video claims** — a claim about cartridge X may not appear on bullet Y | `scripts/gates/` |
+| 8.3 | **Conditions mandatory** on any third-party claim | `scripts/gates/` |
+| 8.4 | **Neutral link display** — no `recommended`, no star-rating of a video | `apps/website/src/` |
+| 8.5 | **Manufacturer data labelled first-party**, never mixed with independent testing | `apps/website/src/` |
+| 8.6 | **Disagreement displayed, not resolved** | `apps/website/src/` |
+
+### The creator-partnership constraint, recorded so it cannot drift
+
+Partnerships are permitted for **promotion only, never for a finding**. Paying
+for a ballistics test is prohibited in substance by 465.2(b), and a paid
+recommendation is not evidence. If we ever pay or incentivise a creator, that is
+a material connection we must disclose **on our side as well as theirs**, under
+16 CFR 255 and the FTC guidance that disclosure travel with the endorsement, in
+the video, not in the description.
+
+Start with neutral links to creators we have no relationship with. That is the
+`consumer review hosting` the rule contemplates, and it has no incentive to
+distort on either side.
+
 ## Phase 6 - compliance follow-ups
 
 | # | Change | Why |
