@@ -310,6 +310,50 @@
         "docs/lessons/ (new files only)"
       ],
       "notes": "Output-only. Turns AGENTS.md traps into a training curriculum."
+    },
+    {
+      "id": "T1",
+      "title": "Trademark and brand-name clearance research",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-legal",
+      "file": ".cline/tasks/task-T1-trademark-clearance.md",
+      "write_set": [
+        "docs/research-trademark/ (new files only)"
+      ],
+      "notes": "RESEARCH ONLY - no rename. Blocked reason for the owner's rename request: APEX AMMUNITION is a LIVE USPTO registration (5391055, IC 013) and apexmunition.com is an operating storefront in the same category. Output-only, so safe alongside T2 and any code task."
+    },
+    {
+      "id": "T2",
+      "title": "Ballistics oracle research: independent verification methods",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-math",
+      "file": ".cline/tasks/task-T2-ballistics-oracles.md",
+      "write_set": [
+        "docs/research-oracles/ (new files only)"
+      ],
+      "notes": "RESEARCH ONLY - must not touch packages/ballistics-core, which is safety-critical. Must state whether '3 independent methods' is actually defensible. Output-only, safe alongside T1."
+    },
+    {
+      "id": "T3",
+      "title": "Brand rename and site re-identification",
+      "status": "blocked",
+      "blocked_by": [
+        "T1"
+      ],
+      "blocked_reason": "The name is an OWNER DECISION. T1 produces the clearance data; the owner then chooses. Not delegable and not safe to start on an assumption.",
+      "file": ".cline/tasks/task-T3-brand-rename.md",
+      "write_set": [
+        "package.json",
+        "wrangler.toml",
+        "apps/website/src/index.html",
+        "apps/website/src/main.js",
+        "docs/"
+      ],
+      "notes": "Locks package.json. Site is LIVE, so a rename changes the title, footer, wrangler project name and SITE_ORIGIN together. Do not start without an explicit owner-chosen name."
     }
   ],
   "parallel_safe": [
@@ -317,7 +361,9 @@
     "A2",
     "B2",
     "B5",
-    "C4"
+    "C4",
+    "T1",
+    "T2"
   ],
   "serial_chains": [
     [

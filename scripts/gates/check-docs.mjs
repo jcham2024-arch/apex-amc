@@ -355,6 +355,21 @@ const PATH_ALLOWLIST = new Map([
   ['apps/website/index.html', 'pre-reorg path, kept in historical/resolved sections'],
   // Stated in ARCHITECTURE.md as the pre-Tailwind-v4 location, since removed.
   ['apps/website/src/tailwind.config.js', 'removed file, referenced as deleted'],
+
+  // Named by multi-agent task T1 (trademark clearance) as its deliverables. T1 is
+  // research-only and writes nothing else, so these do not exist until it runs.
+  // Listed individually rather than by prefix: a prefix rule would silently excuse
+  // a typo, which is the defect this check exists to catch.
+  ['docs/research-trademark/01-name-clearance.md', 'created by multi-agent task T1; not yet written'],
+  ['docs/research-trademark/02-domain-options.md', 'created by multi-agent task T1; not yet written'],
+  ['docs/research-trademark/README.md', 'created by multi-agent task T1; not yet written'],
+
+  // Named by multi-agent task T2 (ballistics oracle research) as its deliverables.
+  // Same reasoning: T2 is research-only and must not touch packages/ballistics-core.
+  ['docs/research-oracles/01-methods-found.md', 'created by multi-agent task T2; not yet written'],
+  ['docs/research-oracles/02-candidate-datasets.md', 'created by multi-agent task T2; not yet written'],
+  ['docs/research-oracles/03-solver-gap-analysis.md', 'created by multi-agent task T2; not yet written'],
+  ['docs/research-oracles/README.md', 'created by multi-agent task T2; not yet written'],
 ]);
 
 /** Lines inside a fence are skipped: a path there is an argument, not a claim. */
