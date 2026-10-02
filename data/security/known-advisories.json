@@ -1,0 +1,22 @@
+{
+  "recordedOn": "2026-10-02",
+  "why": "npm audit has never passed here and cannot be made to: node-forge 1.4.0 is the newest published version and the advisory lists no patched version. A permanently red CI step teaches everyone to ignore the exit code, including for genuinely new advisories, so known ones are recorded here and reported every run instead. Any NEW high/critical advisory still fails the build.",
+  "advisories": [
+    {
+      "id": "GHSA-86w9-cpqp-85rv",
+      "cve": "CVE-2026-85393",
+      "severity": "high",
+      "title": "node-forge RSA PKCS#1 v1.5 signature verification accepts extra nested DigestAlgorithm elements",
+      "patchedVersions": "none published (node-forge 1.4.0 is the newest release)",
+      "vulnerablePackage": "node-forge",
+      "affectedPackages": [
+        "node-forge",
+        "@expo/cli",
+        "@expo/code-signing-certificates",
+        "expo"
+      ],
+      "chain": "expo -> @expo/cli -> @expo/code-signing-certificates -> node-forge",
+      "why": "Build tooling, not shipped. @expo/cli uses node-forge to verify iOS code-signing certificates during a local Expo build. The deployed artefact is apps/website/dist/index.html, a self-contained static file with no dependency on expo; grepping the built output for expo or forge returns nothing. The flaw is RSA PKCS#1 v1.5 signature forgery against low-exponent keys, and we verify only certificates we generated ourselves, so there is no attacker-controlled input. Revisit when node-forge ships a patch (there is none published as of 2 Oct 2026), or if @expo/cli ever verifies untrusted signatures."
+    }
+  ]
+}

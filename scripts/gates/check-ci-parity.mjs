@@ -33,6 +33,12 @@ const workflow = readFileSync(resolve(ROOT, '.github/workflows/verify.yml'), 'ut
  *
  * Each needs a reason. An exemption with no explanation is the same defect this
  * gate exists to catch, one level up.
+ *
+ * Note the difference between a gate and a wrapper: `audit:check` runs in CI,
+ * but as `node scripts/security/audit-advisories.mjs` rather than as
+ * `npm run audit:check`, because CI needs it as a separately attributed step.
+ * The script path is accepted as satisfying the npm script name, since the two
+ * name the same file.
  */
 const CI_ONLY = new Map([
   ['lint', 'run as its own named step so a lint failure is attributed'],
@@ -42,12 +48,38 @@ const CI_ONLY = new Map([
   ['website:csp:browser', 'CI-only: proves the CSP in a real browser, which no local gate does'],
 ]);
 
+/** Map an npm script name to the file it invokes, for aliasing. */
+function scriptTarget(name) {
+  const pkg = JSON.parse(readFileSync(resolve(ROOT, 'package.json'), 'utf8'));
+  const cmd = (pkg.scripts || {})[name];
+  if (typeof cmd !== 'string') return null;
+  const m = cmd.match(/node\s+(\S+\.mjs)/);
+  return m ? m[1] : null;
+}
+
 const stages = pkg.scripts.verify
   .split('&&')
   .map((s) => s.trim().replace(/^npm run -?s? /, ''))
+  // The failure message and the stage name must both be bare script names.
+  // A stage that survived as "npm run audit:check" would never match anything.
+  .map((s) => s.replace(/^npm run /, ''))
   .filter(Boolean);
 
-const missing = stages.filter((s) => !workflow.includes(s));
+const missing = stages.filter((s) => {
+  if (workflow.includes('npm run ' + s)) return false;
+  // Accept an invocation of the underlying script file, but ONLY the exact
+  // command. Matching on the filename alone is too permissive: swapping
+  // `node scripts/security/audit-advisories.mjs` back to a raw
+  // `npm audit --omit=dev --audit-level=high` still mentions the file in the
+  // surrounding comment, so a bare `workflow.includes(target)` passed a
+  // workflow that no longer runs the gate at all. That is the exact defect this
+  // check exists to prevent, introduced by the check itself.
+  const target = scriptTarget(s);
+  if (target && new RegExp('^\\s*run:\\s*(?:-\\s+)?node\\s+' + target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\s*$', 'm').test(workflow)) {
+    return false;
+  }
+  return true;
+});
 
 console.log('verify declares ' + stages.length + ' stages');
 console.log('comparing each against .github/workflows/verify.yml');

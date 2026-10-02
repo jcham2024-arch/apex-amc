@@ -103,8 +103,19 @@ jobs:
 
       # Kept as its own step so a vulnerability fails loudly and is attributed
       # to the audit rather than to whichever gate ran last.
+      #
+      # NOT `npm audit --audit-level=high` directly. That command has never
+      # passed here and cannot: node-forge 1.4.0 is the newest published version
+      # and the advisory lists no patched version at all. A permanently red step
+      # teaches everyone to ignore the exit code, including the day a genuinely
+      # new advisory appears.
+      #
+      # audit-advisories.mjs runs the same audit, fails on any NEW high or critical
+      # advisory, and reports known ones in full with their recorded reason. It
+      # rejects an acknowledgement carrying no reason, so it cannot become the
+      # place where findings go to be forgotten.
       - name: Audit production dependencies
-        run: npm audit --omit=dev --audit-level=high
+        run: node scripts/security/audit-advisories.mjs
 
       # Prove the page satisfies its own CSP, in a real browser.
       #
