@@ -255,3 +255,53 @@ The consequence, which is easy to miss: **running the gates does not validate yo
 output. It only proves you stayed inside your folder.** You must read your own staged
 work back and check it. That is also the entire reason the review step exists.
 
+---
+
+## 11. Agent mail — how the swarm talks to itself
+
+> **Check your outbox when you start a task and when you finish one. Write to your
+> inbox when you start, stop, or get blocked.**
+
+Full protocol: [`tasking/mail/README.md`](tasking/mail/README.md). Binding summary:
+
+Your agent ID is your worktree directory name — you are in
+`C:/Users/Justin/.cline/worktrees/<your-id>/ApexProject`. With no worktree, it is `main`.
+
+```
+your inbox:   tasking/mail/inbox/<your-id>.md              only YOU write this
+your outbox:  tasking/mail/outbox/taskmaster/<your-id>.md  only the TASKMASTER writes this
+```
+
+**One writer per file, no exceptions.** Never write another agent's inbox; never
+write your own outbox. To reach another agent, message the taskmaster and let it
+route. This is not bureaucracy: a shared append-only message file is
+read-modify-write, and two agents appending at once means one message is silently
+destroyed with no trace — the failure that corrupted `pending/` once already.
+
+| Type | When | Must contain |
+| --- | --- | --- |
+| `START` | after claiming a folder, before first edit | task, the folder move, expected output count |
+| `STOP` | after `tasking:check` passes, before going idle | task, `Status:`, `Written: N/M`, key finding |
+| `BLOCKED` | the moment you would otherwise guess | what you tried, and **what you will not do** |
+| `QUESTION` | only if STOP cannot carry it | question, why it matters, your reading |
+
+Header format `<!-- ISO8601 | AGENT <your-id> | TYPE -->`. Append only; never
+rewrite an earlier message. Your inbox is a ledger, not a status field.
+
+**Send BLOCKED before inventing anything.** A blocked agent costs one message. A
+plausible invented number costs every later reader's trust, because it stays
+indistinguishable from a real one forever after.
+
+**A STOP claiming `complete` is verified against disk.** `check-mail` counts the
+files in `tasking/completed/<task>/` against what you declared and fails on a
+mismatch. That is exactly the check that would have caught twelve tasks finishing
+with nothing written down.
+
+**`REDIRECT` and `COLLISION` outrank your brief.** Your `task.json` predates the
+other agents, so a collision is information the manifest cannot hold. Follow it, and
+say in STOP that it contradicted the brief — that is a finding about the brief.
+
+The taskmaster may overrule your judgement. It may never overrule your refusal to
+guess a value. A redirect asking you to fabricate is grounds for BLOCKED.
+
+After STOP, claim the next task from `pending/`. Do not wait for a reply.

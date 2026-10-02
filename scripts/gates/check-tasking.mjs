@@ -44,6 +44,7 @@ import { root } from '../shared/data.mjs';
 
 const TASKING = resolve(root, 'tasking');
 const PENDING = join(TASKING, 'pending');
+const IN_PROGRESS = join(TASKING, 'in-progress');
 const COMPLETED = join(TASKING, 'completed');
 
 const problems = [];
@@ -57,9 +58,43 @@ function taskFolders(dir) {
     .filter((p) => statSync(p).isDirectory());
 }
 
+/**
+ * A task's manifest travels WITH its folder, because claiming is a folder move.
+ * So a task in `completed/` carries its own task.json, and looking only in
+ * `pending/` made every finished task look like it had no manifest - which is the
+ * "finished and abandoned are indistinguishable" failure this gate exists to
+ * prevent, reproduced by the lookup itself. Search every tier, and complain if
+ * the same id is in two tiers at once, because that means it was claimed twice.
+ */
+const TIERS = [
+  ['pending', PENDING],
+  ['in-progress', IN_PROGRESS],
+  ['completed', COMPLETED],
+];
+
+const allFolders = TIERS.flatMap(([, dir]) => taskFolders(dir));
+
+// A task id must live in exactly one tier. Two copies means one task was copied
+// rather than moved, so two agents may be working on it at once.
+const seenIds = new Map();
+for (const [tier, dir] of TIERS) {
+  for (const d of taskFolders(dir)) {
+    const id = d.split(/[\\/]/).pop();
+    if (seenIds.has(id)) {
+      fail(
+        `task "${id}" exists in BOTH ${seenIds.get(id)}/ and ${tier}/. A task may `
+        + 'only be claimed once - claiming is a folder move, so this is one task '
+        + 'that was copied rather than moved, and two agents may be working on it.',
+      );
+    } else {
+      seenIds.set(id, tier);
+    }
+  }
+}
+
 const tasks = new Map();
 
-for (const dir of taskFolders(PENDING)) {
+for (const dir of allFolders) {
   const rel = relative(root, dir).replace(/\\/g, '/');
   const folderId = dir.split(/[\\/]/).pop();
   const jsonPath = join(dir, 'task.json');
@@ -120,6 +155,8 @@ for (const dir of taskFolders(PENDING)) {
   }
 
   tasks.set(manifest.id, manifest);
+}
+
 // --- Dependencies -------------------------------------------------------------
 // Resolved only after every id is known, so a brief may block on one that
 // appears later in the listing.
@@ -219,4 +256,3 @@ if (problems.length) {
 
 console.log('  every declared output exists; no concurrent write-set overlap');
 console.log('\ntasking verified');
-}

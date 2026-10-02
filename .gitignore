@@ -164,6 +164,13 @@ tasking/review/*
 # is not committed. FINDINGS and NEXT-TASKS are scratch between reviews; this is
 # not, and losing it would lose the trap history .clinerules asks for.
 !tasking/review/HISTORY.md
+# tasking/mail/ - inter-agent communication. TRACKED, unlike the other swarm tiers,
+# and the reason matters: a mailbox that is not committed is a message that never
+# arrived. The agents live in separate git worktrees, so an uncommitted message is
+# invisible to the taskmaster and to every other agent - which is the entire failure
+# this folder exists to fix. Re-committing after the fact cannot recover a message
+# written to an ignored file, because the bytes were never in the repo.
+!tasking/mail/
 
 # Scratch scripts, recognisable by the leading underscore or an iterative name.
 # Real scripts are verb-named and single-file (check-seeds.mjs, build-data.mjs).
