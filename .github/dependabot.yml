@@ -1,0 +1,58 @@
+# Automated dependency updates.
+#
+# Dependabot opens pull requests; `npm run verify` decides whether they merge.
+# Without CI these PRs would be unguarded, so the workflow file is the
+# prerequisite, not an optional extra. See docs/DEPENDABOT.md.
+#
+# Expo packages are deliberately in notify-only groups. `expo install` pins
+# versions to the SDK, and Dependabot does not know that contract - letting it
+# open bumping PRs for react-native or babel would produce updates that break the
+# Expo install. Those bumps go through `npx expo install` by hand.
+version: 2
+
+updates:
+  # Root workspace: TypeScript, ESLint, tooling. Zero production dependencies,
+  # so anything appearing here is new and worth reading closely.
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 5
+    groups:
+      # TypeScript and its ecosystem move together; splitting them produces
+      # pull requests that each fail on their own.
+      typescript:
+        patterns: ["typescript", "typescript-eslint", "@typescript/*"]
+        update-types: ["minor", "patch"]
+      eslint:
+        patterns: ["eslint", "@eslint/*", "typescript-eslint", "globals"]
+        update-types: ["minor", "patch"]
+      # Behind, but not urgent, and all have known vulnerabilities: none.
+      # Grouped so one review covers them.
+      dev-minor:
+        dependency-type: development
+        update-types: ["minor", "patch"]
+
+  # Website: Vite is on 7.x with 8.x available. Major bumps stay in their own
+  # pull request so a 10x output change is reviewed on its own.
+  - package-ecosystem: npm
+    directory: /apps/website
+    schedule:
+      interval: weekly
+    groups:
+      vite:
+        patterns: ["vite"]
+        update-types: ["minor", "patch"]
+
+  # Expo field app. Notify only - see the comment above.
+  - package-ecosystem: npm
+    directory: /apps/ballistics
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+
+  # GitHub Actions, once CI exists.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly

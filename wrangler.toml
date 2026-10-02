@@ -1,6 +1,16 @@
 name = "apex-amc"
 compatibility_date = "2026-04-01"
-pages_build_output_dir = "dist"
+
+# MUST match where the site is actually built.
+#
+# This was `dist`, which does not exist in this repository. The build emits
+# `apps/website/dist/` (see the `website:build` script), so a deploy against the
+# old value would have published an empty directory rather than erroring - the
+# site would simply 404, with nothing in the logs to explain why.
+#
+# `npm run website:check` asserts dist/index.html and dist/_headers both exist,
+# which is what makes this path verifiable rather than aspirational.
+pages_build_output_dir = "apps/website/dist"
 
 # Cloudflare D1 - free tier: 5M rows read/day, 100k rows written/day, 5 GB storage.
 # This is the "free database backend" for the ammunition catalog, reviews,

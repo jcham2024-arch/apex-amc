@@ -1,0 +1,117 @@
+name: verify
+
+# Every gate in package.json's `verify` script, run on a clean runner.
+#
+# Before this existed, all 14 stages ran only when a human remembered. That
+# makes every dependency bump and every version experiment a manual risk - which
+# is exactly the situation `docs/REVIEW.md` P0-3 flagged.
+#
+# This workflow is the thing that makes Dependabot safe: an upgrade PR cannot
+# merge unless this is green.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# A new push to the same branch supersedes an in-flight run. Without this, a
+# burst of pushes queues every run and the badge lags reality by an hour.
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: lint, typecheck, test, and every gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches "engines" in package.json. Node 22.6 is the floor because
+          # scripts/gates/check-seeds.mjs uses node:sqlite.
+          node-version: '22'
+          cache: 'npm'
+
+      # `npm ci`, not `npm install`: it installs from the lockfile and fails if
+      # package.json and the lockfile disagree. `npm install` would silently
+      # resolve a different tree and hide exactly the drift CI exists to catch.
+      - name: Install
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      # Covers packages/ballistics-core AND apps/ballistics. The Expo app had a
+      # broken tsconfig that matched zero files until 1 Oct 2026, so nothing in
+      # it was typechecked before that.
+      - name: Typecheck
+        run: npm run typecheck:all
+
+      - name: Unit tests
+        run: npm run test:all
+
+      # The self-containment gate passes trivially when dist/ is absent ("not
+      # built"), so the site must be built first or the check is vacuous.
+      #
+      # `website:build` runs `website:csp` afterwards, which writes the SHA-256
+      # of each inline block into dist/_headers. Those hashes are a property of
+      # the emitted bytes, not of the source, so they cannot be committed - they
+      # have to be regenerated on every machine that builds. The gate then
+      # verifies they match, which is what turns a stale hash into a build
+      # failure rather than a silently blank page.
+      - name: Build the website
+        run: npm run website:build
+
+      # Everything else: encoding, bullets, schema, seeds, data drift, docs,
+      # handoff integrity, security findings, modules, website self-containment.
+      - name: Remaining gates
+        run: |
+          npm run test:encoding
+          npm run test:bullets
+          npm run schema:check
+          npm run seed:check
+          npm run data:validate
+          npm run docs:check
+          npm run handoff:status
+          npm run security:check
+          npm run modules:check
+          npm run website:check
+
+      # Kept as its own step so a vulnerability fails loudly and is attributed
+      # to the audit rather than to whichever gate ran last.
+      - name: Audit production dependencies
+        run: npm audit --omit=dev --audit-level=high
+
+      # Prove the page satisfies its own CSP, in a real browser.
+      #
+      # Everything else in this workflow is static analysis, and on 1 Oct 2026 that
+      # passed a policy which blocked the entire site: `script-src` carried a
+      # literal `nonce-{RANDOM}` that Chrome discards as an invalid source. The
+      # header did contain a CSP directive and no `unsafe-*` keyword, so every
+      # existing check was satisfied by a configuration that rendered nothing.
+      #
+      # This is the only step that observes what the browser actually does rather
+      # than what the file claims. It serves the built dist/ under its own
+      # dist/_headers, loads it in headless Chrome, and fails if the inline script
+      # does not execute or any CSP violation reaches the console.
+      #
+      # It asserts on #retailerGrid gaining rendered children, NOT on page text:
+      # the earlier version searched for a string that was already in the static
+      # markup, so it passed against a policy that blocked the entire site.
+      - name: CSP is enforced in a real browser
+        run: npm run website:csp:browser
+
+      - name: Confirm the build is reproducible
+        # Rebuilds from scratch and diffs the SHA-256. A non-deterministic build
+        # would make the checksummed handoff manifest meaningless, because a
+        # rebuilt artefact would not match the approved one.
+        run: |
+          sha256sum apps/website/dist/index.html
+          rm -rf apps/website/dist
+          npm run website:build
+          sha256sum apps/website/dist/index.html
