@@ -1,6 +1,6 @@
-# Branding - why the site currently says "Project Apex"
+# Branding - history of the Apex name
 
-**Status: placeholder. A real name has not been chosen.**
+**Status: RESOLVED 3 Oct 2026 - the name is Apex. See the last section.**
 
 ## Why the previous name was removed
 
@@ -47,11 +47,11 @@ the same weakness, dressed differently.
 
 | Location | Now |
 |---|---|
-| `<title>` | `Project Apex (placeholder name) \| Reloading Data Directory & Cost Calculator` |
-| header wordmark | `PROJECT APEX DEV` |
-| footer wordmark | `APEXPROJECT DEV` + "Placeholder name - not yet chosen" |
+| `<title>` | was `Project Apex (placeholder name) \| Reloading Data Directory & Cost Calculator` |
+| header wordmark | was `PROJECT APEX DEV` |
+| footer wordmark | was `APEXPROJECT DEV` + "Placeholder name - not yet chosen" |
 | affiliate disclosure | "This site participates..." |
-| footer copyright | "Project Apex (placeholder name)" |
+| footer copyright | was "Project Apex (placeholder name)" |
 | `package.json` `description` | no brand name |
 
 **Deliberately NOT changed:**
@@ -68,18 +68,47 @@ the same weakness, dressed differently.
 project slug; "Project Apex" is what visitors see. That separation is what lets the
 real name change later without touching a single deployment setting.
 
-## What this does and does not fix
+## RESOLVED - the name is Apex (owner decision, 3 Oct 2026)
 
-It removes the registered phrase from the public page. It is **not** a trademark
-opinion and it does not clear the mark. The site is still deployed at
-`apex-amc.pages.dev`, so **"Project Apex" is a visible mark** - chosen only because it is
-obviously provisional and not a plausible confusion with a Class 013 registration.
+> "Lets go with Apex automated munitions calculators. We keep the name Apex, we dont need the
+> automated munitions calculators on the top of the page, we will just have it somewhere and
+> thats why we have the domain we do."
 
-**Nothing here is legal advice.** A professional should review the position before the
-site is announced or promoted anywhere.
+**The visible mark is `APEX`. The tagline "Automated Munitions Calculators" is secondary and
+lives in the footer, the copyright line and the domain.**
 
-## Next step
+### Why this resolves the conflict rather than repeating it
 
-Task **T1** in [`tasking/pending/task-T1-trademark-clearance.md`](../tasking/pending/task-T1-trademark-clearance.md)
-clears candidate names against USPTO in IC 013 and IC 009/042. When it reports, the
-owner chooses, and task **brand-rename** applies the decision. Until then this placeholder stands.
+Both earlier attempts kept the two contested words in the masthead, which is the weakest
+position against a live Class 013 registration. This one differs in two ways that matter:
+
+1. **We publish "munitions", never "ammunition."** The registered mark is *Apex Ammunition*.
+   The substitution is deliberate and must be preserved by any later copy edit.
+2. **The tagline is not the masthead.** The mark in commerce is a single neutral word, and
+   the descriptive phrase does descriptive work in secondary position.
+
+The domain carries the keywords for search; the page carries only the neutral wordmark.
+That separation is the entire strategy, and it is why the tagline does not need to be at the
+top of the page.
+
+### Applied
+
+| Location | Now |
+|---|---|
+| `<title>` | `Apex \| Reloading Cost Calculator, Component Directory & Local Shops` |
+| Header wordmark | `APEX` |
+| Footer wordmark | `APEX` with `Automated Munitions Calculators` beneath |
+| Footer copyright | `Apex. Automated Munitions Calculators.` |
+
+Unchanged and still correct: the `apex-amc` Cloudflare Pages slug, `database_name`,
+`SITE_ORIGIN`, the GitHub remote. Infrastructure identity and public brand stay separate,
+which is exactly what allowed the real name to land without touching a deployment setting.
+
+### What this does not do
+
+**This is not a trademark opinion and it does not clear the mark.** `Apex` on its own is a
+common word in this space, and nothing here should be read as clearance. **Nothing in this
+document is legal advice**, and a professional should review the position before the site is
+announced or promoted.
+
+Full reasoning is in `tasking/review/FIX-BACKLOG.md` item 8.

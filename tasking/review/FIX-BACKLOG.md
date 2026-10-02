@@ -83,11 +83,57 @@ rules file is trusted, and a wrong one is worse than none. The real fix is to st
 restating a derivable count, which is a protocol change.
 ---
 ## Blocked — needs the owner or an external fact
-### 8. `brand-rename` — BLOCKED
-Trademark clearance is complete and `docs/BRANDING.md` holds the options. **Needs an
-owner-chosen name.** `APEX AMMUNITION` is a live USPTO registration (Reg. 5391055,
-IC 013) with an operating storefront, so this is a naming decision with legal weight,
-not a technical one.
+### 8. `brand-rename` — RESOLVED (owner decision, 3 Oct 2026)
+
+> "Lets go with Apex automated munitions calculators. We keep the name Apex, we don't need
+> the automated munitions calculators on the top of the page, we will just have it somewhere
+> and thats why we have the domain we do."
+
+**The blocker was `APEX AMMUNITION` — a LIVE USPTO registration (Reg. 5391055, IC 013,
+shotgun shells) held by Apex Ammunition LLC with an operating storefront at
+apexmunition.com.** We are not a manufacturer and never intended to imply we were, but
+that is an argument, not a clearance.
+
+**This decision sidesteps the registered phrase rather than arguing with it.** Two
+properties matter, and only the first was true of the earlier attempts:
+
+1. **"Ammunition" never appears.** The registered mark is *Apex Ammunition*; the mark is
+   *Apex*; the tagline is *automated munitions calculators*. We publish **"munitions"**,
+   never "ammunition". Those are different words and the substitution is deliberate, not
+   accidental.
+2. **The tagline is not the masthead.** The owner's instruction — it does not go at the top
+   of the page — is the part that makes this work. A composite mark whose dominant element
+   is the contested word carries the contest. Here the **visible mark is `APEX` alone**,
+   and the descriptive phrase sits in the footer, the copyright line, and the domain.
+
+**Why this is better than the first proposal, which was rejected on these grounds.** The
+earlier attempt appended "Automated Munitions Calculators" to the masthead and kept both
+contested words — a weaker version of the same conflict. Demoting the phrase to secondary
+position means the *mark in commerce* is now the single neutral word, and the descriptive
+text is doing descriptive work, which is what descriptive text is for.
+
+**Applied to the site (5 strings, all user-facing):**
+
+| Location | Now |
+|---|---|
+| `<title>` | `Apex \| Reloading Cost Calculator, Component Directory & Local Shops` |
+| Header wordmark | `APEX` |
+| Footer wordmark | `APEX` + `Automated Munitions Calculators` |
+| Footer tagline | was "Placeholder name - not yet chosen" |
+| Footer copyright | `Apex. Automated Munitions Calculators.` |
+
+**Deliberately unchanged, for the reasons already recorded and still valid:**
+`wrangler.toml` `name = "apex-amc"` (the Cloudflare Pages project slug — renaming it in the
+file does not rename the deployment and a mismatch breaks deploys), `database_name`,
+`SITE_ORIGIN`, and the GitHub remote. **Infrastructure identity and public brand remain
+separate**, which is what let the real name land without touching a deployment setting.
+
+**The owner noted the domain is why the phrase need not be on the page.** That is correct
+and worth recording: the domain carries the descriptive keywords for search while the page
+carries only the neutral wordmark. The separation is the whole strategy.
+
+**Standing caveat, stated once and not restated every time:** this is not a trademark
+opinion and it does not clear the mark. `Apex` alone is a common word in this space.
 ### 9. CIP licensing contradiction — RESOLVED by not transcribing (see item 19)
 
 Two completed tasks disagreed on whether CIP cartridge dimensions may be transcribed (see
