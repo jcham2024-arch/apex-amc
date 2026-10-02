@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOCKUP 2 — Price history and alerts</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+.mock-flag{background:#1a1206;border-bottom:1px solid var(--brass-dim);color:var(--brass);font-size:11.5px;text-align:center;padding:6px;letter-spacing:.05em;font-weight:700}
+.chart{width:100%;height:190px}
+.ranges{display:flex;gap:6px}
+.ranges .chip{padding:4px 12px;font-size:11.5px}
+.ranges .chip.on{border-color:var(--brass);color:var(--brass);background:var(--brass-glow)}
+.rec{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line-soft)}
+.rec:last-child{border-bottom:none}
+.rec .nm2{font-size:13.5px;font-weight:600}
+.rec .mt{font-size:11.5px;color:var(--text-mute);margin-top:2px}
+</style>
+</head>
+<body>
+
+<div class="mock-flag">DESIGN MOCKUP &mdash; illustrative data only. Not for deployment.</div>
+<div class="rail">Independent reference. Not affiliated with, endorsed by, or sponsored by any retailer listed.</div>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <div class="logo"><span class="logo-mark">A</span>ApexProject</div>
+    <nav class="nav">
+      <a href="#">Calculator</a><a href="#" class="on">History</a><a href="#">Retailers</a><a href="#">Ballistics</a><a href="#">Guides</a>
+    </nav>
+    <div class="hdr-r">
+      <input class="search" placeholder="Search cartridge, bullet, powder&hellip;">
+      <div class="icon-btn" title="Alerts">&#128276;</div>
+      <a class="signin" href="#">Sign in</a>
+    </div>
+  </div>
+</header>
+
+<section style="padding:40px 0 0">
+  <div class="wrap">
+    <div class="sec-h">
+      <h2>9mm 124gr FMJ &middot; price history</h2>
+      <div class="ranges"><span class="chip">7d</span><span class="chip on">90d</span><span class="chip">1y</span><span class="chip">All</span></div>
+    </div>
+
+    <!-- Phase 3.3: the honest empty state. With one month of data,
+         any "buy now" advice would be noise. -->
+    <div class="notice" style="margin-bottom:20px">
+      <b>Not enough history to advise yet.</b> We have 23 days of observations for this item. A trend needs at least 90 days before we will call one, and we will not show a &ldquo;best time to buy&rdquo; recommendation until then. A confident chart now would imply knowledge we do not have.
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-h"><h3>Cheapest observed price per round</h3><span class="src">8 retailers &middot; 23 days &middot; 1,842 observations</span></div>
+      <svg class="chart" viewBox="0 0 700 190" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#080b12" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#080b12" stop-opacity="0.9"/>
+          </linearGradient>
+        </defs>
+        <g stroke="#1a2430" stroke-width="1">
+          <line x1="0" y1="30" x2="700" y2="30"/>
+          <line x1="0" y1="75" x2="700" y2="75"/>
+          <line x1="0" y1="120" x2="700" y2="120"/>
+          <line x1="0" y1="165" x2="700" y2="165"/>
+        </g>
+        <!-- the observed series: only what we actually measured -->
+        <polyline fill="none" stroke="#c8a04a" stroke-width="2" points="0,150 40,148 80,144 120,147 160,140 200,142 240,136 280,138 320,132 360,134 400,129 440,131 480,126 520,128"/>
+        <circle cx="520" cy="128" r="4" fill="#c8a04a"/>
+        <!-- the region we refuse to chart: past the data -->
+        <rect x="520" y="0" width="180" height="190" fill="url(#fade)"/>
+        <text x="608" y="100" fill="#6b7a8d" font-size="11" font-family="system-ui" text-anchor="middle">no data</text>
+      </svg>
+      <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:11.5px;color:var(--text-mute)"><span>23 days ago</span><span>today</span></div>
+      <div style="display:flex;gap:26px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft);font-size:13px">
+        <div><span class="lbl">Current best</span><div class="mono" style="font-size:19px;font-weight:700">$0.220<span style="font-size:12px;color:var(--text-mute)">/rd</span></div></div>
+        <div><span class="lbl">Change</span><div class="mono up" style="font-size:19px;font-weight:700">+$0.014</div></div>
+        <div><span class="lbl">Missing days</span><div class="mono down" style="font-size:19px;font-weight:700">1</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="sec-h"><h2>Alerts you could set</h2><p>accounts required &middot; free tier</p></div>
+    <div class="card">
+      <div class="rec"><div><div class="nm2">9mm below $0.200 / round</div><div class="mt">any retailer &middot; email</div></div><span class="pill new">Free</span></div>
+      <div class="rec"><div><div class="nm2">Any 9mm restock at Ecommerce Arms</div><div class="mt">instant &middot; email</div></div><span class="pill new">Free</span></div>
+      <div class="rec"><div><div class="nm2">Best time to buy &mdash; weekly summary</div><div class="mt">requires 90d history &middot; unlocks once we have it</div></div><span class="pill">Soon</span></div>
+      <div class="rec"><div><div class="nm2">SMS alert on a 5-minute price drop</div><div class="mt">carrier rates may apply</div></div><span class="pill">Member</span></div>
+    </div>
+    <div class="ok" style="margin-top:16px">
+      <b>Alerts never hide safety information.</b> A price alert is a convenience. Any notice about an unsafe or unverified load is shown to everyone, signed in or not, free or paid. That is enforced by a test, not promised in a policy nobody reads.
+    </div>
+  </div>
+</section>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div><b>Reference</b><a href="#">Methodology</a><a href="#">Sources</a></div>
+      <div><b>Data</b><a href="#">Datasets</a><a href="#">Corrections</a></div>
+      <div><b>Legal</b><a href="#">Affiliate disclosure</a><a href="#">Privacy</a></div>
+    </div>
+    <p>Mockup only. Every figure above is invented for layout purposes.</p>
+  </div>
+</footer>
+
+</body>
+</html>

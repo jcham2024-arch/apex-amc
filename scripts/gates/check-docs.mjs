@@ -338,6 +338,11 @@ const PATH_ALLOWLIST = new Map([
   // the gate, because the alternative — excluding `.cline/tasks/` from the scan —
   // would stop path validation on 16 generated files that agents read directly.
   ['data/schemas/load_recipes.yaml', 'created by multi-agent task B3; not yet written'],
+  // Phase 2.5 of docs/research-competitors/02-feature-gaps.md. A gate that
+  // fails if a person cannot read a safety notice without paying. Planned, and
+  // deliberately listed here BEFORE the file exists so the rule is enforced the
+  // moment accounts ship, rather than being remembered afterwards.
+  ['scripts/gates/check-safety-access.mjs', 'planned: Phase 2.5 safety-access gate; not yet written'],
   // ARCHITECTURE.md lists modules relative to scripts/, not the repo root, so
   // these read as `data/build-data.mjs` but resolve to `scripts/data/...`.
   // Reported verbatim rather than rewritten, because that table is a layer map,

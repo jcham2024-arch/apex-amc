@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOCKUP 1 — ApexProject home</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+.mock-flag{background:#1a1206;border-bottom:1px solid var(--brass-dim);color:var(--brass);font-size:11.5px;text-align:center;padding:6px;letter-spacing:.05em;font-weight:700}
+</style>
+</head>
+<body>
+
+<div class="mock-flag">DESIGN MOCKUP &mdash; illustrative data only. Not for deployment.</div>
+
+<!-- Phase 0.1: age gate above everything, as Hornady does -->
+<div class="gate">
+  <div class="gate-card">
+    <div class="gate-mark">18+</div>
+    <h2>Age confirmation required</h2>
+    <p>This site covers ammunition and handloading. It is intended for individuals at least 18 years old. Confirm your age to continue.</p>
+    <div class="gate-actions">
+      <button class="btn btn-primary">I am 18 or older</button>
+      <button class="btn btn-ghost">Exit</button>
+    </div>
+  </div>
+</div>
+
+<!-- Phase 0.3: non-affiliation notice at the top, not the footer -->
+<div class="rail">Independent reference. Not affiliated with, endorsed by, or sponsored by any retailer listed.</div>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <div class="logo"><span class="logo-mark">A</span>ApexProject</div>
+    <nav class="nav">
+      <a href="#" class="on">Calculator</a><a href="#">Retailers</a><a href="#">History</a><a href="#">Ballistics</a><a href="#">Guides</a>
+    </nav>
+    <div class="hdr-r">
+      <input class="search" placeholder="Search cartridge, bullet, powder&hellip;">
+      <div class="icon-btn" title="Saved">&#9734;</div>
+      <a class="signin" href="#">Sign in</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="chips">
+    <span class="chip">All calibers</span>
+    <span class="chip">9mm <span class="n">1,607</span></span>
+    <span class="chip">5.56 NATO <span class="n">295</span></span>
+    <span class="chip">.223 Rem <span class="n">565</span></span>
+    <span class="chip">.308 Win <span class="n">214</span></span>
+    <span class="chip">.22 LR <span class="n">279</span></span>
+    <span class="chip">12 Gauge <span class="n">3,892</span></span>
+    <span class="chip">6.5 Creedmoor <span class="n">188</span></span>
+  </div>
+</div>
+
+<section class="hero" style="border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <h1>Is handloading actually cheaper for your load?</h1>
+    <p class="sub">Every component priced against eight retailers, with the arithmetic shown. Where a figure cannot be sourced, we say so instead of estimating.</p>
+    <div class="hero-cta">
+      <button class="btn btn-primary">Compare a cartridge</button>
+      <button class="btn btn-ghost">See the methodology</button>
+    </div>
+    <div class="disclaim">
+      <b>Not a retailer.</b> We do not sell ammunition, components or firearms. We earn a commission when you buy through our links, which does not change the price you pay. Prices come from public sources and may lag &mdash; verify with the retailer before purchasing.
+    </div>
+  </div>
+</section>
+
+<!-- Phase 0.2: state the conclusion we already compute -->
+<section>
+  <div class="wrap">
+    <div class="card">
+      <div class="card-h">
+        <h3>9mm &middot; 124gr FMJ &middot; factory vs reloaded</h3>
+        <span class="src">priced 2026-10-02 &middot; 8 retailers</span>
+      </div>
+      <div class="verdict">
+        <div>
+          <div class="lbl">Reload</div>
+          <div class="stat mono win">$0.145<span style="font-size:14px;color:var(--text-mute)">/rd</span></div>
+          <div style="font-size:12.5px;color:var(--text-mute);margin-top:4px">4gr Titegroup &middot; 124gr FMJ &middot; SPP &middot; range brass</div>
+        </div>
+        <div class="vs">VS</div>
+        <div>
+          <div class="lbl">Factory (avg of 5 cheapest)</div>
+          <div class="stat mono lose">$0.169<span style="font-size:14px;color:var(--text-mute)">/rd</span></div>
+          <div style="font-size:12.5px;color:var(--text-mute);margin-top:4px">standard pressed brass</div>
+        </div>
+      </div>
+      <div style="margin-top:20px">
+        <div class="bar"><i style="width:46%;background:var(--green)"></i><i style="width:54%;background:var(--ink-500)"></i></div>
+        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:13px">
+          <span class="win" style="font-weight:700">Reloading saves 14% &mdash; $0.024/round</span>
+          <span class="mono" style="color:var(--text-mute)">1000 rds &rarr; $24 saved</span>
+        </div>
+      </div>
+      <p style="font-size:11.5px;color:var(--text-mute);margin-top:16px;padding-top:14px;border-top:1px solid var(--line-soft)">Valid only for the components listed. Excludes range time, brass cost beyond first purchase, and any scale you would have to buy at. Change a component and the answer changes &mdash; that is the point of the calculator.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Phase 0.4: price-per-round as the primary unit -->
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-h"><h2>9mm brass &amp; components</h2><p>sorted by price per round</p></div>
+    <table>
+      <thead><tr><th>Retailer</th><th>Item</th><th>Price</th><th class="num">$/round</th><th>Trend (90d)</th><th></th></tr></thead>
+      <tbody>
+        <tr><td><b>Ecommerce Arms</b></td><td>9mm 124gr FMJ, 500ct</td><td class="mono">$109.99</td><td class="num best">$0.220</td><td><svg class="spark" viewBox="0 0 88 26"><polyline fill="none" stroke="#f85149" stroke-width="1.5" points="0,6 11,8 22,5 33,10 44,9 55,14 66,13 77,18 87,20"/></svg></td><td><span class="pill">Cheapest</span></td></tr>
+        <tr><td><b>Ammo Depot</b></td><td>9mm 124gr FMJ, 500ct</td><td class="mono">$114.99</td><td class="num">$0.230</td><td><svg class="spark" viewBox="0 0 88 26"><polyline fill="none" stroke="#3fb950" stroke-width="1.5" points="0,18 11,17 22,16 33,14 44,15 55,12 66,11 77,9 87,8"/></svg></td><td></td></tr>
+        <tr><td><b>Bulk Munitions</b></td><td>9mm 124gr FMJ, 1000ct</td><td class="mono">$219.99</td><td class="num">$0.220</td><td><svg class="spark" viewBox="0 0 88 26"><polyline fill="none" stroke="#6b7a8d" stroke-width="1.5" points="0,12 11,12 22,12 33,12 44,12 55,12 66,12 77,12 87,12"/></svg></td><td><span class="pill new">New</span></td></tr>
+        <tr><td><b>Ammo Wholesale USA</b></td><td>9mm 115gr FMJ, 500ct</td><td class="mono">$92.49</td><td class="num">$0.185</td><td><svg class="spark" viewBox="0 0 88 26"><polyline fill="none" stroke="#3fb950" stroke-width="1.5" points="0,20 11,19 22,18 33,16 44,17 55,14 66,13 77,11 87,10"/></svg></td><td><span class="pill">Best value</span></td></tr>
+        <tr><td><b>GunMag Warehouse</b></td><td>9mm 124gr FMJ, 500ct</td><td class="mono">$124.99</td><td class="num">$0.250</td><td><svg class="spark" viewBox="0 0 88 26"><polyline fill="none" stroke="#6b7a8d" stroke-width="1.5" points="0,10 11,11 22,10 33,11 44,11 55,12 66,11 77,12 87,12"/></svg></td><td></td></tr>
+        <tr style="opacity:.55"><td><b>Private Stock</b></td><td>9mm 124gr FMJ, 500ct</td><td class="mono">&mdash;</td><td class="num">&mdash;</td><td style="font-size:12px;color:var(--text-mute)">no history</td><td></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:11.5px;color:var(--text-mute);margin-top:12px">Trend sparklines are illustrative. Where a retailer has too little history to plot, we say so rather than drawing a flat line that implies stability we have not measured.</p>
+  </div>
+</section>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div><b>Reference</b><a href="#">Methodology</a><a href="#">Sources</a><a href="#">Provenance</a></div>
+      <div><b>Data</b><a href="#">Datasets</a><a href="#">Corrections</a><a href="#">Submit a fix</a></div>
+      <div><b>Legal</b><a href="#">Affiliate disclosure</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+    <p>Mockup only. Every figure above is invented for layout purposes.</p>
+  </div>
+</footer>
+
+</body>
+</html>

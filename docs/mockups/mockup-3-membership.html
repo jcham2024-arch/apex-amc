@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MOCKUP 3 — Membership tiers</title>
+<link rel="stylesheet" href="_tokens.css">
+<style>
+.mock-flag{background:#1a1206;border-bottom:1px solid var(--brass-dim);color:var(--brass);font-size:11.5px;text-align:center;padding:6px;letter-spacing:.05em;font-weight:700}
+.locked{background:var(--ink-700);border:1px dashed var(--line);border-radius:var(--r-lg);padding:16px 18px;margin-bottom:8px}
+.locked .nm2{font-size:13.5px;font-weight:700;color:var(--text-dim)}
+</style>
+</head>
+<body>
+
+<div class="mock-flag">DESIGN MOCKUP &mdash; illustrative pricing, not a real offer. Not for deployment.</div>
+<div class="rail">Independent reference. Not affiliated with, endorsed by, or sponsored by any retailer listed.</div>
+
+<header class="hdr">
+  <div class="wrap hdr-in">
+    <div class="logo"><span class="logo-mark">A</span>ApexProject</div>
+    <nav class="nav">
+      <a href="#">Calculator</a><a href="#">History</a><a href="#">Retailers</a><a href="#">Ballistics</a><a href="#">Guides</a>
+    </nav>
+    <div class="hdr-r">
+      <input class="search" placeholder="Search cartridge, bullet, powder&hellip;">
+      <a class="signin" href="#">Sign in</a>
+      <button class="btn btn-primary" style="padding:7px 14px;font-size:13px">Join</button>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <div style="text-align:center;max-width:60ch;margin:0 auto 36px">
+      <h1 style="font-size:34px;font-weight:900;letter-spacing:-.03em;line-height:1.1">Keep the site free of ads. Fund it by being a member.</h1>
+      <p class="sub" style="color:var(--text-dim);margin-top:14px">
+        We are not a retailer and we take no commission on membership. The calculator, the provenance register and every safety notice stay free and stay open, permanently, to anyone &mdash; signed in or not.
+      </p>
+    </div>
+
+    <div class="tiers">
+      <div class="tier">
+        <div class="nm">Free</div>
+        <div style="font-size:12.5px;color:var(--text-mute)">forever, no card</div>
+        <div class="pr">$0</div>
+        <ul>
+          <li>Full cost calculator</li>
+          <li>All retailer prices</li>
+          <li>Ballistic reference and provenance</li>
+          <li>Every safety notice and checklist</li>
+          <li>One saved search</li>
+        </ul>
+        <button class="btn btn-ghost" style="width:100%">Current plan</button>
+      </div>
+
+      <div class="tier hot">
+        <div class="nm">Supporter</div>
+        <div style="font-size:12.5px;color:var(--text-mute)">cancel any time</div>
+        <div class="pr">$4<small>/month</small></div>
+        <ul>
+          <li>Everything in Free</li>
+          <li>Unlimited saved searches</li>
+          <li>Price and restock alerts</li>
+          <li>Full price history, no depth limit</li>
+          <li>Downloadable data exports</li>
+          <li>Ad-free viewing</li>
+        </ul>
+        <button class="btn btn-primary" style="width:100%">Choose Supporter</button>
+      </div>
+
+      <div class="tier">
+        <div class="nm">Bench</div>
+        <div style="font-size:12.5px;color:var(--text-mute)">for working loaders</div>
+        <div class="pr">$9<small>/month</small></div>
+        <ul>
+          <li>Everything in Supporter</li>
+          <li>Advanced ballistics: wind, density, temp</li>
+          <li>Batch load cost optimiser</li>
+          <li>Compare across 12 calibers at once</li>
+          <li>Early access to new datasets</li>
+        </ul>
+        <button class="btn btn-ghost" style="width:100%">Choose Bench</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-h"><h2>What we will never put behind a paywall</h2><p>not a policy &mdash; a test</p></div>
+    <div class="locked"><div class="nm2">&#128274; Safety notices, including load-data defect warnings</div></div>
+    <div class="locked"><div class="nm2">&#128274; The reloading checklist and beginner guidance</div></div>
+    <div class="locked"><div class="nm2">&#128274; Ballistic reference data and the provenance register</div></div>
+    <div class="locked"><div class="nm2">&#128274; The retailer directory and its affiliate disclosure</div></div>
+    <div class="locked"><div class="nm2">&#128274; Any statement that a load is unsafe or unverified</div></div>
+    <p style="font-size:12.5px;color:var(--text-mute);margin-top:14px;max-width:70ch">
+      A person who cannot pay $4 may be the person most in need of a chambering warning. Each item above is asserted present in the logged-out DOM by <span class="mono">check-safety-access.mjs</span>, so a refactor that accidentally wraps any of them in an auth check fails the build.
+    </p>
+  </div>
+</section>
+
+<section style="padding-top:0">
+  <div class="wrap">
+    <div class="card">
+      <div class="card-h"><h3>How payment works</h3><span class="src">illustrative</span></div>
+      <p style="font-size:13.5px;color:var(--text-dim)">
+        Checkout is handled by Stripe. We never see or store your card number. Billing runs on Stripe Billing, so cancellation and receipts happen in the same place. If you would rather not hold an account with a payment processor, the free tier covers everything essential and will always exist.
+      </p>
+    </div>
+  </div>
+</section>
+
+<footer class="ftr">
+  <div class="wrap">
+    <div class="ftr-grid">
+      <div><b>Reference</b><a href="#">Methodology</a><a href="#">Sources</a></div>
+      <div><b>Membership</b><a href="#">Billing</a><a href="#">Refunds</a></div>
+      <div><b>Legal</b><a href="#">Affiliate disclosure</a><a href="#">Privacy</a><a href="#">Terms</a></div>
+    </div>
+    <p>Mockup only. Prices above are invented and no payment is processed.</p>
+  </div>
+</footer>
+
+</body>
+</html>
