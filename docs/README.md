@@ -1,6 +1,6 @@
 # Documentation index
 
-Last updated 1 Oct 2026. Start here.
+Last updated 2 Oct 2026. Start here.
 
 ---
 
@@ -21,6 +21,12 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 `OPEN-SOURCE-LANDSCAPE.md` 1.1b.
 
 ---
+
+## Start here
+
+| Doc | What it is |
+|---|---|
+| **[GAME-PLAN.md](GAME-PLAN.md)** | **Where the project actually is, what has been built, the issues that arose, and the ordered punchlist.** Supersedes `TASK-LIST.md` and `PARALLEL-WORK-PLAN.md` for direction. |
 
 ## Read these first
 
@@ -73,6 +79,20 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 | [LANE-7-FORUM-AGENT.md](LANE-7-FORUM-AGENT.md) | **Ready-to-hand brief** for a model tasked with reading, mapping and linking forum threads. Self-contained. |
 
 ---
+
+---
+
+## Research, design and history
+
+Added 2 Oct 2026. Not part of the original index.
+
+| Doc | What it is |
+|---|---|
+| **[research-competitors/](research-competitors/README.md)** | Competitor landscape, the feature-gap plan with write-sets, open-source stack research, safety content requirements, video source rules, and the ammunition comparison model. **Start at `02-feature-gaps.md` for what to build.** |
+| **[mockups/](mockups/README.md)** | Three static HTML mockups: home with age gate and verdict, price history with an honest empty state, membership tiers. Open directly, no build. |
+| **[agent-craft/](agent-craft/MODEL-SELECTION.md)** | Model selection for free tiers, how to lead a multi-agent team, and the prompt shape that works. Written after the harness failed repeatedly. |
+| **[audit/](audit/2026-10-02-project-audit.md)** | What was broken, with evidence. Read this to understand why the gates exist. |
+| **[versions/](versions/README.md)** | What each tag changed and why, with known limitations carried forward. |
 
 ## The one rule that explains most of these documents
 

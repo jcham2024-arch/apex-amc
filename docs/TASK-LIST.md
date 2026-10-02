@@ -1,5 +1,12 @@
 # MASTER TASK LIST
 
+---
+
+> **Superseded for direction, 2 Oct 2026.** See [GAME-PLAN.md](GAME-PLAN.md) for
+> the current plan, what has been built, and the ordered punchlist. This document
+> is retained for the history it records and for any detail the game plan does not
+> yet cover. Where the two disagree, the game plan is correct.
+
 **Consolidated 30 Sep 2026. This is the source of truth for CODE, SAFETY and
 VERIFICATION work.** Data-population tasks live in
 **[DATA-TODO.md](DATA-TODO.md)**, which is more detailed and owns them.

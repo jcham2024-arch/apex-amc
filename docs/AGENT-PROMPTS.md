@@ -17,7 +17,7 @@ do not edit a file outside your declared write-set. Report the problem instead.
 Two agents editing one file is the failure this whole document set exists to
 prevent.
 
-**Baseline to confirm before you start:** `npm run verify` exits 0, 235 tests.. If it does not, stop and report — someone else has broken it and that
+**Baseline to confirm before you start:** `npm run verify` exits 0. If it does not, stop and report — someone else has broken it and that
 must be fixed before parallel work continues.
 
 ---

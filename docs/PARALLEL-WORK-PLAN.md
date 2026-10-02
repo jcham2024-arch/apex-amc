@@ -1,5 +1,12 @@
 # PARALLEL WORK PLAN — how to split this across agents
 
+---
+
+> **Superseded for direction, 2 Oct 2026.** See [GAME-PLAN.md](GAME-PLAN.md) for
+> the current plan, what has been built, and the ordered punchlist. This document
+> is retained for the history it records and for any detail the game plan does not
+> yet cover. Where the two disagree, the game plan is correct.
+
 **Written 2 Oct 2026, after the compliance and consolidation passes.** Every task
 below was re-verified against the tree before being written down, so no agent
 should be sent to re-do one marked done.
