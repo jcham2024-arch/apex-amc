@@ -223,7 +223,29 @@ A file survives a dead session and is version-controlled; a message sent to an a
 that has exited is simply gone. Prefer files. Write a note only when it changes what
 another agent would do — everything else is noise.
 
-### 10.4 What the gates will not tell you
+### 10.4 Context economy - read your task, not the repo
+
+> **Read ONLY: your task's `task.json` and `BRIEF.md`, the files they name, and
+> whatever you must write. Do not scan the repository.**
+
+This is a real constraint, not politeness. An agent that lists the whole tree and
+reads broadly burns its window on context that has nothing to do with the task, and
+ends up with less room for the actual work by the time it starts. It also makes
+wrong-target mistakes more likely: having read thirty files, it starts reasoning
+from what it half-remembers instead of what the brief says.
+
+Exceptions, and only when genuinely needed:
+
+- You are **blocked** and must establish why. Report the blocker; do not go spelunking.
+- The brief names a directory rather than a file. Read the directory listing, then
+  the files. Not more than that.
+- You are the **planner** writing new briefs, where repository-wide context is the job.
+
+`npm run verify` output is worth reading in full when it fails. That is the one place
+where broad reading is correct, because the failure is by definition about something
+you did not expect.
+
+### 10.5 What the gates will not tell you
 
 `tasking/completed/`, `in-progress/` and `review/` are excluded from `npm run lint`
 and `npm run docs:check` **on purpose**: a staged copy may be deliberately partial or

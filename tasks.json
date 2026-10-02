@@ -1,0 +1,13 @@
+{
+  "tasks": [
+    {
+      "id": "TASK-001",
+      "status": "in_progress",
+      "assigned_to": "WORKER_B"
+    },
+    {
+      "id": "TASK-002",
+      "status": "pending"
+    }
+  ]
+}

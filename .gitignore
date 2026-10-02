@@ -158,6 +158,12 @@ tasking/in-progress/*
 tasking/review/*
 !tasking/review/.gitkeep
 !tasking/review/README.md
+# HISTORY.md is the swarm's reasoning record - why a decision was made, what an
+# agent refused to do, what the evidence was. It is the one file in this folder
+# that must survive, and it is exactly the kind of thing that evaporates when it
+# is not committed. FINDINGS and NEXT-TASKS are scratch between reviews; this is
+# not, and losing it would lose the trap history .clinerules asks for.
+!tasking/review/HISTORY.md
 
 # Scratch scripts, recognisable by the leading underscore or an iterative name.
 # Real scripts are verb-named and single-file (check-seeds.mjs, build-data.mjs).
