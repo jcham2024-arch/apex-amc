@@ -301,6 +301,71 @@ with nothing written down.
 other agents, so a collision is information the manifest cannot hold. Follow it, and
 say in STOP that it contradicted the brief — that is a finding about the brief.
 
+---
+
+## 12. The swarm refills its own queue
+
+> **When you finish a task, propose what follows. Cite the file that proves it. Only
+> research-shaped proposals run unattended.**
+
+A finished task almost always names its own successor — `interior-ballistics`
+concluded the achievable product is an interpolation engine over published load
+data. That conclusion is evidence. Losing it because the session ended is the
+failure this replaces.
+
+Write **one file per proposal** at `tasking/mail/proposals/<slug>.md`. Unique
+filename means one writer, so proposals need no lock and no routing.
+
+```markdown
+---
+proposal: <id>
+title: <what it is>
+derived_from: tasking/completed/<task>/<file.md>
+evidence: "<a quotation from that file>"
+shape: research | change
+priority: low | medium | high
+write_set:
+  - tasking/completed/<id>/
+required_outputs:
+  - REPORT.md
+  - KNOWLEDGE.md
+---
+```
+
+### The rules that are not negotiable
+
+**Evidence or it does not exist.** `derived_from` must name a real file and
+`evidence` must quote it. `check-proposals` rejects the rest. A proposal with no
+surviving source is a guess wearing a manifest — this one rule is what stops
+autonomous generation from becoming confident fiction.
+
+**`shape: research` writes only inside its own `completed/` folder.** You may
+discover what needs changing and write it down. **You may not change the
+application** without a human reading it. Use `shape: change` for anything else;
+it waits for the owner and is never dispatched.
+
+**Never auto-generate safety-critical work.** Charge weights, powder constants,
+burn rates, load synthesis: barred from `shape: research` however well evidenced.
+`interior-ballistics` concluded the physics cannot be inferred from published data,
+so a task generated from that finding must not try. Write it as `shape: change`.
+
+**Do not propose to fix the protocol.** If your conclusion is "the swarm protocol is
+broken", that is a BLOCKED message, not a proposal. Protocol changes alter how every
+agent behaves and are the owner's decision.
+
+### The bulletin
+
+`tasking/mail/bulletin/<agent-id>.md` — you append to yours, you read everyone's.
+For reusable findings, traps, open questions, and disagreements. Read it when you
+start a task. It is **not** a task channel: anything that must be acted on is a
+proposal or a BLOCKED message, because a board that acts on its own contents is a
+queue nobody can reason about.
+
+### Then claim the next task
+
+Proposals become `pending/` tasks when the taskmaster materialises them. Until then
+they are only files — so **also claim from `pending/` directly**, and do not wait
+for a reply.
 The taskmaster may overrule your judgement. It may never overrule your refusal to
 guess a value. A redirect asking you to fabricate is grounds for BLOCKED.
 

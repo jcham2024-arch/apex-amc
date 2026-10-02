@@ -153,12 +153,113 @@ discovers something that matters to B, it goes to the taskmaster, who restates i
 B's outbox in B's terms. A's phrasing leaks context B never needed; the taskmaster
 writes the version B can act on.
 
+## The bulletin — a group message box
+
+`tasking/mail/bulletin/<agent-id>.md` — **one file per agent, everyone reads all of
+them.** You write only yours; you read all of theirs. That is a group board without
+a group *file*, which is the whole trick: a single shared `BULLETIN.md` would be
+read-modify-write and lose messages exactly like a shared claim queue.
+
+Use it for things that help everyone:
+
+- **A finding worth reusing.** "SAAMI returns 403 to any automated client; use the
+  web archive." Saves the next agent an hour.
+- **A trap.** "Whoever runs `npm run verify` on Windows: the CRLF warnings are noise,
+  but `cmd /v:on /c` is needed to read exit codes."
+- **A question with no owner.** Someone may answer it.
+- **A disagreement.** Say it here rather than discovering later that two briefs
+  assumed opposite things.
+
+The bulletin is read-everyone, write-one, **append-only**, and is NOT a task
+channel. If something must be acted on, it is a proposal (below) or a BLOCKED
+message — not a bulletin note. A board that acts on its own contents is a queue
+that cannot be reasoned about.
+
+---
+
+## Proposals — how the swarm refills its own queue
+
+> **Every agent proposes follow-up work when it finishes a task. Proposals must cite
+> evidence. Only research-shaped proposals may run unattended.**
+
+This is the mechanism that replaces asking "what next?". A completed task almost
+always names its own successor — `interior-ballistics` concluded that the achievable
+product is an interpolation engine over published load data. That conclusion is
+evidence for a task. Losing it because the session ended is the failure this fixes.
+
+Write **one file per proposal**, named `tasking/mail/proposals/<slug>.md`. One writer
+per file, because the filename is unique — two agents cannot collide on it, so
+proposals need no lock and no routing.
+
+```markdown
+---
+proposal: load-data-interpolation
+title: Load-data interpolation engine over published tables
+derived_from: tasking/completed/interior-ballistics/05-feasibility-verdict.md
+evidence: "The achievable goal is an interpolation engine over published load
+  data, with mandatory EMPTY on an unresolvable match."
+shape: research
+priority: high
+write_set:
+  - tasking/completed/load-interpolation/
+required_outputs:
+  - REPORT.md
+  - KNOWLEDGE.md
+---
+
+## Why
+
+...what the source task concluded, and what follows from it...
+
+## Do not
+
+...the prohibitions carried forward...
+```
+
+### The four rules
+
+**1. Evidence is mandatory.** `derived_from` must be a real file that exists, and
+`evidence` must quote it. A proposal with no source is a guess wearing a manifest,
+and `check-proposals` rejects it. This is the load-bearing rule: without it,
+autonomous task generation becomes confident fiction.
+
+**2. `shape` is either `research` or `change`.** Only `research` runs unattended.
+A `research` proposal's write-set must be inside `tasking/completed/<its own id>/`
+— output only. **An autonomous swarm must never be able to modify the application.**
+The agents can discover what needs changing and write it down; a human decides
+whether it changes. `shape: change` proposals are held for you and never dispatched.
+
+**3. Safety-critical work is never auto-generated.** Anything touching reloading
+charge weights, powder constants, or pressure interpolation is barred from
+`shape: research` regardless of how well evidenced it is. The interior-ballistics
+report is explicit that the physics cannot be inferred; an agent generating
+follow-ups from it must not produce a task that tries anyway.
+
+**4. A proposal must not re-propose rejected work.** `tasking/review/HISTORY.md`
+records rejections. If you find your proposal there, it was already decided — read
+why before writing it again.
+
+### Materialising
+
+The taskmaster turns accepted proposals into `tasking/pending/<id>/` with a
+`task.json` and `BRIEF.md`. Until then a proposal is only a file. The generator
+never invents a task that has no proposal behind it — `check-proposals` fails the
+build on any pending task with no matching proposal, so the queue can only ever
+contain things someone actually argued for.
+
+### Do not propose to fix the protocol
+
+If your conclusion is "the swarm protocol is broken", that is a BLOCKED message to
+the taskmaster, not a proposal. Protocol fixes change how every agent behaves, and
+that is a decision for the owner.
+
+---
+
 ## Related
 
 - [../README.md](../README.md) — the four-tier protocol, binding
-- [../../.clinerules](../../.clinerules) — §11 this protocol
+- [../../.clinerules](../../.clinerules) — §11 mail, §12 proposals
 - [../review/README.md](../review/README.md) — what happens to your output next
-```
 
 **REDIRECT and COLLISION are binding and outrank your brief.** Your `task.json` was
 written before these other agents existed; a collision is new information that the

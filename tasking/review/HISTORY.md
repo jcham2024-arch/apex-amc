@@ -65,6 +65,76 @@ change last and are then frozen.
 
 ---
 
+## 2026-10-02 - An agent found a bug in the gate that shipped minutes earlier
+
+**`check-mail` rejected every legal message.** The "stray text" check split the
+file on header boundaries and failed if any resulting chunk was non-empty — and the
+non-empty chunk is the message BODY. Verified directly:
+
+```
+chunks after splitting on headers: ["", "\n**Task:** t\n**Status:** complete\n"]
+```
+
+So no agent could use the mailbox at all, and the error text blamed malformed
+headers when the headers were fine. I had seen this warning twice while testing and
+twice explained it away as noise from the seed files rather than reading what it
+said.
+
+Agent 4880a sent a QUESTION diagnosing it precisely - wrong chunk semantics, headers
+located correctly, bodies never consumed, and a named fix. It also ran the test
+against a throwaway inbox rather than editing a real mailbox, which is the isolation
+rule working as intended. The load-bearing STOP check had passed throughout, which
+is why the bug was invisible to the tests I ran.
+
+**Second bug in the same gate, found by running my own reply through it:** the header
+regex required an agent id after `TASKMASTER`, so every reply I wrote was malformed
+by definition. Nothing had ever sent one before. Fixed by making the id optional for
+taskmaster messages - the outbox directory already says who a reply is for.
+
+**The correction 4880a filed matters more than the bug.** It retracted its own
+earlier claim that `check-tasking.mjs` undercounted `pending/` and that it was "a
+race, not a measurement error" - because its probe sat under `tmp/` with a broken
+relative import, so it measured a different module graph than the real gate. The
+manifest-lookup defect in that same report was real. A wrong finding retracted by
+its author, with the reason, is the system working correctly.
+
+**Precautionary:** the first safety-bar false positive was my own proposal, blocked
+for containing the phrase "charge weight" in its own `## Do not` section. The scan
+now excludes prohibitions before matching, so a gate that punishes honesty makes
+honesty impossible.
+
+---
+
+## 2026-10-02 - The swarm refills its own queue
+
+**Autonomous task generation, with three hard bars.** An agent finishing a task
+writes `tasking/mail/proposals/<slug>.md` citing the file and quotation that
+justify it. `check-proposals` enforces:
+
+1. **`derived_from` must exist.** Ungrounded work never reaches `pending/`. This is
+   the rule the whole scheme rests on - without it, generation is confident fiction
+   with a plausible write-set.
+2. **`shape: research` writes only inside its own `completed/` folder.** An
+   autonomous swarm is structurally unable to modify the application. Agents can
+   discover what needs changing; a human decides whether it changes.
+3. **Safety-critical topics never run unattended** - charge weights, powder
+   constants, burn rates, load synthesis - however well evidenced.
+
+Plus: every new pending task needs a proposal behind it (pre-existing ones
+grandfathered), and no proposal may collide with in-flight write-sets.
+
+All three verified by probe, not asserted: a `packages/ballistics-core/src/`
+write-set is refused, a burn-rate-fitting proposal is refused, and a proposal citing
+a non-existent file is refused.
+
+**The group box is a directory, not a file.** `tasking/mail/bulletin/<agent>.md` -
+everyone reads all, one agent writes each. A shared `BULLETIN.md` would be
+read-modify-write and lose notes exactly like the shared claim queue. It is not a
+task channel: anything actionable is a proposal or a BLOCKED message, because a
+board that acts on its own contents is a queue nobody can reason about.
+
+---
+
 ## 2026-10-02 - The swarm protocol was violated twice, and rebuilt
 
 **First violation: concurrent edits to `pending/`.** Several agents edited task
@@ -141,6 +211,47 @@ during a burst of claims. With the swarm quiet it reports correctly:
 tasking verified          (exit 0)
 ```
 
+**The lesson is the reusable part: when two measurements of the same thing
+disagree, suspect the instrument first.** Seven confident answers, seven wrong
+ones, and I published one of them before reproducing it.
+
+---
+
+## 2026-10-02 - check-mail.mjs rejects every legal message (agent: 4880a)
+
+**The mailbox cannot be used.** `check-mail.mjs` tests a parsed message with:
+
+```js
+after.split(/<!--[\s\S]*?-->/).some((c) => c.trim())
+```
+
+`after` is the text from the first header onward. Splitting on headers yields
+`[leading][body1][body2]`, so **every non-empty message body lands in a chunk that
+fails the test.** The gate is satisfied only by a message with an empty body — the
+exact opposite of its purpose.
+
+Constructed proof, run against a throwaway inbox so no real message was disturbed:
+
+| Content | Result |
+|---|---|
+| header only, no body | passes |
+| the README's own minimal STOP (header + `**Task:** x`) | **fails** |
+| one-line NOTE | **fails** |
+
+The split finds the headers correctly. It simply never discards the bodies, so the
+payload is misread as stray text. The error message ("a message was written but its
+header is malformed") is **actively misleading** — the headers are fine.
+
+The load-bearing check in that gate — a STOP claiming `complete` with a missing
+output file — passed correctly. Only this parse check is broken.
+
+**Fix shape:** parse into messages instead of testing chunk emptiness. Match every
+header and treat the text between header *N* and header *N+1* as body *N*.
+
+Note this is the *third* instance of the same family in this repo: a gate that
+verifies structure but not the thing it claims to verify. Here it produced a
+**false negative on the common case** — the opposite of the earlier gates, which
+passed wrongly. Both directions waste agent turns.
 **Why I got it wrong, and the trap worth recording.** Three things misled me in
 sequence, and each is in this repo's own trap list:
 

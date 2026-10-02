@@ -40,7 +40,10 @@ const TYPES = new Set([
   'ACK', 'NOTE', 'REDIRECT', 'COLLISION', // taskmaster -> worker
 ]);
 
-const HEADER = /<!--\s*([0-9T:\-.+Z]+)\s*\|\s*(AGENT|TASKMASTER)\s+([A-Za-z0-9_-]+)\s*\|\s*([A-Z]+)\s*-->/;
+// TASKMASTER messages carry no agent id - the directory already says who they are
+// for. Both forms are legal: `| AGENT <id> | TYPE` and `| TASKMASTER | TYPE`.
+const HEADER =
+  /<!--\s*([0-9T:\-.+Z]+)\s*\|\s*AGENT\s+([A-Za-z0-9_-]+)\s*\|\s*([A-Z]+)\s*-->|<!--\s*([0-9T:\-.+Z]+)\s*\|\s*TASKMASTER\s*\|\s*([A-Z]+)\s*-->/;
 
 const problems = [];
 const fail = (msg) => problems.push(msg);
@@ -59,22 +62,20 @@ function parse(file) {
   const raw = readFileSync(file, 'utf8').replace(/```[\s\S]*?```/g, '');
   const out = [];
 
-  // Text after the first header but outside any message is a half-written write.
-  // A preamble BEFORE the first header is legitimate: it is the mailbox's own
-  // standing instructions, and an agent must not have to delete those to send.
-  const first = raw.indexOf('<!--');
-  const before = first === -1 ? raw : raw.slice(0, first);
-  const after = first === -1 ? '' : raw.slice(first);
-  if (after.split(/<!--[\s\S]*?-->/).some((c) => c.trim())) {
-    fail(
-      `${label}: unparsed text outside any message header. A message was written but `
-      + 'its header is malformed or missing, so nothing can attribute it. Delete the '
-      + 'stray text and resend the message with a full header.',
-    );
-  }
-  if (before.trim() && !/^#/.test(before.trim())) {
-    fail(`${label}: text before the first header must be a Markdown preamble.`);
-  }
+  // A mailbox may carry a preamble BEFORE its first header: that is the mailbox's
+// own standing instructions, and an agent must not have to delete them to send.
+//
+// There is deliberately no "stray text" check on the body side. An earlier version
+// split the file on headers and failed if any chunk was non-empty - which is
+// exactly the message body, so it rejected every real message while claiming the
+// headers were malformed. Agent 4880a diagnosed this correctly; the message regex
+// below already consumes header+body pairs, so nothing after the first header can
+// be stray. Bodies are not "unparsed"; they are the point.
+const first = raw.indexOf('<!--');
+const before = first === -1 ? raw : raw.slice(0, first);
+if (before.trim() && !/^#/.test(before.trim())) {
+  fail(`${label}: text before the first header must be a Markdown preamble.`);
+}
 
   for (const m of raw.matchAll(/<!--([\s\S]*?)-->\n?([\s\S]*?)(?=<!--|$)/g)) {
     const h = HEADER.exec(`<!--${m[1]}-->`);
@@ -85,11 +86,14 @@ function parse(file) {
       );
       continue;
     }
-    const [, ts, role, id, type] = h;
-    if (!TYPES.has(type)) {
-      fail(`${label}: unknown message type "${type}". Known: ${[...TYPES].join(', ')}`);
+    const [, ts, id, type, tmTs, tmType] = h;
+    const role = id ? 'AGENT' : 'TASKMASTER';
+    const msgId = id || 'taskmaster';
+    const msgType = type || tmType;
+    if (!TYPES.has(msgType)) {
+      fail(`${label}: unknown message type "${msgType}". Known: ${[...TYPES].join(', ')}`);
     }
-    out.push({ ts, role, id, type, body: m[2] });
+    out.push({ ts: ts || tmTs, role, id: msgId, type: msgType, body: m[2] });
   }
 
   // Monotonic timestamps. An agent rewriting history is what this catches.
