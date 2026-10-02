@@ -49,26 +49,32 @@
 # `scripts/gates/check-website-build.mjs` fails the build if this file goes
 # missing, loses its CSP directive, regains any `unsafe-*` keyword, or if a
 # hash stops matching the build.
+#
+# ## Two syntax rules this file obeys, both learned the hard way
+#
+# 1. ONE header per line, value on the SAME line as the name.
+#    Cloudflare Pages parses `[name]: [value]` as a single line. The policy was
+#    originally written folded across eleven lines, one directive per line, and
+#    Pages silently discarded it. On 2 Oct 2026 that shipped to production and
+#    the site served with NO Content-Security-Policy at all: 200 OK, correct
+#    HTML, and no header. Nothing in this repository noticed, because every
+#    check here reads this file, not the deployed response.
+#    Confirmed by measurement: folded = header absent; one line = header served.
+#
+# 2. ONE `/*` block, not three.
+#    Repeating the URL pattern does NOT merge blocks - each `/*` starts a new
+#    one. The second and third blocks were never applied either. Verified on a
+#    live preview: three blocks served only the last one's header, while a
+#    single block served all of them.
+#
+# Cloudflare's own docs (developers.cloudflare.com/pages/configuration/headers)
+# show one `[name]: [value]` per line under a single URL pattern, and note the
+# file is parsed at deploy time and never served as an asset.
 
 /*
-  Content-Security-Policy:
-    default-src 'self';
-    script-src 'sha256-tyJYdOKuqzIU5T8uGgJvbfp8gbAlTwR2kf/iGofaoOk=' 'strict-dynamic';
-    style-src 'sha256-+DaLxm36H6ogXeq12tbX4kWvPySnYiOisLOuIZUJs1Q=' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
-    font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com;
-    img-src 'self' data: https://cdnjs.cloudflare.com;
-    connect-src 'self';
-    base-uri 'none';
-    form-action 'self';
-    frame-ancestors 'none';
-    object-src 'none';
-    upgrade-insecure-requests
-
-/*
+  Content-Security-Policy: default-src 'self'; script-src 'PLACEHOLDER_SCRIPT' 'strict-dynamic'; style-src 'PLACEHOLDER_STYLE' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; img-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   X-Frame-Options: DENY
   Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
-
-/*
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
