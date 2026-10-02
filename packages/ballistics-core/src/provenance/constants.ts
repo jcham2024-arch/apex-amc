@@ -120,6 +120,31 @@ export const INCHES_PER_FOOT = published(12, SOURCES.cip, { units: 'in/ft' });
 export const FEET_PER_METRE = published(3.280839895, SOURCES.cip, { units: 'ft/m' });
 
 /**
+ * Feet per yard. Exact by definition: the international yard is exactly 3 ft.
+ *
+ * Added 2 Oct 2026. The solver was carrying its own `const FEET_PER_YARD = 3`,
+ * so a conversion CIP defines exactly was living in two places, one uncited.
+ */
+export const FEET_PER_YARD = published(3, SOURCES.cip, { units: 'ft/yd' });
+
+/** Feet per mile. Exact by definition: 1 mile = 5280 ft. */
+export const FEET_PER_MILE = published(5280, SOURCES.cip, { units: 'ft/mi' });
+
+/**
+ * Square inches per square foot: the 144 in the g/144 unit bridge.
+ *
+ * This factor is the one the solver's fifth documented failure mode is about.
+ * The drag acceleration is computed with the diameter in FEET and the mass in
+ * slugs, while a published drag-function BC is in lb/in^2, so the units must be
+ * bridged by g/144. Omitting the 144 overstates drag by 144x.
+ *
+ * Naming and citing it is deliberate: that failure mode happened because the
+ * number was a bare literal inside an expression, easy to drop and invisible on
+ * review.
+ */
+export const INCHES_PER_SQUARE_FOOT = published(144, SOURCES.cip, { units: 'in^2/ft^2' });
+
+/**
  * Small-angle approximation of one milliradian in milliradians.
  * MILRAD = 0.001 rad exactly, by definition.
  */

@@ -42,9 +42,15 @@
  * wrong means wind either does nothing or pushes the wrong way.
  *
  * ---------------------------------------------------------------------------
- * THE TWO FAILURE MODES THAT MATTER
- * THE THREE FAILURE MODES THAT MATTER
+ * THE FIVE FAILURE MODES THAT MATTER
  * ---------------------------------------------------------------------------
+ *
+ * Numbered 1-4 below. The fifth is documented where it bit: at
+ * DRAG_COEFFICIENT_PI_OVER_8, further down this file, because it is specific to
+ * that constant. It was labelled "4." there too, so the header said FOUR and the
+ * file documented FIVE - two different failure modes sharing a number, which is
+ * the kind of stale comment AGENTS.md warns about: worse than none, because it
+ * is trusted. Found 2 Oct 2026 by counting, not by reading.
  * 1. INVERTING THE DRAG SIGN. If a_drag is added rather than subtracted, the
  *    bullet ACCELERATES. A previous implementation of this file did exactly
  *    that and produced velocity rising from 2650 to 3929 fps. The regression
@@ -84,9 +90,6 @@
  *
  * --------------------------------------------------------------------------
  * VALIDATION
- * --------------------------------------------------------------------------
- * ---------------------------------------------------------------------------
- * VALIDATION
  * ---------------------------------------------------------------------------
  * Validated against published reference trajectory data for a .308 Win 168 gr
  * Federal Gold Medal Match bullet, G1 BC 0.462, 2650 fps, 100 yd zero, at
@@ -123,7 +126,11 @@
  * @packageDocumentation
  */
 
-import { GRAINS_PER_POUND, G1_FORM_FACTOR, G7_FORM_FACTOR } from '../provenance/constants.ts';
+// G1_FORM_FACTOR and G7_FORM_FACTOR are deliberately NOT imported here. They
+// describe the reference projectiles (1 and 1.2), not a real bullet, and
+// applying them would be wrong - see the form-factor derivation below and
+// docs/BALLISTICS-AUDIT.md. Importing them here once invited exactly that.
+import { GRAINS_PER_POUND } from '../provenance/constants.ts';
 import { G1_DRAG_TABLE, G7_DRAG_TABLE, dragCoefficient } from './dragTables.ts';
 import {
     airDensitySlugPerFt3,
@@ -245,15 +252,47 @@ export class InvalidSolveRequest extends Error {
 // Internal state and constants
 // ---------------------------------------------------------------------------
 
-/** Unit conversions. Declared once so no bare literal appears below. */
-const INCHES_PER_FOOT = 12;
-const FEET_PER_YARD = 3;
-const FEET_PER_MILE = 5280;
-const YARDS_PER_FOOT = 1 / FEET_PER_YARD;
+/**
+ * Unit conversions, sourced from provenance/constants.ts.
+ *
+ * Sourced rather than restated. The previous version wrote
+ * `const INCHES_PER_FOOT = 12` and `32.17405` inline here while constants.ts
+ * already exported `INCHES_PER_FOOT` and `STANDARD_GRAVITY_FPS2`, each carrying
+ * a published citation. That is the defect this fixes: a safety-critical file
+ * holding its own uncited copy of a physical constant. Two copies of gravity is
+ * two chances to change one of them.
+ *
+ * The provenance system is only real if the physics imports it, and until now
+ * the domain imported 2 of the 26 available constants.
+ */
+import * as constants from '../provenance/constants.ts';
+
+const { INCHES_PER_FOOT, FEET_PER_MILE, INCHES_PER_SQUARE_FOOT, STANDARD_GRAVITY_FPS2 } =
+  constants;
 
 /**
- * 1 MOA subtends 1 inch at 100 yards. This is the definition of the unit and
- * the reason a MOA figure scales linearly with range: at 1000 yd, 1 MOA = 10 in.
+ * Plain-number aliases for the cited constants.
+ *
+ * These are unwrapped ONCE, at module scope, because the arithmetic further
+ * down needs numbers rather than the Sourced<T> wrapper. Unwrapping at the
+ * import (rather than at each of the eight use sites) means there is a single
+ * place where the provenance wrapper becomes arithmetic - and a single place
+ * where a reader can see exactly which published value the physics uses.
+ *
+ * Scope note: these MUST be module-level, not function-local. A first attempt
+ * put them inside the function that reads the wind, which left the zero/hold
+ * arithmetic in a sibling function referencing an out-of-scope name. Module
+ * scope is the only placement that is correct for a shared unit constant.
+ */
+const IN = INCHES_PER_FOOT.value;
+const FT_PER_MILE = FEET_PER_MILE.value;
+const YD_TO_FT = constants.FEET_PER_YARD.value;
+/** Feet per yard to yards per foot - the inverse. Used for ranges in yards. */
+const YARDS_PER_FOOT = 1 / YD_TO_FT;
+
+/**
+ * 1 MOA subtends 1 inch at 100 yards - the definition of the unit, and the
+ * reason a MOA figure scales linearly with range: at 1000 yd, 1 MOA = 10 in.
  */
 const MOA_INCHES_AT_100YD_YARDS = 100;
 
@@ -280,8 +319,29 @@ const DT_SECONDS = 0.001;
  * The classic mistake is to cancel the 1/2 against a 2 and forget the pi/4,
  * which inflates drag by 4/pi = 1.2732. This constant exists so that mistake
  * cannot be made silently.
+ *
+ * 5. MISSING UNIT CONVERSION (found 30 Sep 2026). The drag acceleration is
+ *
+ *   a = 0.5 * rho * v^2 * Cd * (pi/4) * d_ft^2 / m_slug
+ *
+ * Published drag-function BC is in lb/in^2, while rho is slug/ft^3 and the
+ * diameter appears in FEET. Bridging those needs the factor
+ *
+ *   g / 144 = 32.17405 / 144 = 0.223430
+ *
+ * so the constant is (pi/8) * (g/144), NOT pi/8. The bare pi/8 overstates drag
+ * by 1/0.22343 = 4.4758x, which is catastrophic: it made a 168gr bullet appear
+ * to decelerate at 260 g at the muzzle. Nothing caught it until the drag tables
+ * were corrected, because the two errors partly cancelled - the too-low Cd of
+ * the old table was masking the too-large constant. Two wrong numbers pointing
+ * the same way is the most dangerous kind of bug, because any single-parameter
+ * check appears to pass.
+ *
+ * Both factors are named, sourced and cited here, so neither can be dropped
+ * again and a change to either is a change in one place with a recorded reason.
  */
-const DRAG_COEFFICIENT_PI_OVER_8 = Math.PI / 8;
+const DRAG_COEFFICIENT_PI_OVER_8 = (Math.PI / 8)
+  * (STANDARD_GRAVITY_FPS2.value / INCHES_PER_SQUARE_FOOT.value);
 
 
 /** Guard against a pathological request spinning forever. */
@@ -365,7 +425,7 @@ function resolveEnvironment(env: FiringEnvironment): ResolvedEnvironment {
     // Wind direction is where the air comes FROM, so the vector it travels
     // toward is the reverse. A wind from the shooter's right (90 deg) therefore
     // blows toward the shooter's left, i.e. negative z.
-    const windSpeedFps = (env.windSpeedMph ?? 0) * (FEET_PER_MILE / 3600);
+    const windSpeedFps = (env.windSpeedMph ?? 0) * (FT_PER_MILE / 3600);
     const windRad = ((env.windDirectionDeg ?? 0) * Math.PI) / 180;
     const windX = -windSpeedFps * Math.cos(windRad);
     const windZ = -windSpeedFps * Math.sin(windRad);
@@ -427,17 +487,27 @@ function accelerations(
     // The retardation coefficient. Derivation:
     //   F = (1/2) rho v^2 Cd A     with A = pi d^2 / 4, the frontal area
     //   a = F / m
-    // A drag-function BC is defined as BC = CF * m / d^2, so for a quoted
-    // BC that already has the form factor CF folded in, m/d^2 = BC/CF and
-    //   A / m_eff = (pi d^2 / 4) / (d^2 / BC) = pi / (4 * BC)
-    // giving
-    //   a = (1/2) * rho v^2 Cd * pi / (4 BC) = (pi/8) * rho v^2 Cd / BC
+    // A drag-function BC is defined against a REFERENCE projectile shape, so
+    //   BC = sectionalDensity / i        i.e.   i = SD / BC
+    // and the reference Cd is scaled by the bullet's own form factor:
+    //   Cd_actual = i * Cd_reference
+    // Substituting, the form factor CANCELS:
+    //   a = (1/2) rho v^2 (i Cd_ref) (pi d^2 / 4) / m
+    //     = (pi/8) rho v^2 Cd_ref * (i / SD)
+    //     = (pi/8) rho v^2 Cd_ref / BC
     //
-    // The 1/2 and the pi/4 therefore COMBINE into pi/8. Writing it as
-    // rho v^2 Cd / (2 * i * BC) omits the pi/4 entirely and overstates drag by
-    // exactly 4/pi = 1.2732 - which is what this solver did until the
-    // reference table caught it. Do not "simplify" the constant away.
-    const dragAccel = (DRAG_COEFFICIENT_PI_OVER_8 * r.rho * speed * speed * cd) / (formFactor * bcLbPerIn2);
+    // SO THE ANSWER IS (pi/8) * rho * v^2 * Cd / BC, with NO form factor in the
+    // denominator. Dividing by a form factor as well double-counts it: the
+    // published BC already has the bullet's shape folded into it. That mistake
+    // made this solver under-drag by roughly 1.8x on the standard reference
+    // bullet.
+    //
+    // The 1/2 and the pi/4 COMBINE into pi/8. Writing it as
+    // rho v^2 Cd / (2 * BC) omits the pi/4 entirely and overstates drag by
+    // exactly 4/pi = 1.2732 - which is what this solver did in its first
+    // version, until the reference table caught it. Do not "simplify" the
+    // constant away.
+    const dragAccel = (DRAG_COEFFICIENT_PI_OVER_8 * r.rho * speed * speed * cd) / bcLbPerIn2;
     const k = -dragAccel / speed;
 
     return {
@@ -565,14 +635,45 @@ export function solveTrajectory(req: SolveRequest): Solution {
         throw new InvalidSolveRequest('Output step must be a positive number of yards.');
     }
 
-    // Which drag function, and therefore which BC and form factor. G7 is
-    // preferred whenever a G7 BC is supplied, because the G7 projodal better
-    // represents a modern, high-BC rifle bullet than G1 does.
+    // Which drag function, and therefore which BC. G7 is preferred whenever a G7
+    // BC is supplied, because the G7 projodal better represents a modern,
+    // high-BC rifle bullet than G1 does.
     const useG7 = req.dragModel === 'G7' || (req.dragModel === undefined && req.bcG7 !== null && req.bcG7 !== undefined);
     const table = useG7 ? G7_DRAG_TABLE : G1_DRAG_TABLE;
-    const formFactor = useG7 ? G7_FORM_FACTOR.value : G1_FORM_FACTOR.value;
     const bc = useG7 ? (req.bcG7 as number) : req.bcG1;
     const dragModelUsed: DragModel = useG7 ? 'G7' : 'G1';
+
+    // Form factor, DERIVED PER BULLET rather than fixed per drag model.
+    //
+    // A drag-function BC is defined as BC = CF * m / d^2, so the form factor of
+    // a specific bullet against a specific reference shape is
+    //
+    //     i = (m / d^2) / BC = sectionalDensity / BC
+    //
+    // It is a property of THE BULLET, not of the drag model. Using the model's
+    // nominal value instead was a second, independent error, and it only
+    // surfaced once the drag tables were corrected.
+    //
+    // Why it matters numerically, for the standard 168gr .308 at 0.308 in:
+    //
+    //     sectional density = (168/7000) / 0.308^2 = 0.2532 lb/in^2
+    //     G1: i = 0.2532 / 0.462  = 0.548   <- bullet is AERODYNAMICALLY SLIPPER
+    //                                           than the blunt G1 reference, so it
+    //                                           loses LESS drag than G1 nominal
+    //     G7: i = 0.2532 / 0.2757 = 0.918   <- close to 1.0, as expected for a
+    //                                           bullet that closely matches G7
+    //
+    // Forcing i = 1.0 under G1 overstated drag by roughly 1.8x, which is why the
+    // reference case lost 800 fps in the first 100 yards. Note the sign is not
+    // subtle: a bullet whose quoted G1 BC exceeds its sectional density has
+    // i < 1 BY CONSTRUCTION, and that is normal for high-BC match bullets.
+    //
+    // The nominal per-model values (G1_FORM_FACTOR = 1, G7_FORM_FACTOR = 1.2)
+    // describe the reference projectiles themselves and are correct as such.
+    // They are the WRONG numbers to apply to a real bullet. See
+    // docs/BALLISTICS-AUDIT.md.
+    const sectionalDensity = req.bulletWeightGr / GRAINS_PER_POUND.value / (req.bulletDiameterIn * req.bulletDiameterIn);
+    const formFactor = sectionalDensity / bc;
 
     const r = resolveEnvironment(req.environment);
     const cautions: string[] = [];
@@ -614,7 +715,8 @@ export function solveTrajectory(req: SolveRequest): Solution {
     void GRAINS_PER_POUND.value;
 
     const muzzleVelocityFps = req.muzzleVelocityFps;
-    const sampleStepFt = stepYd * FEET_PER_YARD;
+    // Unit conversions come from module scope (see the unwrapped aliases above).
+    const sampleStepFt = stepYd * YD_TO_FT;
 
     // -----------------------------------------------------------------------
     // PASS 1: find the bore angle
@@ -681,13 +783,13 @@ export function solveTrajectory(req: SolveRequest): Solution {
 
     // Pass 1: integrate a horizontal launch to the zero distance to find the
     // bore angle.
-    const zeroXft = req.zeroYd * FEET_PER_YARD;
+    const zeroXft = req.zeroYd * YD_TO_FT;
     const probe = integrateTo(zeroXft, 0, false);
     const fallAtZero = probe[probe.length - 1]!.y;
     const boreSlope = -fallAtZero / zeroXft;
 
     // Pass 2: integrate along the bore, sampling the output grid.
-    const maxRangeFt = req.maxRangeYd * FEET_PER_YARD;
+    const maxRangeFt = req.maxRangeYd * YD_TO_FT;
     const raw = integrateTo(maxRangeFt, boreSlope, true);
 
     if (raw.length === 0) {
@@ -705,7 +807,7 @@ export function solveTrajectory(req: SolveRequest): Solution {
     // The scope may sit zeroMoa above the bore, which is an ANGLE and so adds to
     // the slope rather than as a constant height.
     const scopeSlope =
-        req.zeroMoa / (INCHES_PER_FOOT * MOA_INCHES_AT_100YD_YARDS * FEET_PER_YARD);
+        req.zeroMoa / (IN * MOA_INCHES_AT_100YD_YARDS * YD_TO_FT);
 
     // NOTE: the line of sight IS the bore line, so it is not subtracted again
     // below. Only the scope offset, which sits above the bore, is.
@@ -727,12 +829,12 @@ export function solveTrajectory(req: SolveRequest): Solution {
         const dropFt = sm.y - scopeSlope * sm.x;
         // (rangeYd / 100) inches.
         const moaAtRange = rangeYd / MOA_INCHES_AT_100YD_YARDS;
-        const elevationMoa = (dropFt * INCHES_PER_FOOT) / moaAtRange;
-        const windageMoa = (sm.z * INCHES_PER_FOOT) / moaAtRange;
+        const elevationMoa = (dropFt * IN) / moaAtRange;
+        const windageMoa = (sm.z * IN) / moaAtRange;
         return {
             rangeYd,
-            dropIn: dropFt * INCHES_PER_FOOT,
-            windageIn: sm.z * INCHES_PER_FOOT,
+            dropIn: dropFt * IN,
+            windageIn: sm.z * IN,
             elevationMoa,
             windageMoa,
             // The reported velocity is the DOWNRANGE component, which is the
