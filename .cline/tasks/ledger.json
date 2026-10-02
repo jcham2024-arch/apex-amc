@@ -271,6 +271,45 @@
         "(deploy commands only)"
       ],
       "notes": "No deploy succeeds until database_id is real."
+    },
+    {
+      "id": "R1",
+      "title": "Competitor and open-source resource research",
+      "status": "in_progress",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-web",
+      "file": "docs/research-competitors/",
+      "write_set": [
+        "docs/research-competitors/ (new files only)"
+      ],
+      "notes": "Output-only. Cannot touch source. Safe to run alongside code tasks."
+    },
+    {
+      "id": "R2",
+      "title": "Numerical cross-validation and open-source ballistics",
+      "status": "in_progress",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-math",
+      "file": "docs/research-methods/",
+      "write_set": [
+        "docs/research-methods/ (new files only)"
+      ],
+      "notes": "Output-only. Produces candidate cross-checks for task A1."
+    },
+    {
+      "id": "R3",
+      "title": "Retrospective: mistakes, traps, and training docs",
+      "status": "in_progress",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "lessons",
+      "file": "docs/lessons/",
+      "write_set": [
+        "docs/lessons/ (new files only)"
+      ],
+      "notes": "Output-only. Turns AGENTS.md traps into a training curriculum."
     }
   ],
   "parallel_safe": [
