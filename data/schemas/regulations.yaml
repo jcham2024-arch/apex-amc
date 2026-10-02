@@ -1,0 +1,118 @@
+# Column manifest: regulations
+#
+# WHY THIS EXISTS
+# ---------------
+# Everything this project may and may not do is governed by statute and rule, not
+# by preference. Those constraints were scattered across prose in docs/, where
+# they could not be queried, gated, or checked against what the code actually
+# does. A reviewer asking "why is powder excluded from the shop?" had no answer a
+# machine could verify.
+#
+# This table is that answer. One row per governing authority, carrying the
+# quotation the decision rests on.
+#
+# THE RULE THIS ENFORCES
+# -----------------------
+# A row must quote the operative language and carry a retrievable citation. A
+# summary is not a source. Where the verbatim text was not obtained, quote_status
+# is `unverified` and the row may NOT be used to justify a product decision - it
+# exists so the gap is visible rather than absent.
+#
+# WHY THE QUOTE MATTERS SO MUCH
+# -----------------------------
+# Two errors in this project's history were both over-confident readings that
+# nobody checked against the text: writing that physical-goods sales were
+# "permanently out" when they are not, and nearly accepting a member marketplace
+# on the belief that brass is just a component. 18 U.S.C. 921(a)(17)(A) defines
+# ammunition to include cartridge cases, primers and bullets. The intuitive
+# reading was wrong in the direction that increased risk. A stored quotation is
+# what stops the third such error.
+#
+# NOT LEGAL ADVICE. Retrieved from public sources 2 Oct 2026. The
+# `review_required` column marks every row that needs a qualified attorney before
+# it is relied on for anything user-facing.
+
+dataset: regulations
+storage: csv
+csv_path: data/seeds/regulations.csv
+primary_key: [citation]
+
+columns:
+  citation:
+    type: string
+    required: true
+    note: Full citation, e.g. 18 U.S.C. 921(a)(17)(A).
+
+  short_name:
+    type: string
+    required: true
+    note: Human label used in docs and UI.
+
+  jurisdiction:
+    type: string
+    required: true
+    enum: [us_federal, us_state, platform, internal]
+    note: >-
+      us_state is reserved and currently empty. platform is a private ruleset we
+      choose to live under, such as a payment processor ruleset.
+
+  topic:
+    type: string
+    required: true
+    enum: [ammunition, firearm, commerce, explosives, advertising, reviews, payments, privacy]
+    note: Which part of the site the rule governs.
+
+  governs:
+    type: string
+    required: true
+    note: >-
+      The specific activity controlled, written as an imperative constraint rather
+      than a topic label. A row that cannot state what it forbids has not been
+      read closely enough.
+
+  operative_text:
+    type: string
+    required: true
+    note: >-
+      The quoted language, verbatim. A paraphrase belongs in reasoning, never here.
+
+  quote_status:
+    type: string
+    required: true
+    enum: [verbatim, paraphrased, unverified]
+    note: >-
+      verbatim = retrieved and quoted exactly. paraphrased = retrieved but condensed
+      by us. unverified = believed to apply, text not yet obtained.
+
+  source_url:
+    type: string
+    required: true
+    note: Where the text was read. Must be retrievable.
+
+  retrieved_on:
+    type: string
+    required: true
+    note: ISO date. Statute text can change, so this is part of the evidence.
+
+  affects:
+    type: string
+    required: false
+    note: Comma-separated phase or feature ids this constrains, e.g. phase-9,phase-5b.
+
+  decision:
+    type: string
+    required: true
+    enum: [prohibited, restricted, permitted, conditional]
+    note: What we decided, given the text. Never derived from the statute alone.
+
+  review_required:
+    type: boolean
+    required: true
+    note: >-
+      True where a qualified attorney must sign off before this row is relied on
+      for anything user-facing.
+
+  reasoning:
+    type: string
+    required: true
+    note: Why the decision follows from the text. The part a reviewer argues with.

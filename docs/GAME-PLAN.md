@@ -14,7 +14,7 @@ they conflict. Keep them for history.
 | | |
 |---|---|
 | Baseline | `npm run verify` exits 0 |
-| Verification | 18 stages, 235 tests, 0 failures |
+| Verification | Every stage green. Do not quote a stage count here; `docs:check` fails on a stale one. |
 | CI | **green on `ubuntu-latest`** — first run 2 Oct 2026 |
 | Branch | `feat/v0.1.0-consolidated`, 52+ commits, clean tree |
 | Tags | `v0.1.0-consolidated`, `v0.1.1-audit`, `v0.2.0-oracle`, `v0.3.0-ci-green` |
@@ -59,6 +59,7 @@ Not planned. Built, tested, and running.
 | `ci:check` | Fails if any gate in `verify` is absent from CI. Added because **three gates were missing from CI entirely** and CI had never run. |
 | `audit-advisories` | Fails on new high/critical advisories, reports known ones with a recorded reason. Added because `npm audit` **cannot pass** (no patched `node-forge` exists) and a permanently red step teaches everyone to ignore the exit code. |
 | `verify-stage-count` rule in `docs:check` | A doc quoting the wrong stage count now fails. Added because ten documents quoted it wrong and no two agreed. |
+| `regulations:check` | Every governing rule carries a retrievable citation, an ISO retrieval date, and a quotable text. Thirteen rows covering the GCA ammunition definition, 922(g), the FTC review rules, and the payment-processor question. Lists unverified rows out loud rather than hiding them. |
 | `tasks:check` | Fails on overlapping write-sets between runnable tasks. Found four real collisions in already-written work. |
 | `.clinerules`, ledger, task files | Multi-agent coordination that assumes nothing about safety. |
 
@@ -135,6 +136,15 @@ nothing collides.
 ### Never
 
 - Powder and primer. Excluded-process explosives.
+- **Anything the regulations table has not cleared.** `data/seeds/regulations.csv`
+  is the authority. If a product or feature is not covered by a row with a
+  retrievable citation, it is out of scope until it is.
+- **A member-to-member transaction marketplace.** See below and
+  `research-competitors/07-member-marketplace.md`.
+- **Brass as merchandise.** The owner's decision after the statute was checked:
+  stay away from anything with rules, and focus on easy merchandise. That is a
+  decision made with the citation in hand, which is exactly how it should be
+  made.
 - **A member-to-member transaction marketplace.** 18 U.S.C. 921(a)(17)(A) defines
   ammunition as including "cartridge cases, primers, bullets, or propellent
   powder." Brass and loose bullets **are** ammunition under the GCA, so the

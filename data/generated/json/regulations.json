@@ -1,0 +1,325 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/data/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "regulations",
+  "description": null,
+  "source": "data/seeds/regulations.csv",
+  "manifest": "data/schemas/regulations.yaml",
+  "row_count": 13,
+  "columns": {
+    "citation": {
+      "type": "string",
+      "required": true,
+      "note": "Full citation, e.g. 18 U.S.C. 921(a)(17)(A)."
+    },
+    "short_name": {
+      "type": "string",
+      "required": true,
+      "note": "Human label used in docs and UI."
+    },
+    "jurisdiction": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "us_federal",
+        "us_state",
+        "platform",
+        "internal"
+      ],
+      "note": "us_state is reserved and currently empty. platform is a private ruleset we choose to live under, such as a payment processor ruleset."
+    },
+    "topic": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "ammunition",
+        "firearm",
+        "commerce",
+        "explosives",
+        "advertising",
+        "reviews",
+        "payments",
+        "privacy"
+      ],
+      "note": "Which part of the site the rule governs."
+    },
+    "governs": {
+      "type": "string",
+      "required": true,
+      "note": "The specific activity controlled, written as an imperative constraint rather than a topic label. A row that cannot state what it forbids has not been read closely enough."
+    },
+    "operative_text": {
+      "type": "string",
+      "required": true,
+      "note": "The quoted language, verbatim. A paraphrase belongs in reasoning, never here."
+    },
+    "quote_status": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "verbatim",
+        "paraphrased",
+        "unverified"
+      ],
+      "note": "verbatim = retrieved and quoted exactly. paraphrased = retrieved but condensed by us. unverified = believed to apply, text not yet obtained."
+    },
+    "source_url": {
+      "type": "string",
+      "required": true,
+      "note": "Where the text was read. Must be retrievable."
+    },
+    "retrieved_on": {
+      "type": "string",
+      "required": true,
+      "note": "ISO date. Statute text can change, so this is part of the evidence."
+    },
+    "affects": {
+      "type": "string",
+      "note": "Comma-separated phase or feature ids this constrains, e.g. phase-9,phase-5b."
+    },
+    "decision": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "prohibited",
+        "restricted",
+        "permitted",
+        "conditional"
+      ],
+      "note": "What we decided, given the text. Never derived from the statute alone."
+    },
+    "review_required": {
+      "type": "boolean",
+      "required": true,
+      "note": "True where a qualified attorney must sign off before this row is relied on for anything user-facing."
+    },
+    "reasoning": {
+      "type": "string",
+      "required": true,
+      "note": "Why the decision follows from the text. The part a reviewer argues with."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 2,
+      "citation": "18 U.S.C. 921(a)(17)(A)",
+      "short_name": "Ammunition includes components",
+      "jurisdiction": "us_federal",
+      "topic": "ammunition",
+      "governs": "Forbids treating empty cartridge cases, primers, bullets or powder as outside the rules governing ammunition",
+      "operative_text": "The term \"ammunition\" means ammunition or cartridge cases, primers, bullets, or propellent powder designed for use in any firearm.",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/uscode/text/18/921",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-9,phase-5b",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "DECISIVE for the marketplace question and for brass. The intuitive reading that brass and bullets are inert components outside the law is wrong at the statutory level: brass is ammunition not yet assembled. A reloader trading empty brass across state lines is dealing in ammunition under the GCA. This row is why Phase 9 brass is marked CONTESTED rather than permitted."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 3,
+      "citation": "18 U.S.C. 922(a)(1)",
+      "short_name": "Unlicensed dealing in ammunition",
+      "jurisdiction": "us_federal",
+      "topic": "ammunition",
+      "governs": "Forbids engaging in the business of dealing in ammunition without a licence",
+      "operative_text": "except a licensed importer , licensed manufacturer , or licensed dealer, to engage in the business of importing, manufacturing, or dealing in firearms, or in the course of such business to ship, transport, or receive any firearm in interstate or foreign commerce ; or (B) except a licensed importer or licensed manufacturer , to engage in the business of importing or manufacturing ammunition",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/uscode/text/18/922",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-9,phase-5b",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "The word business is doing the work. A one-off disposal of surplus is not obviously a business; a marketplace on which we facilitate regular transactions is much closer to one. This is why the recommendation is about the venue we provide, not only about what is listed."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 4,
+      "citation": "18 U.S.C. 922(g)(1)",
+      "short_name": "Interstate shipment to an unlicensed person",
+      "jurisdiction": "us_federal",
+      "topic": "ammunition",
+      "governs": "Forbids shipping ammunition in interstate or foreign commerce to anyone not a licensed dealer or manufacturer",
+      "operative_text": "It shall be unlawful— (1) for any person— (A) except a licensed importer , licensed manufacturer , or licensed dealer, to engage in the business of importing, manufacturing, or dealing in firearms",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/uscode/text/18/922",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-9,phase-5b",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "Pairs with 921(a)(17)(A). Because brass and bullets are ammunition, mailing them across state lines is what this addresses - the federal exposure sits with the individual shipping, and a platform that facilitates it does not sit outside it."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 5,
+      "citation": "18 U.S.C. 921(a)(3)(B)",
+      "short_name": "A frame or receiver is a firearm",
+      "jurisdiction": "us_federal",
+      "topic": "firearm",
+      "governs": "Forbids listing or transferring any firearm frame or receiver, including unfinished ones",
+      "operative_text": "any weapon (including a starter gun) which will or is designed to or may readily be converted to expel a projectile by the action of an explosive; (B) the frame or receiver of any such weapon",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/uscode/text/18/921",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-9,phase-5b",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "The consequence nobody expects. An 80 percent lower or receiver is a firearm whether finished or not. Used reloading equipment is the category most likely to sweep one in casually, and a marketplace operator cannot know what is in the box before the transaction completes."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 6,
+      "citation": "18 U.S.C. 921(a)(4)",
+      "short_name": "Destructive device",
+      "jurisdiction": "us_federal",
+      "topic": "explosives",
+      "governs": "Forbids any combination of parts designed to convert a device into a destructive device",
+      "operative_text": "(C) any combination of parts either designed or intended for use in converting any device into any destructive device described in subparagraph (A) or (B) and from which a destructive device may be readily assembled.",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/uscode/text/18/921",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-9",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "Recorded because it is the nearest neighbours definition to the excluded categories. It is why we do not reason loosely about what a component becomes in combination."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 7,
+      "citation": "16 C.F.R. 465.2(a)",
+      "short_name": "Writing a fake review",
+      "jurisdiction": "us_federal",
+      "topic": "reviews",
+      "governs": "Forbids writing or creating a review that misrepresents the reviewer, their use, or their experience",
+      "operative_text": "It is an unfair or deceptive act or practice and a violation of this part for a business to write, create, or sell a consumer review , consumer testimonial , or celebrity testimonial that materially misrepresents, expressly or by implication: (1) That the reviewer or testimonialist exists; (2) That the reviewer or testimonialist used or otherwise had experience with the product, service, or business that is the subject of the review or testimonial; or (3) The reviewer's or testimonialist's experience with the product, service, or business that is the subject of the review or testimonial.",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/cfr/text/16/465.2",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "This is what the ratings we removed on 2 Oct 2026 were: no reviewer existed, so clauses (1) and (2) were both violated. The removal was correct and is not reversible."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 8,
+      "citation": "16 C.F.R. 465.2(b)",
+      "short_name": "Purchasing or disseminating a false review",
+      "jurisdiction": "us_federal",
+      "topic": "reviews",
+      "governs": "Forbids purchasing a review, or disseminating one we knew or should have known was false",
+      "operative_text": "It is an unfair or deceptive act or practice and a violation of this part for a business to purchase a consumer review , or to disseminate or cause the dissemination of a consumer testimonial or celebrity testimonial , about the business or one of the products or services it sells, which the business knew or should have known materially misrepresented",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/cfr/text/16/465.2",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7,phase-8",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "Two consequences. We may not pay for reviews, which is why creator partnerships may cover promotion but never a finding. And knowingly hosting a fake review is prohibited, which is why the monitoring procedure is not optional."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 9,
+      "citation": "16 C.F.R. 465.2(d)(2)",
+      "short_name": "Consumer review hosting is exempt",
+      "jurisdiction": "us_federal",
+      "topic": "reviews",
+      "governs": "Permits displaying genuine third-party reviews that we did not write",
+      "operative_text": "Reviews that appear on a website or platform as a result of the business merely engaging in consumer review hosting",
+      "quote_status": "verbatim",
+      "source_url": "https://www.law.cornell.edu/cfr/text/16/465.2",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7",
+      "decision": "permitted",
+      "review_required": true,
+      "reasoning": "The provision that makes the whole review programme lawful. Aggregating genuine third-party reviews is expressly contemplated; fabricating, buying or ignoring them is not. This is the line between hosting and authoring."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 10,
+      "citation": "16 C.F.R. 465.3",
+      "short_name": "Duties of a review host",
+      "jurisdiction": "us_federal",
+      "topic": "reviews",
+      "governs": "Requires a monitoring procedure, a published statement of it, and the ability to send a sample of disseminated reviews to the FTC",
+      "operative_text": "NOT YET RETRIEVED - see reasoning",
+      "quote_status": "unverified",
+      "source_url": "https://www.ftc.gov/business-guidance/resources/consumer-reviews-testimonials-rule-questions-answers",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7",
+      "decision": "conditional",
+      "review_required": true,
+      "reasoning": "Marked unverified because the operative text was NOT obtained - the FTC Q&A page confirms the three obligations but the section text itself was not retrieved. Recorded deliberately: it is the obligation most likely to be missed, and the gap should be visible rather than absent. Phase 7 deliverables 7.3 and 7.4 exist because of it. Obtain the text before Phase 7 ships."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 11,
+      "citation": "16 C.F.R. 255.2(b)",
+      "short_name": "Endorsements must be substantiated",
+      "jurisdiction": "us_federal",
+      "topic": "advertising",
+      "governs": "Forbids an endorser making a representation they cannot substantiate",
+      "operative_text": "NOT YET RETRIEVED - see reasoning",
+      "quote_status": "unverified",
+      "source_url": "https://www.ftc.gov/business-guidance/resources/ftcs-endorsement-guides-what-people-are-asking",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7,phase-9",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "The basis for removing the retailer ratings, the Verified claims and the unsourced savings figure. Text not retrieved verbatim; recorded so the reasoning behind claims:check traces to a citation rather than to memory."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 12,
+      "citation": "16 C.F.R. 465 Q&A, seller service reviews",
+      "short_name": "Suppressing seller service reviews",
+      "jurisdiction": "us_federal",
+      "topic": "reviews",
+      "governs": "Forbids filtering out a seller's service, delivery, returns or exchange complaints",
+      "operative_text": "But be aware that suppressing customer reviews about a \"particular seller's customer service, delivery, returns, and exchanges\" can be deceptive in violation of Section 5 of the FTC Act.",
+      "quote_status": "verbatim",
+      "source_url": "https://www.ftc.gov/business-guidance/resources/consumer-reviews-testimonials-rule-questions-answers",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "Quoted verbatim because the trap is counter-intuitive: an even-handed filter that removes service complaints is still deceptive. A retailer rating that quietly drops slow-shipping complaints is a deceptive rating, however neutral the rule looks."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 13,
+      "citation": "16 C.F.R. 465.8",
+      "short_name": "Fake indicators of social media influence",
+      "jurisdiction": "us_federal",
+      "topic": "advertising",
+      "governs": "Forbids purchasing fake followers or engagement",
+      "operative_text": "The provision is limited to the purchase of fake indicators of social media influence which you knew or should have known were fake.",
+      "quote_status": "verbatim",
+      "source_url": "https://www.ftc.gov/business-guidance/resources/consumer-reviews-testimonials-rule-questions-answers",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-7,phase-9",
+      "decision": "prohibited",
+      "review_required": true,
+      "reasoning": "Recorded because any future social account for the project inherits this. The limit is on knowingly buying the fake indicator, not on benefiting from one innocently - which means a red flag we should have noticed is what creates liability."
+    },
+    {
+      "_source": "data/seeds/regulations.csv",
+      "_line": 14,
+      "citation": "Stripe Prohibited Businesses",
+      "short_name": "Payment processor ammunition ruleset",
+      "jurisdiction": "platform",
+      "topic": "payments",
+      "governs": "May refuse ammunition-adjacent goods regardless of legality",
+      "operative_text": "NOT YET RETRIEVED - we have not asked",
+      "quote_status": "unverified",
+      "source_url": "https://stripe.com/legal/restricted-businesses",
+      "retrieved_on": "2026-10-02",
+      "affects": "phase-9",
+      "decision": "restricted",
+      "review_required": true,
+      "reasoning": "UNVERIFIED and deliberately so: we have not asked. Our reading is that reloadable brass may be refused under a rule reading ammunition components despite being inert, because a processor ruleset is a private policy decision rather than a legal one. Cheapest open question on the board - ask before building, do not discover at launch."
+    }
+  ]
+}

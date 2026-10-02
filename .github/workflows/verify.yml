@@ -93,6 +93,7 @@ jobs:
           npm run claims:check
           npm run tasks:check
           npm run oracle:check
+          npm run regulations:check
 
       # This workflow lists gates by hand, which is how three of them went
       # missing (claims, tasks, oracle). This compares the list against
