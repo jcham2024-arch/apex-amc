@@ -16,6 +16,47 @@ The owner settled the design question that had blocked this feature. His words: 
 5. Claim it: `mv tasking/pending/published-load-lookup-spec tasking/in-progress/`
 6. Send a START message to your inbox. `npm run tasking:check` must pass before you send STOP.
 
+## Confirmed by the owner, 3 Oct 2026 — Hodgdon is a first-class source
+
+The owner raised Hodgdon directly: *"we should not forget about Hodgdon powder, I know
+they publish load data."* **Verified, and it is the best free target found so far.**
+
+Hodgdon operates a **Reloading Data Center** at `https://hodgdonreloading.com/rldc/`:
+
+- **Free, searchable, no purchase or registration required.**
+- Filters by cartridge, powder, bullet and twist; returns starting load, maximum load,
+  bullet manufacturer, primer, velocity and pressure per combination.
+- Covers **Hodgdon and IMR powders** — so one free source covers two major manufacturers.
+- Cross-references Berger, Hornady, Nosler, Sierra, Speer and Winchester bullets.
+
+Treat this as the reference case for the whole task: **it is exactly the shape of source
+the lookup exists to point at** — free, authoritative, structured, and reachable by link
+without a purchase decision from the owner.
+
+### The licence clause, quoted verbatim
+
+> "All Reloading Data Center information is proprietary to Hodgdon Powder Co. Use of this
+> data is strictly limited to personal, non-commercial purposes. Any automated scraping,
+> redistribution, or incorporation into third-party platforms, software, or apps without
+> written consent is prohibited and **may result in legal action**."
+
+**This is the clearest statement in the entire investigation, and it settles two
+questions at once.** We are a third-party platform, we would be acting
+non-commercially-adjacent at best, and "incorporation into ... platforms, software, or
+apps" describes this project verbatim. So:
+
+- **Citing and linking Hodgdon is permitted and is the intended behaviour.**
+- **Scraping Hodgdon is explicitly prohibited, and the clause names legal action.**
+
+Note the asymmetry this creates, which is the task's central design lesson: Hodgdon
+publishes *more* freely than anyone else and is therefore the *most* citable source and
+simultaneously the one we may touch least. **Availability and permissibility are
+independent axes.** A free, public, structured source is still proprietary, and
+"we could get the numbers" is never the question to ask — "may we" is.
+
+Record Hodgdon's posture in `02-licence-and-permissions.md` as the worked example, with
+the quote above and its retrieval date.
+
 ## Scope
 
 - Establish, with sources and URLs, exactly WHAT each major manufacturer publishes and WHERE: Berger (load data on its website and in its manual, plus its published BC figures), Hornady (Load'n'Lube and the Hornady Handbook), Hodgdon, Vihtavuori, Winchester, and Federal for primers. For each, state the access route - public web page, free download, paid manual, or subscription - because that determines what we can link to and what we would have to buy.

@@ -181,6 +181,87 @@ unreferenced, then rejected its own flag: they are used inside the file by
 
 ### 12. Eight scripts unreachable from `package.json` — REJECTED
 
+### 13. Retailer price storage + monetisation posture — RESOLVED (owner decision, 3 Oct 2026)
+
+> "As far as revenue generation goes, we don't need to make things easy for anyone who is
+> not paying us to send people to them."
+
+**Affiliates unblock stored prices — and only for the retailers in those programmes.**
+This is a real and correct point about *permission*: an affiliate agreement is itself a
+licence to display the partner's product data, including price. It is also the mechanism
+that makes the non-paying case cheap rather than merely unprofitable.
+
+Store-and-display prices therefore become permitted **for affiliate partners**, and the
+lawful-routes question in `retailer-price-data-options` closes for them.
+
+**The requirement this creates, which is not optional**
+
+**Any outbound link must carry its commercial relationship.** The FTC endorsement guides
+require a clear and conspicuous disclosure that we receive compensation when we receive
+it. A design that pushes paying retailers to the top and buries the rest is exactly the
+arrangement that disclosure exists for, and **the incentive to obscure grows precisely as
+the money does.**
+
+So this decision has a mandatory companion: a per-link or per-row disclosure that
+survives the case where every visible link happens to be an affiliate. That is the hardest
+case to notice and the one most likely to be wrong, because it looks identical to the
+correct case.
+
+**The conflict — flagging rather than resolving it myself**
+
+This posture directly opposes an earlier owner request, and I am not going to quietly
+implement both.
+
+The local shop directory is built on the ATF FFL dataset, which is dominated by
+**independent gun shops**. Independent FFLs are overwhelmingly the *least* likely to run
+an affiliate programme and the *least* likely to pay us for a referral.
+
+So "don't make it easy for anyone not paying us" **empties the local shop directory** —
+the feature that is most useful to the most local user, and least monetisable.
+
+Three coherent positions, all legitimate:
+
+1. **Monetise-first** — affiliate partners only; drop or deprioritise the local
+   directory. Maximum revenue, smallest local utility.
+2. **Local-utility-first** — the directory exists because it helps, independent or not,
+   and revenue comes from online retailers. Small revenue, real local value.
+3. **Two surfaces** — the local directory is free and complete for everyone, and
+   monetisation applies only to the online retailer comparison. Keeps both, but requires
+   the directory to be visibly *not* a revenue surface, or it misleads.
+
+**This needs an owner decision.** It is a product-identity question, not a technical one,
+and I am recording it rather than choosing. Note the honest tension: option 3 is the one
+that survives scrutiny, because the failure mode of option 1 is a site that quietly
+becomes an advertising vehicle for whoever pays, which is not what a reloading-cost tool
+should be.
+
+### 14. Hodgdon confirmed as a first-class source — RESOLVED (owner decision, 3 Oct 2026)
+
+> "We should not forget about Hodgdon powder, I know they publish load data."
+
+**Verified — and it is the strongest free source in the whole investigation.**
+`https://hodgdonreloading.com/rldc/` is free, searchable, needs no purchase or
+registration, and covers **Hodgdon and IMR powders** in one place. Cross-references
+Berger, Hornady, Nosler, Sierra, Speer and Winchester bullets.
+
+The licence clause is unusually explicit and settles both questions at once:
+
+> "Use of this data is strictly limited to personal, non-commercial purposes. Any
+> automated scraping, redistribution, or incorporation into third-party platforms,
+> software, or apps without written consent is prohibited and **may result in legal
+> action**."
+
+We are a third-party platform and "incorporation into ... platforms, software, or apps"
+describes this project verbatim. **Cite and link is permitted; scraping is prohibited and
+the clause names legal action.**
+
+The lesson worth keeping is the asymmetry: **Hodgdon publishes more freely than anyone
+else and is therefore simultaneously the most citable source and the one we may touch
+least.** Availability and permissibility are independent axes. "We could get the numbers"
+is never the question — "may we" is.
+
+Full evidence is in `tasking/pending/published-load-lookup-spec/BRIEF.md`.
+
 All are imported by another script or are documented one-shot tools.
 `extract-website.mjs` is unreachable *by design* — it overwrites hand-edited files
 and requires `--force`.
