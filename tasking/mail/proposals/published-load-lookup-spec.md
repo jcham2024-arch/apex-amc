@@ -3,7 +3,7 @@ proposal: published-load-lookup-spec
 title: Give the user the manufacturer's own published load data, cited
 derived_from: tasking/completed/interior-ballistics/03-load-synthesis-literature.md
 evidence: "Berger's own disclaimer confirms: The loading data on our website and in our reloading manual has been developed... it is impossible to provide perfectly consistent data between all manuals and sources."
-shape: change
+shape: research
 priority: high
 write_set:
   - tasking/completed/published-load-lookup-spec/
@@ -29,12 +29,13 @@ The owner settled the design question that had blocked this feature. His words: 
 - Design how edition and date are displayed. A figure from a twelve-year-old handbook edition presented as current is a claim we cannot substantiate, and manufacturers DO revise. Include what a user sees when a newer edition exists that we have not captured.
 - Specify the primer dimension the owner named explicitly: manufacturer (CCI, Federal, Winchester), type (standard, match, magnum, non-magnum) and whether it is magnum. This is a lookup fact published by each manufacturer, not a calculation, so it belongs in scope - and magnum status changes the result, so getting it wrong changes the answer.
 - State plainly what remains blocked. Linking to a paid manual we do not hold is not a feature. Say exactly which manufacturers are reachable with free public data today and which require a purchase decision from the owner.
+- Keep the METADATA/VALUE line explicit, because it is the boundary the owner's decision turns on. Storing a POINTER is not storing a VALUE: knowing 'Berger publishes load data for bullet X at this URL, edition N' is metadata and is what makes routing possible; copying the numbers off that page into data/ is redistribution and is not permitted. The lookup cannot route a user to a page without knowing the page exists, so it MUST store metadata. Specify the metadata record shape, and state in the spec exactly what it excludes - it carries no quantities of any kind, only who publishes what, where, in which edition, and whether it is free or behind a purchase.
 
 ## Do not
 
 - Do NOT compute, interpolate, extrapolate, average or fit any charge weight, powder constant or burn rate. This task produces a specification for a LOOKUP and a citation. The owner's instruction is explicit: give the user what the manufacturer published, not our own calculated load.
-- Do not store or republish a manufacturer's tables without establishing the licence position for that specific source. Linking to a public page and copying its contents into our seed data are different acts with different permissions.
-- Do not treat this as fully unblocked. It is blocked on the licensing decisions listed above, recorded in FIX-BACKLOG.md item 10.
+- Do not store a manufacturer's VALUES. The owner decided on 3 Oct 2026: cite and link only. Storing grain weights, even with attribution, is exactly what that decision excludes. Metadata about where to find them is permitted and necessary; the figures are not.
+- Do not design a scraper for a manufacturer's load tables. The same terms-of-service reasoning that rules out retailer price scraping rules this out.
 - Do not present a sourced figure and a derived one in the same visual treatment. That is the single failure this design exists to prevent.
 
 Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,

@@ -26,43 +26,64 @@ the number that ties a component choice to a purchase.
 | Tax and shipping | `component-cost-model` |
 | User can override with their own prices | `component-cost-model` |
 | Links to cheapest/fastest source, price shown | **blocked** on retailer data |
-| **Manufacturer's own published load data, cited** | **blocked** on licensing — `published-load-lookup-spec` |
+| **Manufacturer's own published load data, cited** | `published-load-lookup-spec` — **unblocked by owner decision** |
 
-## The load ladder — settled by the owner, and it is the right call
+## The load ladder — settled twice, by the owner
 
-The owner resolved the design question that had been blocking this:
+**First the design, then the licence. Both were the owner's calls, and both were better
+than what I had written.**
 
 > "We should be getting all the relevant data we need from the component manufacturers —
 > they publish how much powder to use for what. I want to give the user that, **not
 > necessarily our own calculated load**."
 
-**This is materially safer and simpler than the interpolation engine an earlier task
-assumed, because it removes calculation from the product entirely.** Every number a user
-sees is a manufacturer's, attributed, dated and linked. The project becomes a good index
-to authoritative data rather than a second and worse source of it.
+**This removes calculation from the product entirely.** Every number a user sees is a
+manufacturer's — attributed, dated, linked. The project becomes a good index to
+authoritative data rather than a second and worse source of it.
 
-What was replaced: `load-ladder-interpolation-spec` asked for nearest-neighbour
-interpolation over published tables. **Interpolation is now explicitly out of scope** —
-an interpolated figure looks identical to a sourced one and is not, and that
-indistinguishability is the exact failure the design has to prevent. The lookup either
-finds what a manufacturer published, or it says no manufacturer publishes it.
+> "Cite and link. If we are not able to give the user that data, then they need to go buy
+> the book. That keeps us legally safe."
 
-The safety property that remains is the **refusal**: a lookup that cannot say "no
-manufacturer publishes this combination" is unsafe by construction. The precedent is
-Hornady's own 12th Edition carrying a misprinted powder for 6.5 PRC that should read
-StaBall HD — a name-matching system inherits that risk with no erratum channel.
+**We store, cache and republish nothing.** We cite the source, attribute it, link to it,
+and say plainly when a figure lives behind a purchase the user must make themselves.
 
-**Still blocked**, and it is a commercial decision rather than an engineering one:
-what we may *store, cache or republish* is different from what we may *cite and link*,
-and those are three different permissions. Berger is © CGP, Vihtavuori is © Nammo,
-Hornady's handbook is sold. See `FIX-BACKLOG.md` item 10.
+### What that makes unnecessary — simplification, not just compliance
 
-## Retailer pricing — also blocked, for a different reason
+A `recipes` dataset. A load-data schema and migration. Staleness handling for load
+figures — we display a link, not a snapshot. Per-edition correction tracking, because
+the manufacturer's edition *is* the source.
+
+### The line that still needs care
+
+**Storing a pointer is not storing a value.** Knowing "Berger publishes load data for
+bullet X at this URL, edition N" is metadata and is what makes routing possible. Copying
+the numbers off that page into `data/` is redistribution and is not permitted. The
+lookup cannot route a user to a page without knowing the page exists, so it must store
+metadata — carrying no quantities of any kind, only who publishes what, where, in which
+edition, and whether it is free or behind a purchase.
+
+### What survived unchanged
+
+**The refusal requirement.** A lookup that cannot say "no manufacturer publishes this
+combination" is unsafe by construction, and where the number comes from is irrelevant to
+the hazard: Hornady's own 12th Edition carries a misprinted powder for 6.5 PRC that
+should read StaBall HD. A name-matching system inherits exactly that risk with no
+erratum channel to catch it.
+
+**Interpolation stays out of scope** — an interpolated figure looks identical to a
+sourced one and is not. The lookup either finds what a manufacturer published, or says
+nobody publishes it.
+
+## Retailer pricing — blocked, for a related reason
 
 Live prices with links to the best source. Scraper writing is the obvious approach and
 the wrong one: retailer terms of service generally prohibit it, and a scraped price is
 a snapshot that silently decays. `retailer-price-data-options` is researching the
 lawful routes — published feed specifications and affiliate networks.
+
+The owner's licence decision here was *cite and link*. The parallel open question is
+whether **prices** may be stored under an affiliate feed, which is a different permission
+from storing load data and has not been decided.
 
 ## The constraint that applies to all of it
 

@@ -133,11 +133,41 @@ data work is lawful. `cartridge-licence-reconciliation` is establishing exactly 
 the published terms say; if that is not decisive it needs a lawyer or an enquiry to
 CIP.
 
-### 10. Load-table licensing — BLOCKED
+### 10. Load-table licensing — RESOLVED (owner decision, 3 Oct 2026)
 
-*"Hornady sells its data. Whether we license, scrape-under-licence, or restrict the
-feature to citation is an owner decision with legal exposure."* Commercial, not
-engineering. Everything in `interior-ballistics` waits on it.
+> **"Cite and link. If we are not able to give the user that data, then they need to go
+> buy the book. That keeps us legally safe."**
+
+The owner chose the most conservative of the options, and it is the right one. **We do
+not store, cache, or republish any manufacturer's load data.** We cite the source,
+attribute it, link to it, and tell the user plainly when a figure lives behind a
+purchase they must make themselves.
+
+This resolved a commercial question that had blocked the load-lookup feature since
+`interior-ballistics` first reported it, and it unblocked `published-load-lookup-spec`.
+
+**What it makes unnecessary — a real simplification, not just a legal one:**
+
+| No longer needed | Why |
+| --- | --- |
+| A `recipes` dataset | We would never populate it |
+| Load-data schema and migration | Nothing to store |
+| Staleness handling for load figures | We display a link, not a snapshot |
+| Per-edition correction tracking | The manufacturer's edition *is* the source |
+
+**What it does not remove:** the refusal requirement. A lookup that cannot say "no
+manufacturer publishes this combination" is still unsafe — the Hornady 6.5 PRC
+misprint is a name-matching hazard regardless of where the number comes from. And a
+sourced figure and a derived one must still never share a visual treatment.
+
+**The boundary that needs care:** storing *pointers* is not storing *values*. Knowing
+"Berger publishes load data for bullet X at this URL" is metadata; copying the grain
+weights off that page into `data/` is redistribution. The lookup cannot route a user
+to a page without knowing the page exists, so it must store metadata — and the task is
+required to keep that line explicit rather than let it erode.
+
+`interior-ballistics`' finding still stands and is still load-bearing: no manufacturer
+publishes burn rate or pressure exponent, and none ever will.
 
 ---
 

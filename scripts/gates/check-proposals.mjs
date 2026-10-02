@@ -67,8 +67,15 @@ const SAFETY_BANNED = [
   /load synthesis/i,
   /\bmax(imum)? pressure\b/i,
   /interpolat\w+ (a )?load/i,
-  // Added after the probe above found a real gap.
-  /(recommend|suggest|compute|derive|calculate|infer|size|estimate)\w*\s+(a\s+|an\s+|the\s+)?(charge|load|grains?\s+(of|in)\s+(powder|charge))/i,
+  // Added after the probe above found a real gap. Scoped to a SINGLE line on
+  // purpose: `\s` matches newlines, so an unbounded version fires across a line
+  // break. Per-line matching is what an operator-plus-object pattern means anyway.
+  //
+  // NEGATION-AWARE. The owner's own words for the design were 'not necessarily our own
+  // calculated load', and the unnegated pattern read that as an instruction to compute
+  // one. A guard of one simple negation is honest: if you need several words of
+  // machinery to deny the operation, you are probably not denying it.
+  /^(?![^\n]*\b(?:not|never|rather than|instead of)\b)[^\n]*\b(recommend|suggest|compute|derive|calculate|infer|estimate)\w*\s+(a\s+|an\s+|the\s+)?(charge|load|grains?\s+(of|in)\s+(powder|charge))\b/im,
   /\b(charge|load)\s+(weight|recommendation|suggestion)\b/i,
 ];
 
@@ -167,7 +174,23 @@ for (const name of proposalFiles) {
   // The first genuine false positive was this very proposal.
   if (fm.shape === 'research') {
     const text = readFileSync(file, 'utf8');
+    // Strip prohibitions wherever they appear, not just under `## Do not`.
+    //
+    // A prohibition is not a proposal. This heuristic was too blunt and misfired
+    // three times on the same task family, each time blocking a SPECIFICATION that
+    // existed precisely to forbid the operation:
+    //   - 'Do NOT compute, interpolate or fit any charge weight'   -> blocked
+    //   - 'the metadata contains no charge weights'                -> blocked
+    //   - a scope line naming the hazard in order to explain it     -> blocked
+    //
+    // Dropping a line that opens as a prohibition keeps the safety property intact -
+    // a task cannot quietly PROPOSE charge computation on a line beginning "Do not"
+    // - while letting a brief state, in its own words, what it will never do.
+    // Still barred: naming a hazard in order to do it.
     const intent = text
+      .split('\n')
+      .filter((l) => !/^\s*(?:[-*]\s*)?(?:do not|do n[o']t|never|must not|no\b.{0,20}\bnot\b)\b/i.test(l))
+      .join('\n')
       .split(/^##\s+(?:do not|prohibitions?|never)\b.*$/im)[0]
       .replace(/```[\s\S]*?```/g, '');
     const hit = SAFETY_BANNED.find((re) => re.test(intent));
