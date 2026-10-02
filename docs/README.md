@@ -14,7 +14,7 @@ trusting any figure.
 | Tests | **235 passing** |
 | `npm run verify` | **green, every stage** |
 | Solver | agrees with an independent implementation to **1 fps** |
-| Recipes | **zero** â€” the load feature has no data yet |
+| Recipes | **zero** — the load feature has no data yet |
 
 Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 161 tests passed**. See `BALLISTICS-AUDIT.md` section 0 and
@@ -30,17 +30,17 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 | **[TASK-LIST.md](TASK-LIST.md)** | **THE PLAN for code and safety.** Blockers, priorities, done-when criteria, rules. |
 | **[DATA-TODO.md](DATA-TODO.md)** | **THE PLAN for the data layer.** Row counts, coverage, integrity defects, and the unbuilt database path. |
 | [SOURCES.md](SOURCES.md) | Every external figure we rely on, with provenance and retrieval dates. |
-| [BALLISTICS-AUDIT.md](BALLISTICS-AUDIT.md) | Solver correctness. **Section 0 is the current state â€” read it before trusting any trajectory number.** |
-| [OPEN-SOURCE-LANDSCAPE.md](OPEN-SOURCE-LANDSCAPE.md) | External implementations and datasets. **How three defects hid each other â€” 1.1b.** |
+| [BALLISTICS-AUDIT.md](BALLISTICS-AUDIT.md) | Solver correctness. **Section 0 is the current state — read it before trusting any trajectory number.** |
+| [OPEN-SOURCE-LANDSCAPE.md](OPEN-SOURCE-LANDSCAPE.md) | External implementations and datasets. **How three defects hid each other — 1.1b.** |
 | [ORACLE-SOURCES.md](ORACLE-SOURCES.md) | Published hard data for cross-checking. Contains the authoritative McCoy drag table. |
 
 ## Architecture and data
 
 | Doc | What it is |
 |---|---|
-| [**../ARCHITECTURE.md**](../ARCHITECTURE.md) | **The module map** â€” what is split, what deliberately is not, and the gate that proves the pieces still fit. |
+| [**../ARCHITECTURE.md**](../ARCHITECTURE.md) | **The module map** — what is split, what deliberately is not, and the gate that proves the pieces still fit. |
 | [**VARIABLES.md**](VARIABLES.md) | **Where every value lives.** The three tiers, which literals must never be hardcoded, and which must stay inline. |
-| [**REVIEW.md**](REVIEW.md) | **Security and practice review (Oct 2026).** Open findings, outdated dependencies, and what *not* to change â€” including why OOP stays. |
+| [**REVIEW.md**](REVIEW.md) | **Security and practice review (Oct 2026).** Open findings, outdated dependencies, and what *not* to change — including why OOP stays. |
 | [**DEPENDABOT.md**](DEPENDABOT.md) | **Automated dependency updates.** What Dependabot is, how it is configured here, and why Expo is notify-only. |
 | [DATA-MODEL.md](DATA-MODEL.md) | Schema overview and migration plan. |
 | [SEED-DATA-GUIDE.md](SEED-DATA-GUIDE.md) | How to populate the data layer correctly. Provenance rules for the data agent. |
@@ -61,14 +61,14 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 |---|---|
 | [HARDWARE-AND-SENSORS.md](HARDWARE-AND-SENSORS.md) | Rangefinders, weather meters, turrets. What integrates and what does not. |
 | **[../SECURITY.md](../SECURITY.md)** | **Security findings in the shipped app**, their severity, and what fixes each one. |
-| [COMMUNITY-AND-GROUP-BUY.md](COMMUNITY-AND-GROUP-BUY.md) | Pledge â†’ group closes â†’ shooter pays retailer. Why Apex never holds pooled funds. |
+| [COMMUNITY-AND-GROUP-BUY.md](COMMUNITY-AND-GROUP-BUY.md) | Pledge → group closes → shooter pays retailer. Why Apex never holds pooled funds. |
 | [COMPETITIVE-LANDSCAPE.md](COMPETITIVE-LANDSCAPE.md) | Who we compete with, and where we can actually win. |
 
 ## Parked work
 
 | Doc | What it is |
 |---|---|
-| [FUTURE-INTEGRATIONS.md](FUTURE-INTEGRATIONS.md) | LLM integration, errata monitoring, review aggregation. **Parked, not abandoned** â€” the reasoning and safety boundaries are preserved. |
+| [FUTURE-INTEGRATIONS.md](FUTURE-INTEGRATIONS.md) | LLM integration, errata monitoring, review aggregation. **Parked, not abandoned** — the reasoning and safety boundaries are preserved. |
 | [**../AGENTS.md**](../AGENTS.md) | **Baseline for agents.** (Previously duplicated here as `AGENT-HANDOFF.md`; removed to stop the two copies drifting.) |
 | [LANE-7-FORUM-AGENT.md](LANE-7-FORUM-AGENT.md) | **Ready-to-hand brief** for a model tasked with reading, mapping and linking forum threads. Self-contained. |
 
