@@ -393,6 +393,58 @@
         "tasking/completed/T6/ (new files only)"
       ],
       "notes": "RESEARCH ONLY. Must not touch packages/ballistics-core (safety-critical). Gathers measured trajectory data; there is currently none. Safe alongside T4, T5."
+    },
+    {
+      "id": "T7",
+      "title": "AmmoSeek breadth gap analysis and sourcing plan",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-data",
+      "file": "tasking/pending/task-T7-ammoseek-coverage.md",
+      "write_set": [
+        "tasking/completed/T7/ (new files only)"
+      ],
+      "notes": "RESEARCH ONLY. Produces the requested coverage-gap table; must NOT add cartridges (data/seeds lock) and must NOT copy product data from AmmoSeek per regulations.csv. Requires alias-aware matching. Safe alongside T4, T5, T6."
+    },
+    {
+      "id": "T8",
+      "title": "UI/UX research and modern mockups",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-design",
+      "file": "tasking/pending/task-T8-ui-research.md",
+      "write_set": [
+        "tasking/completed/T8/ (new files only)"
+      ],
+      "notes": "RESEARCH AND DESIGN ONLY. Must not edit apps/ - the live site is out of scope. Mockups must obey the single-file self-containment rule and the strict CSP (no on*= handlers, no style= attributes). Existing docs/mockups/ must be read first, not duplicated."
+    },
+    {
+      "id": "T9",
+      "title": "Repository documentation audit",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-docs",
+      "file": "tasking/pending/task-T9-docs-audit.md",
+      "write_set": [
+        "tasking/completed/T9/ (new files only)"
+      ],
+      "notes": "RESEARCH AND AUDIT ONLY. Must not edit docs/. Known starting points: .clinerules says 14 stages when verify declares 19; ledger baseline is stale. Safe alongside T8 and T10."
+    },
+    {
+      "id": "T10",
+      "title": "Source code quality and dead-code audit",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-code",
+      "file": "tasking/pending/task-T10-code-audit.md",
+      "write_set": [
+        "tasking/completed/T10/ (new files only)"
+      ],
+      "notes": "AUDIT ONLY, no refactoring. packages/ballistics-core is safety-critical and read-only. Every dead-code claim needs a proving search. Safe alongside T9."
     }
   ],
   "parallel_safe": [
@@ -405,7 +457,11 @@
     "T2",
     "T4",
     "T5",
-    "T6"
+    "T6",
+    "T7",
+    "T8",
+    "T9",
+    "T10"
   ],
   "serial_chains": [
     [

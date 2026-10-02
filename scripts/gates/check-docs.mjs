@@ -95,6 +95,20 @@ const SKIP_DIRS = new Set([
   // matching full relative paths - would need the walker to carry state this
   // function deliberately does not have.
   'completed',
+  // 'in-progress' for the same reason. An agent's workspace is mid-flight BY
+  // DEFINITION - half-written, deliberately partial, addressed to nobody.
+  // Checking it would fail the build on the NORMAL state of the folder, which
+  // would train everyone to ignore the gate. A staged copy that reaches
+  // completed/ has been read back by its author; one sitting in
+  // in-progress/ has not.
+  'in-progress',
+  // 'review' for the same reason, and it is not hypothetical. The review
+  // agent's templates contain headings inside example fences and bracketed
+  // paths like <task> that resolve to nothing - checked while writing this.
+  // Gating a folder that is written TO the swarm would fail the build on the
+  // review agent's legitimate output, which trains everyone to ignore the
+  // gate. The tier's own README is short and was verified by hand.
+  'review',
 ]);
 
 /** Print a string as code points, so no console can mis-render it. */

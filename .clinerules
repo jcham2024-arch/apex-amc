@@ -28,8 +28,12 @@ multi-agent guide disagree, this file is right, and the reason is stated inline.
 `npm run verify` is a shared global gate. If it is red when you start, **stop and
 report** — a red baseline invalidates every Definition of Done in every task.
 
-Baseline: **exit 0, 235 tests, 14 stages.** If the count differs, measure and
-report; do not assume your prompt is current.
+Baseline: **exit 0, all stages green.** Never quote a stage or test count from
+memory, from a task brief, or from another document — those drift, and a stale
+count in a rules file is worse than no count because agents trust it. Measure it:
+`npm run verify` for the exit code, and count the `&&` segments in `package.json`'s
+`verify` script for the stages. If your measurement disagrees with a number written
+anywhere, trust the measurement and say so in your report.
 
 ---
 
@@ -166,4 +170,66 @@ If the tooling provides a shared task board or mailbox:
   problem.
 - **Never assume a peer's uncommitted work exists.** Only committed, merged state
   is visible to you.
+
+---
+
+## 10. The swarm
+
+> **The brief queue is `tasking/`. Read `tasking/README.md` before taking any task.
+> It is binding and it contains the four-tier protocol.**
+
+### 10.1 Ownership of `tasking/pending/`
+
+> **`pending/` is read-only to every Sub-Agent.** Claiming a task means MOVING its
+> brief out of `pending/` into `in-progress/`. That move is the lock: there is no
+> registry to race on and no lock to expire, so a second agent simply cannot see a
+> claimed task and will pick another.
+
+This has already been violated. On 2 Oct 2026 several agents edited briefs in
+`pending/` at once; one brief was corrupted into a single collapsed line, another was
+renamed out from under a third agent, and `tasks:check` went red on a dangling path.
+Recoverable only because git happened to have the prior state.
+
+**If a brief is wrong, report it. Never repair it.** Fixing briefs is the Master
+Planner's job. A Sub-Agent that "helpfully" corrects a path has crossed the boundary
+that makes concurrent work safe.
+
+### 10.2 Take the next task without prompting
+
+> **After completing a task, if any brief remains in `pending/` that nobody has
+> claimed, claim it and start. Do not stop after one task. Do not wait to be
+> asked.**
+
+An idle worker is the most expensive outcome in this scheme, because every idle
+worker is work not being done. Before claiming, confirm the task's `blocked_by` is
+satisfied and that its write-set does not collide with a task already in flight —
+`.cline/tasks/ledger.json` is authoritative on overlap.
+
+**When the queue is empty, say "queue empty" and stop.** Do not invent work, do not
+tidie the codebase unasked, and do not begin a task with no brief. "Queue empty" is a
+correct result and a useful signal to the planner.
+
+### 10.3 Inter-agent communication
+
+**Write it in a file.** Any agent can read any file:
+
+| Path | Purpose |
+| --- | --- |
+| `tasking/in-progress/<task>/NOTES.md` | Anything you want a peer to know |
+| `tasking/review/FINDINGS.md` | The Integrator's merge decisions, readable by all |
+| `tasking/completed/<task>/NOTES.md` | A finding that must reach the planner |
+
+A file survives a dead session and is version-controlled; a message sent to an agent
+that has exited is simply gone. Prefer files. Write a note only when it changes what
+another agent would do — everything else is noise.
+
+### 10.4 What the gates will not tell you
+
+`tasking/completed/`, `in-progress/` and `review/` are excluded from `npm run lint`
+and `npm run docs:check` **on purpose**: a staged copy may be deliberately partial or
+mid-way through removing a defect, and failing the build for it would be wrong.
+
+The consequence, which is easy to miss: **running the gates does not validate your
+output. It only proves you stayed inside your folder.** You must read your own staged
+work back and check it. That is also the entire reason the review step exists.
 

@@ -1,11 +1,40 @@
 # Pending tasks
 
-Task briefs waiting for an agent. Read the file, then follow
-[the workflow](../README.md).
+Task briefs waiting for an agent. Read [../README.md](../README.md) **first** - it is
+the binding protocol, and it is not long.
+
+> ## This folder is read-only to you
+>
+> **The Master Planner owns `pending/`. You may read every file here. You may not
+> write, rename, move, or "tidy" anything in it.**
+>
+> Claiming a task means **moving its brief out** into `../in-progress/`. That move is
+> the lock — see below.
+>
+> **If a brief is wrong, report the defect in your summary. Do not repair it.** Fixing
+> briefs is the planner's job. This boundary was already crossed on 2 Oct 2026, and it
+> cost a corrupted brief and two agents renaming the same file simultaneously.
 
 These are the **only** place a task brief belongs. `docs:check` and `lint` both
 process this directory, so a brief naming a path that does not resolve fails the
 build before an agent follows it. That is intentional.
+
+## Claiming
+
+```bash
+mv tasking/pending/task-<name>.md tasking/in-progress/
+```
+
+No registry, no lock file, no expiry. The brief physically leaves, so a second agent
+listing this folder cannot see it and cannot take it. First mover owns it; if the file
+is gone, **choose another task, do not touch the running one**.
+
+## When you finish
+
+Move your folder to `../completed/`, then **immediately claim the next available brief
+here without being asked.** An idle worker is a task not being done. If this folder is
+empty when you look, report **"queue empty"** and stop - that is a correct result, and
+it is the signal the planner needs to write more.
 
 ## Available now
 

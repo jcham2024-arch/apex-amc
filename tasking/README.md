@@ -1,72 +1,167 @@
-# Tasking
+# Tasking - the agent swarm
 
-The hand-off area between this planning agent, reviewing agents, and any Sub-Agent
-doing work. It exists because the most damaging class of defect in this repository has
-been an agent editing a file nobody could see changed, or two agents editing one file
-at once.
+This directory is the **only** coordination channel between agents on this project.
+Four folders, and the single rule that matters is at the top.
 
-## The two directories
+---
 
+## THE ONE RULE
+
+> **`pending/` is owned by the planning agent. Every other agent READS it and never
+> writes to it. Not to fix a typo. Not to fill in a blank. Not to "just correct the
+> path". Not ever.**
+>
+> If a brief is wrong, finish your task and **report the defect**. The planning agent
+> fixes briefs. That is its job, not yours.
+
+This rule exists because it was already violated. On 2 Oct 2026 multiple agents edited
+briefs in `pending/` concurrently. Two agents renamed the same file at the same moment,
+one brief was briefly corrupted with its whole body collapsed into a single line, and
+`tasks:check` went red because a brief pointed at a file that no longer existed. It was
+recovered from git, but only because the damage happened to be tracked.
+
+**Recovery was possible by luck. Do not rely on it again.**
+
+---
+
+## The four folders
+
+| Folder | Who writes | What it is |
+|---|---|---|
+| `pending/` | **planning agent only** | Task briefs waiting to be claimed. READ-ONLY for you. |
+| `in-progress/` | **you** | Your workspace. Claimed tasks, work in flight. |
+| `completed/` | **you** | Finished and self-checked, awaiting review. |
+| `review/` | **review agent only** | Findings, merge decisions, rejections. |
+
+### Why `in-progress/` exists
+
+Without it, an agent that starts has nowhere to put work that isn't finished. The
+result is that half-finished output lands in `completed/` where it reads as done, or in
+`pending/` where it corrupts the briefs. That is exactly what happened.
+
+`in-progress/` is yours. Put whatever you like there. Nobody reviews it, nobody gates
+it, and it is gitignored. If your session dies, the folder is the record of how far you
+got, and a reassigned agent can resume from it.
+
+---
+
+## How to claim a task
+
+```bash
+# 1. List what is available
+ls tasking/pending/
+
+# 2. Read the README here first, then the brief
+
+# 3. CLAIM IT - create the folder, moving the brief out of pending/
+mv tasking/pending/task-cartridge-dimensions.md \
+   tasking/in-progress/task-cartridge-dimensions.md
 ```
-tasking/
-  pending/      Task briefs. READY, waiting for an agent.
-  completed/    Staged output. COPIES, under review, NOT project source.
-```
 
-### `pending/` - the briefs
+**The move is the lock.** There is no central registry to race on, and no lock file to
+expiry. The brief physically leaves `pending/`, so a second agent listing the folder
+cannot see it and cannot claim it. First mover owns it.
 
-One Markdown file per task, named `task-<ID>-<slug>.md`. These are **real
-documentation**: `npm run docs:check` and `npm run lint` both process them, so a
-brief containing a path that does not resolve fails the build before any agent
-follows it. That is deliberate. A brief that sends an agent to a file that moved is
-how work gets done against the wrong target.
+If the folder is gone, another agent has it. **Pick a different one. Do not touch it.**
 
-### `completed/` - the staged copies
+---
 
-**This directory holds copies of main project files, never edits to them.**
+## How to finish a task
 
-A Sub-Agent working a brief copies the files it will change out of the main tree,
-makes the changes in the copies, and saves them here. A reviewing agent then compares
-them against the originals and merges the ones that are worth merging.
+1. Run every validation command in your brief's Definition of Done.
+2. Write your `REPORT.md` **inside your own output folder**, not at the top level.
+3. Move `tasking/in-progress/<task>/` to `tasking/completed/<task>/`.
+4. **Then immediately look for another task** - see below.
 
-## Why copies rather than edits
+Your brief goes with your output. A reviewer needs the brief to know what was asked.
+---
 
-Three reasons, and the first is the one that matters.
+## Take the next task without being asked
 
-1. **Nothing merges by accident.** A merge is a separate, deliberate act by someone
-   who has read the diff. An agent that edits `main` directly has already shipped,
-   whether or not the change was reviewed.
-2. **A review is a real diff.** `git diff` shows what changed in a working tree. A
-   staged copy has no history, so the reviewer compares the pair explicitly. That is
-   slower, and it is the point: it forces someone to look.
-3. **A rejected task costs nothing.** This is the case that makes the model worth it.
-   When a Sub-Agent's output is wrong, the main tree was never touched and there is
-   nothing to revert.
+**When you finish a task and a task remains in `pending/` that nobody has claimed,
+claim it and start. Do not wait to be prompted. Do not stop after one task.**
 
-## Rules for a Sub-Agent working a brief
+This is the rule that makes the swarm fast. A worker that finishes and sits idle is the
+most expensive outcome here, because every idle worker is a task not being done.
 
-**Do not edit any file in the main tree.** Not one, not "just a comment", not a
-formatting fix. Not even a file you believe is unrelated. That is the entire rule and
-everything below is detail.
+Before claiming, check:
 
-1. Read the brief in `tasking/pending/`. Read the files it names in the main tree.
-2. Make a folder in `tasking/completed/` named after the task ID.
-3. **Copy** each file you will change into that folder, preserving its relative path
-   from the repository root. `apps/website/src/main.js` becomes
-   `tasking/completed/T2/apps/website/src/main.js`.
-4. Make your changes **in the copy**.
-5. Run your validation against the copy, and say in your report exactly which command
-   you ran and what it printed.
-6. Write `tasking/completed/<ID>/REPORT.md` - the five-part summary required by
-   `.clinerules` §8.
-7. Report the list of staged files.
+- **Is there a brief in `pending/`?** If not, **stop and wait.** That is not a failure -
+  it means the queue is empty and the planning agent owes you work.
+- **Has its `blocked_by` been satisfied?** If not, leave it and try another.
+- **Does it claim a write-set another running task owns?** If so, **skip it** and say so
+  in your report. Two agents on one file is the collision that is actually expensive.
 
-**Preserve the relative path.** A reviewer must be able to tell where a staged file is
-meant to land without asking. Flattening the tree destroys that.
+Then claim it and go.
 
-**If your change is only additive and touches no main file** - pure research, for
-example - you still write to `tasking/completed/<ID>/`, and no copies are needed. Do
-not create an empty copy of a file you did not change.
+**When you run out of tasks, say so plainly and stop.** Do not invent work, do not
+improve the codebase unasked, and do not start a task with no brief. Reporting "queue
+empty" is a correct and useful result, not a failure.
+
+---
+
+## Write-sets are the collision boundary
+
+Every brief states its own write-set. Read it before starting.
+
+- **Research-only tasks are mutually safe.** Each writes only inside its own output
+  folder and touches no shared file. **These should all run at once.**
+- **Tasks touching `data/`, `packages/`, `apps/`, `scripts/` or `package.json` are not
+  safe alongside another task touching the same file.**
+- `.cline/tasks/ledger.json` records the authoritative write-sets. Read it. It is
+  authoritative on overlap; your judgement is not.
+- **Migrations are strictly serial.** One agent at a time, ever.
+- `npm run data:build` rewrites every generated dataset. **One agent at a time.**
+
+If your task needs a file another running task owns: **skip it, and say which task
+blocked you.** That is a valid outcome and far better than a merge conflict.
+
+---
+
+## Two things you must not do
+
+**Do not edit the main project tree.** Not the code, not the data, not the config. You
+copy files out, work on the copies, and stage them in your output folder. A merge is a
+separate, deliberate act by the review agent who has read the diff.
+
+> This is what the whole system is for. An agent that edits `main` has already shipped,
+> whether or not anyone reviewed it. A rejected task costs nothing here; a rejected
+> task that already edited the tree costs a revert.
+
+**Do not trust the gates to validate your own output.** `tasking/completed/` and
+`tasking/in-progress/` are deliberately excluded from `npm run lint` and
+`npm run docs:check`. A staged copy may be deliberately partial, or mid-way through
+removing a defect, and failing the build for it would be wrong.
+
+The consequence is real: **a defect in your staged output will not be caught by running
+the gates. You must read your own work back and check it.** This asymmetry is why the
+review step exists, and why "the gates passed" is never a verification of your output -
+only of your isolation.
+
+---
+
+## Talking to other agents
+
+**Write it in a file.** Any agent can read any file.
+
+- `tasking/in-progress/<task>/NOTES.md` - anything you want to tell another agent.
+- `tasking/review/FINDINGS.md` - the review agent's decisions, readable by everyone.
+- The `NOTES.md` in a completed task, if a finding needs to reach the planner.
+
+This is deliberate over any chat channel: **a file survives a dead session**, it is
+version-controlled, and it cannot be lost by an agent that has exited. A message sent to
+an agent that is no longer running is simply gone.
+
+**What belongs in a file:** anything that changes what another agent would do.
+Everything else is noise.
+
+---
+
+## Related
+
+- `.clinerules` - **binding.** §1 isolation, §5 rules 1 and 10, §8 the report format
+- [pending/README.md](pending/README.md) - the queue index
+- [.cline/tasks/ledger.json](../.cline/tasks/ledger.json) - authoritative write-sets
 
 ## Why the gates ignore `tasking/completed/`
 

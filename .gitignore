@@ -93,6 +93,32 @@ tasking/completed/*
 # docs/research-methods/README.md records for the research folders.
 !tasking/completed/.gitkeep
 
+# ---------------------------------------------------------------------------
+# tasking/in-progress/ and tasking/review/ - the other two swarm tiers.
+#
+#   in-progress/  an agent's LIVE workspace. Ephemeral by design: it is
+#                 mid-flight by definition, and if the agent dies a reassigned
+#                 one restarts from the brief rather than half-inheriting an
+#                 undocumented intermediate state.
+#   review/       the review agent's findings. Written TO the swarm, so every
+#                 agent can read the decision that applies to it. Tracked
+#                 content would be better long-term, but the folder is a
+#                 scratch surface until that policy exists.
+#
+# Same reasoning as completed/ above: none of it is project source. The briefs
+# in tasking/pending/ remain tracked and gated, which is the part that matters -
+# a brief with a broken path must fail the build before an agent follows it.
+# ---------------------------------------------------------------------------
+tasking/in-progress/*
+!tasking/in-progress/.gitkeep
+# The README is the tier's protocol, not scratch. An agent arriving in an empty
+# folder MUST be able to find the rules without the planner being present to
+# explain them - that is the whole reason this tier exists.
+!tasking/in-progress/README.md
+tasking/review/*
+!tasking/review/.gitkeep
+!tasking/review/README.md
+
 # Scratch scripts, recognisable by the leading underscore or an iterative name.
 # Real scripts are verb-named and single-file (check-seeds.mjs, build-data.mjs).
 scripts/_*.mjs
