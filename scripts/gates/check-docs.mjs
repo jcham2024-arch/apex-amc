@@ -370,6 +370,14 @@ const PATH_ALLOWLIST = new Map([
   // Never implemented. AGENTS.md names the original brief to explain that the
   // delivered scripts use .mjs and different names.
   ['scripts/import-csv.ts', 'the original brief; documented as never built'],
+
+  // A PROPOSAL describes work that has not happened yet. check-docs verifies that
+  // every backticked path exists, which is right for documentation and wrong for
+  // a spec of a file that will be built if the proposal is accepted. An agent
+  // proposing `check-blockers.mjs` is describing intended work, not citing drift.
+  // Listed individually, for the same reason as the archived documents above: a
+  // prefix rule would excuse a genuine typo.
+  ['scripts/gates/check-blockers.mjs', 'proposed in tasking/mail/proposals/blocker-ledger.md; not built yet'],
   // Used as a worked example of the per-file rule system. RMR is not a
   // researched line yet, so the file does not exist.
   ['data/seeds/bullets/rmr.csv', 'illustrative example of the rule system'],

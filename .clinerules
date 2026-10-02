@@ -357,6 +357,48 @@ agent behaves and are the owner's decision.
 
 `tasking/mail/bulletin/<agent-id>.md` — you append to yours, you read everyone's.
 For reusable findings, traps, open questions, and disagreements. Read it when you
+---
+
+## 13. The standing slot — the swarm never runs out of work
+
+> **`tasking/pending/swarm-improvement/` is always available. If you finish and the
+> queue is empty, that is what you take. Run `npm run tasking:restock` when you
+> finish it.**
+
+The primary goal is finishing ApexProject. The framework built to do it is portable
+and will move to other projects. This slot improves the framework itself, so the
+work of building the swarm is not thrown away when this project is done.
+
+**Why it is regenerated rather than stocked.** A task in `pending/` stops existing the
+moment an agent claims it, because claiming MOVES the folder — that is the locking
+mechanism. So a plain task folder cannot be always-available, only
+always-available-right-now. Copies would drift and would hand two agents the same job.
+`scripts/tasking/ensure-standing-task.mjs` creates the slot when absent and does
+nothing when present, so it is safe to call every turn.
+
+**Its scope is HOW we work, not WHAT we build.** Four dimensions, roughly in order of
+value: reliability (what can still fail that no gate catches), speed (where time is
+actually lost, counted not guessed), knowledge (what the swarm loses between
+sessions), portability (what travels to another project). **Depth on one beats a
+survey of all four.** Research what other agent systems already solve — an approach
+already solved elsewhere should be adopted, not reinvented.
+
+**Ending with proposals is the point.** This task's output is knowledge; proposals are
+how knowledge becomes work. A finding with no proposal never becomes anything.
+
+**Do not change the protocol from this task.** A change to `.clinerules`, to
+`tasking/README.md`, or to a gate alters how every agent behaves, including agents on
+other projects. That is the owner's decision — write `shape: change` and say what
+would break.
+
+### Restock, whenever you finish
+
+```bash
+npm run tasking:restock
+```
+
+Idempotent. Call it at the end of a task even if the queue is not empty — the standing
+slot should always be sitting in `pending/` when an idle agent next looks.
 start a task. It is **not** a task channel: anything that must be acted on is a
 proposal or a BLOCKED message, because a board that acts on its own contents is a
 queue nobody can reason about.

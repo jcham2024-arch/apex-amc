@@ -65,6 +65,42 @@ change last and are then frozen.
 
 ---
 
+## 2026-10-02 - The standing slot, and a lesson about examples
+
+**`tasking/pending/swarm-improvement/` is regenerated, not stocked.** The owner asked
+for a task that always exists so an idle agent is never stuck. It cannot be a plain
+task folder: claiming MOVES the folder, so a task in `pending/` stops existing the
+moment an agent takes it. Copies would drift and would hand two agents the same job.
+
+`scripts/tasking/ensure-standing-task.mjs` creates the slot when absent and does
+nothing when present, so it is safe to call every turn. `npm run tasking:restock`.
+
+**The first version counted a COMPLETED rotation as "busy".** Caught by probe: after
+one full claim-complete cycle the slot did not come back, so it regenerated exactly
+once and never again - which is the precise failure it exists to prevent. Busy must
+mean pending or in-progress only.
+
+**Rotation trap, found while testing:** on the second rotation `mv` into
+`completed/swarm-improvement/` fails with "Cannot create a file when that file
+already exists". The brief now tells agents to datestamp the destination.
+
+**A worked example in a seed file cost the whole swarm a green build.** Every inbox
+was seeded with a copyable example header; agent 552f4 copied it verbatim, and
+`check-mail` failed for everyone because the type `TEMPLATE` is unknown. The seed
+examples are replaced with prose that cannot be copied. Two findings worth keeping:
+an example is an invitation, and **per-agent mailboxes contain the blast radius** -
+one agent's formatting mistake stayed one agent's problem instead of becoming the
+swarm's.
+
+**A gate bug caught by an agent reporting good news.** ee247 filed STOP declaring
+4/4 files for `roadmap-synthesis`; the gate said 6 were present and failed it. The
+agent was right - 4 outputs plus the `task.json` and `BRIEF.md` that travel with the
+folder. The counter now excludes carried files. **A gate that fails an accurate
+report trains agents to stop reporting accurately**, which is the opposite of what
+the whole mailbox design is for.
+
+---
+
 ## 2026-10-02 - An agent found a bug in the gate that shipped minutes earlier
 
 **`check-mail` rejected every legal message.** The "stray text" check split the

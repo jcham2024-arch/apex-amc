@@ -150,8 +150,14 @@ for (const file of mailboxes) {
           );
         } else {
           const declared = /\*\*Written:\*\*\s*(\d+)\s*\/\s*(\d+)/.exec(msg.body);
+          // Count the agent's OUTPUT files. `task.json` and `BRIEF.md` travel with
+          // the folder because claiming is a move, and an agent that correctly
+          // counts its declared outputs must not be failed for not counting the
+          // manifest it was handed. Caught by agent ee247 reporting 4/4 against a
+          // folder holding 6 files, where its 4 were exactly right.
+          const CARRY = new Set(['task.json', 'BRIEF.md', 'NOTES.md', '.gitkeep']);
           const actual = readdirSync(dir, { withFileTypes: true })
-            .filter((d) => d.isFile() && !['.gitkeep', 'NOTES.md'].includes(d.name)).length;
+            .filter((d) => d.isFile() && !CARRY.has(d.name)).length;
           if (declared && Number(declared[2]) !== actual) {
             fail(
               `${label}: STOP for "${task}" declares ${declared[1]}/${declared[2]} files `

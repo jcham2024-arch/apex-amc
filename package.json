@@ -70,7 +70,8 @@
     "tasks:gen": "node scripts/tools/generate-task-files.mjs",
     "tasking:check": "node scripts/gates/check-tasking.mjs",
     "mail:check": "node scripts/gates/check-mail.mjs",
-    "proposals:check": "node scripts/gates/check-proposals.mjs"
+    "proposals:check": "node scripts/gates/check-proposals.mjs",
+    "tasking:restock": "node scripts/tasking/ensure-standing-task.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
