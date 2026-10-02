@@ -94,7 +94,36 @@ Verified: 1 raw occurrence, 0 in visible text. Correct behaviour.
 You must tamper source, rebuild, then check. I got this wrong twice before
 getting it right.
 
-## PROVEN-4: no CI run has ever happened
+## PROVEN-4: no CI run has ever happened  [RESOLVED]
+
+> **Resolution.** CI now runs on every push and was green on its sixth attempt
+> (run 36967250713, ubuntu-latest, 1m14s). All 15 workflow steps pass, including
+> the browser CSP check and the reproducible-build check.
+>
+> Getting there required five real fixes, none of which a Windows-only run could
+> have found:
+>
+> | Run | Failure | Cause |
+> |---|---|---|
+> | 1 | lint: `'console' is not defined` | `c.mjs`, a scratch script, committed and pushed |
+> | 2 | lint: same | a second scratch file from the same mistake |
+> | 3 | `docs:check` broken-path x5 | docs cite gitignored PDFs, absent on a clean checkout |
+> | 4 | `tasks:check` | R1-R3 pointed at empty directories git does not record |
+> | 5 | `npm audit` | 4 high advisories, no patch available |
+> | 6 | lint: unused variable | my own new gate |
+>
+> Two findings are worth more than the fixes:
+>
+> - **The recorded build SHA-256 could never match a Linux build.** It had been
+>   captured from a Windows working copy with CRLF endings while git stores LF.
+>   The artefact was right; the recorded hash was wrong, and no CI run could have
+>   satisfied it.
+> - **Three gates were in `verify` but absent from the workflow.** CI listed its
+>   gates by hand and had drifted. `ci:check` now fails on that drift.
+>
+> This is the whole argument for running CI: every one of these passed locally.
+
+## PROVEN-4 (original)
 
 `verify.yml` specifies `runs-on: ubuntu-latest`, node 22. `gh run list`
 returns nothing. The browser CSP check has only run on this Windows machine,
