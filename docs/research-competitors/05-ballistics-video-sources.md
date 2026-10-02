@@ -47,6 +47,52 @@ If we link a video, a user may load a bullet the video tested in a different
 cartridge. That is a chambering error. We have written a seed gate for exactly
 this class of mistake in third-party data, and it must cover video claims too.
 
+## Inclusion criteria
+
+Set by the user, 2 Oct 2026. Applied to every video we link.
+
+| Criterion | Threshold | Why |
+| --- | --- | --- |
+| Channel subscribers | **75,000+** | Excludes one-off uploaders whose testing has no track record. |
+| Video views | **200,000+** | Excludes a video the audience ignored, whatever the channel size. |
+
+Both are floor values, intended to be raised as the catalogue grows. They are a
+starting filter, not a permanent definition.
+
+### What these criteria do and do not buy
+
+**They are a quality signal, not a quality guarantee, and they measure something
+other than rigour.**
+
+A large, successful channel is evidence that *people value the creator*. It is
+not evidence that the creator runs enough controlled strings, states barrel
+length and gel temperature, or tests the same bullet more than once. Popularity
+and methodology are close to independent.
+
+So the threshold is a useful first cut - it removes channels with no audience and
+therefore no incentive to be careful - but it does **not** substitute for the
+conditions gate. A 500k-subscriber video that omits barrel length still fails
+B.3/8.3 and must not be displayed as a product fact.
+
+Two honest consequences worth stating rather than discovering later:
+
+- **It will exclude the best bench data we can find.** Serious precision-rifle
+  work is often done by people with modest audiences who shoot thousands of
+  rounds a year and publish to a few thousand viewers. The 75k floor excludes
+  them. That is a real loss, accepted for now.
+- **Subscriber and view counts move.** A row recording "82,000 subscribers" is
+  a snapshot, not a fact. Record the observed value and the observation date, and
+  treat the numbers as evidence the video met the bar *when we checked*.
+
+### What it deliberately does not do
+
+This filter is about **popularity**. It is not about sponsored content, and a
+channel over the threshold that has taken money for a review of a product is not
+automatically disqualified - that is handled separately, by the material
+connection rules below. Keeping the two concerns separate matters: a popular
+channel and a paid channel are different problems, and merging them would let
+"but they're big" paper over a disclosure problem.
+
 ## The partnership model, and the legal problem with it
 
 The proposal was: partner with YouTube creators, they market our site, we send

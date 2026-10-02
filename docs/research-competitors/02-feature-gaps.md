@@ -315,6 +315,28 @@ Detail in `05-ballistics-video-sources.md`. The short version:
 | 8.5 | **Manufacturer data labelled first-party**, never mixed with independent testing | `apps/website/src/` |
 | 8.6 | **Disagreement displayed, not resolved** | `apps/website/src/` |
 
+### The video inclusion filter
+
+Set by the user, 2 Oct 2026: **75,000+ channel subscribers and 200,000+ views** per
+video. Floors, intended to rise as the catalogue grows.
+
+This is a popularity filter, not a rigour filter, and the two are close to
+independent - a large channel is evidence that people value the creator, not that
+they state barrel length or shoot enough strings. So it does **not** replace the
+conditions gate (8.3): a 500k-subscriber video with no barrel length still fails.
+
+Two consequences accepted knowingly:
+
+- It **excludes the best bench data we can find.** Precision-rifle work is often
+  done by modest-audience creators who shoot thousands of rounds a year for a few
+  thousand viewers. Real loss, accepted for now.
+- **The numbers move.** Store the observed value and the date, so the row records
+  that the video met the bar *when we checked*, not that it always will.
+
+It is also kept deliberately separate from the paid-content question below. A
+popular channel and a paid channel are different problems, and merging them
+would let "but they're big" paper over a disclosure problem.
+
 ### The creator-partnership constraint, recorded so it cannot drift
 
 Partnerships are permitted for **promotion only, never for a finding**. Paying
