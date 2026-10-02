@@ -1,0 +1,30 @@
+/*
+ * Apex AMC - stylesheet entry.
+ *
+ * Replaces the previous `cdn.tailwindcss.com` runtime compiler. That script
+ * executed third-party JavaScript in every visitor's browser on every page load
+ * and required `unsafe-eval` in any Content-Security-Policy. Compiling at build
+ * time removes both problems: the CSS ships as a static file and no compiler
+ * runs in the browser.
+ */
+@import "tailwindcss";
+
+/*
+ * The `tactical-*` scale, previously declared by assigning `tailwind.config` to a
+ * global from an inline <script> that only the CDN runtime compiler understood.
+ * Declaring it here keeps the same names, so the 313 utility classes in
+ * index.html need no change.
+ */
+@theme {
+  --color-tactical-950: #090d16;
+  --color-tactical-900: #0f172a;
+  --color-tactical-850: #152035;
+  --color-tactical-800: #1e293b;
+  --color-tactical-700: #334155;
+  --color-tactical-600: #475569;
+
+  --font-sans: "Inter", sans-serif;
+}
+
+/* Scrollbar and number-input rules that previously had no importer. */
+@import "./theme.css";

@@ -1,0 +1,74 @@
+# Cloudflare Pages response headers.
+#
+# ## How the hashes in this policy are produced
+#
+# `script-src` and `style-src` carry SHA-256 hashes of the two inline blocks in
+# the built `dist/index.html`. They are NOT hand-written, and they are not
+# stable across edits - regenerating them is part of the build:
+#
+#     npm run website:csp      # writes the hashes into dist/_headers
+#     npm run website:check    # fails if a hash does not match the build
+#
+# `website:check` recomputes both hashes from `dist/index.html` and compares
+# them against this file. That is the check that makes a stale hash a build
+# failure rather than a silently blank page.
+#
+# ## Why hashes and not a nonce
+#
+# A nonce is the stronger mechanism, but a nonce has to be fresh per request
+# AND present as an attribute on the element. Cloudflare Pages serves a static
+# file: `_headers` is parsed at deploy time and its values are sent verbatim.
+# There is no per-request substitution, so a nonce cannot be injected into
+# already-built inline markup.
+#
+# This was measured, not assumed. Serving the real `dist/` under the real
+# headers on 1 Oct 2026 produced, in Chrome:
+#
+#   The source list for 'script-src' contains an invalid source: ''nonce-{RANDOM}''
+#   Executing inline script violates ... 'script-src'. The action has been blocked.
+#
+# The page fell back to Times New Roman and 3,741 characters instead of
+# Inter and 5,679 - the script never ran. `{RANDOM}` was a literal placeholder
+# that no Cloudflare feature replaces. It has been removed rather than left to
+# look like a working configuration.
+#
+# `'strict-dynamic'` is kept: it lets the hashed bundle load what it needs
+# without enumerating every host.
+#
+# There is deliberately NO `unsafe-hashes`. It was here for four cost-bar
+# widths written as `style="--bar-width: 45%"`. A nonce cannot cover a style
+# attribute, and those four attributes were real violations - four "Applying
+# inline style violates ... style-src" errors, with the bars rendering at 0%.
+# They are now CSS custom properties declared in `styles/theme.css`, and
+# main.js updates them through the CSSOM, which CSP does not govern.
+#
+# The page therefore has no escape hatch at all: no `unsafe-inline`, no
+# `unsafe-eval`, no `unsafe-hashes`, no `on*=` handlers, no `style=`
+# attributes.
+#
+# `scripts/gates/check-website-build.mjs` fails the build if this file goes
+# missing, loses its CSP directive, regains any `unsafe-*` keyword, or if a
+# hash stops matching the build.
+
+/*
+  Content-Security-Policy:
+    default-src 'self';
+    script-src 'sha256-tyJYdOKuqzIU5T8uGgJvbfp8gbAlTwR2kf/iGofaoOk=' 'strict-dynamic';
+    style-src 'sha256-+DaLxm36H6ogXeq12tbX4kWvPySnYiOisLOuIZUJs1Q=' https://cdnjs.cloudflare.com https://fonts.googleapis.com;
+    font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com;
+    img-src 'self' data: https://cdnjs.cloudflare.com;
+    connect-src 'self';
+    base-uri 'none';
+    form-action 'self';
+    frame-ancestors 'none';
+    object-src 'none';
+    upgrade-insecure-requests
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), interest-cohort=()
+
+/*
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload

@@ -1,28 +1,31 @@
 {
+  "//": [
+    "This app is listed in the ROOT tsconfig's `exclude`, because the root",
+    "config covers packages/ballistics-core only. That exclusion is inherited",
+    "through `extends`, and it removes this app's own files from the build -",
+    "producing `TS18003: No inputs were found` even with correct globs.",
+    "Re-declaring `exclude` here replaces the inherited list, so these two",
+    "dirs are the only exclusions. `allowJs` is required or the .js/.jsx files",
+    "in hooks/, screens/ and services/ are silently skipped.",
+    "`_unscreens/` holds screens that are not wired into the navigator and",
+    "import packages this app does not depend on. See _unscreens/README.md."
+  ],
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "target": "ES2022",
     "module": "ESNext",
     "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "allowJs": true,
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "noFallthroughCasesInSwitch": true,
-    "exactOptionalPropertyTypes": false,
-    "verbatimModuleSyntax": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true,
-    "noEmit": true
+    "types": ["node", "react"]
   },
-  "include": ["packages/**/*.ts", "packages/**/*.js"],
-  "exclude": [
-    "node_modules",
-    "**/node_modules",
-    "apps/ballistics",
-    "archive",
-    "**/archive/**"
-  ]
+  "include": [
+    "App.jsx",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
+  ],
+  "exclude": ["node_modules", ".expo", "dist", "_unscreens"]
 }
 

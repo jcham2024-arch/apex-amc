@@ -4,76 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apex Ammunition & Components | Apex AMC Directory & Calculator</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="description" content="Compare the real cost per round of factory ammunition against handloading, with a reloading checklist and a directory of online retailers. Calculations run entirely in your browser.">
+    <link rel="canonical" href="https://apex-amc.com/">
+
+    <!--
+      Tailwind is compiled to a static stylesheet by Vite (see
+      src/styles/main.css). There is deliberately NO cdn.tailwindcss.com script
+      here any more: it was a runtime compiler executing third-party JS in every
+      visitor's browser, and it forced `unsafe-eval` into any CSP. Self-hosted
+      CSS removes both. See SECURITY.md.
+    -->
+
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        tactical: {
-                            950: '#090d16',
-                            900: '#0f172a',
-                            850: '#152035',
-                            800: '#1e293b',
-                            700: '#334155',
-                            600: '#475569'
-                        },
-                        emerald: {
-                            400: '#34d399',
-                            500: '#10b981',
-                            600: '#059669',
-                        },
-                        amber: {
-                            400: '#fbbf24',
-                            500: '#f59e0b',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Custom custom scrollbars & input styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
-        }
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    </style>
 </head>
+
 <body class="bg-tactical-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-slate-950">
+
+    <!--
+      Skip to main content (WCAG 2.4.1).
+
+      The sticky header carries the full navigation, so without this a keyboard
+      user tabs through every nav item on every load before reaching any content.
+      sr-only keeps it available to screen readers; not-sr-only reveals it when
+      focus lands on it, which is the standard accessible pattern.
+    -->
+    <a href="#main-content" class="sr-only not-sr-only focus:not-sr-only absolute top-4 left-4 z-[100] px-4 py-2 rounded-lg bg-emerald-500 text-slate-950 font-bold text-sm">
+        Skip to main content
+    </a>
+
 
     <!-- Top Alert Bar -->
     <div class="bg-tactical-900 border-b border-slate-800 text-xs py-2 px-4 text-center text-slate-400">
         <span class="inline-flex items-center gap-1.5 text-amber-400 font-semibold mr-2">
             <i class="fa-solid fa-triangle-exclamation"></i> Notice:
         </span>
-        Independent directory & calculator resource. Compare ammo costs, reloading supplies & verified online suppliers.
+        Independent directory & calculator resource. Compare ammo costs, reloading supplies, and online retailers.
     </div>
 
     <!-- Header & Navigation -->
@@ -116,13 +88,13 @@
             </div>
 
             <!-- Mobile Hamburger Button -->
-            <button id="mobileMenuBtn" class="md:hidden p-2.5 rounded-lg text-slate-300 hover:bg-tactical-800 transition-colors" aria-label="Toggle Navigation">
+            <button id="mobileMenuBtn" class="md:hidden p-2.5 rounded-lg text-slate-300 hover:bg-tactical-800 transition-colors" aria-label="Toggle Navigation" aria-expanded="false" aria-controls="mobileDrawer">
                 <i class="fa-solid fa-bars text-xl" id="menuIcon"></i>
             </button>
         </div>
 
         <!-- Mobile Drawer -->
-        <div id="mobileDrawer" class="hidden md:hidden bg-tactical-900 border-b border-slate-800 px-6 py-5 space-y-4">
+        <div id="mobileDrawer" class="hidden md:hidden bg-tactical-900 border-b border-slate-800 px-6 py-5 space-y-4" role="navigation" aria-label="Mobile">
             <a href="#calculator" class="mobile-nav-link block text-slate-200 hover:text-emerald-400 font-medium py-2 flex items-center gap-3">
                 <i class="fa-solid fa-calculator text-emerald-500 w-5"></i> Reloading Calculator
             </a>
@@ -138,7 +110,7 @@
         </div>
     </header>
 
-    <main class="flex-grow">
+    <main id="main-content" tabindex="-1" class="flex-grow">
         <!-- Hero Section -->
         <section class="relative pt-12 pb-20 overflow-hidden bg-gradient-to-b from-tactical-950 via-tactical-900 to-tactical-950 border-b border-slate-800/60">
             <!-- Background Radial Glow -->
@@ -171,19 +143,26 @@
                     </div>
                 </div>
 
-                <!-- Stats Bar -->
-                <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 p-4 sm:p-6 rounded-2xl bg-tactical-900/80 border border-slate-800 backdrop-blur-sm max-w-5xl mx-auto">
-                    <div class="text-center p-3 border-r border-slate-800/80 last:border-r-0">
-                        <div class="text-2xl sm:text-3xl font-black text-emerald-400">30% - 60%</div>
-                        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Avg Handload Savings</div>
-                    </div>
-                    <div class="text-center p-3 border-r border-slate-800/80 last:border-r-0">
-                        <div class="text-2xl sm:text-3xl font-black text-slate-100">8+</div>
-                        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Verified Suppliers</div>
-                    </div>
-                    <div class="text-center p-3 border-r border-slate-800/80 last:border-r-0">
+                <!--
+                  Stats Bar.
+
+                  Every figure here is either a unit constant or a count this
+                  repository can prove. The previous "30% - 60% Avg Handload
+                  Savings" was a quantified financial claim with no source
+                  anywhere - savings depend entirely on the ammunition, the
+                  components and the volume you buy - and "Verified Suppliers"
+                  asserted a verification step that does not exist in this
+                  codebase. Both removed. If a number cannot be derived from the
+                  data layer or from a unit definition, it does not go here.
+                -->
+                <div class="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 sm:p-6 rounded-2xl bg-tactical-900/80 border border-slate-800 backdrop-blur-sm max-w-3xl mx-auto">
+                    <div class="text-center p-3 border-b sm:border-b-0 sm:border-r border-slate-800/80 last:border-r-0">
                         <div class="text-2xl sm:text-3xl font-black text-amber-400">7,000</div>
                         <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Grains / Lb Powder</div>
+                    </div>
+                    <div class="text-center p-3 border-b sm:border-b-0 sm:border-r border-slate-800/80 last:border-r-0">
+                        <div class="text-2xl sm:text-3xl font-black text-slate-100">8</div>
+                        <div class="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">Retailers Listed</div>
                     </div>
                     <div class="text-center p-3">
                         <div class="text-2xl sm:text-3xl font-black text-slate-100">100%</div>
@@ -214,10 +193,10 @@
                     
                     <!-- Preset Selector Bar -->
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+                        <div id="caliberPresetLabel" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
                             Select Caliber Preset:
-                        </label>
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="presetButtons">
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="presetButtons" role="group" aria-labelledby="caliberPresetLabel">
                             <button data-preset="9mm" class="preset-btn px-3 py-2 rounded-lg bg-tactical-800 border border-emerald-500/50 text-emerald-400 font-semibold text-xs text-center hover:bg-tactical-700 transition-all flex items-center justify-center gap-1.5">
                                 <i class="fa-solid fa-crosshairs text-emerald-400"></i> 9mm Luger
                             </button>
@@ -246,7 +225,7 @@
                         <!-- Factory Ammo Price -->
                         <div class="col-span-1 sm:col-span-2 bg-tactical-950 p-4 rounded-xl border border-slate-800">
                             <div class="flex justify-between items-center mb-2">
-                                <label class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <label for="factoryBoxPrice" class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                                     <i class="fa-solid fa-box-open"></i> Factory Ammo Benchmark
                                 </label>
                                 <span class="text-[11px] text-slate-400">Commercial Store Price</span>
@@ -260,7 +239,7 @@
                                     </div>
                                 </div>
                                 <div>
-                                    <span class="text-[11px] text-slate-400 block mb-1">Rounds per Box</span>
+                                    <label class="text-[11px] text-slate-400 block mb-1" for="factoryBoxCount">Rounds per Box</label>
                                     <input type="number" id="factoryBoxCount" value="50" class="w-full bg-tactical-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 font-semibold focus:outline-none focus:border-amber-400">
                                 </div>
                             </div>
@@ -268,7 +247,7 @@
 
                         <!-- Bullets -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">
+                            <label for="bulletPrice" class="block text-xs font-semibold text-slate-300 mb-1">
                                 Projectiles / Bullets ($)
                             </label>
                             <div class="grid grid-cols-2 gap-2">
@@ -286,7 +265,7 @@
 
                         <!-- Primers -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">
+                            <label for="primerPrice" class="block text-xs font-semibold text-slate-300 mb-1">
                                 Primers Pack ($)
                             </label>
                             <div class="grid grid-cols-2 gap-2">
@@ -303,7 +282,7 @@
 
                         <!-- Smokeless Powder -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">
+                            <label for="powderPriceLb" class="block text-xs font-semibold text-slate-300 mb-1">
                                 Powder ($/lb)
                             </label>
                             <div class="relative">
@@ -315,7 +294,7 @@
                         <!-- Powder Charge (Grains) -->
                         <div>
                             <div class="flex justify-between items-center mb-1">
-                                <label class="text-xs font-semibold text-slate-300">Grains / Load</label>
+                                <label for="powderGrains" class="text-xs font-semibold text-slate-300">Grains / Load</label>
                                 <span class="text-[10px] text-slate-400">7000 gr = 1 lb</span>
                             </div>
                             <input type="number" id="powderGrains" step="0.1" value="4.2" class="w-full bg-tactical-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500">
@@ -336,14 +315,14 @@
                             
                             <div id="brassInputWrapper" class="grid grid-cols-2 gap-3 opacity-40 pointer-events-none transition-opacity">
                                 <div>
-                                    <span class="text-[11px] text-slate-400 block mb-1">Brass Cost per 100 ($)</span>
+                                    <label class="text-[11px] text-slate-400 block mb-1" for="brassPrice100">Brass Cost per 100 ($)</label>
                                     <div class="relative">
                                         <span class="absolute left-2.5 top-2.5 text-slate-500 text-xs">$</span>
                                         <input type="number" id="brassPrice100" step="0.01" value="15.00" class="w-full bg-tactical-900 border border-slate-700 rounded-lg pl-6 pr-2 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500">
                                     </div>
                                 </div>
                                 <div>
-                                    <span class="text-[11px] text-slate-400 block mb-1">Times Reused</span>
+                                    <label class="text-[11px] text-slate-400 block mb-1" for="brassReuses">Times Reused</label>
                                     <input type="number" id="brassReuses" value="5" min="1" class="w-full bg-tactical-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500">
                                 </div>
                             </div>
@@ -351,14 +330,14 @@
 
                         <!-- Equipment & Batch Size -->
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">
+                            <label for="batchSize" class="block text-xs font-semibold text-slate-300 mb-1">
                                 Batch Volume (# rounds)
                             </label>
                             <input type="number" id="batchSize" value="1000" class="w-full bg-tactical-950 border border-slate-700 rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-semibold text-slate-300 mb-1">
+                            <label for="equipmentCost" class="block text-xs font-semibold text-slate-300 mb-1">
                                 Press & Setup Gear Cost ($)
                             </label>
                             <div class="relative">
@@ -404,10 +383,32 @@
                                 <span id="resTotalHandloadPerRound" class="text-emerald-400">$0.193 / round</span>
                             </div>
                             <div class="w-full h-3 bg-tactical-950 rounded-full overflow-hidden flex" id="costBarContainer">
-                                <div id="barBullet" class="bg-emerald-500 h-full" style="width: 45%" title="Bullet"></div>
-                                <div id="barPrimer" class="bg-teal-400 h-full" style="width: 35%" title="Primer"></div>
-                                <div id="barPowder" class="bg-amber-400 h-full" style="width: 20%" title="Powder"></div>
-                                <div id="barBrass" class="bg-slate-500 h-full" style="width: 0%" title="Brass"></div>
+                                <!--
+                                  Widths come from CSS custom properties, not inline style="".
+
+                                  main.js calls setProperty('--bar-width', ...) on every bar on
+                                  every calculation, and CSSOM writes are not governed by CSP -
+                                  so the page needs no `unsafe-hashes` escape hatch and keeps a
+                                  genuinely strict policy.
+
+                                  There are deliberately NO style="" attributes here, not even
+                                  placeholder ones. A nonce cannot apply to a style attribute,
+                                  and `unsafe-hashes` was removed from the policy on 1 Oct 2026,
+                                  so a surviving static style attribute is a real CSP violation
+                                  that blocks that element.
+
+                                  This was not theoretical. Four static widths here produced four
+                                  console errors in Chrome on 1 Oct 2026 - "Applying inline style
+                                  violates ... style-src" - and the bars rendered at 0%, because
+                                  `var(--bar-width, 0%)` fell through to the fallback.
+
+                                  The pre-calculation defaults now live in theme.css, beside the
+                                  rule that consumes them.
+                                -->
+                                <div id="barBullet" class="bg-emerald-500 h-full" title="Bullet"></div>
+                                <div id="barPrimer" class="bg-teal-400 h-full" title="Primer"></div>
+                                <div id="barPowder" class="bg-amber-400 h-full" title="Powder"></div>
+                                <div id="barBrass" class="bg-slate-500 h-full" title="Brass"></div>
                             </div>
                             <div class="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-400 pt-1">
                                 <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Bullet: <strong id="lblBulletCpr" class="text-slate-200">$0.090</strong></span>
@@ -465,11 +466,41 @@
                 
                 <div class="text-center max-w-3xl mx-auto space-y-3 mb-10">
                     <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center justify-center gap-1.5">
-                        <i class="fa-solid fa-shield-halved"></i> Verified Suppliers
+                        <i class="fa-solid fa-store"></i> Retailer Directory
                     </span>
                     <h2 class="text-3xl font-extrabold text-slate-100">Online Retailer Directory</h2>
                     <p class="text-sm text-slate-400">
-                        Explore top verified online merchants for bulk factory ammunition, reloading presses, powder, primers, and optics.
+                        Online merchants selling bulk factory ammunition, reloading presses, powder, primers, and optics.
+                    </p>
+                </div>
+
+                <!--
+                  AFFILIATE DISCLOSURE - proximate, not footer-only.
+
+                  FTC Endorsement Guides, 16 CFR 255.5, require the material
+                  connection to be disclosed "clearly and conspicuously", and the
+                  Commission's guidance states that disclosures are likely to be
+                  missed when they appear "at the end" of the content. A reader who
+                  scrolls to the directory, sees a grid of cards, and clicks one has
+                  not been told at the point of the link that the site is paid for
+                  the click.
+
+                  So the disclosure sits immediately above the cards, in the same
+                  viewport as the links it qualifies, rather than only in the
+                  footer. The footer copy is kept as well; the two are not
+                  alternatives, and this one is the one that has to be right.
+
+                  The wording avoids the abbreviations the FTC warns against
+                  ("sp", "collab") and a bare "thanks" or "ambassador", and names
+                  the arrangement plainly: a commission paid to the site.
+                -->
+                <div class="mb-8 max-w-4xl mx-auto border-l-4 border-amber-500 bg-amber-500/10 px-4 py-3 rounded-r-lg">
+                    <p class="text-sm text-amber-100 leading-relaxed">
+                        <strong class="text-amber-200">Affiliate disclosure:</strong>
+                        Apex AMC earns a commission when you buy something after following a
+                        retailer link on this page. It costs you nothing extra, and it does not
+                        change the price you pay. Some retailers are shown because we think they
+                        are relevant to handloading, not because anyone paid us to list them.
                     </p>
                 </div>
 
@@ -478,7 +509,8 @@
                     <!-- Search Input -->
                     <div class="relative">
                         <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-500"></i>
-                        <input type="text" id="directorySearch" placeholder="Search suppliers by name, product (e.g. 'Powder', 'Midway', 'Bulk Ammo')..." class="w-full bg-tactical-950 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 shadow-inner">
+                        <label for="directorySearch" class="sr-only">Search retailers by name or product</label>
+                            <input type="text" id="directorySearch" placeholder="Search suppliers by name, product (e.g. 'Powder', 'Midway', 'Bulk Ammo')..." class="w-full bg-tactical-950 border border-slate-700 rounded-xl pl-11 pr-4 py-3 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 shadow-inner">
                     </div>
 
                     <!-- Category Pills -->
@@ -620,456 +652,8 @@
         </div>
     </footer>
 
-    <script>
-        document.getElementById('yearSpan').textContent = new Date().getFullYear();
 
-        // Preset Caliber Data
-        const CALIBER_PRESETS = {
-            '9mm': {
-                factoryBoxPrice: 14.00,
-                factoryBoxCount: 50,
-                bulletPrice: 90.00,
-                bulletCount: 1000,
-                primerPrice: 80.00,
-                primerCount: 1000,
-                powderPriceLb: 38.00,
-                powderGrains: 4.2,
-                freeBrass: true,
-                brassPrice100: 12.00,
-                brassReuses: 5
-            },
-            '223': {
-                factoryBoxPrice: 10.00,
-                factoryBoxCount: 20,
-                bulletPrice: 150.00,
-                bulletCount: 1000,
-                primerPrice: 90.00,
-                primerCount: 1000,
-                powderPriceLb: 42.00,
-                powderGrains: 25.0,
-                freeBrass: true,
-                brassPrice100: 18.00,
-                brassReuses: 6
-            },
-            '308': {
-                factoryBoxPrice: 24.00,
-                factoryBoxCount: 20,
-                bulletPrice: 380.00,
-                bulletCount: 1000,
-                primerPrice: 100.00,
-                primerCount: 1000,
-                powderPriceLb: 45.00,
-                powderGrains: 44.0,
-                freeBrass: false,
-                brassPrice100: 35.00,
-                brassReuses: 5
-            },
-            '65': {
-                factoryBoxPrice: 29.00,
-                factoryBoxCount: 20,
-                bulletPrice: 420.00,
-                bulletCount: 1000,
-                primerPrice: 100.00,
-                primerCount: 1000,
-                powderPriceLb: 48.00,
-                powderGrains: 41.5,
-                freeBrass: false,
-                brassPrice100: 45.00,
-                brassReuses: 5
-            },
-            '9mmSub': {
-                factoryBoxPrice: 21.00,
-                factoryBoxCount: 50,
-                bulletPrice: 120.00,
-                bulletCount: 1000,
-                primerPrice: 80.00,
-                primerCount: 1000,
-                powderPriceLb: 40.00,
-                powderGrains: 3.8,
-                freeBrass: true,
-                brassPrice100: 12.00,
-                brassReuses: 5
-            }
-        };
-
-        // Retailer Directory Dataset
-        const RETAILERS = [
-            {
-                name: 'MidwayUSA',
-                specialty: 'Reloading & Shooting Supplies',
-                cat: ['reloading', 'components', 'bulk', 'optics'],
-                rating: 4.9,
-                badge: 'Top Choice for Reloaders',
-                description: 'Premier supplier of reloading presses, dies, bullets, brass, powder, and hunting gear with fast shipping.',
-                link: 'https://www.midwayusa.com'
-            },
-            {
-                name: 'Brownells',
-                specialty: 'Gunsmithing & Ammo',
-                cat: ['reloading', 'components', 'bulk'],
-                rating: 4.8,
-                badge: 'Gunsmith Specialist',
-                description: 'Huge inventory of hard-to-find gun parts, reloading tools, factory ammunition, and optics.',
-                link: 'https://www.brownells.com'
-            },
-            {
-                name: 'Natchez Shooters Supplies',
-                specialty: 'Powder, Primers & Optics',
-                cat: ['components', 'reloading', 'optics'],
-                rating: 4.7,
-                badge: 'Component Stock Leader',
-                description: 'Family-owned distributor known for competitive prices on powders, primers, and bulk factory rounds.',
-                link: 'https://www.natchezss.com'
-            },
-            {
-                name: 'Palmetto State Armory',
-                specialty: 'Bulk Ammo & Firearms',
-                cat: ['bulk', 'components'],
-                rating: 4.8,
-                badge: 'AAC Ammo Maker',
-                description: 'Direct manufacturer and retailer offering deals on bulk 9mm, 5.56, and AAC factory ammunition.',
-                link: 'https://palmettostatearmory.com'
-            },
-            {
-                name: 'Target Sports USA',
-                specialty: 'Bulk Ammo & Free Shipping',
-                cat: ['bulk'],
-                rating: 4.9,
-                badge: 'Prime Ammo Club',
-                description: 'Specializes in bulk case sales of ammunition with free shipping options on case orders.',
-                link: 'https://www.targetsportsusa.com'
-            },
-            {
-                name: 'Powder Valley',
-                specialty: 'Powder & Primers',
-                cat: ['components', 'reloading'],
-                rating: 4.9,
-                badge: 'Powder Authority',
-                description: 'The go-to supplier for smokeless powder, primers, and match bullets at wholesale rates.',
-                link: 'https://www.powdervalleyinc.com'
-            },
-            {
-                name: 'OpticsPlanet',
-                specialty: 'Optics & Tactical Gear',
-                cat: ['optics', 'reloading'],
-                rating: 4.6,
-                badge: 'Optics Catalog',
-                description: 'Massive store for scopes, red dots, rangefinders, reloading presses, and shooting accessories.',
-                link: 'https://www.opticsplanet.com'
-            },
-            {
-                name: 'Primary Arms',
-                specialty: 'Optics & Range Gear',
-                cat: ['optics'],
-                rating: 4.9,
-                badge: 'ACSS Optics',
-                description: 'Famous for precision ACSS reticle optics, tactical accessories, and swift order processing.',
-                link: 'https://www.primaryarms.com'
-            }
-        ];
-
-        // Beginner Checklist Items
-        const CHECKLIST_ITEMS = [
-            { id: 'press', title: 'Reloading Press', desc: 'Single-stage press (e.g. Lee Breech Lock or RCBS Rock Chucker) or Progressive press.' },
-            { id: 'dies', title: 'Caliber Die Set', desc: 'Sizing/Depriming die, Expanding die, and Seating/Crimping die for your caliber.' },
-            { id: 'scale', title: 'Digital or Beam Powder Scale', desc: 'Accurate scale capable of measuring down to 0.1 grains.' },
-            { id: 'calipers', title: 'Digital / Dial Calipers', desc: 'Essential for measuring case length and Overall Cartridge Length (OAL).' },
-            { id: 'manual', title: 'Published Reloading Manual', desc: 'Lyman 51st Edition or Hornady Handbook of Cartridge Reloading.' },
-            { id: 'caseprep', title: 'Case Prep Tools', desc: 'Chamfer & deburring tool, primer pocket cleaner, and case lube.' },
-            { id: 'funnel', title: 'Powder Funnel & Trays', desc: 'Caliber-specific powder funnel and reloading block tray to hold cases.' }
-        ];
-
-        // Mobile Drawer Elements
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const mobileDrawer = document.getElementById('mobileDrawer');
-        const menuIcon = document.getElementById('menuIcon');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            const isHidden = mobileDrawer.classList.contains('hidden');
-            if (isHidden) {
-                mobileDrawer.classList.remove('hidden');
-                menuIcon.classList.replace('fa-bars', 'fa-xmark');
-            } else {
-                mobileDrawer.classList.add('hidden');
-                menuIcon.classList.replace('fa-xmark', 'fa-bars');
-            }
-        });
-
-        document.querySelectorAll('.mobile-nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileDrawer.classList.add('hidden');
-                menuIcon.classList.replace('fa-xmark', 'fa-bars');
-            });
-        });
-
-        // DOM Input Elements for Calculator
-        const factoryBoxPrice = document.getElementById('factoryBoxPrice');
-        const factoryBoxCount = document.getElementById('factoryBoxCount');
-        const bulletPrice = document.getElementById('bulletPrice');
-        const bulletCount = document.getElementById('bulletCount');
-        const primerPrice = document.getElementById('primerPrice');
-        const primerCount = document.getElementById('primerCount');
-        const powderPriceLb = document.getElementById('powderPriceLb');
-        const powderGrains = document.getElementById('powderGrains');
-        const freeBrassToggle = document.getElementById('freeBrassToggle');
-        const brassPrice100 = document.getElementById('brassPrice100');
-        const brassReuses = document.getElementById('brassReuses');
-        const brassInputWrapper = document.getElementById('brassInputWrapper');
-        const batchSize = document.getElementById('batchSize');
-        const equipmentCost = document.getElementById('equipmentCost');
-
-        // Brass Toggle state listener
-        freeBrassToggle.addEventListener('change', () => {
-            if (freeBrassToggle.checked) {
-                brassInputWrapper.classList.add('opacity-40', 'pointer-events-none');
-            } else {
-                brassInputWrapper.classList.remove('opacity-40', 'pointer-events-none');
-            }
-            calculateCosts();
-        });
-
-        // Main Calculation Function
-        function calculateCosts() {
-            const facPrice = parseFloat(factoryBoxPrice.value) || 0;
-            const facCount = parseFloat(factoryBoxCount.value) || 1;
-            const factoryCPR = facPrice / facCount;
-
-            const bulPrice = parseFloat(bulletPrice.value) || 0;
-            const bulCnt = parseFloat(bulletCount.value) || 1;
-            const bulletCPR = bulPrice / bulCnt;
-
-            const primPrice = parseFloat(primerPrice.value) || 0;
-            const primCnt = parseFloat(primerCount.value) || 1;
-            const primerCPR = primPrice / primCnt;
-
-            const powPrice = parseFloat(powderPriceLb.value) || 0;
-            const powGrains = parseFloat(powderGrains.value) || 0;
-            // 1 lb = 7,000 grains
-            const powderCPR = (powPrice / 7000) * powGrains;
-
-            let brassCPR = 0;
-            if (!freeBrassToggle.checked) {
-                const bPrice100 = parseFloat(brassPrice100.value) || 0;
-                const reuses = parseFloat(brassReuses.value) || 1;
-                brassCPR = (bPrice100 / 100) / reuses;
-            }
-
-            const handloadCPR = bulletCPR + primerCPR + powderCPR + brassCPR;
-            const savingsPerRound = factoryCPR - handloadCPR;
-
-            const bSize = parseFloat(batchSize.value) || 1000;
-            const batchSavings = savingsPerRound * bSize;
-            const kiloSavings = savingsPerRound * 1000;
-
-            const percentSavings = factoryCPR > 0 ? ((savingsPerRound / factoryCPR) * 100) : 0;
-
-            const equipCost = parseFloat(equipmentCost.value) || 0;
-            let roundsToBreakEven = savingsPerRound > 0 ? Math.ceil(equipCost / savingsPerRound) : 0;
-
-            // Render Output Labels
-            document.getElementById('resFactoryCpr').textContent = '$' + factoryCPR.toFixed(3);
-            document.getElementById('resHandloadCpr').textContent = '$' + handloadCPR.toFixed(3);
-            document.getElementById('resTotalHandloadPerRound').textContent = '$' + handloadCPR.toFixed(3) + ' / round';
-
-            document.getElementById('lblBulletCpr').textContent = '$' + bulletCPR.toFixed(3);
-            document.getElementById('lblPrimerCpr').textContent = '$' + primerCPR.toFixed(3);
-            document.getElementById('lblPowderCpr').textContent = '$' + powderCPR.toFixed(3);
-            document.getElementById('lblBrassCpr').textContent = '$' + brassCPR.toFixed(3);
-
-            // Update Progress Bar Widths
-            const total = handloadCPR > 0 ? handloadCPR : 1;
-            document.getElementById('barBullet').style.width = ((bulletCPR / total) * 100) + '%';
-            document.getElementById('barPrimer').style.width = ((primerCPR / total) * 100) + '%';
-            document.getElementById('barPowder').style.width = ((powderCPR / total) * 100) + '%';
-            document.getElementById('barBrass').style.width = ((brassCPR / total) * 100) + '%';
-
-            // Savings Badges
-            const badge = document.getElementById('savingsBadge');
-            if (savingsPerRound > 0) {
-                badge.textContent = '-' + Math.round(percentSavings) + '% Savings';
-                badge.className = 'px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-400 font-extrabold text-xs border border-emerald-500/30';
-            } else {
-                badge.textContent = 'No Savings';
-                badge.className = 'px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-400 font-extrabold text-xs border border-amber-500/30';
-            }
-
-            document.getElementById('resSavingsPerRound').textContent = (savingsPerRound >= 0 ? '+' : '') + '$' + savingsPerRound.toFixed(3);
-            document.getElementById('resBatchSavings').textContent = (batchSavings >= 0 ? '+' : '') + '$' + batchSavings.toFixed(2);
-            document.getElementById('resBatchLabel').textContent = bSize.toLocaleString();
-            document.getElementById('resKiloSavings').textContent = (kiloSavings >= 0 ? '+' : '') + '$' + kiloSavings.toFixed(2);
-
-            document.getElementById('resEquipCostDisp').textContent = '$' + equipCost.toFixed(2);
-            if (savingsPerRound > 0) {
-                document.getElementById('resBreakEvenRounds').textContent = roundsToBreakEven.toLocaleString() + ' rounds';
-                document.getElementById('resBreakEvenRoundsText').textContent = roundsToBreakEven.toLocaleString() + ' rounds';
-            } else {
-                document.getElementById('resBreakEvenRounds').textContent = 'N/A';
-                document.getElementById('resBreakEvenRoundsText').textContent = 'N/A (Handloads exceed factory cost)';
-            }
-        }
-
-        // Attach event listeners to inputs
-        const allCalcInputs = [
-            factoryBoxPrice, factoryBoxCount, bulletPrice, bulletCount, primerPrice, primerCount,
-            powderPriceLb, powderGrains, brassPrice100, brassReuses, batchSize, equipmentCost
-        ];
-        allCalcInputs.forEach(input => {
-            input.addEventListener('input', calculateCosts);
-            input.addEventListener('change', calculateCosts);
-        });
-
-        // Preset Buttons Click Handler
-        document.querySelectorAll('.preset-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                const presetKey = btn.getAttribute('data-preset');
-
-                // Style active state
-                document.querySelectorAll('.preset-btn').forEach(b => {
-                    b.className = 'preset-btn px-3 py-2 rounded-lg bg-tactical-800 border border-slate-700 text-slate-300 font-semibold text-xs text-center hover:bg-tactical-700 transition-all flex items-center justify-center gap-1.5';
-                });
-                btn.className = 'preset-btn px-3 py-2 rounded-lg bg-tactical-800 border border-emerald-500 text-emerald-400 font-semibold text-xs text-center hover:bg-tactical-700 transition-all flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10';
-
-                if (presetKey in CALIBER_PRESETS) {
-                    const data = CALIBER_PRESETS[presetKey];
-                    factoryBoxPrice.value = data.factoryBoxPrice;
-                    factoryBoxCount.value = data.factoryBoxCount;
-                    bulletPrice.value = data.bulletPrice;
-                    bulletCount.value = data.bulletCount;
-                    primerPrice.value = data.primerPrice;
-                    primerCount.value = data.primerCount;
-                    powderPriceLb.value = data.powderPriceLb;
-                    powderGrains.value = data.powderGrains;
-                    freeBrassToggle.checked = data.freeBrass;
-                    brassPrice100.value = data.brassPrice100;
-                    brassReuses.value = data.brassReuses;
-
-                    if (data.freeBrass) {
-                        brassInputWrapper.classList.add('opacity-40', 'pointer-events-none');
-                    } else {
-                        brassInputWrapper.classList.remove('opacity-40', 'pointer-events-none');
-                    }
-
-                    calculateCosts();
-                    showToast('Loaded ' + btn.textContent.trim() + ' Preset');
-                }
-            });
-        });
-
-        // Render Retailer Cards
-        const retailerGrid = document.getElementById('retailerGrid');
-        const directorySearch = document.getElementById('directorySearch');
-        let currentCategory = 'all';
-
-        function renderRetailers() {
-            const query = directorySearch.value.toLowerCase().trim();
-            retailerGrid.innerHTML = '';
-
-            const filtered = RETAILERS.filter(r => {
-                const matchesCat = (currentCategory === 'all') || r.cat.includes(currentCategory);
-                const matchesSearch = r.name.toLowerCase().includes(query) ||
-                                      r.specialty.toLowerCase().includes(query) ||
-                                      r.description.toLowerCase().includes(query);
-                return matchesCat && matchesSearch;
-            });
-
-            if (filtered.length === 0) {
-                retailerGrid.innerHTML = `
-                    <div class="col-span-full text-center py-12 text-slate-400 space-y-2">
-                        <i class="fa-solid fa-store-slash text-3xl text-slate-600"></i>
-                        <p class="text-sm">No suppliers found matching your query.</p>
-                    </div>
-                `;
-                return;
-            }
-
-            filtered.forEach(r => {
-                const card = document.createElement('div');
-                card.className = 'p-6 rounded-2xl bg-tactical-950 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between group';
-                card.innerHTML = `
-                    <div class="space-y-3">
-                        <div class="flex items-start justify-between gap-2">
-                            <div>
-                                <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold text-[10px] uppercase border border-emerald-500/20">
-                                    ${r.badge}
-                                </span>
-                                <h3 class="text-lg font-bold text-slate-100 mt-2 group-hover:text-emerald-400 transition-colors">${r.name}</h3>
-                            </div>
-                            <div class="flex items-center gap-1 text-amber-400 text-xs font-bold bg-tactical-900 px-2 py-1 rounded-lg border border-slate-800">
-                                <i class="fa-solid fa-star"></i> ${r.rating}
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-400 leading-relaxed">${r.description}</p>
-                    </div>
-
-                    <div class="pt-6 space-y-3">
-                        <div class="text-[11px] text-slate-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-truck-fast text-emerald-400"></i> Verified Shipping Partner
-                        </div>
-                        <a href="${r.link}" target="_blank" rel="noopener sponsored" class="w-full py-2.5 rounded-xl bg-tactical-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-200 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-slate-700 hover:border-emerald-500">
-                            Visit Retailer <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
-                        </a>
-                    </div>
-                `;
-                retailerGrid.appendChild(card);
-            });
-        }
-
-        // Category Filter Buttons
-        document.querySelectorAll('.cat-pill').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentCategory = btn.getAttribute('data-cat');
-                document.querySelectorAll('.cat-pill').forEach(b => {
-                    b.className = 'cat-pill px-3.5 py-1.5 rounded-full bg-tactical-800 text-slate-300 hover:bg-tactical-700 font-medium text-xs transition-all border border-slate-700';
-                });
-                btn.className = 'cat-pill px-3.5 py-1.5 rounded-full bg-emerald-500 text-slate-950 font-bold text-xs transition-all shadow-md shadow-emerald-500/20';
-                renderRetailers();
-            });
-        });
-
-        directorySearch.addEventListener('input', renderRetailers);
-
-        // Render Checklist
-        const checklistContainer = document.getElementById('checklistContainer');
-        function renderChecklist() {
-            checklistContainer.innerHTML = '';
-            CHECKLIST_ITEMS.forEach(item => {
-                const div = document.createElement('label');
-                div.className = 'flex items-start gap-3 p-3.5 rounded-xl bg-tactical-950 border border-slate-800 hover:border-slate-700 cursor-pointer transition-all';
-                div.innerHTML = `
-                    <input type="checkbox" class="mt-1 w-4 h-4 rounded bg-tactical-900 border-slate-700 text-emerald-500 focus:ring-emerald-500">
-                    <div>
-                        <div class="text-xs font-bold text-slate-200">${item.title}</div>
-                        <div class="text-[11px] text-slate-400 mt-0.5">${item.desc}</div>
-                    </div>
-                `;
-                checklistContainer.appendChild(div);
-            });
-        }
-
-        // Copy Checklist Button
-        document.getElementById('copyChecklistBtn').addEventListener('click', () => {
-            const text = CHECKLIST_ITEMS.map(i => `[ ] ${i.title}: ${i.desc}`).join('\n');
-            navigator.clipboard.writeText(text).then(() => {
-                showToast('Checklist copied to clipboard!');
-            }).catch(() => {
-                showToast('Copied checklist!');
-            });
-        });
-
-        // Toast Helper
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').textContent = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
-        }
-
-        // Initial Load Invocation
-        calculateCosts();
-        renderRetailers();
-        renderChecklist();
-    </script>
+    <!-- All site logic lives in src/ and is bundled by Vite. -->
+    <script type="module" src="./main.js"></script>
 </body>
 </html>

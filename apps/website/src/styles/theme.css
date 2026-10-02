@@ -1,20 +1,55 @@
-/* Extracted from the original single-file site. */
-        /* Custom custom scrollbars & input styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #090d16;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
-        }
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { 
-            -webkit-appearance: none;
-            margin: 0;
-        }
+/*
+ * Custom scrollbars and number-input chrome.
+ *
+ * Previously this file existed but nothing imported it, so these rules were
+ * dead. It is now imported by styles/main.css. Renaming the file would break
+ * any reference, so it keeps its name and lives alongside the entry point.
+ */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
+/* Component Cost Breakdown bar.
+ *
+ * Width arrives as the `--bar-width` custom property, set by main.js via
+ * setProperty() on every calculation. CSSOM writes are not governed by CSP, so
+ * the page needs no `unsafe-hashes` escape hatch for these.
+ *
+ * The per-bar defaults below are what the bar shows before the first
+ * calculation runs. They live here, not in the markup, for two reasons:
+ *
+ *  1. A `style=""` ATTRIBUTE cannot be covered by a nonce or a hash without
+ *     `unsafe-hashes`, which was removed from the policy on 1 Oct 2026. Four
+ *     static widths in index.html were a genuine CSP violation - confirmed in
+ *     Chrome, four "Applying inline style violates ... style-src" errors, bars
+ *     rendered at 0%.
+ *
+ *  2. The defaults are a presentation concern, and the rule that consumes them
+ *     is two lines below. Splitting them across a file boundary meant the
+ *     markup claimed they were CSP-safe while they were not.
+ */
+#barBullet, #barPrimer, #barPowder, #barBrass {
+    width: var(--bar-width, 0%);
+}
+
+/* Pre-calculation defaults. main.js overwrites all four on the first run. */
+#barBullet { --bar-width: 45%; }
+#barPrimer { --bar-width: 35%; }
+#barPowder { --bar-width: 20%; }
+#barBrass  { --bar-width: 0%; }
+
+/* Hide the browser's number spinners; the UI supplies its own step buttons. */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}

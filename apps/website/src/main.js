@@ -9,27 +9,33 @@ import { CALIBER_PRESETS } from './data/calibers.js';
 import { RETAILERS } from './data/retailers.js';
 import { CHECKLIST_ITEMS } from './data/checklist.js';
 import { el, icon, externalLink } from './dom.js';
+// Tailwind is compiled to a static stylesheet at build time. This import is what
+// replaces the old `cdn.tailwindcss.com` runtime compiler.
+import './styles/main.css';
 
-// Mobile Drawer Elements
+// Mobile Drawer
+        //
+        // `aria-expanded` is kept in sync in one place (`setDrawerOpen`) rather
+        // than at each call site. An aria attribute that disagrees with the
+        // visual state is worse than a missing one: it actively tells assistive
+        // technology the opposite of the truth.
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const mobileDrawer = document.getElementById('mobileDrawer');
         const menuIcon = document.getElementById('menuIcon');
 
+        function setDrawerOpen(open) {
+            mobileDrawer.classList.toggle('hidden', !open);
+            menuIcon.classList.replace(open ? 'fa-bars' : 'fa-xmark', open ? 'fa-xmark' : 'fa-bars');
+            mobileMenuBtn.setAttribute('aria-expanded', String(open));
+        }
+
         mobileMenuBtn.addEventListener('click', () => {
-            const isHidden = mobileDrawer.classList.contains('hidden');
-            if (isHidden) {
-                mobileDrawer.classList.remove('hidden');
-                menuIcon.classList.replace('fa-bars', 'fa-xmark');
-            } else {
-                mobileDrawer.classList.add('hidden');
-                menuIcon.classList.replace('fa-xmark', 'fa-bars');
-            }
+            setDrawerOpen(mobileDrawer.classList.contains('hidden'));
         });
 
         document.querySelectorAll('.mobile-nav-link').forEach(link => {
             link.addEventListener('click', () => {
-                mobileDrawer.classList.add('hidden');
-                menuIcon.classList.replace('fa-xmark', 'fa-bars');
+                setDrawerOpen(false);
             });
         });
 
@@ -107,12 +113,18 @@ import { el, icon, externalLink } from './dom.js';
             document.getElementById('lblPowderCpr').textContent = '$' + powderCPR.toFixed(3);
             document.getElementById('lblBrassCpr').textContent = '$' + brassCPR.toFixed(3);
 
-            // Update Progress Bar Widths
+            // Cost-bar widths, via CSS custom properties rather than `element.style.width`.
+            //
+            // A nonce cannot apply to a style ATTRIBUTE, and these widths change on
+            // every calculation, so `unsafe-hashes` was never a workable substitute in
+            // the CSP. Custom properties are set through the CSSOM, which CSP does not
+            // govern - so the page keeps a genuinely strict policy with no escape
+            // hatch.
             const total = handloadCPR > 0 ? handloadCPR : 1;
-            document.getElementById('barBullet').style.width = ((bulletCPR / total) * 100) + '%';
-            document.getElementById('barPrimer').style.width = ((primerCPR / total) * 100) + '%';
-            document.getElementById('barPowder').style.width = ((powderCPR / total) * 100) + '%';
-            document.getElementById('barBrass').style.width = ((brassCPR / total) * 100) + '%';
+            document.getElementById('barBullet').style.setProperty('--bar-width', ((bulletCPR / total) * 100) + '%');
+            document.getElementById('barPrimer').style.setProperty('--bar-width', ((primerCPR / total) * 100) + '%');
+            document.getElementById('barPowder').style.setProperty('--bar-width', ((powderCPR / total) * 100) + '%');
+            document.getElementById('barBrass').style.setProperty('--bar-width', ((brassCPR / total) * 100) + '%');
 
             // Savings Badges
             const badge = document.getElementById('savingsBadge');
@@ -223,33 +235,27 @@ import { el, icon, externalLink } from './dom.js';
             const card = el('div', 'p-6 rounded-2xl bg-tactical-950 border border-slate-800 hover:border-slate-700 transition-all flex flex-col justify-between group');
 
             const top = el('div', 'space-y-3');
-            const row = el('div', 'flex items-start justify-between gap-2');
 
+            // `specialty` is a factual label for what the retailer sells. It is
+            // deliberately not a badge: the badges here were superlatives
+            // ("Top Choice", "Powder Authority") with nothing behind them.
             const names = el('div');
-            names.appendChild(el('span', 'px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold text-[10px] uppercase border border-emerald-500/20', r.badge));
+            names.appendChild(el('span', 'px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-bold text-[10px] uppercase border border-emerald-500/20', r.specialty));
             names.appendChild(el('h3', 'text-lg font-bold text-slate-100 mt-2 group-hover:text-emerald-400 transition-colors', r.name));
 
-            const rating = el('div', 'flex items-center gap-1 text-amber-400 text-xs font-bold bg-tactical-900 px-2 py-1 rounded-lg border border-slate-800');
-            rating.appendChild(icon('fa-star'));
-            rating.appendChild(document.createTextNode(' ' + r.rating));
-
-            row.appendChild(names);
-            row.appendChild(rating);
-
-            top.appendChild(row);
+            top.appendChild(names);
             top.appendChild(el('p', 'text-xs text-slate-400 leading-relaxed', r.description));
             card.appendChild(top);
 
             const bottom = el('div', 'pt-6 space-y-3');
-            const ship = el('div', 'text-[11px] text-slate-400 flex items-center gap-1.5');
-            ship.appendChild(icon('fa-truck-fast text-emerald-400'));
-            ship.appendChild(document.createTextNode(' Verified Shipping Partner'));
-            bottom.appendChild(ship);
 
+            // No star rating, and no "Verified Shipping Partner". Both asserted a
+            // review history and a verification that never happened - see the
+            // header of data/retailers.js for the full reasoning.
             bottom.appendChild(externalLink(
                 r.link,
                 'w-full py-2.5 rounded-xl bg-tactical-800 hover:bg-emerald-500 hover:text-slate-950 text-slate-200 font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border border-slate-700 hover:border-emerald-500',
-                'Visit Retailer',
+                'Visit ' + r.name,
                 'fa-arrow-up-right-from-square text-[10px]',
             ));
 

@@ -16,6 +16,8 @@
     "@apex/ballistics-core": "*"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "tailwindcss": "^4.3.3",
     "vite": "^7.1.0",
     "wrangler": "^4.42.0"
   }
