@@ -1,0 +1,21 @@
+{
+  "schema": "apex-task/1",
+  "id": "brand-rename",
+  "title": "Brand rename and site re-identification",
+  "status": "blocked",
+  "blocked_by": [],
+  "blocked_reason": "Owner decision AND trademark-clearance output. Renaming the live site needs a name chosen from clearance results, so it waits for a human, not just another task.",
+  "agent": null,
+  "write_set": [
+    "package.json",
+    "wrangler.toml",
+    "apps/website/src/index.html",
+    "apps/website/src/main.js",
+    "docs/"
+  ],
+  "required_outputs": [],
+  "prohibits": [],
+  "verification": [
+    "npm run verify"
+  ]
+}

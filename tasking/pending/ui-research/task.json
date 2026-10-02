@@ -1,0 +1,24 @@
+{
+  "schema": "apex-task/1",
+  "id": "ui-research",
+  "title": "UI/UX research and modern mockups",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": "scout-design",
+  "write_set": [
+    "tasking/completed/ui-research/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-layout-research.md",
+    "02-design-critique.md",
+    "03-modern-mockups/_tokens.css",
+    "04-layout-spec.md"
+  ],
+  "prohibits": [],
+  "verification": [
+    "npm run verify"
+  ]
+}

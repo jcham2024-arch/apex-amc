@@ -1,92 +1,103 @@
 # Pending tasks
 
-Task briefs waiting for an agent. Read [../README.md](../README.md) **first** - it is
-the binding protocol, and it is not long.
+Each task is a **folder** holding two files with different jobs:
+
+```
+task-<name>/
+  task.json   the MANIFEST - machine-checkable. Write-set, required outputs,
+              prohibitions, status. `npm run tasking:check` enforces it.
+  BRIEF.md    the CONTEXT - what to do and why, in prose. No gate can enforce
+              prose; this is for you.
+```
+
+The split is the point. The manifest says what must *exist* when you're done, so
+"finished" becomes a checkable claim rather than a chat summary. The brief carries
+the reasoning that a machine can't check.
 
 > ## This folder is read-only to you
 >
-> **The Master Planner owns `pending/`. You may read every file here. You may not
-> write, rename, move, or "tidy" anything in it.**
+> **The Master Planner owns `pending/`. You may read everything. You may not write,
+> rename, move, or "tidy" anything in it.**
 >
-> Claiming a task means **moving its brief out** into `../in-progress/`. That move is
-> the lock — see below.
+> Claiming a task means **moving its whole folder out** into `../in-progress/`.
+> That move is the lock — no registry to race on, no lock to expire. A second agent
+> simply cannot see a claimed task.
 >
-> **If a brief is wrong, report the defect in your summary. Do not repair it.** Fixing
-> briefs is the planner's job. This boundary was already crossed on 2 Oct 2026, and it
-> cost a corrupted brief and two agents renaming the same file simultaneously.
-
-These are the **only** place a task brief belongs. `docs:check` and `lint` both
-process this directory, so a brief naming a path that does not resolve fails the
-build before an agent follows it. That is intentional.
+> **If a brief is wrong, report it. Do not repair it.** Fixing briefs is the
+> planner's job. This boundary was already crossed on 2 Oct 2026, and it cost a
+> corrupted brief and two agents renaming the same file at once.
 
 ## Claiming
 
 ```bash
-mv tasking/pending/task-<name>.md tasking/in-progress/
+mv tasking/pending/task-<name> tasking/in-progress/
 ```
 
-No registry, no lock file, no expiry. The brief physically leaves, so a second agent
-listing this folder cannot see it and cannot take it. First mover owns it; if the file
-is gone, **choose another task, do not touch the running one**.
+First mover owns it. If the folder is gone, another agent has it — **choose another,
+do not touch the running one.**
 
 ## When you finish
 
-Move your folder to `../completed/`, then **immediately claim the next available brief
-here without being asked.** An idle worker is a task not being done. If this folder is
-empty when you look, report **"queue empty"** and stop - that is a correct result, and
-it is the signal the planner needs to write more.
+Your folder must contain **every file listed in `required_outputs`** in your
+`task.json` — no exceptions, or `npm run tasking:check` fails and the task is not
+done. Then:
+
+1. Move `tasking/in-progress/<task>/` to `tasking/completed/<task>/`.
+2. **Immediately claim the next available task** without being asked.
+
+An idle worker is a task not being done. If this folder is empty when you look,
+report **"queue empty"** and stop — that's a correct result and the signal the
+planner needs to write more.
 
 ## Available now
 
-All five are **research-only** and safe to run at the same time as each other or
-alongside any code task, because each writes only inside its own
-`tasking/completed/<ID>/` folder and copies nothing into the main tree.
+These are all **research-only** and safe to run in parallel: each writes only inside
+its own output folder and copies nothing into the main tree.
 
-| Brief | Task | Agent | Delivers |
-|---|---|---|---|
-| [task-T1-trademark-clearance.md](task-T1-trademark-clearance.md) | T1 | scout-legal | Trademark clearance for 12+ candidate names, plus domain availability |
-| [task-T2-ballistics-oracles.md](task-T2-ballistics-oracles.md) | T2 | scout-math | Peer-reviewed methods that can verify the solver from outside |
-| [task-T4-cartridge-dimensions.md](task-T4-cartridge-dimensions.md) | T4 | scout-data | SAAMI/CIP dimensional transcription for the 229 cartridges we hold |
-| [task-T5-interior-ballistics.md](task-T5-interior-ballistics.md) | T5 | scout-math | Powder properties, load-synthesis physics, **and a feasibility verdict** |
-| [task-T6-exterior-ballistics.md](task-T6-exterior-ballistics.md) | T6 | scout-data | Measured trajectory datasets and BC reference data |
+| Task folder | Agent | Delivers |
+|---|---|---|
+| [trademark-clearance/](trademark-clearance/) | scout-legal | Name clearance for 12+ candidates + domains |
+| [ballistics-oracles/](ballistics-oracles/) | scout-math | Peer-reviewed methods to verify the solver |
+| [cartridge-dimensions/](cartridge-dimensions/) | scout-data | SAAMI/CIP dimensions for our 229 cartridges |
+| [interior-ballistics/](interior-ballistics/) | scout-math | Powder properties + load-synthesis verdict |
+| [exterior-ballistics/](exterior-ballistics/) | scout-data | Trajectory datasets + BC reference |
+| [ammoseek-coverage/](ammoseek-coverage/) | scout-data | Caliber gap table + sourcing plan |
+| [ui-research/](ui-research/) | scout-design | Top-tier layout research + mockups |
+| [docs-audit/](docs-audit/) | scout-data | Documentation accuracy audit |
+| [code-audit/](code-audit/) | scout-code | Dead code, duplication, config review |
+| [shot-group-taxonomy/](shot-group-taxonomy/) | scout-research | Instructor-verified shot-fault taxonomy |
+| [handgun-coaching-feasibility/](handgun-coaching-feasibility/) | scout-research | Feasibility, privacy and liability verdict |
 
-### Two to read before you dispatch an agent
+### Read before dispatching
 
-**T5 is safety-critical.** It carries a **hard prohibition**: the agent must not
-produce or recommend any charge weight, not even as an example. That is the one output
-in this domain where a plausible-looking wrong number injures people. If the agent
-reports it could not complete the task without stating one, that is the finding, and
-it is a good one.
+**Some tasks carry a `prohibitions` array in `task.json` — read it.** Two are
+safety-critical:
 
-**T4 expects an incomplete result.** Six dimensional columns are currently 0/229
-populated. The correct output leaves cells EMPTY where a source does not state a
-value. An agent that reports "I filled 90%" has probably invented the other 10%.
+- **interior-ballistics** must **not** state a charge weight for any
+  cartridge/projectile/powder combination, not even as an example. A charge weight is
+  the one output in this domain where a plausible-looking wrong number injures
+  people. If the agent reports it cannot complete the task without stating one, that
+  is the finding, and it is a good one.
+- **shot-group-taxonomy** must **not** write coaching advice or assess a shooter.
+  It compiles what instructors already teach; it does not invent an interpretation.
+
+**One task expects an incomplete result.** `cartridge-dimensions` starts from six
+dimensional columns that are 0/229 populated. The correct output leaves cells EMPTY
+where no source states a value. An agent reporting "90% complete" has probably
+invented the other 10%.
 
 ## Blocked
 
-| Brief | Task | Waiting on |
-|---|---|---|
-| [task-T3-brand-rename.md](task-T3-brand-rename.md) | T3 | T1, **and** an owner-chosen name |
+| Task folder | Waiting on |
+|---|---|
+| [brand-rename/](brand-rename/) | **A human** — the name is your decision, informed by `trademark-clearance` |
 
-T3 is not a research task and does not follow the copy-out workflow. It edits the
-live site and must not start on an assumption. See the brief.
+Not delegable. Do not dispatch.
 
 ## Before you start
 
-Read `.clinerules` §1: **if `npm run verify` is red when you start, stop and
+Read `.clinerules` §1 and §10: **if `npm run verify` is red when you start, stop and
 report.** A red baseline invalidates every Definition of Done in every task.
 
-The recorded baseline is **exit 0, 235 tests**. `ci:check` currently reports 25
-tasks in the ledger. If either differs, measure and report it rather than assuming
-your brief is current.
-
-## Dispatching
-
-Give the agent three things:
-
-1. the brief file - read §3 "Execution Prompt" and paste it to them verbatim
-2. [tasking/README.md](../README.md) - the copy-out workflow they must follow
-3. `.clinerules` - binding on isolation and on never inventing a value
-
-Then tell them explicitly: **do not edit anything in the main tree.** That is the one
-instruction whose violation undoes the whole system.
+Run `npm run tasking:check` before you begin — it confirms the queue is coherent and
+tells you how many tasks are ready.

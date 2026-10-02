@@ -96,6 +96,7 @@ jobs:
           npm run website:check
           npm run claims:check
           npm run tasks:check
+          npm run tasking:check
           npm run oracle:check
           npm run regulations:check
 

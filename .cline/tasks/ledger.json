@@ -310,141 +310,6 @@
         "docs/lessons/ (new files only)"
       ],
       "notes": "Output-only. Turns AGENTS.md traps into a training curriculum."
-    },
-    {
-      "id": "T1",
-      "title": "Trademark and brand-name clearance research",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-legal",
-      "file": "tasking/pending/task-T1-trademark-clearance.md",
-      "write_set": [
-        "docs/research-trademark/ (new files only)"
-      ],
-      "notes": "RESEARCH ONLY - no rename. Blocked reason for the owner's rename request: APEX AMMUNITION is a LIVE USPTO registration (5391055, IC 013) and apexmunition.com is an operating storefront in the same category. Output-only, so safe alongside T2 and any code task."
-    },
-    {
-      "id": "T2",
-      "title": "Ballistics oracle research: independent verification methods",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-math",
-      "file": "tasking/pending/task-T2-ballistics-oracles.md",
-      "write_set": [
-        "docs/research-oracles/ (new files only)"
-      ],
-      "notes": "RESEARCH ONLY - must not touch packages/ballistics-core, which is safety-critical. Must state whether '3 independent methods' is actually defensible. Output-only, safe alongside T1."
-    },
-    {
-      "id": "T3",
-      "title": "Brand rename and site re-identification",
-      "status": "blocked",
-      "blocked_by": [
-        "T1"
-      ],
-      "blocked_reason": "The name is an OWNER DECISION. T1 produces the clearance data; the owner then chooses. Not delegable and not safe to start on an assumption.",
-      "file": "tasking/pending/task-T3-brand-rename.md",
-      "write_set": [
-        "package.json",
-        "wrangler.toml",
-        "apps/website/src/index.html",
-        "apps/website/src/main.js",
-        "docs/"
-      ],
-      "notes": "Locks package.json. Site is LIVE, so a rename changes the title, footer, wrangler project name and SITE_ORIGIN together. Do not start without an explicit owner-chosen name."
-    },
-    {
-      "id": "T4",
-      "title": "Cartridge dimensional dataset (SAAMI/CIP transcription)",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-data",
-      "file": "tasking/pending/task-T4-cartridge-dimensions.md",
-      "write_set": [
-        "tasking/completed/T4/ (new files only)"
-      ],
-      "notes": "RESEARCH ONLY, copy-out workflow. Fixes the measured finding that all 6 dimensional columns are 0/229 populated. Never invent a value; empty is a valid result. Safe alongside T1, T2, T5, T6."
-    },
-    {
-      "id": "T5",
-      "title": "Interior ballistics: powder characterisation and load synthesis",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-math",
-      "file": "tasking/pending/task-T5-interior-ballistics.md",
-      "write_set": [
-        "tasking/completed/T5/ (new files only)"
-      ],
-      "notes": "SAFETY-CRITICAL. Must NOT produce any charge weight - hard prohibition in the brief. Addresses the owner's load-synthesis goal; measures that powders.json holds ZERO quantitative burn-rate data. Safe alongside T4, T6."
-    },
-    {
-      "id": "T6",
-      "title": "Exterior ballistics: trajectory reference dataset",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-data",
-      "file": "tasking/pending/task-T6-exterior-ballistics.md",
-      "write_set": [
-        "tasking/completed/T6/ (new files only)"
-      ],
-      "notes": "RESEARCH ONLY. Must not touch packages/ballistics-core (safety-critical). Gathers measured trajectory data; there is currently none. Safe alongside T4, T5."
-    },
-    {
-      "id": "T7",
-      "title": "AmmoSeek breadth gap analysis and sourcing plan",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-data",
-      "file": "tasking/pending/task-T7-ammoseek-coverage.md",
-      "write_set": [
-        "tasking/completed/T7/ (new files only)"
-      ],
-      "notes": "RESEARCH ONLY. Produces the requested coverage-gap table; must NOT add cartridges (data/seeds lock) and must NOT copy product data from AmmoSeek per regulations.csv. Requires alias-aware matching. Safe alongside T4, T5, T6."
-    },
-    {
-      "id": "T8",
-      "title": "UI/UX research and modern mockups",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-design",
-      "file": "tasking/pending/task-T8-ui-research.md",
-      "write_set": [
-        "tasking/completed/T8/ (new files only)"
-      ],
-      "notes": "RESEARCH AND DESIGN ONLY. Must not edit apps/ - the live site is out of scope. Mockups must obey the single-file self-containment rule and the strict CSP (no on*= handlers, no style= attributes). Existing docs/mockups/ must be read first, not duplicated."
-    },
-    {
-      "id": "T9",
-      "title": "Repository documentation audit",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-docs",
-      "file": "tasking/pending/task-T9-docs-audit.md",
-      "write_set": [
-        "tasking/completed/T9/ (new files only)"
-      ],
-      "notes": "RESEARCH AND AUDIT ONLY. Must not edit docs/. Known starting points: .clinerules says 14 stages when verify declares 19; ledger baseline is stale. Safe alongside T8 and T10."
-    },
-    {
-      "id": "T10",
-      "title": "Source code quality and dead-code audit",
-      "status": "ready",
-      "blocked_by": [],
-      "read_only": true,
-      "agent": "scout-code",
-      "file": "tasking/pending/task-T10-code-audit.md",
-      "write_set": [
-        "tasking/completed/T10/ (new files only)"
-      ],
-      "notes": "AUDIT ONLY, no refactoring. packages/ballistics-core is safety-critical and read-only. Every dead-code claim needs a proving search. Safe alongside T9."
     }
   ],
   "parallel_safe": [
@@ -452,16 +317,7 @@
     "A2",
     "B2",
     "B5",
-    "C4",
-    "T1",
-    "T2",
-    "T4",
-    "T5",
-    "T6",
-    "T7",
-    "T8",
-    "T9",
-    "T10"
+    "C4"
   ],
   "serial_chains": [
     [
@@ -489,5 +345,6 @@
       "D3",
       "D4"
     ]
-  ]
+  ],
+  "note_on_superseded": "The T*/U* tasks were moved to tasking/pending/<id>/ as folder-based task.json manifests, enforced by npm run tasking:check. This ledger now tracks only the legacy A/B/C/D task plan."
 }

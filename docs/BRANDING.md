@@ -82,4 +82,4 @@ site is announced or promoted anywhere.
 
 Task **T1** in [`tasking/pending/task-T1-trademark-clearance.md`](../tasking/pending/task-T1-trademark-clearance.md)
 clears candidate names against USPTO in IC 013 and IC 009/042. When it reports, the
-owner chooses, and task **T3** applies the decision. Until then this placeholder stands.
+owner chooses, and task **brand-rename** applies the decision. Until then this placeholder stands.

@@ -47,33 +47,27 @@ got, and a reassigned agent can resume from it.
 
 ## How to claim a task
 
+Every task is a **folder** holding two files:
+
+- `task.json` — the manifest: write-set, **required outputs**, prohibitions. This is
+  machine-checked by `npm run tasking:check`.
+- `BRIEF.md` — the context: what to do and why, in prose.
+
+Read both before starting.
+
 ```bash
-# 1. List what is available
-ls tasking/pending/
-
-# 2. Read the README here first, then the brief
-
-# 3. CLAIM IT - create the folder, moving the brief out of pending/
-mv tasking/pending/task-cartridge-dimensions.md \
-   tasking/in-progress/task-cartridge-dimensions.md
+ls tasking/pending/                        # what's available
+cat tasking/pending/<task>/task.json       # what is REQUIRED of you
+mv tasking/pending/<task> tasking/in-progress/   # CLAIM - the move is the lock
 ```
 
-**The move is the lock.** There is no central registry to race on, and no lock file to
-expiry. The brief physically leaves `pending/`, so a second agent listing the folder
-cannot see it and cannot claim it. First mover owns it.
+**The move is the lock.** The folder physically leaves `pending/`, so a second agent
+listing the directory cannot see it. No registry to race on, no lock to expire. First
+mover owns it. If the folder is gone, another agent has it — pick a different one.
 
-If the folder is gone, another agent has it. **Pick a different one. Do not touch it.**
-
----
-
-## How to finish a task
-
-1. Run every validation command in your brief's Definition of Done.
-2. Write your `REPORT.md` **inside your own output folder**, not at the top level.
-3. Move `tasking/in-progress/<task>/` to `tasking/completed/<task>/`.
-4. **Then immediately look for another task** - see below.
-
-Your brief goes with your output. A reviewer needs the brief to know what was asked.
+Work in `in-progress/<task>/`. When you are done, that folder must contain **every
+file listed in `required_outputs`** — no exceptions. Then move the whole folder to
+`completed/<task>/`, brief included, because a reviewer needs it to judge the work.
 ---
 
 ## Take the next task without being asked

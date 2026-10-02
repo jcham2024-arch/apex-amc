@@ -1,0 +1,26 @@
+{
+  "schema": "apex-task/1",
+  "id": "shot-group-taxonomy",
+  "title": "Shot-group diagnosis: research the fault taxonomy",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": "scout-research",
+  "write_set": [
+    "tasking/completed/shot-group-taxonomy/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-fault-taxonomy.md",
+    "02-instructor-sources.md",
+    "03-mapping-to-measurements.csv",
+    "04-rebuttals-and-exceptions.md"
+  ],
+  "prohibits": [
+    "MUST NOT write coaching advice or assess any shooter"
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

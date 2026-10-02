@@ -1,0 +1,24 @@
+{
+  "schema": "apex-task/1",
+  "id": "code-audit",
+  "title": "Source code quality and dead-code audit",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": "scout-code",
+  "write_set": [
+    "tasking/completed/code-audit/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-dead-code.md",
+    "02-dupes.md",
+    "03-comments.md",
+    "04-config-review.md"
+  ],
+  "prohibits": [],
+  "verification": [
+    "npm run verify"
+  ]
+}

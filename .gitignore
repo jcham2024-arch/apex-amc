@@ -72,25 +72,65 @@ output*.txt
 **/_tmp-*/
 
 # ---------------------------------------------------------------------------
-# tasking/completed/ - Sub-Agent hand-off staging.
+# tasking/completed/ - Sub-Agent hand-off, and the project's research record.
 #
-# A Sub-Agent COPIES main source files here for review and merge. They are not
-# project source, and committing them would put two copies of the same file in
-# the repository and let a stale staged copy be mistaken for the real one.
+# WHAT CHANGED ON 2 OCT 2026, AND WHY
+# -----------------------------------
+# This was previously ignored, on the reasoning that a staged copy is "a diff under
+# review, not project source". That reasoning was sound for CODE copies and wrong
+# for RESEARCH output, and the cost was severe:
 #
-# The briefs in tasking/pending/ ARE tracked - they are real documentation that
-# docs:check and lint both process. Only the output is ignored, because the
-# output is a diff under review.
+#   Agents were dispatched from tasking/pending/. They finished. They wrote their
+#   findings into tasking/completed/. And because that folder was ignored, those
+#   findings did not exist for anyone else - not in git, not in a clone, not after
+#   a session closed. The queue looked identical before and after the entire
+#   research phase. The work was real and it was already gone.
 #
-# This was needed for the same reason tmp/ above: a staged .mjs copy failed
-# `npm run lint`, and a staged .md failed `npm run docs:check` on CRLF, neither
-# of which meant anything about the code.
+# The distinction the old rule missed:
+#
+#   A STAGED CODE COPY is a proposal. It is superseded the moment it is merged, and
+#   committing it puts two copies of one file in the repo, so a stale one can be
+#   mistaken for the real one. Ignoring those is correct.
+#
+#   TASK RESEARCH OUTPUT is not a proposal. It is the ONLY durable record of what
+#   was learned - which sources were checked, what was measured, what was refused
+#   and why. It does not get "merged" into anything, because there is nothing to
+#   merge it into. Ignoring it makes it evaporate.
+#
+# So: code-path output stays ignored (see the narrow rule below), and RESEARCH
+# output is now tracked. Every task's `required_outputs` lives under its own folder
+# and is enforced by `npm run tasking:check`.
+#
+# The lint/docs problem that motivated the old rule is real, and is handled by the
+# staged-code carve-out directly beneath rather than by ignoring the whole tier.
 # ---------------------------------------------------------------------------
 tasking/completed/*
-# ...but the DIRECTORY itself must exist on a clean checkout, or every agent
-# starts by creating it and a stale copy can never be distinguished from the
-# real folder. Git does not track empty directories, which is the same problem
-# docs/research-methods/README.md records for the research folders.
+
+# RESEARCH OUTPUT IS TRACKED. This is the fix for the incident above.
+# A task folder's own manifest, brief, and findings are the project record.
+!tasking/completed/*/
+!tasking/completed/*/**
+tasking/completed/**/tmp/
+tasking/completed/**/node_modules/
+
+# STAGED CODE COPIES stay ignored, for the original reason: they duplicate a file
+# that already has a canonical home in the repo.
+tasking/completed/**/*.mjs
+tasking/completed/**/*.js
+tasking/completed/**/*.ts
+tasking/completed/**/*.tsx
+tasking/completed/**/*.json
+tasking/completed/**/*.css
+tasking/completed/**/*.html
+
+# ...but the manifests are .json and MUST be tracked, or `tasking:check` cannot
+# verify a completed task against what it declared. The rule below is the narrow
+# exception that keeps the check honest.
+!tasking/completed/*/task.json
+!tasking/completed/*/**/task.json
+
+# ...and the directory must exist on a clean checkout, or every agent starts by
+# creating it. Git does not track empty directories.
 !tasking/completed/.gitkeep
 
 # ---------------------------------------------------------------------------

@@ -35,7 +35,7 @@
 
 ## 2. Established context - do not re-derive
 
-- **The build is green**: lint, 19 gates, 235 tests, all passing.
+- **The build is green**: lint, every gate in `npm run verify`, and the full test suite, all passing. Measure the counts rather than quoting them.
 - `eslint.config.js` ignores `scripts/_*.mjs`, `tmp/**`, `temp/**` and now
   `tasking/completed/**`. Those exclusions have documented reasons - do not propose
   removing them without understanding why.
