@@ -406,6 +406,11 @@ const stageCountProblems = (mds) => {
     // old wrong numbers is the entire point of the document. Without this the
     // gate fails on its own audit report.
     if (rel.startsWith('docs/audit/')) continue;
+    // So is the version history. It records what each TAG contained, and a tag's
+    // stage count is a fact about that tag, not a claim about the repo now. The
+    // baseline changed from 15 to 16 when oracle:check was added; "15" remains
+    // the correct description of v0.1.0.
+    if (rel.startsWith('docs/versions/')) continue;
     const lines = readFileSync(abs, 'utf8').split('\n');
     lines.forEach((line, i) => {
       if (/stale|used to|no longer|\bwas\b|\bwere\b|disagree|before|instead of/i.test(line)) {

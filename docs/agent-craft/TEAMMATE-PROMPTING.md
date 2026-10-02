@@ -109,7 +109,7 @@ access that may not exist. All three agents failed before starting.
     coefficient or a citation. Write the actual formula, not the name of a
     method.
 
-    ACCEPTANCE: npm run verify exits 0 (15 stages, 235 tests).
+    ACCEPTANCE: npm run verify exits 0. Quote no stage count; it changes.
 
     RETURN: what you did, what you found, what you could NOT verify, any change
     outside your write-set (should be none), and every command with its exit code.

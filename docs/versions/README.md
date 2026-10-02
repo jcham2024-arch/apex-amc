@@ -38,7 +38,7 @@ than checking it out in place.
 # v0.1.0-consolidated
 
 **Tagged:** 2 Oct 2026 - **Branch:** `feat/v0.1.0-consolidated`
-**Baseline:** `npm run verify` exits 0 - 15 stages, 235 tests, 0 failures.
+**Baseline:** `npm run verify` exits 0, 235 tests, 0 failures.
 
 The first point at which this repository is safe to build on: consolidation,
 claims compliance, and multi-agent infrastructure.

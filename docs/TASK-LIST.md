@@ -27,7 +27,7 @@ dependency, not by appeal.
 | | |
 |---|---|
 | Tests | **235 passing, 0 failing** |
-| `npm run verify` | **green, all 15 stages** |
+| `npm run verify` | **green** |
 | Data | 989 rows, 13 datasets, cross-references resolve |
 | Bullets | 120 rows (Berger 109, Hornady 7, Sierra 4) |
 | Powders | 169 rows, 7 manufacturers |

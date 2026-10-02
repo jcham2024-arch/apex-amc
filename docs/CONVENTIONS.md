@@ -275,7 +275,9 @@ from official tables into the community set.
 
 ## 10. Enforcement summary
 
-`npm run verify` — **measured 2 Oct 2026: exit 0, 235 tests, 15 stages.**
+`npm run verify` — **`npm run verify` must exit 0. 235 tests. Do not quote a
+stage count here: it changes every time a gate is added, and `docs:check`
+fails on a stale one.**
 
 ```bash
 npm run verify      # before you start and after you finish

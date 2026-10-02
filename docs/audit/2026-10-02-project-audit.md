@@ -30,7 +30,19 @@ the implementation were wrong the same way. A suite written by the same
 reasoning that produced the bug cannot catch that bug. These 744 rows are the
 only independent data in the repo, and nothing reads them.
 
-**This is task A1 and it is not done.**
+> **Resolution (partial).** `scripts/gates/check-oracle.mjs` now compares our
+> G1/G7 transcription against the CSV: **153 drag points**, plus hygiene checks on
+> all 744 rows (every row must carry a source and a stated uncertainty).
+> Wired into `npm run verify` as `oracle:check`.
+>
+> Negative-tested four ways: corrupting one Cd value fails; blanking a source
+> fails; stripping a stated uncertainty fails. Verified good: removing a field
+> that the file has no column for correctly passes.
+>
+> **Still open.** The gate does NOT run the solver against `measured_data.csv`.
+> Those 6 rows need barrel-length scaling and an atmosphere model before they
+> are comparable, and a comparison that skips those would manufacture agreement.
+> That is the remaining part of task A1.
 
 ## PROVEN-2: documentation quotes stage counts that are all wrong  [FIXED, GATED]
 

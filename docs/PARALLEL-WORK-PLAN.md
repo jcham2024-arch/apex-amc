@@ -80,7 +80,8 @@ which touches manifest + CSV + row count together. Each such task owns that trio
 npm run verify     # must exit 0 before you start and after you finish
 ```
 
-**Measured 2 Oct 2026: exit 0, 235 tests, 15 stages.**
+**Measured 2 Oct 2026: exit 0, 235 tests.** Do not quote a stage count; `docs:check`
+fails on a stale one.
 
 These figures were stale and were corrected on 2 Oct 2026: TASK-LIST said 9
 stages, DATA-TODO 10, AGENTS 11 and "~215 tests", README 215. Do not quote a

@@ -17,8 +17,7 @@ do not edit a file outside your declared write-set. Report the problem instead.
 Two agents editing one file is the failure this whole document set exists to
 prevent.
 
-**Baseline to confirm before you start:** `npm run verify` exits 0, 235 tests,
-15 stages. If it does not, stop and report — someone else has broken it and that
+**Baseline to confirm before you start:** `npm run verify` exits 0, 235 tests.. If it does not, stop and report — someone else has broken it and that
 must be fixed before parallel work continues.
 
 ---
@@ -826,7 +825,7 @@ The docs disagree with each other and with reality:
   DATA-TODO.md  says 10
   AGENTS.md     says 11 and "~215 tests"
   README.md     says 215 passing
-  ACTUAL        15 stages, 235 tests (2 Oct 2026)
+  ACTUAL        235 tests (2 Oct 2026)
 Every §A/§B prompt states its own measured number rather than citing the docs
 precisely because an agent reading a stale figure will mis-plan.
 
