@@ -146,12 +146,30 @@ folder, because the folder name is the lock.**
 ## 12. Idle is a failure state
 
 An agent that finishes into an empty queue is a swarm that has stopped. Work completed;
-nothing generated; the next thing needed a human. Hence the standing `swarm-improvement`
-slot, regenerated rather than stocked — a task folder cannot be always-available, because
-claiming *moves* it.
+nothing generated; the next thing needed a human. Hence two standing slots —
+`swarm-improvement` for the framework and `code-health` for the code — regenerated
+rather than stocked, because a task folder cannot be always-available: claiming *moves*
+it. Adding a third slot is a spec file and one line in a `SLOTS` array.
 
 **And the honest limit:** none of this runs while every session is idle. It works *across
 turns*. Two schedules maintain it, on offset cadences so they never collide.
+
+## 13. A pattern is not an improvement
+
+**Paid for by:** the owner asking for OOP factories, then clarifying they were only an
+example and that a change which does not help should not be made.
+
+`ballistics-core` is pure exported functions with no hidden state; its 10 classes are
+reserved for things that genuinely have state. Wrapping them is a regression with extra
+indirection. So the `code-health` slot was briefed with the rule stated outright, plus a
+second one that follows from it:
+
+> **Cite a source for every best practice. A practice asserted from memory is cargo-cult.**
+
+Without that, "stay current with best practices" degrades into whatever an agent
+remembers, and the codebase accumulates fashion. The slot must also **state what it
+found healthy** — a pass that reports only problems gives no evidence about the rest,
+and cannot tell a real finding from a manufactured one.
 
 ---
 

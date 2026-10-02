@@ -25,9 +25,23 @@ import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 
 import { join } from 'node:path';
 import { root } from '../shared/data.mjs';
 
-const SPEC = join(import.meta.dirname, 'swarm-improvement.spec.json');
-const spec = JSON.parse(readFileSync(SPEC, 'utf8'));
-const ID = spec.id;
+// Standing SLOTS, plural. One script, many permanent slots, declared as data.
+//
+// The owner asked for continuous improvement of the code itself - functionality,
+// design, efficiency, commentary, and staying current - not one refactor pass. A
+// single-slot script would mean rewriting it per slot; a list means adding a slot is
+// a spec file and nothing else.
+//
+//   swarm-improvement - the FRAMEWORK: how the swarm works
+//   code-health        - the CODE: how the project is built
+//
+// They are separate on purpose. One agent improving the protocol and another
+// improving the codebase is exactly the parallelism the swarm is for, and they
+// cannot collide because their write-sets are different folders.
+const SLOTS = ['swarm-improvement', 'code-health'].map((id) => ({
+  id,
+  spec: JSON.parse(readFileSync(join(import.meta.dirname, `${id}.spec.json`), 'utf8')),
+}));
 
 const bullets = (xs) => xs.map((s) => `- ${s}`).join('\n');
 
@@ -45,19 +59,24 @@ function taskFolders(tier) {
  * or `in-progress/` (claimed). A COMPLETED rotation deliberately does not count.
  *
  * That distinction is the whole mechanism. An agent finishes, the folder lands in
- * completed/ as `swarm-improvement`, and the slot must come back - otherwise the
- * next agent to finish finds an empty queue, which is the exact failure this slot
- * exists to prevent. Caught by probe: treating completed as busy meant the slot
- * regenerated once and never again.
+ * completed/, and the slot must come back - otherwise the next agent to finish finds
+ * an empty queue, which is the exact failure this exists to prevent. Caught by probe:
+ * treating completed as busy meant the slot regenerated once and never again.
  */
-const active = ['pending', 'in-progress'].some((tier) => taskFolders(tier)
-  .some((n) => n === ID || n.startsWith(`${ID}-`)));
-
-if (active) {
-  console.log(`restock: ${ID} is queued or in progress; nothing to do.`);
-  process.exit(0);
+function isActive(id) {
+  return ['pending', 'in-progress'].some((tier) => taskFolders(tier)
+    .some((n) => n === id || n.startsWith(`${id}-`)));
 }
 
+for (const { id: ID, spec } of SLOTS) {
+  if (isActive(ID)) {
+    console.log(`restock: ${ID} is queued or in progress; nothing to do.`);
+    continue;
+  }
+  createSlot(ID, spec);
+}
+
+function createSlot(ID, spec) {
 const PENDING = join(root, 'tasking', 'pending', ID);
 mkdirSync(PENDING, { recursive: true });
 
@@ -189,3 +208,4 @@ writeFileSync(join(root, 'tasking', 'mail', 'proposals', `${ID}.md`), [
 ].join('\n'), 'utf8');
 
 console.log(`restock: created tasking/pending/${ID} and its proposal.`);
+}
