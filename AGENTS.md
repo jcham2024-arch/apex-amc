@@ -26,7 +26,7 @@ between compilations is evidence, not a standard.
 ## Before you do anything
 
 ```bash
-npm run verify     # must exit 0. 11 stages, ~215 tests.
+npm run verify     # must exit 0. 15 stages, 235 tests.
 npm run data:health  # live row counts, manifest coverage, reference integrity
 npm run coverage     # per-manufacturer status
 ```

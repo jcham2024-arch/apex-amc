@@ -80,11 +80,11 @@ which touches manifest + CSV + row count together. Each such task owns that trio
 npm run verify     # must exit 0 before you start and after you finish
 ```
 
-**Measured 2 Oct 2026: exit 0, 235 tests, 14 stages.**
+**Measured 2 Oct 2026: exit 0, 235 tests, 15 stages.**
 
-Note the docs disagree with each other and with that number:
-[`TASK-LIST.md`](TASK-LIST.md) says 9 stages, [`DATA-TODO.md`](DATA-TODO.md) says
-10, `AGENTS.md` says 11 and "~215 tests", `README.md` says 215. All are stale.
+These figures were stale and were corrected on 2 Oct 2026: TASK-LIST said 9
+stages, DATA-TODO 10, AGENTS 11 and "~215 tests", README 215. Do not quote a
+stage count in prose again — see the gate in docs/audit/2026-10-02-project-audit.md.
 Fixing that is **D1**, and it is a prerequisite for trusting any of these
 documents.
 
@@ -284,8 +284,8 @@ finished. Run last, one agent, in this order.
 
 ## D1. Reconcile every stale count
 
-`TASK-LIST.md` (9 stages), `DATA-TODO.md` (10), `AGENTS.md` (11, "~215 tests")
-and `README.md` (215) all disagree with reality: **14 stages, 235 tests**. An
+Every doc that quoted a count disagreed with reality: **15 stages, 235 tests**.
+All corrected 2 Oct 2026, and `docs:check` now fails on a stale count. An
 agent reading any of those to judge scope will mis-plan. This is why §A and §B
 state their own measured numbers instead of citing the docs.
 

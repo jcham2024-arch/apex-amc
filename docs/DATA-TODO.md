@@ -23,7 +23,7 @@ That is not padding: for load-adjacent data a silently wrong value is worse than
 a missing one, because a missing one is visible.
 
 ```bash
-npm run verify          # 10 stages. Must exit 0 before and after.
+npm run verify          # 15 stages. Must exit 0 before and after.
 npm run data:health     # the baseline for any row-count claim
 npm run coverage        # per-manufacturer status
 ```

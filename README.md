@@ -158,7 +158,7 @@ import it.
 | Website | Single-file, XSS-hardened, calculator working |
 | Field app | Works; screens rewired to the solver |
 | Community/forum | Designed only — see `docs/COMMUNITY-AND-GROUP-BUY.md` |
-| Tests | 215 passing, lint and typecheck clean |
+| Tests | 235 passing, lint and typecheck clean |
 
 ### Verified state of the ballistics
 

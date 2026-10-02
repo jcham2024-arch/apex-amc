@@ -375,6 +375,55 @@ function checkPaths(lines, rel, spans) {
 
 const files = findMarkdown(ROOT).sort();
 let problems = [];
+/**
+ * Verify-stage-count
+ * ------------------
+ * Ten documents quoted an "N stages" figure. No two agreed - 8, 9, 10, 11 and
+ * 14 - while the real number was 15. Nothing failed, because nothing checked.
+ * See docs/audit/2026-10-02-project-audit.md.
+ *
+ * This is the vacuous-gate pattern appearing in our own documentation: a number
+ * a machine can compute, written out by hand, trusted, never verified. The
+ * lesson is not "keep the numbers right" but DO NOT QUOTE THE COUNT. Name the
+ * command that produces it instead.
+ *
+ * A line describing a past state is not a live claim, so the audit document can
+ * quote the old wrong numbers in order to explain them.
+ */
+const stageCountProblems = (mds) => {
+  const pkg = JSON.parse(readFileSync(join(ROOT, 'package.json'), 'utf8'));
+  const real = pkg.scripts.verify.split('&&').map((s) => s.trim()).filter(Boolean).length;
+  const found = [];
+
+  for (const abs of mds) {
+    const rel = relative(ROOT, abs).split('\\').join('/');
+    // CHANGELOG.md is a record of what was true when each entry was written.
+    // A stage count in a historical entry is history, not drift, and editing
+    // it would destroy the record of where the repo actually stood. Same
+    // reasoning as the path check below.
+    if (rel === 'CHANGELOG.md') continue;
+    const lines = readFileSync(abs, 'utf8').split('\n');
+    lines.forEach((line, i) => {
+      if (/stale|used to|no longer|\bwas\b|\bwere\b|disagree|before|instead of/i.test(line)) {
+        return;
+      }
+      for (const m of line.matchAll(/(\d+)\s+(?:stages?|gates?)\b/gi)) {
+        if (Number(m[1]) === real) continue;
+        found.push({
+          rel,
+          line: i + 1,
+          kind: 'verify-stage-count',
+          detail:
+            'quotes "' + m[0] + '", but npm run verify has ' + real + ' stages. '
+            + 'Do not hand-write a machine-computable count; name the command.',
+        });
+      }
+    });
+  }
+  return found;
+};
+
+problems = problems.concat(stageCountProblems(files));
 
 for (const f of files) {
   const rel = relative(ROOT, f).split('\\').join('/');

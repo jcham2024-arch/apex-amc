@@ -224,6 +224,6 @@ discoverable by reading the code:
 4. **`scripts/` never imports from `apps/`.** Enforced by `check-handoff.mjs`.
 5. **Adding a module means adding it to a barrel, or it is unreachable** — and
    `modules:check` will say so.
-6. **Run `npm run verify`** (12 stages). `modules:check` is the one that proves
+6. **Run `npm run verify`** (all stages). `modules:check` is the one that proves
    the pieces still fit.
 

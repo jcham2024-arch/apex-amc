@@ -275,7 +275,7 @@ from official tables into the community set.
 
 ## 10. Enforcement summary
 
-`npm run verify` — **measured 2 Oct 2026: exit 0, 235 tests, 14 stages.**
+`npm run verify` — **measured 2 Oct 2026: exit 0, 235 tests, 15 stages.**
 
 ```bash
 npm run verify      # before you start and after you finish

@@ -11,8 +11,8 @@ trusting any figure.
 
 | | |
 |---|---|
-| Tests | **215 passing** |
-| `npm run verify` | **green, all 8 stages** |
+| Tests | **235 passing** |
+| `npm run verify` | **green, every stage** |
 | Solver | agrees with an independent implementation to **1 fps** |
 | Recipes | **zero** — the load feature has no data yet |
 
