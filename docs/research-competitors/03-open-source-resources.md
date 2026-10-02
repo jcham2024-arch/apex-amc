@@ -14,10 +14,22 @@ its licence at the pinned version.
   webhook tooling of the four.
 - **Cost:** roughly 2.9% + 30c per successful US domestic card charge. UNVERIFIED
   to the cent - confirm at stripe.com/pricing before budgeting anything.
-- **Fit:** good. We sell *membership in an informational site*, a normal digital
-  good. We do not sell ammunition, so no restricted-business problem.
-- **Risk to record:** if we ever take payment for ammunition directly, Stripe's
-  restricted-business list becomes a live issue. We do not, and must not.
+- **Fit:** good *today*. We sell membership in an informational site, a normal
+  digital good, so no restricted-business problem yet.
+- **Risk to record, and it is larger than it looks:** selling apparel is
+  ordinary commerce and Stripe is fine with it. Selling anything
+  ammunition-adjacent is a different question. Reloadable brass may be
+  refused under a policy reading "ammunition components," even though empty
+  cases are inert. That is a processor policy decision, not a legal one, and we
+  cannot argue it.
+
+  **Phase 9 plans merch and possibly brass.** Before any of that is built, ask
+  Stripe in writing. If the answer is no, the alternatives are a different
+  processor or a merchant of record that will accept it, and both cost more.
+  UNVERIFIED until answered - this is the most likely reason Phase 9's brass half
+  fails, and it is cheap to find out early.
+
+  Powder and primer are never sold. That is a hard exclusion, not a phase.
 
 ### Merchant-of-record alternatives (higher fee, less admin)
 - **Lemon Squeezy** - MoR, handles sales tax and VAT. Around 5% + 50c.

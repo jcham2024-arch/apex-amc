@@ -21,20 +21,23 @@ integrity advantage they all lack.**
 
 Stated plainly so no future task drifts from it:
 
-> A **research and tooling site**. We do not sell ammunition, components or
-> firearms, and we will not. We aggregate data, we aggregate genuine reviews of
+> A **research and tooling site**. We aggregate data, we aggregate genuine reviews of
 > available products, and we present the result with links to where the user can
 > buy. We earn a commission on some links, which is disclosed.
+>
+> We are also, eventually, a seller of our own merch. That is Phase 9, not a
+> today problem, and it does not change what the site *is*.
 
 Three consequences that are load-bearing for everything below:
 
-1. **We never take title, inventory, or a customer's money for a physical good.**
-   That is why membership billing is ordinary e-commerce and why no FFL, no
+1. **We never take a customer's money for a physical good until Phase 9.** Until
+   then, membership billing is ordinary e-commerce, and no FFL, no
    hazardous-materials handling and no payment-processor firearms policy is in
-   scope.
+   scope. Powder and primer stay out permanently, whatever Phase 9 does.
 2. **Affiliate revenue must never influence ordering or inclusion.** If a
    retailer pays us, they do not get a better rank. This must be enforced, not
-   promised.
+   promised. This applies hardest once we are a seller too: selling our own
+   reloadable brass would put us in competition with the retailers we rank.
 3. **"Research and tooling" means the tools stay free.** A paywall on the cost
    calculator would contradict the site's purpose, not merely its business model.
 
@@ -104,7 +107,7 @@ gate here - precisely the CSP-gate failure this repository already suffered.
 | Breadth scraping (1000+ retailers) | Not achievable, not the point, and would cost the accuracy we have |
 | A forum before there is a community | An empty forum reads as abandonment |
 | Reviews displayed without a monitoring procedure | Required by 465.3. Hosting reviews without one is the real exposure. |
-| Selling ammunition or components | We are a research and tooling site. This is out of scope permanently, not pending. |
+| Selling ammunition, powder or primer | **Permanently out.** Powder and primer are excluded-process explosives; selling them is a different business with different legal exposure. Ammunition may come later, via Phase 9. |
 | Ranking retailers by commission paid | Would make every price comparison a conflict of interest |
 
 ## Sequencing
@@ -226,6 +229,74 @@ would be the fabricated-rating defect rebuilt out of real data.
 Entitled to claim: cheapest per round, best value within a stated budget frame,
 and "these sources agree". Not entitled to claim: a bare winner, or a star
 rating synthesised across sources that measured different things.
+
+## Phase 9 - merch and, later, brass (NOT a today problem)
+
+Recorded so the plan reflects the actual intent. **This is deliberately last, and
+gated on traffic, not on willingness.**
+
+The user's own framing is the right sequencing: "we need to be live and have
+traffic first." A merch store with no audience is a distraction, and a brass
+reseller with no audience is a liability.
+
+### The model: dropship, no inventory
+
+Take the order, pass it to a printer or distributor, they fulfil. We hold no
+stock. That keeps working capital near zero and means a wrong product choice
+costs time rather than inventory.
+
+### Hard constraints on what we may ever sell
+
+These are the filter. Everything is chosen to sit well inside them.
+
+| Category | Status | Why |
+| --- | --- | --- |
+| T-shirts, stickers, apparel | **viable** | Ordinary goods, no restriction, no licence, no background check |
+| Reloadable brass (empty cases) | **possible, later** | Inert, not an explosive, but see the processor question below |
+| Powder | **never** | Smokeless and black powder are excluded-process explosives. Different business, different exposure, permanently out. |
+| Primer | **never** | Same class. Sold together with powder, and carries equivalent regulatory weight. |
+| Loaded ammunition | **not now, maybe later** | Possible via a licensed FFL and an approved processor. Nothing about it is on the table. |
+| Anything needing a background check | **never** | No FFL, no NICS, no licence of any kind. This is the line that keeps the business simple. |
+
+### The problem nobody sees coming: the payment processor
+
+Selling apparel is easy. **Selling anything ammunition-adjacent is not**, and the
+constraint is not our law, it is Stripe's and similar processors' prohibited
+businesses list.
+
+Merchandising a shirt that says "ApexProject" is fine. Merchandising
+**reloadable brass** through Stripe may be refused on a policy that reads
+"ammunition components," regardless of the fact that empty brass cases are
+inert. That is a policy determination, not a legal one, and we cannot argue it.
+
+**So this must be verified before any brass line is added**, not discovered at
+launch. If Stripe refuses it, the options are a different processor or a
+merchant of record that will accept it — and both cost more.
+
+This is the single most likely reason Phase 9's brass half fails, and it is
+cheap to find out early. Ask before building.
+
+### The conflict of interest we create for ourselves
+
+Once we sell reloadable brass, we are **competing with the retailers we rank**.
+
+That is fine as long as the ranking never notices. Concretely:
+
+- Our own products must never appear in the price comparison.
+- Our brass must never be eligible for a "best value" recommendation.
+- If we ever rank them, the comparison becomes advertising and every reader is
+  owed a disclosure they will not read.
+
+This is Phase 2.4's rule applied to ourselves. It is easier to write down now
+than to untangle later once there is revenue on both sides.
+
+| # | Change | Notes | Write-set |
+| --- | --- | --- | --- |
+| 9.1 | **Traffic gate, written before the store** | A stated threshold, met before work starts. Not a judgement call mid-project. | `docs/` |
+| 9.2 | **Processor confirmation, in writing** | Ask Stripe about brass and about ammo. UNVERIFIED until answered. | `docs/` |
+| 9.3 | **Apparel storefront** | Dropship, no inventory. | `apps/` (new) |
+| 9.4 | **GATE: own products excluded from comparison** | Machine-enforced, not a policy page. | `scripts/gates/` |
+| 9.5 | **Brass line, if 9.2 permits** | FFL questions answered first. | `apps/` (new) |
 
 ## Phase 8 - ballistics video and review links
 
