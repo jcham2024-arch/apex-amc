@@ -38,6 +38,7 @@ import { resolve } from 'node:path';
 
 const ROOT = resolve(process.cwd());
 const CSV = resolve(ROOT, 'data/seeds/regulations.csv');
+const OSS = resolve(ROOT, 'data/seeds/opensource_resources.csv');
 
 const say = (s) => console.log(s);
 const problems = [];
@@ -139,6 +140,52 @@ if (unverified.length) {
 }
 say('  ' + reviewRequired + ' row(s) require attorney review');
 
+/**
+ * The licence rule, enforced.
+ *
+ * The opensource_resources schema documents that an unverified licence must not
+ * be adoptable. Nothing checked it, and a negative test confirmed the tamper
+ * passed cleanly - a rule written in prose and enforced nowhere. The two halves
+ * live together here because they are the same rule seen from two sides: this
+ * project decides what it may do based on what the law permits, and it decides
+ * what code it may depend on based on what a licence permits.
+ *
+ * The distinction being enforced is that a licence we did not read is not an
+ * open licence. It is an unknown one, and treating unknown as permissive is how
+ * a project ends up shipping code it has no right to.
+ */
+const ossRows = parseCsv(readFileSync(OSS, 'utf8'));
+const ossCol = Object.fromEntries(ossRows[0].map((h, i) => [h, i]));
+const ossData = ossRows.slice(1);
+
+let adoptable = 0;
+let blocked = 0;
+
+for (const r of ossData) {
+  const slug = (r[ossCol.slug] || '').trim();
+  const verified = (r[ossCol.licence_verified] || '').trim();
+  const adopt = (r[ossCol.adopt] || '').trim();
+
+  if (adopt === 'true') {
+    adoptable += 1;
+    if (verified !== 'true') {
+      problems.push(
+        slug + ': adopt=true but the licence was never verified - an unread licence is unknown, not permissive',
+      );
+    }
+  } else if (adopt === 'false') {
+    blocked += 1;
+  }
+
+  // Every blocked resource must say why. A bare false teaches nothing and is
+  // indistinguishable from a row someone filled in to make the gate quiet.
+  const reason = (r[ossCol.adopt_reason] || '').trim();
+  if (adopt === 'false' && reason.length < 20) {
+    problems.push(slug + ': adopt=false without a reason we can argue with');
+  }
+}
+
+say('  open-source: ' + ossData.length + ' resources, ' + adoptable + ' adoptable, ' + blocked + ' blocked');
 say('');
 if (problems.length) {
   for (const p of problems) say('FAIL ' + p);

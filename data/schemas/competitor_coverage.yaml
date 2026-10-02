@@ -1,0 +1,84 @@
+# Column manifest: competitor_coverage
+#
+# WHY THIS EXISTS
+# ---------------
+# The competitor has 1,239,890 products across 273 retailers. We have 8 retailers
+# and no store-bought catalogue at all. That gap is too large to close by
+# guessing, so it has to be measured rather than asserted.
+#
+# This table records the coverage we OBSERVED on a competitor's public listing on
+# a single date, so that our coverage claims are checkable rather than a feeling.
+# It is deliberately a snapshot with an observed_on date and a competitor named,
+# because the number moves and an undated competitor total is a stale claim
+# waiting to be quoted.
+#
+# WHAT THIS TABLE IS NOT
+# ----------------------
+# It is not a scrape of their data and it is not a product list. It is our own
+# measured position against a stated yardstick. We use their public listing to
+# find CALIBERS AND RETAILERS WE LACK, then go and source the verifiable data
+# for those ourselves from manufacturers and standards bodies. Copying their
+# records would be both a licence problem and a data-quality problem: their own
+# disclaimer says they do not vet product information.
+#
+# THE RULE THIS ENFORCES
+# -----------------------
+# Every row must name the competitor, the date observed, and the source URL, and
+# must record our own count against theirs. A gap with no date is not a gap, it is
+# an impression.
+
+dataset: competitor_coverage
+storage: csv
+csv_path: data/seeds/competitor_coverage.csv
+primary_key: [observed_on, competitor, category]
+
+columns:
+  observed_on:
+    type: string
+    required: true
+    note: ISO date the comparison was made. Part of the evidence, not metadata.
+
+  competitor:
+    type: string
+    required: true
+    note: Which site the figure came from, so a number is never unattributed.
+
+  category:
+    type: string
+    required: true
+    enum: [retailers, products, cartridges, components, reviews, price_history]
+    note: What is being counted.
+
+  competitor_count:
+    type: integer
+    required: true
+    note: Their published or observed figure for this category.
+
+  our_count:
+    type: integer
+    required: true
+    note: >-
+      Ours at the same date. Recorded honestly including zero: "we have no
+      store-bought catalogue yet" is the most useful row in this table, and it
+      is exactly the row that would be missing if we only recorded gaps we had
+      begun to close.
+
+  source_url:
+    type: string
+    required: true
+    format: url
+    note: Where the competitor figure was read.
+
+  assessment:
+    type: string
+    required: true
+    note: >-
+      What it means for us, in one line. The part that stops this table becoming
+      a scoreboard we stare at instead of work we do.
+
+  next_step:
+    type: string
+    required: true
+    note: >-
+      The specific action this gap implies. A gap with no named next step is a
+      complaint.

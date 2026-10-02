@@ -66,7 +66,7 @@ const PARITY = [
   { csv: 'bullets/*.csv',                    table: 'bullets',                     expected: 120 },
   { csv: 'powders/*.csv',                    table: 'powders',                     expected: 169 },
   { csv: 'cartridge_specs/*.csv',            table: 'cartridges',                  expected: 318 },
-  { csv: 'manufacturers.csv',                table: 'manufacturers',              expected: 51 },
+  { csv: 'manufacturers.csv',                table: 'manufacturers',              expected: 59 },
   // Two CSVs feed this one table; they are listed together because the
   // expectation is on the table, and splitting it into two rows would assert
   // the same number twice and teach the reader nothing.
@@ -76,7 +76,7 @@ const PARITY = [
     expected: 782,
   },
   { csv: 'sourcing_searches.csv',            table: 'sourcing_searches',           expected: 12 },
-  { csv: 'sourcing_retailers.csv',           table: 'sourcing_retailers',           expected: 8 },
+  { csv: 'sourcing_retailers.csv',           table: 'sourcing_retailers',           expected: 16 },
   { csv: 'sourcing_listings.csv',            table: 'sourcing_listings',           expected: 22 },
   { csv: 'powder_burn_rate_positions.csv',   table: 'powder_burn_rate_positions',  expected: 22 },
   { csv: 'value_provenance.csv',             table: 'value_provenance',            expected: 4 },

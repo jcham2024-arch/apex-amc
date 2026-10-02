@@ -21,10 +21,10 @@
 
 ## At a glance
 
-- **Rows:** 8
+- **Rows:** 16
 - **Source files:** data/seeds/sourcing_retailers.csv
 - **Column contract:** `data/schemas/sourcing_retailers.yaml`
-- **Populated:** ~60% of cells (a blank means "not known yet", not "zero")
+- **Populated:** ~57% of cells (a blank means "not known yet", not "zero")
 
 ## Coverage by manufacturer
 
@@ -38,6 +38,14 @@
 | `powdervalley` | 1 |
 | `opticsplanet` | 1 |
 | `primaryarms` | 1 |
+| `ammoseek` | 1 |
+| `basspro` | 1 |
+| `cabelas` | 1 |
+| `bulkcheapammo` | 1 |
+| `brittersweet` | 1 |
+| `tiktak` | 1 |
+| `gunpoint` | 1 |
+| `ammounlimited` | 1 |
 
 ## Columns
 
@@ -71,3 +79,11 @@
 | powdervalley | online | unknown | unknown |
 | opticsplanet | online | unknown | unknown |
 | primaryarms | online | unknown | unknown |
+| ammoseek | online | unknown | unknown |
+| basspro | online | unknown | unknown |
+| cabelas | online | unknown | unknown |
+| bulkcheapammo | online | unknown | unknown |
+| brittersweet | online | unknown | unknown |
+| tiktak | online | unknown | unknown |
+| gunpoint | online | unknown | unknown |
+| ammounlimited | online | unknown | unknown |

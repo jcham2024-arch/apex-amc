@@ -21,10 +21,10 @@
 
 ## At a glance
 
-- **Rows:** 13
+- **Rows:** 16
 - **Source files:** data/seeds/regulations.csv
 - **Column contract:** `data/schemas/regulations.yaml`
-- **Populated:** ~100% of cells (a blank means "not known yet", not "zero")
+- **Populated:** ~99% of cells (a blank means "not known yet", not "zero")
 
 ## Columns
 
@@ -60,4 +60,7 @@
 | 16 C.F.R. 255.2(b) | Endorsements must be substantiated | us_federal | advertising | Forbids an endorser making a representation they cannot subs | NOT YET RETRIEVED - see reasoning | unverified |
 | 16 C.F.R. 465 Q&A, seller service reviews | Suppressing seller service reviews | us_federal | reviews | Forbids filtering out a seller's service, delivery, returns  | But be aware that suppressing customer reviews about a "part | verbatim |
 | 16 C.F.R. 465.8 | Fake indicators of social media influence | us_federal | advertising | Forbids purchasing fake followers or engagement | The provision is limited to the purchase of fake indicators  | verbatim |
+| SAAMI Z299 series publication terms | SAAMI standards intended for commercial manufacturers | platform | commerce | Forbids publishing SAAMI dimensional or performance data as  | The information contained in the SAAMI standards is intended | verbatim |
+| SAAMI free drawings, pre-standard status | SAAMI new and revised cartridge drawings | platform | commerce | Forbids publishing a newly accepted SAAMI design as though i | These drawings will be incorporated during the next revision | verbatim |
+| AmmoSeek disclaimer | Competitor does not vet product data | platform | reviews | Forbids treating a competitor's aggregated product or retail | AmmoSeek.com does not vet or endorse any retailer listed on  | verbatim |
 | Stripe Prohibited Businesses | Payment processor ammunition ruleset | platform | payments | May refuse ammunition-adjacent goods regardless of legality | NOT YET RETRIEVED - we have not asked | unverified |

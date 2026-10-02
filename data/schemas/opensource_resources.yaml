@@ -1,0 +1,137 @@
+# Column manifest: opensource_resources
+#
+# WHY THIS EXISTS
+# ---------------
+# Everything worth reusing in this domain is open source, and all of it is
+# licence-gated. Reimplementing a ballistics solver we could import would be
+# waste; adopting one without checking its licence would be worse. Before this
+# table, the research lived in prose in docs/research-competitors/
+# 03-open-source-resources.md, where a licence could not be queried, compared,
+# or checked against what the code actually depends on.
+#
+# THE RULE THIS ENFORCES
+# -----------------------
+# A resource may not be listed as adoptable unless its licence was read from the
+# project's own page on the recorded date. `usefulness` records what it would
+# actually be for, and `adopt` records whether we are allowed to. An unverified
+# licence forces adopt=no, whatever else is true of the project.
+#
+# WHY LICENCE IS A SEPARATE COLUMN FROM QUALITY
+# ---------------------------------------------
+# py-ballisticcalc is the best-maintained solver here and is LGPL-3.0, which
+# carries real obligations if we link it into a distributed frontend. js-ballistics
+# does the same job under ISC with none. That is a licensing fact, not a quality
+# fact, and collapsing the two into one "recommended" column would hide the one
+# that actually decides the answer. They are separate here so they stay separate.
+#
+# THE DATA-QUALITY WARNING IS PART OF THE RECORD
+# ----------------------------------------------
+# Several sources below carry explicit maintainer warnings. zen/grt_databases is
+# published under CC0 - public domain, the most permissive licence available -
+# and its own README says measurements must be verified and disclaims
+# responsibility. A permissive licence is not a quality signal. The `warnings`
+# column exists so that a CC0 dataset nobody wrote a caveat for cannot be
+# mistaken for one somebody did.
+
+dataset: opensource_resources
+storage: csv
+csv_path: data/seeds/opensource_resources.csv
+primary_key: [slug]
+
+columns:
+  slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: Lowercase key, matching the slug convention used across the project.
+
+  name:
+    type: string
+    required: true
+    note: The project's own display name.
+
+  category:
+    type: string
+    required: true
+    enum:
+      - ballistics_engine
+      - ammunition_data
+      - cartridge_data
+      - projectile_data
+      - reload_data
+      - pricing_data
+      - standards_body
+      - tooling
+    note: What KIND of thing it is, which determines what it could replace.
+
+  description:
+    type: string
+    required: true
+    note: What it is, in a sentence or two.
+
+  licence:
+    type: string
+    required: true
+    note: >-
+      Exact licence identifier as stated by the project, e.g. MIT, ISC,
+      LGPL-3.0, CC0-1.0. Never normalised - the exact string is the evidence.
+
+  licence_verified:
+    type: boolean
+    required: true
+    note: >-
+      True only if the licence was read from the project's own page. When
+      false, adopt must be no.
+
+  url:
+    type: string
+    required: true
+    format: url
+    note: Canonical project URL. Must resolve.
+
+  data_sources:
+    type: string
+    required: false
+    note: >-
+      Where the project's own data came from, when it says. This is the column
+      that decides whether it is evidence or just another rumour.
+
+  maintenance:
+    type: string
+    required: true
+    enum: [active, dormant, abandoned, unknown]
+    note: >-
+      How alive it is. An abandoned dataset is still usable if it is static
+      physical data; an abandoned load table is a safety problem.
+
+  usefulness:
+    type: string
+    required: true
+    note: >-
+      What we would actually use it for, and what it does NOT give us. Both
+      halves, because a resource that looks useful for the wrong reason wastes
+      more time than one that looks useless.
+
+  adopt:
+    type: boolean
+    required: true
+    note: >-
+      Whether we may depend on it. False when the licence is unverified, the
+      licence forbids it, or maintenance makes it a risk.
+
+  adopt_reason:
+    type: string
+    required: true
+    note: Why adopt is yes or no. The part a reviewer argues with.
+
+  covers_gap:
+    type: string
+    required: false
+    note: Which of our documented gaps this would close, if any.
+
+  warnings:
+    type: string
+    required: false
+    note: >-
+      The maintainer's own caveat, where one exists. A permissive licence with
+      a published warning is not the same as a permissive licence without one.

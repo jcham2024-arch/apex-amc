@@ -1,8 +1,56 @@
 # Open-source and commercial resources
 
-Licences below were read from each project's own page on 2 Oct 2026. Anything I
-could not confirm is marked UNVERIFIED. Do not adopt anything without re-reading
-its licence at the pinned version.
+## Governed datasets
+
+This research is now machine-readable rather than prose-only:
+
+- **`data/seeds/opensource_resources.csv`** (7 rows) — the open-source inventory,
+  with exact licence identifier, licence-verified flag, maintenance state,
+  usefulness, adopt decision and the maintainer's own warning where one exists.
+- **`data/seeds/competitor_coverage.csv`** (6 rows) — our measured coverage
+  against AmmoSeek, observed 2026-10-02.
+- **`data/seeds/regulations.csv`** (16 rows) — the rules governing what we may do,
+  each with quoted operative text and a retrieval date.
+
+Enforced by `npm run regulations:check`, which now also enforces the licence rule:
+**a resource cannot be `adopt: true` unless its licence was actually read.** That
+rule was documented in the schema and enforced nowhere until a negative test
+proved the tamper passed silently — a rule written in prose and checked by
+nothing. It is now a gate.
+
+### What the open-source research actually concluded
+
+**Adoptable:**
+- `js-ballistics` (ISC) — TypeScript/WASM, matches our Workers runtime. The only
+  candidate found that could ship in our actual deployment.
+- `ammolytics/projectiles` and `ammolytics/cartridges` (MIT) — cartridge and
+  projectile naming/dimensions, especially CIP and NATO designations we lack.
+- SAAMI free cartridge drawings — primary evidence from the standards body.
+
+**Not adoptable, and the reason is the interesting part:**
+- `py-ballisticcalc` is the *better* solver but is LGPL-3.0 and Python with C
+  extensions. **Licence and deployment, not quality, are what decide this.**
+  Use it as an offline oracle, never as shipped code.
+- `zen/grt_databases` is **CC0-1.0 — the most permissive licence available** — and
+  its own README disclaims responsibility and states measurements must be
+  verified. This is the clearest case in the dataset that **a permissive licence
+  is not a quality signal.** It is also user-contributed load data from a chat
+  forum, and our stated position is that reload recommendations come from
+  manufacturer-published data, not crowdsourced numbers.
+
+**The SAAMI finding worth acting on:** SAAMI states its dimensional and
+performance characteristics apply equally to reloaded ammunition, so using them
+is fine — but it explicitly *cannot* advise on propellant selection, charge
+weights or primer selection, and directs handloaders to manuals and
+manufacturers. So the standards would not have closed our load-data gap even if
+we bought them. That is now recorded in `regulations.csv`, because it is the
+kind of thing that would otherwise be re-researched from scratch.
+
+**The status trap worth knowing:** SAAMI's free drawings page carries *newly
+accepted but not yet incorporated* designs (21 Sharp, 25 Creedmoor, 7mm
+Backcountry, 8.6 Blackout, 30 Super Carry) **and pending revisions to existing
+drawings**. A dimensional correction not yet folded into the standard is exactly
+what would silently invalidate a figure we already hold.
 
 ## Payments and subscriptions
 

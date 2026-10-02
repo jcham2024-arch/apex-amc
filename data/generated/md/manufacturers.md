@@ -21,7 +21,7 @@
 
 ## At a glance
 
-- **Rows:** 50
+- **Rows:** 58
 - **Source files:** data/seeds/manufacturers.csv
 - **Column contract:** `data/schemas/manufacturers.yaml`
 - **Populated:** ~100% of cells (a blank means "not known yet", not "zero")
@@ -79,6 +79,14 @@
 | `targetsports` | 1 |
 | `powdervalley` | 1 |
 | `opticsplanet` | 1 |
+| `ammoseek` | 1 |
+| `basspro` | 1 |
+| `cabelas` | 1 |
+| `bulkcheapammo` | 1 |
+| `brittersweet` | 1 |
+| `tiktak` | 1 |
+| `gunpoint` | 1 |
+| `ammounlimited` | 1 |
 | `primaryarms` | 1 |
 
 ## Columns
@@ -95,7 +103,7 @@
 | `notes` | string | no | Free prose, deliberately well-researched: brand ownership, product lines, and the reason a brand is or is not in scope. This is real editorial value, not filler, and it is the part most likely to go stale. |
 | `source_url` | string | no | Where the company details were confirmed. |
 
-## Sample rows (first 25 of 50)
+## Sample rows (first 25 of 58)
 
 | `slug` | `name` | `kinds` | `website` | `region` | `status` |
 |---|---|---|---|---|---|
@@ -125,4 +133,4 @@
 | berries | Berry's Bullets | bullet | https://www.berrysbullets.com | north_america | active |
 | xtreme | X-Treme Bullets | bullet | https://xtremebullets.com | north_america | active |
 
-_Showing 25 of 50 rows. For the complete set use the CSV or the JSON._
+_Showing 25 of 58 rows. For the complete set use the CSV or the JSON._

@@ -1,0 +1,133 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/data/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "competitor_coverage",
+  "description": null,
+  "source": "data/seeds/competitor_coverage.csv",
+  "manifest": "data/schemas/competitor_coverage.yaml",
+  "row_count": 6,
+  "columns": {
+    "observed_on": {
+      "type": "string",
+      "required": true,
+      "note": "ISO date the comparison was made. Part of the evidence, not metadata."
+    },
+    "competitor": {
+      "type": "string",
+      "required": true,
+      "note": "Which site the figure came from, so a number is never unattributed."
+    },
+    "category": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "retailers",
+        "products",
+        "cartridges",
+        "components",
+        "reviews",
+        "price_history"
+      ],
+      "note": "What is being counted."
+    },
+    "competitor_count": {
+      "type": "integer",
+      "required": true,
+      "note": "Their published or observed figure for this category."
+    },
+    "our_count": {
+      "type": "integer",
+      "required": true,
+      "note": "Ours at the same date. Recorded honestly including zero: \"we have no store-bought catalogue yet\" is the most useful row in this table, and it is exactly the row that would be missing if we only recorded gaps we had begun to close."
+    },
+    "source_url": {
+      "type": "string",
+      "required": true,
+      "note": "Where the competitor figure was read."
+    },
+    "assessment": {
+      "type": "string",
+      "required": true,
+      "note": "What it means for us, in one line. The part that stops this table becoming a scoreboard we stare at instead of work we do."
+    },
+    "next_step": {
+      "type": "string",
+      "required": true,
+      "note": "The specific action this gap implies. A gap with no named next step is a complaint."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/competitor_coverage.csv",
+      "_line": 2,
+      "observed_on": "2026-10-02",
+      "competitor": "AmmoSeek",
+      "category": "retailers",
+      "competitor_count": 273,
+      "our_count": 8,
+      "source_url": "https://ammoseek.com/",
+      "assessment": "We index roughly 3% of the retailers a price-comparison site indexes. Our 8 are the specialist reloading houses, not the mass-market and regional retailers that dominate their list.",
+      "next_step": "Do not chase all 273. Add retailers by RULE, not by count: major national chains first, then regional chains with real ammunition departments. AmmoSeek's own list names our missing set."
+    },
+    {
+      "_source": "data/seeds/competitor_coverage.csv",
+      "_line": 3,
+      "observed_on": "2026-10-02",
+      "competitor": "AmmoSeek",
+      "category": "products",
+      "competitor_count": 1239890,
+      "our_count": 0,
+      "source_url": "https://ammoseek.com/",
+      "assessment": "This is the honest headline: we have NO store-bought ammunition catalogue. Every product figure the competitor shows is a gap, and the reload-vs-buy verdict cannot be computed without a price side.",
+      "next_step": "Build the ammunition-product schema with a purpose taxonomy, then seed a small SOURCED catalogue before scaling. Sourced beats large: 40 verifiable products beat 400 scraped ones we cannot defend."
+    },
+    {
+      "_source": "data/seeds/competitor_coverage.csv",
+      "_line": 4,
+      "observed_on": "2026-10-02",
+      "competitor": "AmmoSeek",
+      "category": "reviews",
+      "competitor_count": 0,
+      "our_count": 0,
+      "source_url": "https://ammoseek.com/",
+      "assessment": "They do not aggregate third-party product reviews, which is the clearest gap we have and the one explicitly permitted by 16 CFR 465.2(d)(2). Note the zero on both sides: this is an opening, not a race we are losing.",
+      "next_step": "Build review ingestion with source licensing, attribution, observed conditions, and the 75k subscriber / 200k view floors with an observed_at date."
+    },
+    {
+      "_source": "data/seeds/competitor_coverage.csv",
+      "_line": 5,
+      "observed_on": "2026-10-02",
+      "competitor": "AmmoSeek",
+      "category": "price_history",
+      "competitor_count": 0,
+      "our_count": 0,
+      "source_url": "https://ammoseek.com/",
+      "assessment": "Neither side exposes a public historical price series, so the price-history gap is real but not uniquely winnable on data alone. Our advantage would be shipping history from day one rather than backfilling later.",
+      "next_step": "Add the price time-series migration under the single-writer lock, and record price_observed_on on every listing from the first row onward so history accumulates."
+    },
+    {
+      "_source": "data/seeds/competitor_coverage.csv",
+      "_line": 6,
+      "observed_on": "2026-10-02",
+      "competitor": "AmmoSeek",
+      "category": "components",
+      "competitor_count": 20,
+      "our_count": 8,
+      "source_url": "https://ammoseek.com/",
+      "assessment": "Their component comparison covers 20+ retailers; we cover 8. Our sourcing_retailers table is deliberately small and cautious, with affiliate and scraping status recorded as unknown rather than guessed.",
+      "next_step": "Add retailers only after reading each one's terms. scraping_status stays 'unknown' until someone has actually read them, because 'allowed' must never be assumed."
+    },
+    {
+      "_source": "data/seeds/competitor_coverage.csv",
+      "_line": 7,
+      "observed_on": "2026-10-02",
+      "competitor": "AmmoSeek",
+      "category": "cartridges",
+      "competitor_count": 50,
+      "our_count": 318,
+      "source_url": "https://ammoseek.com/",
+      "assessment": "The one place we are ahead. We hold 318 cartridges against roughly 50 top calibers on their front page, because a cartridge record is reference data while their entries are product listings. Different things, not a win.",
+      "next_step": "Keep the lead by adding CIP and NATO nomenclature from ammolytics/cartridges, and track the SAAMI free drawings for designs such as 8.6 Blackout and 30 Super Carry that post-date our data."
+    }
+  ]
+}
