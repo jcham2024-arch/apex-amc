@@ -264,3 +264,64 @@ click. Implementation notes worth fixing now rather than later:
 - **A link is a link.** Sending a user to Hodgdon earns us nothing and costs nothing, and
   it must never appear alongside affiliate links without the distinction being visible.
   This is the disclosure requirement from 13, and this is a live example of it.
+### 17. Availability outranks price - and quality has no schema at all
+
+> "I drove 30 minutes and overpaid for the primers I like because they were all out
+> everywhere else. **Availability is the driving factor.**"
+
+**This inverts the cost model, and the correction came from his own shopping trip rather
+than from analysis.** A price the user cannot obtain is worth zero; the cheapest option is
+frequently not the cheapest option. Ranking by price while ignoring stock produces advice
+that is wrong in the only way that matters.
+
+### The real thesis: quality per dollar, on projectiles
+
+> "Are the bullets match grade? For example, the bullets I buy from RMR are match-grade
+> hollow points with free shipping that cost as much as plated Berry's at the local stores.
+> It's a huge upgrade in component. That's where our site becomes a resource."
+
+**A major component upgrade for the same money.** Finding that requires knowing RMR exists
+and is priced competitively - something a shop counter cannot tell you and a search engine
+will not rank. We can, because we hold the component data and the price together.
+
+**And the schema cannot express it.** Checked against data/generated/apex.sqlite:
+
+- `bullets` - 120 rows. `construction` is `jacketed` for EVERY row; `jacket_material` and
+  `core_material` are NULL for EVERY row. The columns are stubs and nothing populates them.
+- **No match-grade, precision or quality-tier column exists anywhere in the schema.**
+- `reviews` - 0 rows, and `product_id` cannot resolve because `products` also has 0 rows.
+
+So the site's central differentiator is currently unrenderable: we would be comparing
+prices while unable to say WHAT is being compared. **This is the highest-value data gap
+found in the project.** One piece of good news - quality tier is published product
+specification, not a load quantity, so the cite-and-link rule in item 10 does not forbid it.
+
+### The market splits cleanly, and local shops are not the competitor
+
+| | Powder | Primers | Projectiles |
+|---|---|---|---|
+| Share of cost | Small | Small | **Large** |
+| Bought at | Sportsman's, Midway | Same big-box trip | **Niche + local** |
+| Decided by | Availability | Availability | **Quality per dollar** |
+
+> "Local shops are only really hit up when availability is an issue or they just happen to
+> be very close geographically."
+
+Local shops carry Hornady, Berry's and Xtreme. They are an **availability fallback**, not a
+sourcing channel to price against. Pricing a full basket against a local shop models the
+wrong market, and would rank the local shop as the sensible choice for everything - which
+is precisely wrong for the niche projectile the user actually wants.
+
+### Free shipping is a cost input
+
+> "Things like free shipping make a huge difference."
+
+It changes which retailer wins and, at a threshold, changes it discontinuously. Part of
+**landed** cost, never an afterthought.
+
+### Two guards written into the brief
+
+Availability and quality are unknown for every row today, so the DEFAULTS are the dangerous
+part: an unknown stock state must not rank as available, and an unknown tier must not
+render as "standard". Both are now prohibitions in component-cost-model/BRIEF.md, which was
+rewritten before an agent could pick it up.
