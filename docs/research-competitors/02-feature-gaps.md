@@ -21,14 +21,43 @@ integrity advantage they all lack.**
 
 Stated plainly so no future task drifts from it:
 
-> A **research and tooling site**. We aggregate data, we aggregate genuine reviews of
-> available products, and we present the result with links to where the user can
+> A **research and tooling site**. We aggregate data, we aggregate genuine reviews
+> of available products, and we present the result with links to where the user can
 > buy. We earn a commission on some links, which is disclosed.
 >
 > We are also, eventually, a seller of our own merch. That is Phase 9, not a
 > today problem, and it does not change what the site *is*.
 
-Three consequences that are load-bearing for everything below:
+### The site is two products, not one
+
+This is the most important structural fact about the site, and it is easy to lose
+in a long plan. The two halves have **different data needs, different evidence
+standards, and almost disjoint source material.**
+
+| | **Side 1: store-bought** | **Side 2: reloading** |
+| --- | --- | --- |
+| Question it answers | What ammo for what purpose, where to find it, who has the best price | How do I make my own, how do I reload for the same purpose, what does that save me |
+| Evidence standard | **Third-party reviews**, aggregated with conditions | **Manufacturer load data**, labelled first-party |
+| Reviews needed? | Yes - the core of the product | **No.** Manufacturer data is the right source here |
+| Member feature | Price and restock alerts | **Save your own recipes and results** |
+| Data we hold | **none.** Zero loaded-ammunition products | 345 cartridge pressures, 169 powders, 120 bullets, 22 burn-rate positions |
+| Work needed | Build the catalogue (Phase A) | Present what we have (Phase C) |
+
+**Consequences worth stating:**
+
+- **Reviews belong to Side 1 only.** Do not link creator testing of handloads as
+  "reviews" on the reloading side. A video is not manufacturer load data, and
+  presenting them as the same kind of thing would be exactly the source-mixing
+  error this project exists to prevent.
+- **The bridge between the halves is the reload-vs-buy verdict.** Side 1 says
+  "here is the factory round, here is the price." Side 2 says "here is what
+  reloading it costs." We already compute both numbers and never state the
+  conclusion. That single block is what makes this one site rather than two.
+- **The two halves need different write-sets**, which the overlap gate enforces.
+- **"Research and tooling" means the tools stay free.** A paywall on the cost
+  calculator would contradict the site's purpose, not merely its business model.
+
+### Three consequences that are load-bearing for everything below
 
 1. **We never take a customer's money for a physical good until Phase 9.** Until
    then, membership billing is ordinary e-commerce, and no FFL, no
@@ -210,7 +239,7 @@ Detail in `06-ammunition-comparison-model.md`. The short version:
 
 | # | Change | Write-set |
 | --- | --- | --- |
-| A.1 | **Ammunition product schema** - caliber, loaded weight, bullet type, stated velocity with source, box size, UPC | `data/schema/021_*.sql` (SERIAL) |
+| A.1 | **Ammunition product schema** - caliber, loaded weight, bullet type, stated velocity with source, box size, UPC, **and purpose** | `data/schema/021_*.sql` (SERIAL) |
 | A.2 | **Seed ~20 duty and defensive lines**, not 1,000 SKUs | `data/seeds/`, `data/schemas/` |
 | A.3 | **Provenance on every velocity**, tiered like every other number we hold | `data/seeds/value_provenance.csv` |
 | A.4 | **GATE: no ammunition row without a source** | `scripts/gates/` |
@@ -298,7 +327,33 @@ than to untangle later once there is revenue on both sides.
 | 9.4 | **GATE: own products excluded from comparison** | Machine-enforced, not a policy page. | `scripts/gates/` |
 | 9.5 | **Brass line, if 9.2 permits** | FFL questions answered first. | `apps/` (new) |
 
-## Phase 8 - ballistics video and review links
+## Phase C - Side 2 presentation, and the bridge (cheapest high-value work)
+
+Side 2 already holds the data. This phase presents it, and builds the block that
+joins the two halves of the site.
+
+| # | Change | Write-set |
+| --- | --- | --- |
+| C.1 | **Manufacturer load-data view** - labelled first-party, with edition and date | `apps/website/src/` |
+| C.2 | **The bridge: reload-vs-buy for the same purpose** - the single feature that makes this one site rather than two. We already compute both numbers. | `apps/website/src/` |
+| C.3 | **Member recipe storage** - private to the author | `data/schema/023_*.sql` (SERIAL), `apps/api/` |
+| C.4 | **GATE: member recipes are private by default, never published as guidance** | `scripts/gates/` |
+
+C.4 matters because member recipes are **user-generated reload data**. If one is
+ever featured, ranked, or summarised as "popular recipe," this site starts
+publishing reload guidance it cannot verify. Private by default, never ranked,
+never linked from a cartridge page. It is a notebook, not a recommendation engine.
+
+Note C.1 overlaps with Phase 0.2 - both surface the verdict. Phase 0.2 is the
+minimal version that can ship immediately; C.2 is the full purpose-aware
+version. **Do not run them concurrently**; same files.
+
+## Phase 8 - ballistics video and review links  (SIDE 1 ONLY)
+
+Scope corrected 2 Oct 2026: **reviews live on the store-bought side only.** Do
+not link creator testing of handloads on the reloading side, and never present a
+video beside a manufacturer load table as though both were the same kind of
+evidence.
 
 Deliberately adjacent to Phase 7 and sequenced after it, because both are
 "content written by other people, displayed by us" and they share the same

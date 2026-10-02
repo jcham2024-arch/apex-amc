@@ -1,33 +1,63 @@
 # Ammunition comparisons: the product model, and the one place it breaks
 
-Written 2 Oct 2026. This answers the request to aggregate existing comparisons
-("how does Critical Duty stack up against Gold Dot"), derive our own
-conclusions, and link the reviewers we cite.
+Written 2 Oct 2026. Answers the request to aggregate comparisons like "Critical
+Duty vs Gold Dot", derive our own conclusions, and link the reviewers we cite.
+
+## Which side of the site this serves
+
+Restated 2 Oct 2026 by the user, and it changes the shape of the work:
+
+> **Side 1 - store-bought.** What ammunition for what purpose, where to find it,
+> who has the best price. Reviews of **store-bought factory ammunition** live
+> here.
+>
+> **Side 2 - reloading.** How to make your own, how to reload for the same
+> purpose, and what cost saving that achieves. **Reviews are not needed here** -
+> it is manufacturer load data, plus a member area for saving your own recipes
+> and results.
+
+So: **reviews apply to the store-bought side only.** Handload content is
+manufacturer data, not third-party review content. That distinction was not
+clear when this was first drafted, and it matters for Phase 8.
+
+Consequence for the ballistics video work: **do not link videos as "reviews" on
+the reloading side.** Creator testing of handloads is not manufacturer load data
+and must not be presented alongside Hornady's published tables as though it were
+the same kind of thing.
 
 ## The finding that shapes everything else
 
-**We currently hold no loaded-ammunition data at all.** A scan of all eleven seed
-datasets for Critical Duty, Gold Dot, White Box, Blazer, FTX, XTP, HST, Copper
-Core and Total Brass returned zero hits.
+**Side 1 has no data. We hold no loaded-ammunition products at all.** A scan of
+all eleven seed datasets for Critical Duty, Gold Dot, White Box, Blazer, FTX,
+XTP, HST, Copper Core and Total Brass returned zero hits.
 
-We hold cartridge pressures (231 rows), bullets (120), powders (169), and
-sourcing (22 listings across 8 retailers). What we do not hold is a single
-ammunition product: no SKU, no box, no bullet weight as loaded, no stated
-velocity.
+Side 2, by contrast, is comparatively well supplied:
 
-That is not a small gap. It means the comparison feature has no left-hand side
-until we build one. Phase A is the real work; everything after it is
-presentation.
+| Side 2 asset | Rows |
+| --- | --- |
+| Cartridge pressures (primary + secondary) | 345 |
+| Powder burn-rate positions | 22 |
+| Powders | 169 |
+| Sourcing listings across 8 retailers | 22 |
+| Bullets | 120 |
+
+**Side 1 needs its product catalogue built from nothing. Side 2 needs its data
+presented.** That is a much better position than it sounds: the harder half of
+the site is the one we already have most of the raw material for.
+
+A second gap, shared by both sides: **we hold no purpose taxonomy.** "What is
+this ammunition for" is the organising question of the whole site, and it is not
+a column anywhere. Purpose belongs in the product schema (A.1), not bolted on
+afterwards, because without it Side 1 cannot answer its own primary question.
 
 ## What is genuinely aggregable, and what is not
 
-The comparisons named already exist in abundance on the internet. That is
-exactly right, and aggregating them is the site's mission. But they are several
-different kinds of thing, and they are not equally usable:
+The comparisons named already exist in abundance on the internet. Aggregating
+them is the site's mission. But they are several different kinds of thing:
 
 | Kind | Usable? | Why |
 | --- | --- | --- |
-| Manufacturer load data (Hornady, Speer, Winchester) | yes, labelled first-party | A velocity figure the maker published about its own product. Not independent, but real and citable. |
+| Manufacturer load data (Hornady, Speer, Winchester) | yes, labelled first-party | Published by the maker about its own product. Not independent, but real and citable. |
 | Independent bench testing (precision rifle, bench-rest groups) | yes | Methodologically sound when conditions are stated. |
 | Terminal / gel testing | **only with conditions** | Expansion and penetration depend on barrel length, media and temperature. |
 | YouTube gel tests | only with conditions, and per-product | Often one person's one sample. Directionally useful, not conclusive. |
@@ -39,7 +69,7 @@ different kinds of thing, and they are not equally usable:
 **Terminal performance is not a property of the ammunition.**
 
 A bonded core bullet's expansion depends on barrel length above a threshold that
-differs by design and by caliber. The same 124gr Critical Duty load can behave
+differs by design and caliber. The same 124gr Critical Duty load can behave
 materially differently from a 3-inch and a 5-inch barrel. A gel result without a
 stated barrel length is not a weaker claim; it is not a claim about the product
 at all. It is a claim about the product **in one setup**.
@@ -67,6 +97,7 @@ gate should enforce it rather than assume it.
 | # | Change | Notes | Write-set |
 | --- | --- | --- | --- |
 | A.1 | **Product schema** | Manufacturer, product line, caliber, loaded bullet weight and type, stated velocity with source, box size, UPC. Sourced, never inferred. | `data/schema/021_*.sql` (SERIAL) |
+| A.1b | **PURPOSE taxonomy, in the schema from day one** | duty, service, defense, training, practice, match, hunting, plinking. "What ammo for what purpose" is the organising question of Side 1; it cannot be added later without re-keying every row. | `data/schema/021_*.sql` |
 | A.2 | **Seed the top duty and defensive lines** | Start with what the questions named: Critical Duty, Gold Dot, Ranger, XD/XTP, White Box, Blazer, FTX, Match, TMX. Roughly 20 lines, not 1,000 SKUs. | `data/seeds/`, `data/schemas/` |
 | A.3 | **Provenance on every velocity** | Manufacturer-published or measured, tier recorded in `value_provenance.csv` like every other number we hold. | `data/seeds/value_provenance.csv` |
 | A.4 | **GATE: no ammunition row without a source** | An uncited velocity is the same defect as an uncited rating. | `scripts/gates/` |
@@ -103,6 +134,37 @@ is precise and meaningless, which is worse than saying nothing.
 What we can be is the site that says: *here is what the evidence shows, here is
 exactly what each source measured, here is where they disagree, and here is what
 it costs.* As far as the research went, nobody else does it honestly.
+
+## Side 2: what we have, and the member feature that is new
+
+Side 2 needs **presentation, not acquisition**. It already holds 345 cartridge
+pressure rows, 169 powders, 22 burn-rate positions and 120 bullets.
+
+What is missing there is:
+
+| # | Change | Notes | Write-set |
+| --- | --- | --- | --- |
+| C.1 | **Manufacturer load-data presentation** | Hornady/Speer/Winchester published loads, labelled first-party, with edition and date. Never presented as our own recommendation. | `apps/website/src/` |
+| C.2 | **The bridge: reload-vs-buy for the same purpose** | This is the feature that makes the two halves one site. "Here is the factory round for duty at X/rd; here is what reloading it costs; here is the saving." We already compute both. | `apps/website/src/` |
+| C.3 | **Member recipe storage** | Save your own recipe and results. Private to the member. | `data/schema/023_*.sql` (SERIAL), `apps/api/` |
+| C.4 | **GATE: member recipes are private by default and never re-published as guidance** | See below. | `scripts/gates/` |
+
+### C.4 is not optional
+
+Member recipes are **user-generated reload data**. If one is ever promoted,
+featured, indexed or summarised as "popular recipe," this site starts publishing
+reload guidance it cannot verify - and an unsafe charge weight in front of an
+audience is a injury, not a complaint.
+
+Rules:
+
+- Recipes are **private to their author** unless they choose to share.
+- We never rank, feature, or summarise member recipes as guidance.
+- A recipe is never linked from a cartridge page as "what others use."
+- The member feature stores what the member already knows. It is a notebook,
+  not a recommendation engine.
+
+The same logic as the review work: hosting is fine, authoring is not.
 
 ## Sequencing
 
