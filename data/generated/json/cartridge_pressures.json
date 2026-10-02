@@ -1,11 +1,11 @@
 {
   "_generated": true,
-  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/data/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
   "dataset": "cartridge_pressures",
   "description": null,
   "source": "data/seeds/cartridge_pressures.csv",
   "manifest": "data/schemas/cartridge_pressures.yaml",
-  "row_count": 234,
+  "row_count": 231,
   "columns": {
     "cartridge_name": {
       "type": "string",
@@ -849,18 +849,6 @@
     {
       "_source": "data/seeds/cartridge_pressures.csv",
       "_line": 69,
-      "cartridge_name": "6.5x70R",
-      "saami_piezo_ksi": null,
-      "cip_piezo_ksi": 41,
-      "saami_cup": null,
-      "cip_cup": null,
-      "other": null,
-      "footnote": null,
-      "unit_note": "ksi_rounded_up_to_1000psi"
-    },
-    {
-      "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 70,
       "cartridge_name": "6.5x72R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 55,
@@ -872,7 +860,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 71,
+      "_line": 70,
       "cartridge_name": "6.5-06 A-S",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -884,7 +872,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 72,
+      "_line": 71,
       "cartridge_name": "6.5 Rem Mag",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 63,
@@ -896,7 +884,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 73,
+      "_line": 72,
       "cartridge_name": ".264 Win Mag",
       "saami_piezo_ksi": 64,
       "cip_piezo_ksi": 62,
@@ -908,7 +896,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 74,
+      "_line": 73,
       "cartridge_name": "6.8 SPC",
       "saami_piezo_ksi": 55,
       "cip_piezo_ksi": 59,
@@ -920,7 +908,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 75,
+      "_line": 74,
       "cartridge_name": ".270",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 62,
@@ -932,7 +920,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 76,
+      "_line": 75,
       "cartridge_name": ".270 WSM",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 65,
@@ -944,7 +932,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 77,
+      "_line": 76,
       "cartridge_name": ".270 Wea",
       "saami_piezo_ksi": 63,
       "cip_piezo_ksi": 64,
@@ -956,7 +944,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 78,
+      "_line": 77,
       "cartridge_name": "7x50R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 53,
@@ -968,7 +956,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 79,
+      "_line": 78,
       "cartridge_name": "7-30 Wat.",
       "saami_piezo_ksi": 45,
       "cip_piezo_ksi": 49,
@@ -980,7 +968,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 80,
+      "_line": 79,
       "cartridge_name": "7x72R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -992,7 +980,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 81,
+      "_line": 80,
       "cartridge_name": "7-08",
       "saami_piezo_ksi": 61,
       "cip_piezo_ksi": 60,
@@ -1004,7 +992,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 82,
+      "_line": 81,
       "cartridge_name": "7x57",
       "saami_piezo_ksi": 51,
       "cip_piezo_ksi": 57,
@@ -1016,7 +1004,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 83,
+      "_line": 82,
       "cartridge_name": "7x57R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 49,
@@ -1028,7 +1016,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 84,
+      "_line": 83,
       "cartridge_name": "7 Fl.Mag.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 48,
@@ -1040,7 +1028,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 85,
+      "_line": 84,
       "cartridge_name": "7x65R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 55,
@@ -1052,7 +1040,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 86,
+      "_line": 85,
       "cartridge_name": "7x75R v.H.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 60,
@@ -1064,7 +1052,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 87,
+      "_line": 86,
       "cartridge_name": ".284 Win",
       "saami_piezo_ksi": 56,
       "cip_piezo_ksi": 64,
@@ -1076,7 +1064,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 88,
+      "_line": 87,
       "cartridge_name": ".280 Rem",
       "saami_piezo_ksi": 60,
       "cip_piezo_ksi": 59,
@@ -1088,7 +1076,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 89,
+      "_line": 88,
       "cartridge_name": "7 WSM",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 65,
@@ -1100,7 +1088,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 90,
+      "_line": 89,
       "cartridge_name": "7 Rem Mag",
       "saami_piezo_ksi": 61,
       "cip_piezo_ksi": 62,
@@ -1112,7 +1100,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 91,
+      "_line": 90,
       "cartridge_name": "7 Wea",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 64,
@@ -1124,7 +1112,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 92,
+      "_line": 91,
       "cartridge_name": "7 STW",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -1136,7 +1124,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 93,
+      "_line": 92,
       "cartridge_name": ".280 Fl.NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 43,
@@ -1148,7 +1136,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 94,
+      "_line": 93,
       "cartridge_name": ".30 Carb.",
       "saami_piezo_ksi": 40,
       "cip_piezo_ksi": 46,
@@ -1160,7 +1148,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 95,
+      "_line": 94,
       "cartridge_name": ".30-357 AeT",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 44,
@@ -1172,7 +1160,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 96,
+      "_line": 95,
       "cartridge_name": ".30 Rem AR",
       "saami_piezo_ksi": 55,
       "cip_piezo_ksi": null,
@@ -1184,7 +1172,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 97,
+      "_line": 96,
       "cartridge_name": ".30-30",
       "saami_piezo_ksi": 42,
       "cip_piezo_ksi": 46,
@@ -1196,7 +1184,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 98,
+      "_line": 97,
       "cartridge_name": ".30 Rem",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -1208,7 +1196,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 99,
+      "_line": 98,
       "cartridge_name": ".300 Sav",
       "saami_piezo_ksi": 47,
       "cip_piezo_ksi": 53,
@@ -1220,7 +1208,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 100,
+      "_line": 99,
       "cartridge_name": ".308 Marlin",
       "saami_piezo_ksi": 48,
       "cip_piezo_ksi": null,
@@ -1232,7 +1220,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 101,
+      "_line": 100,
       "cartridge_name": ".30 Fl.Purdey",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 46,
@@ -1244,7 +1232,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 102,
+      "_line": 101,
       "cartridge_name": ".30-40",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 47,
@@ -1256,7 +1244,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 103,
+      "_line": 102,
       "cartridge_name": ".307 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 60,
@@ -1268,7 +1256,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 104,
+      "_line": 103,
       "cartridge_name": ".308 Win",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": 60,
@@ -1280,7 +1268,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 105,
+      "_line": 104,
       "cartridge_name": ".30-06",
       "saami_piezo_ksi": 60,
       "cip_piezo_ksi": 59,
@@ -1292,7 +1280,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 106,
+      "_line": 105,
       "cartridge_name": ".30 R Blaser",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 59,
@@ -1304,9 +1292,9 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 107,
+      "_line": 106,
       "cartridge_name": ".300 WSM",
-      "saami_piezo_ksi": null,
+      "saami_piezo_ksi": 64,
       "cip_piezo_ksi": 65,
       "saami_cup": null,
       "cip_cup": null,
@@ -1316,7 +1304,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 108,
+      "_line": 107,
       "cartridge_name": ".30 Super Belt",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 53,
@@ -1328,7 +1316,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 109,
+      "_line": 108,
       "cartridge_name": ".300 RCM",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -1340,7 +1328,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 110,
+      "_line": 109,
       "cartridge_name": ".300 H&H",
       "saami_piezo_ksi": 58,
       "cip_piezo_ksi": 62,
@@ -1352,7 +1340,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 111,
+      "_line": 110,
       "cartridge_name": ".300 Win",
       "saami_piezo_ksi": 64,
       "cip_piezo_ksi": 62,
@@ -1364,19 +1352,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 112,
-      "cartridge_name": ".300 WSM",
-      "saami_piezo_ksi": 64,
-      "cip_piezo_ksi": null,
-      "saami_cup": null,
-      "cip_cup": null,
-      "other": null,
-      "footnote": null,
-      "unit_note": "ksi_rounded_up_to_1000psi"
-    },
-    {
-      "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 113,
+      "_line": 111,
       "cartridge_name": ".30 Super Fl.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 46,
@@ -1388,7 +1364,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 114,
+      "_line": 112,
       "cartridge_name": ".308 Norma",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -1400,7 +1376,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 115,
+      "_line": 113,
       "cartridge_name": ".300 Wea",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 64,
@@ -1412,7 +1388,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 116,
+      "_line": 114,
       "cartridge_name": ".300 RUM",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 65,
@@ -1424,7 +1400,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 117,
+      "_line": 115,
       "cartridge_name": ".300 Lap Mag",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 68,
@@ -1436,7 +1412,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 118,
+      "_line": 116,
       "cartridge_name": ".30-378 Wea",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -1448,7 +1424,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 119,
+      "_line": 117,
       "cartridge_name": "7.62x39",
       "saami_piezo_ksi": 45,
       "cip_piezo_ksi": null,
@@ -1460,7 +1436,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 120,
+      "_line": 118,
       "cartridge_name": ".303 Sav",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 39,
@@ -1472,7 +1448,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 121,
+      "_line": 119,
       "cartridge_name": ".303 Brit",
       "saami_piezo_ksi": 49,
       "cip_piezo_ksi": 53,
@@ -1484,7 +1460,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 122,
+      "_line": 120,
       "cartridge_name": "7.62x53R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 57,
@@ -1496,7 +1472,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 123,
+      "_line": 121,
       "cartridge_name": "7.62x54R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 57,
@@ -1508,7 +1484,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 124,
+      "_line": 122,
       "cartridge_name": ".32 H & R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 21,
@@ -1520,7 +1496,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 125,
+      "_line": 123,
       "cartridge_name": ".32-20",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 30,
@@ -1532,7 +1508,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 126,
+      "_line": 124,
       "cartridge_name": ".327 Fed",
       "saami_piezo_ksi": 45,
       "cip_piezo_ksi": null,
@@ -1544,7 +1520,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 127,
+      "_line": 125,
       "cartridge_name": "8x72R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -1556,7 +1532,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 128,
+      "_line": 126,
       "cartridge_name": ".32-40",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 34,
@@ -1568,7 +1544,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 129,
+      "_line": 127,
       "cartridge_name": ".32 Spl.",
       "saami_piezo_ksi": 42,
       "cip_piezo_ksi": 44,
@@ -1580,7 +1556,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 130,
+      "_line": 128,
       "cartridge_name": ".32 Rem",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 43,
@@ -1592,7 +1568,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 131,
+      "_line": 129,
       "cartridge_name": "8x50R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 51,
@@ -1604,7 +1580,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 132,
+      "_line": 130,
       "cartridge_name": "8 Lebel",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": null,
@@ -1616,7 +1592,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 133,
+      "_line": 131,
       "cartridge_name": "8x57 JRS",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 48,
@@ -1628,7 +1604,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 134,
+      "_line": 132,
       "cartridge_name": "8x57 JS",
       "saami_piezo_ksi": 35,
       "cip_piezo_ksi": 57,
@@ -1640,7 +1616,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 135,
+      "_line": 133,
       "cartridge_name": "8x60RS",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 49,
@@ -1652,7 +1628,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 136,
+      "_line": 134,
       "cartridge_name": "8x64S",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 59,
@@ -1664,7 +1640,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 137,
+      "_line": 135,
       "cartridge_name": "8x65RS",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 59,
@@ -1676,7 +1652,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 138,
+      "_line": 136,
       "cartridge_name": "8x75RS",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 55,
@@ -1688,7 +1664,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 139,
+      "_line": 137,
       "cartridge_name": "8 Rem Mag",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 67,
@@ -1700,7 +1676,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 140,
+      "_line": 138,
       "cartridge_name": ".318",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 48,
@@ -1712,7 +1688,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 141,
+      "_line": 139,
       "cartridge_name": ".333 Riml.NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 48,
@@ -1724,7 +1700,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 142,
+      "_line": 140,
       "cartridge_name": ".338 Fed",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": null,
@@ -1736,7 +1712,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 143,
+      "_line": 141,
       "cartridge_name": ".338 Marlin",
       "saami_piezo_ksi": 46,
       "cip_piezo_ksi": null,
@@ -1748,7 +1724,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 144,
+      "_line": 142,
       "cartridge_name": ".33 WCF",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 44,
@@ -1760,7 +1736,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 145,
+      "_line": 143,
       "cartridge_name": ".338-06 A-Sq.",
       "saami_piezo_ksi": 63,
       "cip_piezo_ksi": null,
@@ -1772,7 +1748,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 146,
+      "_line": 144,
       "cartridge_name": ".338 RCM",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -1784,7 +1760,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 147,
+      "_line": 145,
       "cartridge_name": ".338 Win",
       "saami_piezo_ksi": 64,
       "cip_piezo_ksi": 62,
@@ -1796,7 +1772,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 148,
+      "_line": 146,
       "cartridge_name": ".340 Wea",
       "saami_piezo_ksi": 63,
       "cip_piezo_ksi": null,
@@ -1808,7 +1784,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 149,
+      "_line": 147,
       "cartridge_name": ".338 RUM",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -1820,7 +1796,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 150,
+      "_line": 148,
       "cartridge_name": ".338-378 Wea",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -1832,7 +1808,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 151,
+      "_line": 149,
       "cartridge_name": ".348",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 46,
@@ -1844,7 +1820,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 152,
+      "_line": 150,
       "cartridge_name": ".351 Win SL",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 53,
@@ -1856,7 +1832,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 153,
+      "_line": 151,
       "cartridge_name": "9 Luger",
       "saami_piezo_ksi": 35,
       "cip_piezo_ksi": 34,
@@ -1868,7 +1844,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 154,
+      "_line": 152,
       "cartridge_name": "9x57",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -1880,7 +1856,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 155,
+      "_line": 153,
       "cartridge_name": "9x57R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -1892,7 +1868,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 156,
+      "_line": 154,
       "cartridge_name": ".38 Spl",
       "saami_piezo_ksi": 17,
       "cip_piezo_ksi": 22,
@@ -1904,7 +1880,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 157,
+      "_line": 155,
       "cartridge_name": ".357 Mag",
       "saami_piezo_ksi": 35,
       "cip_piezo_ksi": 44,
@@ -1916,7 +1892,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 158,
+      "_line": 156,
       "cartridge_name": ".357 Max",
       "saami_piezo_ksi": 40,
       "cip_piezo_ksi": 45,
@@ -1928,7 +1904,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 159,
+      "_line": 157,
       "cartridge_name": "400/350",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -1940,7 +1916,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 160,
+      "_line": 158,
       "cartridge_name": ".350 No.2",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 48,
@@ -1952,7 +1928,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 161,
+      "_line": 159,
       "cartridge_name": ".350 Mag Rigby",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 45,
@@ -1964,7 +1940,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 162,
+      "_line": 160,
       "cartridge_name": ".35 Rem",
       "saami_piezo_ksi": 34,
       "cip_piezo_ksi": 40,
@@ -1976,7 +1952,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 163,
+      "_line": 161,
       "cartridge_name": ".35 WCF",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 44,
@@ -1988,7 +1964,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 164,
+      "_line": 162,
       "cartridge_name": ".356 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 60,
@@ -2000,7 +1976,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 165,
+      "_line": 163,
       "cartridge_name": ".358 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 59,
@@ -2012,7 +1988,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 166,
+      "_line": 164,
       "cartridge_name": ".350 Rem Mag",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 62,
@@ -2024,7 +2000,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 167,
+      "_line": 165,
       "cartridge_name": ".35 Whelen",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": 58,
@@ -2036,7 +2012,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 168,
+      "_line": 166,
       "cartridge_name": ".358 STA",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -2048,7 +2024,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 169,
+      "_line": 167,
       "cartridge_name": "9x53R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 49,
@@ -2060,7 +2036,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 170,
+      "_line": 168,
       "cartridge_name": ".360 NE 2&frac14",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": null,
@@ -2072,7 +2048,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 171,
+      "_line": 169,
       "cartridge_name": "9.3x72R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 29,
@@ -2084,7 +2060,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 172,
+      "_line": 170,
       "cartridge_name": "9.3x57",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 44,
@@ -2096,7 +2072,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 173,
+      "_line": 171,
       "cartridge_name": "9.3x62",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 57,
@@ -2108,7 +2084,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 174,
+      "_line": 172,
       "cartridge_name": "9.3x64",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -2120,19 +2096,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 175,
-      "cartridge_name": "9.3x72R",
-      "saami_piezo_ksi": null,
-      "cip_piezo_ksi": 29,
-      "saami_cup": null,
-      "cip_cup": null,
-      "other": null,
-      "footnote": null,
-      "unit_note": "ksi_rounded_up_to_1000psi"
-    },
-    {
-      "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 176,
+      "_line": 173,
       "cartridge_name": "9.3x74R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 49,
@@ -2144,7 +2108,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 177,
+      "_line": 174,
       "cartridge_name": "9.3x65R",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 55,
@@ -2156,7 +2120,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 178,
+      "_line": 175,
       "cartridge_name": ".375 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 55,
@@ -2168,7 +2132,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 179,
+      "_line": 176,
       "cartridge_name": ".375 NE 2&frac12",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": null,
@@ -2180,7 +2144,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 180,
+      "_line": 177,
       "cartridge_name": "9.5x57 M-S",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 44,
@@ -2192,7 +2156,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 181,
+      "_line": 178,
       "cartridge_name": ".376 Steyr",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": 62,
@@ -2204,7 +2168,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 182,
+      "_line": 179,
       "cartridge_name": ".375 H&H",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": 62,
@@ -2216,7 +2180,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 183,
+      "_line": 180,
       "cartridge_name": ".375 Ruger",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": null,
@@ -2228,7 +2192,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 184,
+      "_line": 181,
       "cartridge_name": ".375 Wea",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -2240,7 +2204,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 185,
+      "_line": 182,
       "cartridge_name": ".375 Fl.Mag.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 47,
@@ -2252,7 +2216,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 186,
+      "_line": 183,
       "cartridge_name": ".369 NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 44,
@@ -2264,7 +2228,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 187,
+      "_line": 184,
       "cartridge_name": ".378 Wea",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -2276,7 +2240,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 188,
+      "_line": 185,
       "cartridge_name": ".38-55",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 35,
@@ -2288,7 +2252,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 189,
+      "_line": 186,
       "cartridge_name": ".40 S&W",
       "saami_piezo_ksi": 35,
       "cip_piezo_ksi": 33,
@@ -2300,7 +2264,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 190,
+      "_line": 187,
       "cartridge_name": "10 Auto",
       "saami_piezo_ksi": 38,
       "cip_piezo_ksi": 34,
@@ -2312,7 +2276,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 191,
+      "_line": 188,
       "cartridge_name": ".38-40",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 17,
@@ -2324,7 +2288,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 192,
+      "_line": 189,
       "cartridge_name": ".40-60 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 28,
@@ -2336,7 +2300,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 193,
+      "_line": 190,
       "cartridge_name": ".40-82 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 24,
@@ -2348,7 +2312,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 194,
+      "_line": 191,
       "cartridge_name": ".41 Rem Mag",
       "saami_piezo_ksi": 36,
       "cip_piezo_ksi": 44,
@@ -2360,7 +2324,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 195,
+      "_line": 192,
       "cartridge_name": ".400 Jef.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -2372,7 +2336,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 196,
+      "_line": 193,
       "cartridge_name": "450/400 3&frac1",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": null,
@@ -2384,7 +2348,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 197,
+      "_line": 194,
       "cartridge_name": ".400 H&H",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -2396,7 +2360,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 198,
+      "_line": 195,
       "cartridge_name": ".405 WCF",
       "saami_piezo_ksi": 46,
       "cip_piezo_ksi": 36,
@@ -2408,7 +2372,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 199,
+      "_line": 196,
       "cartridge_name": ".416 Taylor",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": null,
@@ -2420,7 +2384,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 200,
+      "_line": 197,
       "cartridge_name": ".416 Ruger",
       "saami_piezo_ksi": 62,
       "cip_piezo_ksi": null,
@@ -2432,7 +2396,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 201,
+      "_line": 198,
       "cartridge_name": ".416 Rem.",
       "saami_piezo_ksi": 65,
       "cip_piezo_ksi": 62,
@@ -2444,7 +2408,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 202,
+      "_line": 199,
       "cartridge_name": ".416 Rigby",
       "saami_piezo_ksi": 52,
       "cip_piezo_ksi": 47,
@@ -2456,7 +2420,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 203,
+      "_line": 200,
       "cartridge_name": ".404 Jef.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 53,
@@ -2468,7 +2432,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 204,
+      "_line": 201,
       "cartridge_name": ".44-40",
       "saami_piezo_ksi": 11,
       "cip_piezo_ksi": 16,
@@ -2480,7 +2444,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 205,
+      "_line": 202,
       "cartridge_name": ".44 Spl",
       "saami_piezo_ksi": 16,
       "cip_piezo_ksi": 15,
@@ -2492,7 +2456,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 206,
+      "_line": 203,
       "cartridge_name": ".44 Rem Mag",
       "saami_piezo_ksi": 36,
       "cip_piezo_ksi": 41,
@@ -2504,7 +2468,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 207,
+      "_line": 204,
       "cartridge_name": ".444",
       "saami_piezo_ksi": 42,
       "cip_piezo_ksi": 51,
@@ -2516,7 +2480,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 208,
+      "_line": 205,
       "cartridge_name": ".45 ACP",
       "saami_piezo_ksi": 21,
       "cip_piezo_ksi": 19,
@@ -2528,7 +2492,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 209,
+      "_line": 206,
       "cartridge_name": ".45 Colt",
       "saami_piezo_ksi": 14,
       "cip_piezo_ksi": 16,
@@ -2540,7 +2504,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 210,
+      "_line": 207,
       "cartridge_name": ".45 Win Mag",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": null,
@@ -2552,7 +2516,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 211,
+      "_line": 208,
       "cartridge_name": ".454 Casull",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 57,
@@ -2564,7 +2528,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 212,
+      "_line": 209,
       "cartridge_name": ".45-60 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 28,
@@ -2576,7 +2540,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 213,
+      "_line": 210,
       "cartridge_name": ".45-70",
       "saami_piezo_ksi": 28,
       "cip_piezo_ksi": 32,
@@ -2588,7 +2552,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 214,
+      "_line": 211,
       "cartridge_name": ".45-75 Win",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 30,
@@ -2600,7 +2564,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 215,
+      "_line": 212,
       "cartridge_name": ".450 Mar",
       "saami_piezo_ksi": 44,
       "cip_piezo_ksi": null,
@@ -2612,7 +2576,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 216,
+      "_line": 213,
       "cartridge_name": ".458 Win.",
       "saami_piezo_ksi": 60,
       "cip_piezo_ksi": 62,
@@ -2624,7 +2588,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 217,
+      "_line": 214,
       "cartridge_name": ".458 Lott",
       "saami_piezo_ksi": 63,
       "cip_piezo_ksi": 62,
@@ -2636,7 +2600,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 218,
+      "_line": 215,
       "cartridge_name": ".450 NE 3&frac14",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": null,
@@ -2648,7 +2612,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 219,
+      "_line": 216,
       "cartridge_name": ".450 No.2 NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -2660,7 +2624,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 220,
+      "_line": 217,
       "cartridge_name": ".460 Wea",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 64,
@@ -2672,7 +2636,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 221,
+      "_line": 218,
       "cartridge_name": ".465 Belted",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 62,
@@ -2684,7 +2648,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 222,
+      "_line": 219,
       "cartridge_name": "500/465",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 36,
@@ -2696,7 +2660,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 223,
+      "_line": 220,
       "cartridge_name": ".480 Ruger",
       "saami_piezo_ksi": 48,
       "cip_piezo_ksi": 48,
@@ -2708,7 +2672,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 224,
+      "_line": 221,
       "cartridge_name": ".475 Linebaugh",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 50,
@@ -2720,7 +2684,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 225,
+      "_line": 222,
       "cartridge_name": ".475 Turnbull",
       "saami_piezo_ksi": 42,
       "cip_piezo_ksi": null,
@@ -2732,7 +2696,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 226,
+      "_line": 223,
       "cartridge_name": ".470 NE",
       "saami_piezo_ksi": 41,
       "cip_piezo_ksi": 39,
@@ -2744,7 +2708,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 227,
+      "_line": 224,
       "cartridge_name": ".475 No.2 NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 40,
@@ -2756,7 +2720,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 228,
+      "_line": 225,
       "cartridge_name": ".505 Gibbs",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 39,
@@ -2768,7 +2732,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 229,
+      "_line": 226,
       "cartridge_name": ".500 Jef.",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 48,
@@ -2780,7 +2744,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 230,
+      "_line": 227,
       "cartridge_name": ".500 NE 3\"",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 41,
@@ -2792,7 +2756,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 231,
+      "_line": 228,
       "cartridge_name": ".50 BMG",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 54,
@@ -2804,7 +2768,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 232,
+      "_line": 229,
       "cartridge_name": ".577 3\" NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 36,
@@ -2816,7 +2780,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 233,
+      "_line": 230,
       "cartridge_name": ".600 NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 36,
@@ -2828,7 +2792,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 234,
+      "_line": 231,
       "cartridge_name": ".700 NE",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 40,
@@ -2840,7 +2804,7 @@
     },
     {
       "_source": "data/seeds/cartridge_pressures.csv",
-      "_line": 235,
+      "_line": 232,
       "cartridge_name": "4 Bore Rifle",
       "saami_piezo_ksi": null,
       "cip_piezo_ksi": 36,

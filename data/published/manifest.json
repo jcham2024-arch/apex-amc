@@ -1,5 +1,5 @@
-﻿{
-    "note":  "Provenance manifest for archived published reloading data. Read by scripts/fetch-published-data.mjs, which downloads each `url` to data/published/\u003cfile\u003e and regenerates MANIFEST.md. These documents belong to their publishers and are archived locally for citation and traceability only. They are gitignored and must not be redistributed by the site. Only derived facts (a cartridge\u0027s pressure limit, a bullet\u0027s BC) are republished, always with attribution.",
+{
+    "note":  "Provenance manifest for archived published reloading data. Read by scripts/data/fetch-published-data.mjs, which downloads each `url` to data/published/\u003cfile\u003e and regenerates MANIFEST.md. These documents belong to their publishers and are archived locally for citation and traceability only. They are gitignored and must not be redistributed by the site. Only derived facts (a cartridge\u0027s pressure limit, a bullet\u0027s BC) are republished, always with attribution.",
     "documents":  [
                       {
                           "file":  "tireur-competition-ballistics.pdf",

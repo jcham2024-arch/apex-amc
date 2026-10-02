@@ -14,6 +14,32 @@
 dataset: cartridge_pressures
 storage: csv
 csv_path: data/seeds/cartridge_pressures.csv
+# The CSV columns are WIDE, not long: `saami_piezo_ksi` and `cip_piezo_ksi` are
+# separate columns on the same row. So one cartridge gets exactly one row, and
+# the two standards bodies are recorded side by side rather than as two rows.
+#
+# Three cartridges arrived twice as separate rows, which `npm run data:health`
+# reported as duplicate primary keys. None of them was a real disagreement:
+#
+#   6.5x70R  row 57 carried cip_piezo_ksi=41 AND cip_cup=36
+#            row 69 carried cip_piezo_ksi=41 only  -> a lossy partial re-entry
+#   9.3x72R  row 171 carried cip_piezo_ksi=29 AND cip_cup=26
+#            row 175 carried cip_piezo_ksi=29 only  -> a lossy partial re-entry
+#   .300 WSM row 107 carried cip_piezo_ksi=65
+#            row 112 carried saami_piezo_ksi=64      -> two DIFFERENT standards
+#
+# The first two were the earlier, more complete rows and have been kept
+# verbatim. Keeping the later row instead would have deleted a real datapoint
+# (the c.u.p. figure).
+#
+# `.300 WSM` is the one that needed judgement rather than a discard: CIP says 65
+# ksi, SAAMI says 64 ksi. Both are true and they are not interchangeable - CIP
+# and SAAMI are different bodies with different methods. That is not a
+# transcription error, so it belongs in one row with both columns filled, not in
+# cartridge_pressure_conflicts.yaml, which compares compilations against each
+# other rather than two standards bodies against each other.
+#
+# Merged to: saami_piezo_ksi=64, cip_piezo_ksi=65.
 primary_key: [cartridge_name]
 
 columns:

@@ -1,6 +1,6 @@
 {
   "_generated": true,
-  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/data/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
   "dataset": "manufacturers",
   "description": null,
   "source": "data/seeds/manufacturers.csv",

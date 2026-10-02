@@ -10,7 +10,7 @@
 # changed with the checkout rather than with the data.
 #
 # The six harvested files were promoted into data/seeds/powders/ by
-# scripts/promote-powders.mjs, which verified before copying that the headers
+# scripts/data/promote-powders.mjs, which verified before copying that the headers
 # matched, that (manufacturer_slug, product_name) was unique, that each file's
 # name matched the slug on all of its rows, and that every brand resolved in
 # manufacturers.csv. The merge is gone, so the row count is a property of the

@@ -1,7 +1,7 @@
 <!--
   GENERATED FILE - DO NOT EDIT.
 
-  Built from the CSVs by scripts/build-data.mjs. Any edit here is lost on the
+  Built from the CSVs by scripts/data/build-data.mjs. Any edit here is lost on the
   next run, silently. To change the data, edit the CSV under "source" below,
   then run:  npm run data:build
 
@@ -12,6 +12,7 @@
   Use this file for READING. For application code use the .json, which has real
   types. For the complete record use the CSV, which is the database.
 -->
+
 # cartridge_pressures
 
 > **Generated file - do not edit.** Built from
@@ -20,10 +21,10 @@
 
 ## At a glance
 
-- **Rows:** 234
+- **Rows:** 231
 - **Source files:** data/seeds/cartridge_pressures.csv
 - **Column contract:** `data/schemas/cartridge_pressures.yaml`
-- **Populated:** ~54% of cells (a blank means "not known yet", not "zero")
+- **Populated:** ~55% of cells (a blank means "not known yet", not "zero")
 
 ## Columns
 
@@ -38,7 +39,7 @@
 | `footnote` | string | no | Marker for a note in the publisher's own table. May contain commas; keep quoted. |
 | `unit_note` | string | no | Where the source's unit differs from the column's stated unit. The ksi columns in particular were rounded up by the compiler, so a row carrying a unit_note must not be read as a precise figure. |
 
-## Sample rows (first 25 of 234)
+## Sample rows (first 25 of 231)
 
 | `cartridge_name` | `saami_piezo_ksi` | `cip_piezo_ksi` | `saami_cup` | `cip_cup` |
 |---|---|---|---|---|
@@ -68,4 +69,4 @@
 | .225 Win. | _(blank)_ | 57 | 50 | 49 |
 | .22-250 | 65 | 59 | 53 | 51 |
 
-_Showing 25 of 234 rows. For the complete set use the CSV or the JSON._
+_Showing 25 of 231 rows. For the complete set use the CSV or the JSON._

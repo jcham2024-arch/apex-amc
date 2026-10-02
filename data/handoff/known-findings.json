@@ -1,0 +1,20 @@
+{
+  "artefact": "apps/website/dist/index.html",
+  "known": [
+    {
+      "rule": "supply-chain-sri",
+      "fp": "b0014d2d999b"
+    },
+    {
+      "rule": "runtime-compiler",
+      "fp": "9b0854d32d1e"
+    },
+    {
+      "rule": "content-security-policy",
+      "fp": "6bbcffdca099"
+    }
+  ],
+  "appSha256": "fdfce82733116c17c7f74e91a5f14b013ff6cc36cf5da11a7c190ac808e06d29",
+  "recordedOn": "2026-10-01",
+  "why": "Pre-existing defects in the hand-committed site. check-handoff.mjs still reports them; it just no longer fails on them. See HANDOFF.md. Each one is a real finding and should be fixed, not forgotten."
+}

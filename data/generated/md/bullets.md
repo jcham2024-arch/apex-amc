@@ -1,7 +1,7 @@
 <!--
   GENERATED FILE - DO NOT EDIT.
 
-  Built from the CSVs by scripts/build-data.mjs. Any edit here is lost on the
+  Built from the CSVs by scripts/data/build-data.mjs. Any edit here is lost on the
   next run, silently. To change the data, edit the CSV under "source" below,
   then run:  npm run data:build
 
@@ -12,6 +12,7 @@
   Use this file for READING. For application code use the .json, which has real
   types. For the complete record use the CSV, which is the database.
 -->
+
 # bullets
 
 > **Generated file - do not edit.** Built from

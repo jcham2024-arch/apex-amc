@@ -1,0 +1,11 @@
+{
+  "note": "Known, accepted security findings in the shipped main app. security:check still reports them; they just no longer fail the build. Every one is a real defect - see SECURITY.md. Do not grow this file: a new entry here is a new accepted vulnerability.",
+  "files": [
+    "apps/website/dist/index.html",
+    "apps/website/src/main.js"
+  ],
+  "known": [],
+  "appSha256": "ae72843226f6f6bf405c6225347e45c50337152dd7a5f216675bc2e46227dfec",
+  "recordedOn": "2026-10-01",
+  "previousRecordedOn": "2026-10-01"
+}

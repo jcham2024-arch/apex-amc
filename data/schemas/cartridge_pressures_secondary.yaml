@@ -12,7 +12,24 @@
 dataset: cartridge_pressures_secondary
 storage: csv
 csv_path: data/seeds/cartridge_pressures_secondary.csv
-primary_key: [cartridge_name]
+
+# `pressure_unit` is part of the key.
+#
+# This was `[cartridge_name]`, which is wrong for pressure data and flagged a
+# duplicate on .38 S&W: SAAMI gives 14,500 psi and Lyman gives 13,000 c.u.p. for
+# the same cartridge. Those are two different MEASUREMENTS of one cartridge, not
+# a contradiction - psi is maximum pressure, cup is a Lyman CCW reading - and
+# they are not comparable.
+#
+# Keying on the name alone therefore collided them, and the loader would have
+# silently dropped one. Dropping the c.u.p. figure loses a real datum; keeping
+# both under one key invites a consumer to compare 14,500 against 13,000 as if
+# they were the same quantity, which is exactly the confusion this table exists
+# to prevent.
+#
+# A true conflict - same cartridge, same unit, different value - is what
+# cartridge_pressure_conflicts.yaml is for, and that comparison stays intact.
+primary_key: [cartridge_name, pressure_unit]
 
 columns:
   cartridge_name:

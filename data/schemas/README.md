@@ -8,7 +8,7 @@ Each `<dataset>.yaml` is read by:
 - `npm run data:build` — validates every row, then generates JSON and Markdown
 - `npm run seed:check` — the build gate, using the same rules
 
-Both import the same module (`scripts/lib/data.mjs`), so the gate and the
+Both import the same module (`scripts/shared/data.mjs`), so the gate and the
 generator can never disagree about what a valid row is.
 
 ## Why this exists

@@ -112,7 +112,7 @@ one. The loader therefore read 169 rows on a working machine and 27 on a fresh
 clone - so the powder row count, the health report and everything generated from
 powders all depended on the checkout rather than on the repository.
 
-`scripts/promote-powders.mjs` performed the promotion. It verifies before
+`scripts/data/promote-powders.mjs` performed the promotion. It verifies before
 copying that the headers are identical, that `(manufacturer_slug, product_name)`
 is unique, that each file's name matches the slug on all of its rows, and that
 every brand resolves in `manufacturers.csv`; it then re-reads the result from

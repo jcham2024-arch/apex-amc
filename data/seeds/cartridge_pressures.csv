@@ -66,7 +66,6 @@ cartridge_name,saami_piezo_ksi,cip_piezo_ksi,saami_cup,cip_cup,other,footnote,un
 6.5x58 Mauser,,51,,45,,,ksi_rounded_up_to_1000psi
 6.5x57R,,48,,42,,,ksi_rounded_up_to_1000psi
 6.5 Creedm,52,63,,,,,ksi_rounded_up_to_1000psi
-6.5x70R,,41,,,,,ksi_rounded_up_to_1000psi
 6.5x72R,,55,,48,,*,ksi_rounded_up_to_1000psi
 6.5-06 A-S,65,,,,,,ksi_rounded_up_to_1000psi
 6.5 Rem Mag,,63,53,54,,,ksi_rounded_up_to_1000psi
@@ -104,12 +103,11 @@ cartridge_name,saami_piezo_ksi,cip_piezo_ksi,saami_cup,cip_cup,other,footnote,un
 .308 Win,62,60,52,52,,,ksi_rounded_up_to_1000psi
 .30-06,60,59,50,51,,,ksi_rounded_up_to_1000psi
 .30 R Blaser,,59,,51,,,ksi_rounded_up_to_1000psi
-.300 WSM,,65,,,,,ksi_rounded_up_to_1000psi
+.300 WSM,64,65,,,,,ksi_rounded_up_to_1000psi
 .30 Super Belt,,53,,,,,ksi_rounded_up_to_1000psi
 .300 RCM,65,,,,,,ksi_rounded_up_to_1000psi
 .300 H&H,58,62,54,54,,,ksi_rounded_up_to_1000psi
 .300 Win,64,62,54,54,,,ksi_rounded_up_to_1000psi
-.300 WSM,64,,,,,,ksi_rounded_up_to_1000psi
 .30 Super Fl.,,46,,41,,,ksi_rounded_up_to_1000psi
 .308 Norma,,64,,,,,ksi_rounded_up_to_1000psi
 .300 Wea,65,64,55,55,,,ksi_rounded_up_to_1000psi
@@ -172,7 +170,6 @@ cartridge_name,saami_piezo_ksi,cip_piezo_ksi,saami_cup,cip_cup,other,footnote,un
 9.3x57,,44,,38,,,ksi_rounded_up_to_1000psi
 9.3x62,,57,,49,,,ksi_rounded_up_to_1000psi
 9.3x64,,64,,55,,,ksi_rounded_up_to_1000psi
-9.3x72R,,29,,,,,ksi_rounded_up_to_1000psi
 9.3x74R,,49,,44,,,ksi_rounded_up_to_1000psi
 9.3x65R,,55,,48,,*,ksi_rounded_up_to_1000psi
 .375 Win,,55,52,55,,,ksi_rounded_up_to_1000psi

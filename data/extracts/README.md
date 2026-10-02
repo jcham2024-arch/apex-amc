@@ -20,7 +20,7 @@ would hide which layout a given row came from, which is exactly the information
 needed to tell a genuine 6.5 mm row from a 7 mm one whose cells are shifted by
 one.
 
-`scripts/lib/bullet-sources.mjs` parses it by locating the `<th>`/`<td>` header
+`scripts/shared/bullet-sources.mjs` parses it by locating the `<th>`/`<td>` header
 row and reading column meaning from the labels, rather than by fixed column
 positions. `npm run test:bullets` covers all six layouts plus the invariants
 that catch a shifted read.
