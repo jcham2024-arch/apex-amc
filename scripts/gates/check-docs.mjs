@@ -402,6 +402,10 @@ const stageCountProblems = (mds) => {
     // it would destroy the record of where the repo actually stood. Same
     // reasoning as the path check below.
     if (rel === 'CHANGELOG.md') continue;
+    // Audit documents are historical records by the same argument: quoting the
+    // old wrong numbers is the entire point of the document. Without this the
+    // gate fails on its own audit report.
+    if (rel.startsWith('docs/audit/')) continue;
     const lines = readFileSync(abs, 'utf8').split('\n');
     lines.forEach((line, i) => {
       if (/stale|used to|no longer|\bwas\b|\bwere\b|disagree|before|instead of/i.test(line)) {
