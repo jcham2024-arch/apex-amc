@@ -35,9 +35,22 @@ const MAIL = join(root, 'tasking', 'mail');
 const INBOX = join(MAIL, 'inbox');
 const OUTBOX = join(MAIL, 'outbox', 'taskmaster');
 
+// RETRACTION was added after 2 Oct 2026, when an agent needed to withdraw its own
+// earlier BLOCKED message once the taskmaster fixed the underlying bug.
+//
+// The failure it exposed is worth stating: the agent had reported a deadlocked standing
+// slot, then the taskmaster shipped a fix in dff44f2 ("and a gate I had wrong"). The
+// agent wanted to say so, and had no way to say it. Without this type it had three bad
+// options - leave a false BLOCKED standing (the taskmaster keeps working a dead end),
+// edit its own earlier message (destroys the append-only ledger the gate protects), or
+// send a NOTE that reads as if nothing was ever wrong. All three lose the correction.
+//
+// A retraction must name what it withdraws and why, so it is auditable rather than a
+// quiet overwrite.
 const TYPES = new Set([
   'START', 'STOP', 'BLOCKED', 'QUESTION', // worker -> taskmaster
   'ACK', 'NOTE', 'REDIRECT', 'COLLISION', // taskmaster -> worker
+  'RETRACTION', // either direction - withdraws a message this agent itself sent
 ]);
 
 // TASKMASTER messages carry no agent id - the directory already says who they are

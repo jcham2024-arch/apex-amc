@@ -1,92 +1,143 @@
-# KNOWLEDGE — durable findings
+﻿# KNOWLEDGE — cartridge licence reconciliation
 
-Task `cartridge-licence-reconciliation`. Written so no third agent repeats this.
+**Task:** cartridge-licence-reconciliation · **Agent:** dc408 · **Date:** 10 Feb 2026
 
 ---
 
-## 1. "Free to download" does NOT mean "free to reproduce"
+## 1. The disagreement resolved: it was never about "free or not free"
 
-The single most expensive misunderstanding in this repo's recent history, and I
-made it. It cost two tasks and a contradiction.
+Two completed tasks disagreed. Both were confident. Neither was careless. **They
+answered about different permissions.**
 
-CIP TDCC per-cartridge sheets are **free to download** and carry:
+`ammoseek-coverage` recorded CIP's licence as **"free to download from publisher."**
+That is true. It is also irrelevant to our task, because we are not trying to
+download — we are trying to **republish a column of numbers**.
 
-> "Reproduction forbidden as well as in the form of extracts without approval of
-> C.I.P."
+CIP's actual notice, re-fetched today from `bobp.cip-bobp.org`:
 
-Both are true simultaneously. A price at the download says nothing about rights
-in the content. **Never infer permission from the absence of a purchase button.**
+> **"Reproduction forbidden as well as in the form of extracts without approval of
+> C.I.P."**
 
-**Where the notice is:** inside the per-cartridge PDFs, **not** on the index page.
-You have to open a sheet to see it.
+**Download is free. Reproduction is not. The dataset is a reproduction.**
 
-## 2. Two agents independently got this wrong, in the same direction
+> **Reusable rule: when a licence question decides whether work can proceed, identify
+> the exact verb the deliverable uses.** "Free to download", "free to read", "free to
+> cite" and "free to republish" are four different permissions, and only the last one
+> matters for a dataset.
 
-T4 (`cartridge-dimensions`) and I (`ammoseek-coverage`) both concluded CIP was
-freely usable, by different routes. Both of us then **undercounted the
-restriction** while trying to measure it:
+`cartridge-dimensions` was right. Its §7 correction in `ammoseek-coverage` should be
+treated as **superseded**.
 
-- **Kerning breaks literal search.** The notice extracts as
-  `Reproduc tion forbidden as w e ll as in the form of ex trac ts`.
-  `includes('Reproduction')` returns **false on a sheet that carries it**.
-- **Joining extracted fragments with a space re-breaks the word** (T4's second
-  pass). Concatenate with **no** separator.
-- **Letter-ratio readability tests fail on kerned text.** Kerned page copy can have
-  a *lower* letter ratio than a binary font blob, so "no text layer" gets reported
-  for sheets that have one. My second bug. Use a **dictionary-word** test.
+---
 
-Every error in this family points the same way: **toward underestimating the
-restriction.** Assume your tooling is wrong in the permissive direction until the
-text is in front of you.
+## 2. Two different obstacles, and the distinction is worth money
 
-## 3. Unreadable is not unrestricted
+Keeping these apart matters because **the remedies are different.**
 
-My 11-sheet survey: **6 notice present, 5 undetermined, 0 readable-without-notice.**
+| Verdict | Count | Obstacle | Remedy |
+|---|---|---|---|
+| `may-transcribe` | **3** | none | Proceed, flagged pre-standard |
+| `no-free-source` | **226** | **availability** | **Purchase SAAMI Z299.x** — a budget decision |
+| `blocked-cip` | **0 asserted** | **permission** | Written CIP approval — a legal decision |
 
-The 5 undetermined sheets have no recoverable text layer. They are **not cleared**,
-and must never be recorded as "no restriction found". Report them as
-`undetermined` and take the conservative verdict.
+226 of 229 cartridges are blocked by **availability**. Three by nothing. None by
+permission alone, because CIP's ~11-sheet coverage was never independently confirmed
+and I declined to expand it — reading 91 sheets to classify coverage is pointless
+while the licence forbids the use.
 
-## 4. The URL pattern is `tab-i`, not `tab-1`
+> **Reusable rule: "blocked" is not one state.** A task that says "blocked on
+> licensing" when it is really blocked on *not having bought the standard* will send
+> the owner to the wrong conversation. Name the obstacle.
 
-Real sheet URLs: `https://bobp.cip-bobp.org/uploads/tdcc/tab-i/<designation>-en.pdf`
-— **Roman numerals.** `tab-1` 404s. Get filenames from the index link list; do
-not guess them. T4's provenance log records the wrong pattern.
+---
 
-## 5. Two stacked gaps — only one is a permissions problem
+## 3. The arithmetic that makes this a business decision, not an engineering one
 
-| Gap | Size | Fixed by a CIP ruling? |
-|---|---|---|
-| **Permission** | ~11 of 229 have a CIP sheet | Yes |
-| **Coverage** | ~218 of 229 have no free source | **No** |
+```
+cartridges held                    229
+SAAMI free drawings cover            3   (verified: 6-5-grendel, 44-40, 44-rem-mag)
+cells deliberately left EMPTY    1,603   (7 columns x 229 rows)
+dimensional cells populated         0
+```
 
-A favourable CIP answer still leaves most of the dataset unsourced. **Do not let
-the licence question be read as the whole blocker.**
+**The dimensional columns stay empty, and that is now a recorded decision rather than
+an unfinished task.** `.clinerules` §5 rule 1 says never invent a value; this is the
+same rule applied to provenance. A blank here means *"not ours to publish"*, which is
+a different blank from *"not yet researched"* and must be recorded differently.
 
-## 6. Ask this question first — it is one email
+---
 
-> Does transcribing a *single dimension value*, cited to its source sheet, without
-> reproducing the sheet layout or its tolerance tables, constitute reproduction
-> "in the form of extracts"?
+## 4. A third-party MIT dataset does not launder a restrictive source
 
-A "yes it is fine" makes a citation layer legal at zero cost and unblocks the
-dataset. A "no" converts it to a purchase decision. **This single answer decides
-the shape of the next task**, so it is worth sending before any engineering.
+`opensource_resources.csv` lists `ammolytics-cartridges` as MIT and `adopt=true`. It
+is drawn from SAAMI, CIP and NATO STANAG. **An MIT licence on a derivative work cannot
+convey more rights than the underlying data carries.** The same row already says
+*"Verify any dimension against the standards body before publishing it."*
 
-## 7. Two corrections to completed tasks
+It remains genuinely valuable — for **CIP and NATO designations we do not carry**,
+which is naming, not measurement.
 
-- **T4 `01-source-survey.md` §5** claims we hold no 9mm and no .22LR. **We hold
-  both** (`9 Luger`, `.22 LR`, both under `rifle.csv`). 5.56 is genuinely absent.
-- **T4's `cartridge_dimensions_filled.csv`** stamps the CIP blocker on all **229**
-  rows, including the ~218 with no CIP sheet. Real, but over-applied — the column
-  currently implies a restriction where the only fact is absence of a source.
+> **Reusable rule: a permissive licence on a compilation does not make the
+> compilation's inputs permissive.** Check the provenance chain before treating an
+> `adopt=true` as clearance.
 
-## 8. Standing rule for this repo
+---
 
-> **Never state a licence conclusion from an absence of evidence, and never
-> resolve an ambiguity by picking the convenient reading.** Where the published
-> terms do not settle a question, the correct output is the *question*, drafted
-> precisely enough that whoever asks it gets a usable answer — not a verdict.
+## 5. Correction to `ammoseek-coverage` §7's table, beyond the licence
 
-The `regulations.csv` AmmoSeek row is the model for this: a competitor's
-disclaimer recorded as an *internal method rule*, not as a legal conclusion.
+Its 18-row table reads as 18 outstanding gaps. Measured against our seeds:
+
+**4 of 18 held, 14 not held.**
+
+The 14 unheld rows (5.56x45mm NATO, 12 Gauge, .410 Bore, 8/20/28 Gauge, 5.7x28 FN,
+8.6 Blackout, 21 Sharp, 25 Creedmoor, 30 Super Carry, 338 ARC, 7mm Backcountry, 25
+Weatherby Rebated) are **acquisition candidates, not gaps in existing rows** —
+different work from dimensional transcription. Do not read that table as a backlog.
+
+The 4 held (`9 Luger`, `.22 LR`, `.308 Win`, `.223`) all carry
+`alias_match=yes`, confirming `ammoseek-coverage` §1: **naive string matching
+manufactures gaps out of abbreviations.** Its six other findings stand.
+
+---
+
+## 6. Two live defects this task confirmed, both outside its write-set
+
+**(a) 9 Luger and .22 LR are filed as `rifle`.** Measured:
+
+```
+MISFILED: slug=22-lr   name=".22 LR"    family=rifle  file=rifle.csv
+MISFILED: slug=9-luger name="9 Luger"   family=rifle  file=rifle.csv
+
+family distribution: { pistol: 16, rifle: 212, shotgun: 1 }
+```
+
+**212 of 229 are filed `rifle`,** including the two most-searched handgun cartridges.
+Already reported by `ammoseek-coverage` §3; still unfixed.
+
+**(b) Shotgun is a single placeholder.** `family=shotgun` contains exactly one row:
+`4-bore-rifle "4 Bore Rifle"` — *"Curated row created to attach a pressure figure."*
+We hold **0 of 8 gauges**, while SAAMI's free page names 12 Gauge and 28 Gauge
+explicitly. **The emptiest category is among the cheapest to fill**, and the licence
+problem does not bite here because neither design is in a published standard.
+
+---
+
+## 7. What I deliberately did NOT resolve
+
+The SAAMI free drawings carry an "All rights reserved" footer, yet
+`cartridge-dimensions` treated them as free to use because SAAMI publishes them
+itself. **I have not resolved whether that distinction holds.** It is the one place
+the permissive reading survives, and it governs 3 of 229 cartridges.
+
+**That is a legal question. This task's prohibition on legal advice is why it is left
+open rather than argued.** Recorded in `NOTES.md`.
+
+---
+
+## Reusable lesson
+
+> **A licence dispute between two competent agents is usually a dispute about
+> different verbs.** Before deciding who is right, write down the exact act each task
+> wanted to perform — read, download, cite, or republish — and find the clause that
+> governs *that* verb. Both agents were reasoning correctly about permissions they had
+> not compared.

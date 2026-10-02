@@ -51,46 +51,83 @@ planner needs to write more.
 
 ## Available now
 
-These are all **research-only** and safe to run in parallel: each writes only inside
-its own output folder and copies nothing into the main tree.
+> **Rewritten 2 Oct 2026 - do not trust the old table.** Every row in the previous
+> version of this table pointed at a task that had already moved to `completed/`, so
+> **11 of its 12 links were dead**. A new agent reading it would have tried to claim
+> `trademark-clearance` or `interior-ballistics` - work already finished - and either
+> failed confusingly or duplicated it. Reported by agent dc408; verified before
+> rewriting: all 12 resolved to `completed/`, none to `pending/`.
 
-| Task folder | Agent | Delivers |
-|---|---|---|
-| [trademark-clearance/](trademark-clearance/) | scout-legal | Name clearance for 12+ candidates + domains |
-| [ballistics-oracles/](ballistics-oracles/) | scout-math | Peer-reviewed methods to verify the solver |
-| [cartridge-dimensions/](cartridge-dimensions/) | scout-data | SAAMI/CIP dimensions for our 229 cartridges |
-| [interior-ballistics/](interior-ballistics/) | scout-math | Powder properties + load-synthesis verdict |
-| [exterior-ballistics/](exterior-ballistics/) | scout-data | Trajectory datasets + BC reference |
-| [ammoseek-coverage/](ammoseek-coverage/) | scout-data | Caliber gap table + sourcing plan |
-| [ui-research/](ui-research/) | scout-design | Top-tier layout research + mockups |
-| [docs-audit/](docs-audit/) | scout-data | Documentation accuracy audit |
-| [code-audit/](code-audit/) | scout-code | Dead code, duplication, config review |
-| [shot-group-taxonomy/](shot-group-taxonomy/) | scout-research | Instructor-verified shot-fault taxonomy |
-| [handgun-coaching-feasibility/](handgun-coaching-feasibility/) | scout-research | Feasibility, privacy and liability verdict |
+**This folder is the source of truth. Read the folders, not this table.** It is
+generated from their `task.json` files and is a convenience, not the queue.
+
+**Nothing here is a code task.** These are research/spec tasks: each writes only inside
+its own output folder and copies nothing into the main tree. They are safe to run in
+parallel.
+
+### highest
+
+| Task folder | Delivers |
+|---|---|
+| [caliber-preset-selector/](caliber-preset-selector/) | A searchable caliber dropdown covering every cartridge we hold |
+| [component-cost-model/](component-cost-model/) | Cost model - tax, shipping, provenance, and user override |
+| [script-library-docs/](script-library-docs/) | Document the script library so an agent can use it without reading source |
+| [script-object-factory/](script-object-factory/) | Design the script object factory - real insulation, not ceremony |
+| [site-modular-architecture/](site-modular-architecture/) | Every page section becomes a module, not a hardcoded block |
+
+### high
+
+| Task folder | Delivers |
+|---|---|
+| [blocker-ledger/](blocker-ledger/) | A blockers ledger so a task that cannot succeed is never re-attempted |
+| [cartridge-row-identity/](cartridge-row-identity/) | One row per cartridge, or one per cartridge-platform - decide before re-filing |
+| [claims-gate-prose-scope/](claims-gate-prose-scope/) | Extend `claims:check` to the prose corpus, not just the built site |
+| [code-review-sweep/](code-review-sweep/) | Adversarial review of gates, physics core, and website |
+| [findings-ledger/](findings-ledger/) | One subject index over `tasking/completed/`, so an agent can find an existing finding in one step |
+| [load-interpolation-schema/](load-interpolation-schema/) | Schema and EMPTY semantics for load-data interpolation |
+| [pdf-licence-probe/](pdf-licence-probe/) | Build a reusable notice-detector for third-party PDF data sources |
+| [published-load-lookup-spec/](published-load-lookup-spec/) | Give the user the manufacturer's own published load data, cited |
+| [script-library-refactor/](script-library-refactor/) | Assess script consolidation, and whether OOP factories are warranted |
+| [shared-library-consolidation/](shared-library-consolidation/) | Make the shared script library real, not aspirational |
+| [website-design-iteration/](website-design-iteration/) | Apply the accumulated UI findings to the live site |
+
+### medium
+
+| Task folder | Delivers |
+|---|---|
+| [ballistics-surface-spec/](ballistics-surface-spec/) | Make the ballistics module reachable from the main page |
+| [knowledge-base-audit/](knowledge-base-audit/) | Audit the knowledge base for staleness and contradiction |
+
+### standing - always available
+
+| Task folder | Delivers |
+|---|---|
+| [code-health/](code-health/) | Continuous code health - functionality, design, efficiency, commentary |
+| [swarm-improvement/](swarm-improvement/) | Improve the agentic swarm framework |
+
+> **Known contradiction, unresolved.** `tasking/README.md` says: *"When you run out of
+> tasks, say so plainly and stop. Do not invent work, do not improve the codebase
+> unasked."* The `standing` tasks above ask for exactly that work while idle. Both cannot
+> govern. Until the owner rules, a new agent should **claim a real task first** and treat
+> `standing` only as what to do after that queue is empty. Raised by dc408; still open.
 
 ### Read before dispatching
 
-**Some tasks carry a `prohibitions` array in `task.json` — read it.** Two are
-safety-critical:
+**Check each task's `prohibitions` array in `task.json` - do not assume it is empty.**
 
-- **interior-ballistics** must **not** state a charge weight for any
-  cartridge/projectile/powder combination, not even as an example. A charge weight is
-  the one output in this domain where a plausible-looking wrong number injures
-  people. If the agent reports it cannot complete the task without stating one, that
-  is the finding, and it is a good one.
-- **shot-group-taxonomy** must **not** write coaching advice or assess a shooter.
-  It compiles what instructors already teach; it does not invent an interpretation.
+- **No task may state a charge weight** for any cartridge/projectile/powder
+  combination, not even as an example. A charge weight is the one output in this domain
+  where a plausible-looking wrong number injures people.
+- **No coaching advice, and no assessment of a shooter.** Agents compile what
+  instructors already teach; they do not invent an interpretation.
+- **Incomplete results are expected and correct.** Leave unknown values EMPTY. An agent
+  reporting "90% complete" has probably invented the other 10%.
 
-**One task expects an incomplete result.** `cartridge-dimensions` starts from six
-dimensional columns that are 0/229 populated. The correct output leaves cells EMPTY
-where no source states a value. An agent reporting "90% complete" has probably
-invented the other 10%.
-
-## Blocked
+### Blocked
 
 | Task folder | Waiting on |
 |---|---|
-| [brand-rename/](brand-rename/) | **A human** — the name is your decision, informed by `trademark-clearance` |
+| [brand-rename/](brand-rename/) | **A human** - the name is your decision, informed by `trademark-clearance` (done - see `../completed/trademark-clearance/`) |
 
 Not delegable. Do not dispatch.
 
