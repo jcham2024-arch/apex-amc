@@ -2,7 +2,7 @@ name: verify
 
 # Every gate in package.json's `verify` script, run on a clean runner.
 #
-# Before this existed, all 14 stages ran only when a human remembered. That
+# Before this existed, every gate ran only when a human remembered. That
 # makes every dependency bump and every version experiment a manual risk - which
 # is exactly the situation `docs/REVIEW.md` P0-3 flagged.
 #
@@ -10,8 +10,11 @@ name: verify
 # merge unless this is green.
 
 on:
+  # Any branch, not just main. A branch that has never seen CI cannot be trusted
+  # to merge; restricting to main means every feature branch ships unproven and
+  # the first real CI run happens after the code has already landed.
   push:
-    branches: [main]
+    branches: ['**']
   pull_request:
     branches: [main]
 
@@ -68,7 +71,13 @@ jobs:
         run: npm run website:build
 
       # Everything else: encoding, bullets, schema, seeds, data drift, docs,
-      # handoff integrity, security findings, modules, website self-containment.
+      # handoff integrity, security findings, modules, website self-containment,
+      # compliance claims, task write-set collisions, and the physics oracle.
+      #
+      # These must stay in step with `npm run verify`. A gate that runs locally
+      # but not in CI is a gate nobody relies on: a pull request that breaks the
+      # oracle would merge green. The `ci:check` step below fails if this list
+      # and package.json ever diverge.
       - name: Remaining gates
         run: |
           npm run test:encoding
@@ -81,6 +90,16 @@ jobs:
           npm run security:check
           npm run modules:check
           npm run website:check
+          npm run claims:check
+          npm run tasks:check
+          npm run oracle:check
+
+      # This workflow lists gates by hand, which is how three of them went
+      # missing (claims, tasks, oracle). This compares the list against
+      # package.json and fails if any gate in `verify` is absent here, so the
+      # drift is caught rather than discovered after something merges.
+      - name: CI covers every gate in verify
+        run: npm run ci:check
 
       # Kept as its own step so a vulnerability fails loudly and is attributed
       # to the audit rather than to whichever gate ran last.
