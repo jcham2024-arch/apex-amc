@@ -1,0 +1,51 @@
+{
+  "_comment": "Wave 5: the script object factory the owner asked for. Design-first and evidence-driven: it must deliver fault isolation and agent-authorable modules, NOT ceremony. See .clinerules 12.",
+  "tasks": [
+    {
+      "id": "script-object-factory",
+      "title": "Design the script object factory - real insulation, not ceremony",
+      "priority": "highest",
+      "why": "The owner asked that functional scripting come from a shared library and be called through a script object factory, so modules are insulated and an agent can author a small codebase that drops in as an object. The goal is sound and this repo needs it: code-audit measured 15 sites re-deriving root, 13 using process.cwd() and 9 sha256 call sites, so the library discipline is not yet real. What needs evidence is WHICH parts of 'wrap it in an object' deliver fault isolation and which do not.",
+      "derived_from": "tasking/review/LESSONS.md",
+      "evidence": "A pattern is not an improvement. The owner said it directly: if a change does not improve the code, do not make it. Applying a pattern because it is fashionable is a regression wearing a costume.",
+      "scope": [
+        "FIRST establish where the insulation ALREADY comes from, because this decides the design. Every ES module already has its own scope and explicit exports, so a bare class wrapper over a pure function adds indirection and NO isolation. Measure it: take two functions in scripts/shared/data.mjs, show what a class wrapper changes and what it does not. A design that wraps without adding containment is exactly the regression wearing a costume the owner named.",
+        "Then design the factory for what it genuinely adds: a uniform lifecycle a bare module does not have. Specify a ScriptObject contract - identity, declared dependencies, validate(input), run(input), and a typed failure result rather than a thrown exception. A thrown error from one agent-authored module should be CONTAINED and reported, not propagated into the build. That is the owner's 'if anything breaks it is just that piece of code', and it needs the wrapper to be real rather than nominal.",
+        "Specify dependency INJECTION concretely. Today a script reaches for root, readCsv and loadManifest by importing them directly, which is why 15 sites re-derive root. A factory that passes dependencies in makes the coupling visible and testable with a stub. Show before and after for one script.",
+        "Define the module contract an AGENT follows to contribute: file shape, what it must declare, how it declares dependencies, what validate() must check, and what it returns. The owner's point is that agents author small codebases and drop them in - so state the contract precisely enough that a stranger could comply without reading an existing module.",
+        "Specify the registry and discovery: how modules are found, how duplicates are detected, and how a module that fails to load is reported WITHOUT stopping the others. That last case is the fault isolation the owner actually wants, and it is what a bare import cannot do.",
+        "Give a migration plan as independent change sets, starting with the highest-value target and STOPPING at the point where further wrapping stops paying. Say where the line is and why. A migration that wraps all 50 scripts because it was started is the failure mode, not the success.",
+        "State the cost honestly, in code and in comprehension: extra indirection, a learnable contract, and what a reader must now understand that they did not before. Where total cost exceeds the containment benefit, say which scripts and recommend leaving them as plain modules."
+      ],
+      "do_not": [
+        "Do not implement anything. Produce the contract, the evidence and the migration plan.",
+        "Do not wrap a pure function in a class merely to satisfy the request. State plainly where that adds nothing and why - the owner's own rule is that a change which does not improve the code should not be made.",
+        "Do not convert packages/ballistics-core. It is a published library whose functional purity IS the API contract; wrapping it would break that contract for no benefit. Say so in the report rather than silently omitting it.",
+        "Do not touch a gate while proposing this. If a gate would need to change, that is a separate reviewed change set."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-insulation-evidence.md", "02-script-object-contract.md", "03-module-contract-for-agents.md", "04-migration-plan-and-line.md"]
+    },
+    {
+      "id": "shared-library-consolidation",
+      "title": "Make the shared script library real, not aspirational",
+      "priority": "high",
+      "why": "The owner's architectural principle is that all functional scripting comes from a library. scripts/shared/ has 45 exports across 5 modules and it is the right shape - but only 7 of roughly 50 scripts import it, while 15 re-derive root and 13 use process.cwd(). The library exists; the discipline does not. Until it is real, a factory would only be papering over copies.",
+      "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+      "evidence": "Measured across 50 .mjs files: 14 sites re-deriving root, 9 using process.cwd(), 9 createHash call sites, 1 reimplementing RFC 4180 CSV parsing. Only 7 scripts import root. The convention is documented in check-seeds.mjs and followed by 7; the other 23 each solved a problem that was already solved.",
+      "scope": [
+        "Re-measure the duplication now rather than quoting the audit, which was a snapshot and has drifted - four cwd sites were fixed after it ran. A count that has drifted is worse than no count.",
+        "For each duplication class decide consolidate-or-leave, with the reason. The 15 re-derived roots are pure consolidation. The 9 sha256 sites differ in encoding - 7 hex, 2 base64 - so a single helper must take encoding as a parameter or it will be wrong for one caller. The naive CSV splits are a WRITE path and readCsv already exists.",
+        "Specify which helpers are MISSING rather than duplicating, and state what is deliberately NOT in the library and why, so a future agent does not 'fix' an intentional choice.",
+        "Argue the risk in BOTH directions. A shared helper is load-bearing: a bug in readCsv corrupts every seed file, and code-audit already found import-bullets.mjs writing through a naive split. Centralising concentrates risk as well as removing duplication - say which scripts should keep their own copy and why.",
+        "Produce ordered independent change sets with the verification command for each, so they can be approved in batches the way the low-risk fixes were.",
+        "Name the ENFORCEMENT question and answer it: convention, lint rule, or gate? Say which and what it costs. A convention with no enforcement has already failed here - 7 of 50 follow it."
+      ],
+      "do_not": [
+        "Do not apply any consolidation. Produce the plan and the diffs.",
+        "Do not consolidate a helper whose callers differ in a way the signature does not capture. Encoding differences surface as wrong output, not as an error.",
+        "Do not create a new helper for something used once. Two call sites is duplication; one is coincidence."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-current-counts.md", "02-consolidation-decisions.md", "03-change-sets.md", "04-enforcement-options.md"]
+    }
+  ]
+}

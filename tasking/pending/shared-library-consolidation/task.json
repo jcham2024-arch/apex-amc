@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "shared-library-consolidation",
+  "title": "Make the shared script library real, not aspirational",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/shared-library-consolidation/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-current-counts.md",
+    "02-consolidation-decisions.md",
+    "03-change-sets.md",
+    "04-enforcement-options.md"
+  ],
+  "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not apply any consolidation. Produce the plan and the diffs.",
+    "Do not consolidate a helper whose callers differ in a way the signature does not capture. Encoding differences surface as wrong output, not as an error.",
+    "Do not create a new helper for something used once. Two call sites is duplication; one is coincidence."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

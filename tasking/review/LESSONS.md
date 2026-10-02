@@ -156,8 +156,8 @@ turns*. Two schedules maintain it, on offset cadences so they never collide.
 
 ## 13. A pattern is not an improvement
 
-**Paid for by:** the owner asking for OOP factories, then clarifying they were only an
-example and that a change which does not help should not be made.
+**Paid for by:** the owner asking for OOP factories, clarifying they were only an
+example, then restating the requirement with a real architectural rationale.
 
 `ballistics-core` is pure exported functions with no hidden state; its 10 classes are
 reserved for things that genuinely have state. Wrapping them is a regression with extra
@@ -170,6 +170,45 @@ Without that, "stay current with best practices" degrades into whatever an agent
 remembers, and the codebase accumulates fashion. The slot must also **state what it
 found healthy** — a pass that reports only problems gives no evidence about the rest,
 and cannot tell a real finding from a manufactured one.
+
+## 14. Insulation comes from a contract, not from a keyword
+
+**Paid for by:** the owner restating the OOP requirement with a rationale — modules
+should be insulated, agents should author small codebases that drop in as objects, and
+"if anything breaks, it's just that piece of code."
+
+**The rationale is sound, and it is why this is recorded rather than argued.** But it
+does not follow that every function gets wrapped in a class, because:
+
+- **Every ES module already has its own scope and explicit exports.** Wrapping a pure
+  function in a class adds indirection and *zero* isolation. The insulation the owner
+  wants is already available for free — it is what `import` gives you.
+- **`ballistics-core` is a different animal from `scripts/`.** It is a published library
+  whose functional purity *is* the API contract. `scripts/` is internal tooling where
+  uniformity and containment genuinely pay. Treating them the same was my error, and so
+  would be applying one rule to both.
+
+What the factory **does** add, and what the owner's failure mode requires:
+
+| Requirement | Bare ESM | Factory with a contract |
+| --- | --- | --- |
+| Own scope | ✅ already | ✅ |
+| A thrown error stays contained | ❌ propagates | ✅ typed failure result |
+| One module failing to load stops the rest | ❌ import throws | ✅ reported, others run |
+| Dependencies visible and stubbable | ❌ hard-coded import | ✅ injected |
+| Uniform validate → run lifecycle | ❌ ad hoc | ✅ declared |
+
+**So: build the factory, and let it be judged on whether it delivers containment** —
+not on whether the word `class` appears. `script-object-factory` is required to show,
+with evidence, what a class wrapper changes and what it does not, and to stop its
+migration at the point where further wrapping stops paying.
+
+The owner's second principle is recorded as its own task, because it is the
+prerequisite: **all functional scripting comes from the library.** `scripts/shared/`
+already has 45 exports across 5 modules and the right shape — but only **7 of ~50**
+scripts import it, while 15 re-derive `root` and 13 use `process.cwd()`. The library
+exists; the discipline does not. A factory wrapped around copies would be papering over
+the problem rather than fixing it.
 
 ---
 
