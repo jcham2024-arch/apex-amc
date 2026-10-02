@@ -1,0 +1,175 @@
+# Fix backlog — everything the swarm found, and what happened to it
+
+> **Nothing gets deleted from here.** A finding is closed, not removed. The reason a
+> finding is NOT fixed is usually the most useful part.
+
+**Why this exists.** The swarm found roughly a dozen real defects and could not fix
+any of them: unattended agents write findings, not application source. Without a
+ledger those findings would live only inside completed task folders, get read once,
+and be forgotten — which is exactly what `check-tasking` exists to stop happening to
+tasks, and it was about to happen to defects.
+
+The owner asked for a batch of low-risk fixes to be approved, with a note kept so
+everything can be swept later. This is that note.
+
+**Status values**
+
+| Status | Meaning |
+| --- | --- |
+| `FIXED` | Applied and verified in `npm run verify`. |
+| `APPROVED-BATCH` | Owner approved fixing; not yet applied. |
+| `DEFERRED` | Known and valuable, deliberately not done yet. Reason stated. |
+| `BLOCKED` | Cannot proceed without an owner decision or external fact. |
+| `REJECTED` | Deliberately not a defect. Reason stated so it is not re-raised. |
+
+---
+
+## Fixed — 2026-10-02, owner-approved batch
+
+### 1. `process.cwd()` in four gates — FIXED
+
+**Found by:** `tasking/completed/code-audit/KNOWLEDGE.md`
+**Quote:** *"Run from the wrong directory it walks the wrong tree and can report a
+**false green**."*
+
+| File | Line | Gate |
+| --- | --- | --- |
+| `scripts/gates/check-docs.mjs` | 62 | resolves every backticked path in every doc |
+| `scripts/gates/check-oracle.mjs` | 48 | cross-checks physics against `data/reference` |
+| `scripts/gates/check-regulations.mjs` | 39 | validates regulation rows |
+| `scripts/gates/check-ci-parity.mjs` | 27 | compares `verify` against CI |
+
+All four now import `root` from `scripts/shared/data.mjs`. `check-docs` was the
+serious one: it resolves every repository path in every document, so a cwd-rooted
+run checks the wrong tree and can pass while checking nothing.
+
+### 2. Naive CSV split on a write path — FIXED
+
+**Found by:** `code-audit`, marked **High, latent**
+**Quote:** *"`import-bullets.mjs` splits bullets CSVs on `,` while
+`shared/data.mjs` says of the same operation that it 'is not merely inelegant, it is
+wrong'. Currently latent (no bullet row has an embedded comma) but it is a **write**
+path."*
+
+`scripts/data/import-bullets.mjs` now uses the shared RFC 4180 `readCsv`.
+
+**Why this was safe to approve.** The corruption is silent — a field containing a
+comma shifts every later column, and the row count still matches, so nothing
+downstream notices. It is a data-writing path, which is why it was not auto-approved.
+
+Before changing it I verified equivalence rather than assuming it:
+
+```
+berger     naive===readCsv: true | rows: 109
+hornady    naive===readCsv: true | rows: 7
+sierra     naive===readCsv: true | rows: 4
+```
+
+Byte-identical across all 120 real rows, so the fix removes a latent corruption path
+and changes no current output. **Prove a no-op before applying a fix to a write
+path — that is what makes "low risk" a measurement rather than a hope.**
+### 3. `eslint.config.js` ignoring a non-existent `temp/**` — APPROVED-BATCH, not yet applied
+
+**Found by:** `code-audit`
+**Quote:** *"it silently tolerates a second scratch location that `.clinerules` §5
+rule 10 does not mention — the rule says scratch goes in `tmp/`."*
+
+Deliberately not applied yet: deciding whether to delete the ignore entry or amend
+§5 rule 10 is a **protocol** decision, and protocol changes are the owner's. Left for
+the sweep.
+
+---
+
+## Deferred — known, valuable, not now
+
+### 4. `9 Luger` and `.22 LR` filed under `rifle.csv` with `family=rifle` — DEFERRED
+
+**Found by:** `ammoseek-coverage`, and named by its own author as *"a real defect,
+not yet fixed — it was outside this task's write-set."*
+**Why deferred:** `cartridge-family-audit` is producing the complete list and an
+exact diff. Fixing two rows from a summary would mean acting on a partial view of a
+defect class. Wait for the audit; the sweep applies its diff.
+
+### 5. Eleven remaining `process.cwd()` sites — DEFERRED
+
+Same defect as item 1, in `scripts/extract/`, `scripts/security/` and `scripts/text/`.
+Excluded from the batch because `extract-website.mjs` *overwrites six hand-edited
+files* and is deliberately unreachable from `package.json`. Changing root resolution
+in a script that rewrites the site is not a mechanical edit.
+
+### 6. Fifteen re-derived `root` constants + nine sha256 call sites — DEFERRED
+
+Cosmetic duplication, correctly identified by `code-audit` as *"each solved a problem
+that was already solved."* Zero behavioural risk, no defect. Worth a sweep for
+consistency, not worth interrupting a green build.
+
+### 7. `ledger.json` records `"stages": 14`, real is 22 — DEFERRED
+
+**Quote:** *"That file is called 'the authoritative task ledger' by
+`tasking/README.md`."*
+
+Deliberately **not** fixed by editing the number. `.clinerules` already resolved this
+exact class of drift by *deleting* the count rather than replacing it: a number in a
+rules file is trusted, and a wrong one is worse than none. The real fix is to stop
+restating a derivable count, which is a protocol change.
+
+---
+
+## Blocked — needs the owner or an external fact
+
+### 8. `brand-rename` — BLOCKED
+
+Trademark clearance is complete and `docs/BRANDING.md` holds the options. **Needs an
+owner-chosen name.** `APEX AMMUNITION` is a live USPTO registration (Reg. 5391055,
+IC 013) with an operating storefront, so this is a naming decision with legal weight,
+not a technical one.
+
+### 9. CIP licensing contradiction — BLOCKED
+
+Two completed tasks disagree on whether CIP cartridge dimensions may be transcribed
+(see `tasking/completed/ammoseek-coverage/KNOWLEDGE.md` §7 versus
+`tasking/completed/cartridge-dimensions/REPORT.md`). Decides whether a large body of
+data work is lawful. `cartridge-licence-reconciliation` is establishing exactly what
+the published terms say; if that is not decisive it needs a lawyer or an enquiry to
+CIP.
+
+### 10. Load-table licensing — BLOCKED
+
+*"Hornady sells its data. Whether we license, scrape-under-licence, or restrict the
+feature to citation is an owner decision with legal exposure."* Commercial, not
+engineering. Everything in `interior-ballistics` waits on it.
+
+---
+
+## Rejected — not defects
+
+### 11. Over-exported helpers in `scripts/security/security-rules.mjs` — REJECTED
+
+`code-audit` flagged `templateInjectionFindings` and `remoteScriptFindings` as
+unreferenced, then rejected its own flag: they are used inside the file by
+`securityFindings`, which is what callers import. **Over-exported, not dead.**
+
+### 12. Eight scripts unreachable from `package.json` — REJECTED
+
+All are imported by another script or are documented one-shot tools.
+`extract-website.mjs` is unreachable *by design* — it overwrites hand-edited files
+and requires `--force`.
+
+---
+
+## Sweep checklist
+
+When doing the sweep, in order:
+
+- [ ] Read `tasking/completed/*/KNOWLEDGE.md` for anything newer than this file.
+- [ ] Check each `DEFERRED` item: is its blocker resolved?
+- [ ] Run `npm run tasking:check` — a **new** completed task with findings not
+      recorded here is the most likely reason this file is out of date.
+- [ ] Apply fixes **in batches by risk**, and for any write path prove the fix is a
+      no-op on current data first (as item 2 did).
+- [ ] Move items to `FIXED` with the commit hash. Do not delete them.
+
+## Related
+
+- [HISTORY.md](HISTORY.md) — why decisions were made
+- [../completed/code-audit/KNOWLEDGE.md](../completed/code-audit/KNOWLEDGE.md) — the audit that found items 1–3, 5–7, 11–12

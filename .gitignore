@@ -164,6 +164,12 @@ tasking/review/*
 # is not committed. FINDINGS and NEXT-TASKS are scratch between reviews; this is
 # not, and losing it would lose the trap history .clinerules asks for.
 !tasking/review/HISTORY.md
+# FIX-BACKLOG.md is the record of every defect the swarm has found and what
+# happened to it. It is the one file in this folder that is BOTH the working list
+# and the permanent record: findings that are closed stay here with their status,
+# because the reason something was rejected is the part worth not losing. An
+# ignored backlog means the same defect gets re-raised every few weeks.
+!tasking/review/FIX-BACKLOG.md
 # tasking/mail/ - inter-agent communication. TRACKED, unlike the other swarm tiers,
 # and the reason matters: a mailbox that is not committed is a message that never
 # arrived. The agents live in separate git worktrees, so an uncommitted message is

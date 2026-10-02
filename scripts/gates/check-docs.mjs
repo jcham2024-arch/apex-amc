@@ -57,9 +57,13 @@
 // reasoning as scripts/test-encoding.mjs.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
+import { root } from '../shared/data.mjs';
 import { repairMojibake } from '../shared/encoding.mjs';
 
-const ROOT = resolve(process.cwd());
+// Root from the shared module, NOT process.cwd(): run from the wrong directory and
+// a cwd-rooted gate walks the wrong tree and can report a FALSE GREEN.
+// See tasking/review/FIX-BACKLOG.md item 2 - this exact pattern was found in 12 files.
+const ROOT = resolve(root);
 const say = (s) => console.log(s);
 
 /** Directories that are not project documentation. */

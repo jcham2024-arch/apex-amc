@@ -15,7 +15,7 @@
 
 import { readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { PARSERS } from '../shared/bullet-sources.mjs';
-import { loadManifest } from '../shared/data.mjs';
+import { loadManifest, readCsv } from '../shared/data.mjs';
 
 // SKU / identity map, read off the manufacturer's own product pages.
 // https://www.hornady.com/bullets/rifle/22-cal-.224-62-gr-eld-vt   -> Item #22762
@@ -105,10 +105,16 @@ if (!existsSync(extractPath)) {
 
 const csvPath = `data/seeds/bullets/${slug}.csv`;
 const isNew = !existsSync(csvPath);
-const lines = isNew ? [] : readFileSync(csvPath, 'utf8').trim().split(/\r?\n/);
+// RFC 4180 parsing via the shared reader. This is a WRITE path: splitting on ','
+// corrupts a row whose field contains a comma, and the corruption is silent - the
+// row count still matches, so nothing downstream notices. Currently latent (no
+// bullet row has an embedded comma today, verified equal to the naive parse across
+// all 120 rows), but shared/data.mjs calls this exact operation "not merely
+// inelegant, it is wrong", and AGENTS.md records ragged-row corruption from it.
+const existingCsv = isNew ? { header: [], body: [] } : readCsv(csvPath);
 const header = isNew
-  ? readFileSync('data/seeds/bullets/hornady.csv', 'utf8').split(/\r?\n/)[0].split(',')
-  : lines[0].split(',');
+  ? readCsv('data/seeds/bullets/hornady.csv').header
+  : [...existingCsv.header];
 
 // The header comes from the CSV, so a file written before a column existed
 // would drop that column's values. hornady.csv predates bc_reference, and the
@@ -125,7 +131,7 @@ const header = isNew
 
 const name = nameOf[slug] || slug;
 const out = [header.join(',')];
-const existing = lines.slice(1).map((l) => l.split(','));
+const existing = existingCsv.body;
 // Preserve every existing row, widened with blank new columns.
 for (const r of existing) {
   const row = r.concat(new Array(Math.max(0, header.length - r.length)).fill(''));
