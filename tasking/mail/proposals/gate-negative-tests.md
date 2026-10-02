@@ -31,5 +31,6 @@ A completed audit found check-tasking.mjs shipped with a missing brace that sile
 - Do not modify any gate. Produce the test vectors; a human decides what to add.
 - Do not run a destructive input against the real tree. Use a throwaway copy under tmp/.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

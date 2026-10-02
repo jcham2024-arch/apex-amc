@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "retailer-price-data-options",
+  "title": "How to get retailer pricing - feeds, APIs, and why not scraping",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/retailer-price-data-options/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-feed-and-api-options.md",
+    "02-scraping-legality.md",
+    "03-staleness-and-display.md",
+    "04-recommendation.md"
+  ],
+  "derived_from": "apps/website/src/data/retailers.js",
+  "prohibits": [
+    "Do not write a scraper. Do not fetch a retailer storefront to test whether scraping works - that is the action this task exists to evaluate, and doing it to find out would repeat the mistake.",
+    "Do not give legal advice. Cite what the terms say and what the case law holds; say plainly when it is unsettled.",
+    "Do not recommend a price display until the staleness and ToS questions are answered. A price shown without provenance and age is a claim we cannot substantiate."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

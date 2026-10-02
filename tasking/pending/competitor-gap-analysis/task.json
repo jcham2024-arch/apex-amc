@@ -1,0 +1,29 @@
+{
+  "schema": "apex-task/1",
+  "id": "competitor-gap-analysis",
+  "title": "Competitor teardown - features we lack",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/competitor-gap-analysis/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-competitor-inventory.md",
+    "02-feature-gap-matrix.csv",
+    "03-effort-and-write-sets.md"
+  ],
+  "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not copy a competitor's design, copy, code or layout. Record what capability exists and what problem it solves. We build our own expression of it.",
+    "Do not scrape a competitor to measure anything. Read what they publish.",
+    "Do not rank by what is easiest for us to build. Rank by what a user would actually notice missing."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

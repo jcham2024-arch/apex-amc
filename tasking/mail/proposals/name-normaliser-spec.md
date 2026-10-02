@@ -30,5 +30,6 @@ A coverage comparison run on raw strings manufactures gaps out of abbreviations.
 - Do not implement the normaliser. Produce the rules and the test corpus.
 - Do not rename or rewrite any stored cartridge name. That is a data migration and a human decision.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

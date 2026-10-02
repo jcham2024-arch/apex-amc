@@ -31,5 +31,6 @@ The emptiest category is among the cheapest to fill. SAAMI free drawings explici
 - Do not resolve the CIP licensing question here. cartridge-licence-reconciliation owns it.
 - Do not source, compare, or reason about any chamber safety limit. Recording availability is the deliverable; the value is not. See tasking/completed/interior-ballistics/KNOWLEDGE.md.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

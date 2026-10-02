@@ -48,9 +48,16 @@ const PROPOSAL_COMMIT = 'a729634';
 const problems = [];
 const fail = (msg) => problems.push(msg);
 /**
- * Topics that must never run unattended, however well evidenced. Matched against
- * the whole proposal text, because an agent that must avoid a topic will rarely
- * avoid the word for it.
+ * Topics that must never run unattended, however well evidenced. Matched against the
+ * proposal's INTENT (see the scan below), because an agent that must avoid a topic
+ * will state that prohibition in its own brief, and punishing that makes honesty
+ * impossible.
+ *
+ * Tuned by probe, not by taste. `/reloading/` was here and it was WRONG in both
+ * directions: it blocked a lawful local-shop-directory task for mentioning "reloading
+ * supplies", while `recommend a charge for 9mm` sailed through - a phrase that is
+ * exactly what interior-ballistics forbids. The domain word is not the hazard; a
+ * RECOMMENDATION or a DERIVATION is. These patterns target the operation.
  */
 const SAFETY_BANNED = [
   /charge[- ]?weight/i,
@@ -60,7 +67,9 @@ const SAFETY_BANNED = [
   /load synthesis/i,
   /\bmax(imum)? pressure\b/i,
   /interpolat\w+ (a )?load/i,
-  /\breloading\b/i,
+  // Added after the probe above found a real gap.
+  /(recommend|suggest|compute|derive|calculate|infer|size|estimate)\w*\s+(a\s+|an\s+|the\s+)?(charge|load|grains?\s+(of|in)\s+(powder|charge))/i,
+  /\b(charge|load)\s+(weight|recommendation|suggestion)\b/i,
 ];
 
 const RESEARCH_ONLY = /^\s*tasking\/completed\/[A-Za-z0-9_-]+\/?\s*$/;

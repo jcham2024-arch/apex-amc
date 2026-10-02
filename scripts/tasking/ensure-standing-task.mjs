@@ -122,11 +122,22 @@ do and why, and unresolved issues in \`NOTES.md\`.
 
 ## When you finish — the important part
 
-1. \`mv tasking/in-progress/%%ID%% tasking/completed/%%ID%%-$$(date +%Y%m%d)\`
-   **Note the suffix.** This slot rotates, so \`completed/%%ID%%\` may already exist from a
-   previous rotation and \`mv\` will fail with "Cannot create a file when that file already
-   exists" — a real trap, hit while testing this. Datestamping keeps every rotation's
-   output instead of overwriting or blocking on the previous one.
+1. Move your work to \`tasking/completed/${ID}\`. **Check first whether that folder
+   already exists** — if it does, this is rotation 2 or later, and you must not
+   overwrite the previous rotation.
+
+   The rule: **the folder name must equal the \`id\` in your \`task.json\`.**
+   \`npm run tasking:check\` enforces it, because the folder name is the lock and
+   everything else in the framework matches a folder by name. **Do NOT datestamp the
+   folder.** An earlier version of this brief said to, and it was wrong on both counts:
+   it fails the gate on rotation 1, and it violates the id rule on every rotation. A
+   rotation-1 agent followed it, hit both errors, and recorded the analysis in
+   NOTES.md §3 — which is where the correct rule below comes from.
+
+   So: if \`completed/${ID}\` is free, use it. If it is taken, do not rename and do not
+   merge — **append your findings to the existing outputs with a dated section and say
+   in STOP that you were rotation N.** One folder per task id, permanently; history
+   accumulates inside it rather than multiplying into id/folder mismatches.
 2. Append STOP to your inbox with the real file count.
 3. **Write proposals.** Every improvement you found but could not apply becomes a
    proposal file, citing the file and quoting it. A finding with no proposal never

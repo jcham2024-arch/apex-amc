@@ -72,23 +72,52 @@ const TIERS = [
   ['completed', COMPLETED],
 ];
 
+/**
+ * True only for the standing slot, and only for the legal combination: a live
+ * copy in `pending/` plus its accumulated history in `completed/`.
+ *
+ * `swarm-improvement` is a permanent slot by design, so after its first rotation it
+ * legitimately exists in both tiers at once. Every other id appearing twice means the
+ * folder was COPIED rather than moved, so two agents may be working on one task.
+ * The `standing: true` manifest flag is the marker; no task id is hardcoded here.
+ */
+function isStandingSlot(folderDir, prevTier, tier) {
+  if (prevTier !== 'pending' || tier !== 'completed') return false;
+  const manifest = join(folderDir, 'task.json');
+  if (!existsSync(manifest)) return false;
+  try {
+    return JSON.parse(readFileSync(manifest, 'utf8')).standing === true;
+  } catch {
+    return false;
+  }
+}
+
 const allFolders = TIERS.flatMap(([, dir]) => taskFolders(dir));
 
-// A task id must live in exactly one tier. Two copies means one task was copied
-// rather than moved, so two agents may be working on it at once.
-const seenIds = new Map();
+/**
+ * The FIRST tier an id was seen in. TIERS iterates pending -> in-progress ->
+ * completed, so for a standing slot this records `pending` even after `completed`
+ * overwrites the "current" holder — which is what isStandingSlot needs to know:
+ * the OTHER copy is a claimable slot, not history.
+ */
+const firstTier = new Map();
+const seenIds = new Set();
+
 for (const [tier, dir] of TIERS) {
   for (const d of taskFolders(dir)) {
     const id = d.split(/[\\/]/).pop();
-    if (seenIds.has(id)) {
+    const prev = firstTier.get(id);
+
+    if (prev && !isStandingSlot(d, prev, tier)) {
       fail(
-        `task "${id}" exists in BOTH ${seenIds.get(id)}/ and ${tier}/. A task may `
+        `task "${id}" exists in BOTH ${prev}/ and ${tier}/. A task may `
         + 'only be claimed once - claiming is a folder move, so this is one task '
         + 'that was copied rather than moved, and two agents may be working on it.',
       );
-    } else {
-      seenIds.set(id, tier);
+      continue;
     }
+    if (!prev) firstTier.set(id, tier);
+    seenIds.add(id);
   }
 }
 
@@ -136,7 +165,13 @@ for (const dir of allFolders) {
   }
 
   if (tasks.has(manifest.id)) {
-    fail(`Duplicate task id "${manifest.id}".`);
+    // The standing slot is loaded twice by design - its live copy in pending/ and its
+    // history in completed/. Same exemption, same reason; see isStandingSlot.
+    const prev = firstTier.get(manifest.id);
+    // Derive the tier from the path: allFolders is flat, so `tier` is not in scope here.
+    if (!isStandingSlot(dir, prev, rel.split('/')[1])) {
+      fail(`Duplicate task id "${manifest.id}".`);
+    }
     continue;
   }
 

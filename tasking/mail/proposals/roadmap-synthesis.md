@@ -33,5 +33,6 @@ Ten tasks completed and the queue is empty. Nobody has read all ten KNOWLEDGE.md
 - Do not re-summarise findings that are already written. Link to the file.
 - Do not propose load-synthesis or charge-weight work as attainable; see tasking/completed/interior-ballistics/KNOWLEDGE.md finding 3.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

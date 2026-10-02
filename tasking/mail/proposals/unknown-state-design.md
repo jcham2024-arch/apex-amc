@@ -31,5 +31,6 @@ Six dimensional columns are 0/229 populated. A design with no vocabulary for abs
 - Do not edit apps/website/. Produce the specification; a human implements it.
 - Do not design the populated-data presentation until the empty case is specified. That ordering is the finding.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

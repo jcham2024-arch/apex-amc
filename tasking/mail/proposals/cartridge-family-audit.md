@@ -32,5 +32,6 @@ A completed task found 9 Luger and .22 LR filed under rifle.csv with family=rifl
 - Do not edit data/seeds/. Produce the diff; a human applies it.
 - Do not rename cartridges to match their file while you are there. Name normalisation is a separate task with its own over-merge risk.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

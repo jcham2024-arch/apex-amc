@@ -32,5 +32,6 @@ Two completed tasks disagree about whether cartridge dimensions are legally tran
 - Do not give legal advice. State what the published terms say and where they are ambiguous.
 - Do not transcribe any CIP-derived dimension. Establishing permission is the deliverable.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.

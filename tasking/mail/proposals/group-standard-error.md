@@ -31,5 +31,6 @@ A completed task named this the gap most likely to produce confident nonsense. c
 - Do not propose a threshold value as if it were sourced. If it is derived, label it derived.
 - Do not name shooter faults. A named instructor calls target-photo fault diagnosis the most misused tool in the training industry; see the source KNOWLEDGE.md.
 
-Seeded by `scripts/tasking/seed-wave1.mjs` from `wave1.spec.json`, which holds the
-same record as the task manifest. Neither was hand-typed, so they cannot drift apart.
+Seeded by `scripts/tasking/seed-wave.mjs` from the matching `waveN.spec.json`,
+which holds the same record as the task manifest. Neither was hand-typed, so they
+cannot drift apart.
