@@ -1,9 +1,9 @@
 {
   "artefact": "apps/website/dist/index.html",
   "role": "The single-file site deployed to apex-amc.com. BUILT from apps/website/src/ by `npm run website:build`. See HANDOFF.md.",
-  "sha256": "2a698fe34f6d165ce6dece09a85ae0c5ac5b58be8ecf364b48a9d9a3f7c52eb2",
-  "bytes": 99172,
+  "sha256": "8654a0b0cdfbfef1f53d2bff088cc5d9b91e9127a02f5ef80c97b611121923eb",
+  "bytes": 98527,
   "approvedOn": "2026-10-02",
-  "note": "2 Oct 2026: FTC/claims compliance pass. Removed 8 unsourced retailer ratings (4.6-4.9), the Verified",
-  "supersededSha256": "3ee2fa822b702364a6dd95af4c7d2cc4e7a9aa2384813c884e8a9a332be6b41e"
+  "note": "2 Oct 2026: FTC/claims compliance pass. Removed 8 unsourced retailer ratings (4.6-4.9), the Verified Shipping/Suppliers claims, superlative badges and the unsourced savings figure; moved the affiliate disclosure above the retailer grid; added a meta description, canonical URL, skip link and real input labels.  Re-recorded the same day after CI proved the recorded hash was wrong. The previous value was captured from a Windows working copy that had CRLF line endings, while git stores this file as LF. The Vite build inlines index.html, so the emitted bytes differed by platform and the hash could never match on ubuntu-latest. The artefact was never wrong; the recorded hash was. Fixed by rebuilding from an LF working copy.",
+  "supersededSha256": "2a698fe34f6d165ce6dece09a85ae0c5ac5b58be8ecf364b48a9d9a3f7c52eb2"
 }
