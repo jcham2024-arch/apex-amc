@@ -281,13 +281,15 @@ These are the filter. Everything is chosen to sit well inside them.
 | Category | Status | Why |
 | --- | --- | --- |
 | T-shirts, stickers, apparel | **viable** | Ordinary goods, no restriction, no licence, no background check |
-| Reloadable brass (empty cases) | **possible, later** | Inert, not an explosive, but see the processor question below |
+| Reloadable brass (empty cases) | **CONTESTED - see `07-member-marketplace.md`** | Chemically inert, but 18 USC 921(a)(17)(A) defines ammunition as including "cartridge cases, primers, bullets, or propellent powder". The statute treats brass as ammunition not yet assembled. This is now a legal question, not a marketing one. |
 | Powder | **never** | Smokeless and black powder are excluded-process explosives. Different business, different exposure, permanently out. |
 | Primer | **never** | Same class. Sold together with powder, and carries equivalent regulatory weight. |
 | Loaded ammunition | **not now, maybe later** | Possible via a licensed FFL and an approved processor. Nothing about it is on the table. |
 | Anything needing a background check | **never** | No FFL, no NICS, no licence of any kind. This is the line that keeps the business simple. |
 
-### The problem nobody sees coming: the payment processor
+### Two blockers, and the second is bigger than the first
+
+**Blocker 1: the payment processor.**
 
 Selling apparel is easy. **Selling anything ammunition-adjacent is not**, and the
 constraint is not our law, it is Stripe's and similar processors' prohibited
@@ -302,8 +304,18 @@ inert. That is a policy determination, not a legal one, and we cannot argue it.
 launch. If Stripe refuses it, the options are a different processor or a
 merchant of record that will accept it — and both cost more.
 
-This is the single most likely reason Phase 9's brass half fails, and it is
-cheap to find out early. Ask before building.
+This is a real cost and a policy risk, and it is cheap to find out early.
+
+**Blocker 2, which is bigger: the statute.** 18 USC 921(a)(17)(A) defines
+ammunition to include "cartridge cases, primers, bullets, or propellent powder".
+Empty brass cases are ammunition under the GCA, not inert objects. That does not
+make selling brass a crime, but it removes the assumption the whole Phase 9 brass
+idea rested on, and it puts a firearms-regulation question in front of a
+membership site.
+
+Full analysis in `07-member-marketplace.md`. **Do not build the brass line on
+the strength of the processor answering yes.** The processor question is cheap and
+worth asking; the statutory question is not ours to answer.
 
 ### The conflict of interest we create for ourselves
 

@@ -129,11 +129,20 @@ nothing collides.
 | 7 — review aggregation | The 465.3 obligations: published monitoring procedure, FTC sample capability. |
 | 8 — video review links | Side 1 only. Never presented as manufacturer load data. |
 | 5 — community | Real demand. An empty forum reads as abandonment. |
+| 5b — **member marketplace** | **Attorney review first.** See below. Not deferrable on judgement. |
 | 9 — merch, then brass | **A traffic threshold, written down first.** Plus Stripe's answer on brass — ask in writing before building. |
 
 ### Never
 
 - Powder and primer. Excluded-process explosives.
+- **A member-to-member transaction marketplace.** 18 U.S.C. 921(a)(17)(A) defines
+  ammunition as including "cartridge cases, primers, bullets, or propellent
+  powder." Brass and loose bullets **are** ammunition under the GCA, so the
+  intuitive "they are just components" reading is wrong in the direction that
+  increases risk. An 80% lower is a firearm under 921(a)(3)(B). Full analysis in
+  `research-competitors/07-member-marketplace.md`. A want/wanted board with no
+  prices and no transactions is the safer variant, and is **not** risk-free —
+  it reduces the surface without removing it.
 - Anything requiring a background check.
 - Fabricated ratings, or a composite score synthesised from incomparable sources.
 - Ranking retailers by commission paid.
@@ -168,6 +177,9 @@ Not advice. These are why several tasks are marked strict.
    exists rather than judged mid-project?
 4. **Purpose taxonomy** — controlled vocabulary we define, or free text? Affects
    A.1 and cannot change cheaply afterwards.
+5. **Member marketplace** — needs a firearms-experienced attorney, not a
+   decision from this conversation. The statute is wider than the proposal
+   assumed. This is the one item on this list I would not act on without advice.
 
 ---
 
@@ -181,6 +193,7 @@ Not advice. These are why several tasks are marked strict.
 | Safety content a responsible site must surface | `research-competitors/04-safety-content.md` |
 | Which videos to link, and why partnerships are unsafe | `research-competitors/05-ballistics-video-sources.md` |
 | Ammunition comparison model, and what we may not conclude | `research-competitors/06-ammunition-comparison-model.md` |
+| Member marketplace, and why the statute is wider than it looks | `research-competitors/07-member-marketplace.md` |
 | What the UI should look like | `mockups/` |
 | How to work with agents | `agent-craft/` |
 | What broke and why, historically | `audit/2026-10-02-project-audit.md` |
