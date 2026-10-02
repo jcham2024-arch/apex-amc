@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "script-library-docs",
+  "title": "Document the script library so an agent can use it without reading source",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/script-library-docs/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-shared-library-reference.md",
+    "02-script-to-task-map.md",
+    "03-conventions.md",
+    "04-windows-traps.md"
+  ],
+  "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not write the documentation into scripts/ itself. Output stays in this folder; a human places it.",
+    "Do not refactor, rename or re-export anything. This task reads and explains.",
+    "Do not document a function you have not read. A reference that guesses is worse than none, because it will be trusted."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

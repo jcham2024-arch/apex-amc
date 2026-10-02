@@ -1,0 +1,89 @@
+{
+  "_comment": "Wave 3: engineering health. The owner asked for OOP factories where possible - script-library-refactor assesses that with evidence rather than assuming it, because ballistics-core is deliberately functional.",
+  "tasks": [
+    {
+      "id": "script-library-docs",
+      "title": "Document the script library so an agent can use it without reading source",
+      "priority": "highest",
+      "why": "scripts/ is ~50 ESM modules with five shared helpers that only 7 of them import. An agent arriving cold must rediscover which module holds what, and code-audit found 23 scripts each solving a problem scripts/shared/ already solves. Documentation is cheaper than consolidation and is what actually unblocks the next agent.",
+      "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+      "evidence": "Only 7 scripts import root. The convention is documented in check-seeds.mjs and followed by 7; the other 23 each solved a problem that was already solved.",
+      "scope": [
+        "Write a reference for scripts/shared/: data.mjs, encoding.mjs, bullet-sources.mjs, load-database.mjs, affiliate-links.mjs. For each export, state what it does, its exact signature, what it returns, and a one-line example. These five modules total ~54KB and are the library's entire public surface.",
+        "Build a map from task to script: for each of the ~50 scripts, one line saying what it does and what invokes it. If nothing invokes it, say so - an unreachable script is either a one-shot tool or dead code, and a reader cannot tell which.",
+        "Document the conventions a new script must follow, each with a live example: importing root from shared/data.mjs rather than deriving it, using readCsv rather than split(','), and the reason each exists. Cite the file recording the trap.",
+        "State clearly what is NOT in the library and why. The duplication that remains is deliberate in at least one case, and naming that case stops someone 'fixing' it.",
+        "Include the Windows traps, because they cost the audit three failed measurements: execFileSync with npm fails because npm is a .cmd shim, Select-String has no -Recurse, and .NET file APIs ignore PowerShell's cd so relative paths resolve to the wrong repository."
+      ],
+      "do_not": [
+        "Do not write the documentation into scripts/ itself. Output stays in this folder; a human places it.",
+        "Do not refactor, rename or re-export anything. This task reads and explains.",
+        "Do not document a function you have not read. A reference that guesses is worse than none, because it will be trusted."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-shared-library-reference.md", "02-script-to-task-map.md", "03-conventions.md", "04-windows-traps.md"]
+    },
+    {
+      "id": "script-library-refactor",
+      "title": "Assess script consolidation, and whether OOP factories are warranted",
+      "priority": "high",
+      "why": "The owner asked for OOP factories where possible. That deserves a real answer rather than compliance. packages/ballistics-core is deliberately FUNCTIONAL - pure exported functions with no hidden state, and its 10 classes are reserved for things that genuinely have state (profiles, sources, devices). Blanket OOP there would be a regression dressed as progress. scripts/ is plain ESM Node, where a class wrapping a function is strictly worse than the function. So this produces the refactor that IS warranted and says plainly where a factory is not.",
+      "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+      "evidence": "Measured across 50 .mjs files: 14 sites re-deriving root, 9 using process.cwd(), 9 createHash call sites, 1 reimplementing RFC 4180 CSV parsing. Only 7 scripts import root. The one that actually bites is process.cwd() rooting in 9 scripts, including check-docs.mjs.",
+      "scope": [
+        "Count the duplication yourself rather than quoting the audit. Establish current numbers - the audit was a snapshot and four sites have since been fixed. A count that has drifted is worse than no count.",
+        "For each duplication class decide: consolidate into shared, or leave alone. Give the reason. The 15 re-derived roots are pure consolidation with no judgement involved; the 9 sha256 sites differ in encoding (7 hex, 2 base64) so a single helper must take the encoding as a parameter or it will be wrong for one caller.",
+        "Answer the factory question with evidence, per module. State plainly that ballistics-core's functional style is deliberate and correct for pure computation, and identify the ONE place a factory would pay: if repeated construction of a drag table or a profile object needs options validation, that is a real factory. Do not propose a factory for anything that is a pure function.",
+        "State the actual risk of consolidation. Shared helpers are load-bearing: a bug in readCsv corrupts every seed file, and code-audit already found import-bullets.mjs writing through a naive CSV split. Argue for or against centralising; do not assume it.",
+        "Produce ordered, independent change sets with exact file lists and a verification command for each, so they can be approved in batches the way the low-risk fixes were."
+      ],
+      "do_not": [
+        "Do not apply any refactor. Produce the plan and the diffs.",
+        "Do not introduce classes into pure-computation modules to satisfy a general preference for OOP. That is a regression with extra indirection, and saying so is part of the deliverable.",
+        "Do not consolidate a helper whose callers differ in a way the signature does not capture. Encoding differences show up as wrong output, not as an error."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-duplication-counts.md", "02-oop-assessment.md", "03-change-sets.md"]
+    },
+    {
+      "id": "code-review-sweep",
+      "title": "Adversarial review of gates, physics core, and website",
+      "priority": "high",
+      "why": "code-audit found that a gate shipped with a missing brace, silently reduced it to checking one task per run, and reported success while four completed tasks sat unchecked - ESLint and node --check both passed. It was found by an agent doing its own task, not by a gate. That class of defect nothing currently catches, and a second pair of eyes is the cheapest mitigation available.",
+      "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+      "evidence": "A gate in verify can be green and verify nothing... It was eventually found - by an agent doing its own task, not by a gate.",
+      "scope": [
+        "Review scripts/gates/ adversarially, because those are the checks everything else trusts. For each, construct an input that MUST make it fail and confirm it does. A gate you cannot break is an untested gate, and saying so is the finding.",
+        "Hunt the loop-variable and scope defects code-audit documented, because they have now appeared three times in this repo: a missing closing brace silently truncating a loop, a const declared below the loop that calls it, and a gate that reads files when it should check deployed output.",
+        "Review packages/ballistics-core/src for correctness against its own doc comments, not against style. A comment describing a guarantee is a hypothesis: the CSP defect was every gate reading a file while production served no policy at all. Verify the arithmetic in densityRatio, pressureAltitudeFt and the dispersion statistics against an independent method.",
+        "Review apps/website/src for the findings ui-research recorded and did not fix: the em-dash unknown marker that reads as zero, tabular-nums absent from live fields, one accent doing two jobs, and disclosure away from the button.",
+        "Report defects with a reproduction, not a description. A finding the author cannot reproduce is an opinion."
+      ],
+      "do_not": [
+        "Do not fix anything. Produce reproductions and proposed diffs.",
+        "Do not run a destructive input against the real tree. Use a throwaway copy under tmp/ - and note that a probe under tmp/ with a broken relative import measures a different module graph than the real gate, which is how a false finding gets filed.",
+        "Do not report style preferences as defects. Rank by consequence: a wrong number a user acts on, then a check that passes while verifying nothing, then everything else."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-gate-adversarial-review.md", "02-core-correctness.md", "03-website-findings.md", "04-defect-list.csv"]
+    },
+    {
+      "id": "knowledge-base-audit",
+      "title": "Audit the knowledge base for staleness and contradiction",
+      "priority": "medium",
+      "why": "Over twenty completed tasks each produced a KNOWLEDGE.md, and they contradict each other on a question that determines whether a large amount of data work is lawful. A knowledge base that silently disagrees with itself is worse than none, because a later agent will pick whichever file it read first.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "No licence wall on cartridge dimensions. Every genuine gap in this task's table has a free, named, primary source... The barrier to this work is transcription effort, not permission.",
+      "scope": [
+        "Inventory every KNOWLEDGE.md in tasking/completed/ and record what each claims to be authoritative about. Then find every pair that disagrees. The CIP contradiction between ammoseek-coverage and cartridge-dimensions is already known; find the others.",
+        "For each contradiction, state whether it is a genuine conflict, a difference in scope that makes both true, or one file being outdated. These need different resolutions and treating them identically wastes the reader's time.",
+        "Check claims that time has invalidated: paths that moved, counts that drifted, functions since fixed, work since done. Quote the claim and give its current state.",
+        "Propose a structure that makes contradiction VISIBLE rather than requiring a reader to hold twenty-two files in their head. State the cost of the proposal and who would maintain it.",
+        "Flag anything that, read alone, would lead an agent to do the wrong thing."
+      ],
+      "do_not": [
+        "Do not resolve a contradiction by choosing a side. Record both claims with their sources; resolution is the taskmaster's or the owner's.",
+        "Do not delete or rewrite another task's KNOWLEDGE.md. This task reports; the record stays as written, because the reason a claim changed is itself worth keeping.",
+        "Do not treat an absence of contradiction as success. Twenty-two files agreeing is a claim to verify, not a fact to assume."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-inventory.md", "02-contradictions.md", "03-stale-claims.md", "04-structure-proposal.md"]
+    }
+  ]
+}
