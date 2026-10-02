@@ -26,29 +26,43 @@ the number that ties a component choice to a purchase.
 | Tax and shipping | `component-cost-model` |
 | User can override with their own prices | `component-cost-model` |
 | Links to cheapest/fastest source, price shown | **blocked** on retailer data |
-| Safe load ladder from chosen components | **blocked** on licensed load data |
+| **Manufacturer's own published load data, cited** | **blocked** on licensing — `published-load-lookup-spec` |
 
-## Two things that are blocked, and why
+## The load ladder — settled by the owner, and it is the right call
 
-**Retailer pricing.** The owner wants live prices with links to the best source. Scraper
-writing is the obvious approach and the wrong one: retailer terms of service generally
-prohibit it, and a scraped price is a snapshot that silently decays. `retailer-price-data-options`
-is researching the lawful routes — published feed specifications and affiliate networks.
+The owner resolved the design question that had been blocking this:
 
-**The load ladder.** This is the one to read carefully. The physics cannot do what the
-owner described, and the swarm established why before the request was made:
+> "We should be getting all the relevant data we need from the component manufacturers —
+> they publish how much powder to use for what. I want to give the user that, **not
+> necessarily our own calculated load**."
 
-> No manufacturer publishes a burn rate, pressure exponent, force curve, heat of
-> explosion, or loading density for any reloading powder we hold. Fitting powder
-> constants from published load data yields a **degenerate family, not an estimate**.
-> — `tasking/completed/interior-ballistics/KNOWLEDGE.md`
+**This is materially safer and simpler than the interpolation engine an earlier task
+assumed, because it removes calculation from the product entirely.** Every number a user
+sees is a manufacturer's, attributed, dated and linked. The project becomes a good index
+to authoritative data rather than a second and worse source of it.
 
-**But the feature is still buildable**, and the same research says so — as nearest-
-neighbour interpolation over published load tables with **mandatory EMPTY on an
-unresolvable match**, which is exactly what Berger and Hornady do by hand. That is a
-real, valuable, safe product. It is blocked on **licensed citable load observations,
-which we hold none of** — Hornady sells theirs. That is a commercial decision with legal
-exposure, and it is `FIX-BACKLOG.md` item 10.
+What was replaced: `load-ladder-interpolation-spec` asked for nearest-neighbour
+interpolation over published tables. **Interpolation is now explicitly out of scope** —
+an interpolated figure looks identical to a sourced one and is not, and that
+indistinguishability is the exact failure the design has to prevent. The lookup either
+finds what a manufacturer published, or it says no manufacturer publishes it.
+
+The safety property that remains is the **refusal**: a lookup that cannot say "no
+manufacturer publishes this combination" is unsafe by construction. The precedent is
+Hornady's own 12th Edition carrying a misprinted powder for 6.5 PRC that should read
+StaBall HD — a name-matching system inherits that risk with no erratum channel.
+
+**Still blocked**, and it is a commercial decision rather than an engineering one:
+what we may *store, cache or republish* is different from what we may *cite and link*,
+and those are three different permissions. Berger is © CGP, Vihtavuori is © Nammo,
+Hornady's handbook is sold. See `FIX-BACKLOG.md` item 10.
+
+## Retailer pricing — also blocked, for a different reason
+
+Live prices with links to the best source. Scraper writing is the obvious approach and
+the wrong one: retailer terms of service generally prohibit it, and a scraped price is
+a snapshot that silently decays. `retailer-price-data-options` is researching the
+lawful routes — published feed specifications and affiliate networks.
 
 ## The constraint that applies to all of it
 
@@ -60,10 +74,11 @@ Every surface here renders data that is mostly **absent** — six dimensional co
 
 A cost calculator that silently shows `$0.00` for an unknown price is worse than one that
 says "not recorded," because the user will act on it. **A fabricated price in a cost
-calculator is worse than no calculator.**
+calculator is worse than no calculator.** The same rule governs the load lookup: a
+sourced figure and a derived one must never share a visual treatment.
 
 ## Related
 
 - [FIX-BACKLOG.md](FIX-BACKLOG.md) — item 9 (CIP licensing), item 10 (load-table licensing)
-- [LESSONS.md](LESSONS.md) — lesson 6, read intent not keywords
+- [LESSONS.md](LESSONS.md) — lesson 6, read intent not keywords; lesson 14, insulation comes from a contract
 - [../mail/README.md](../mail/README.md) — §12, why these tasks exist and who may run them

@@ -26,7 +26,7 @@ const wave = process.argv[2];
 // the manifest, the brief AND the proposal, so they cannot drift - the defect
 // interior-ballistics reported when it found hand-maintained briefs with no generator.
 const specs = readdirSync(here)
-  .filter((n) => /^wave\d+\.spec\.json$/.test(n) && (!wave || n.startsWith(`wave${wave}.`)))
+  .filter((n) => /^wave\d+[a-z]?\.spec\.json$/.test(n) && (!wave || n.startsWith(`wave${wave}.`)))
   .sort();
 
 const tasks = specs.flatMap((n) => JSON.parse(readFileSync(join(here, n), 'utf8')).tasks);
