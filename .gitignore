@@ -82,6 +82,19 @@ scripts/replace_*.mjs
 scripts/test_read_csv*.mjs
 scripts/fix_encoding.ps1
 
+# Throwaway scripts written to the REPOSITORY ROOT while investigating.
+#
+# The rules above all assume scratch lives under scripts/. That assumption cost
+# us: c.mjs, c2.mjs and f.mjs were written to the root, committed by an
+# `add --all`, and shipped to the remote. CI's lint step is what finally caught
+# one of them ("'console' is not defined"), on the first run this repo ever had
+# on ubuntu-latest.
+#
+# This is deliberately broad. A root-level .mjs is never a real project file -
+# every real script lives in scripts/ - so ignoring the whole pattern costs
+# nothing and removes the whole class of accident.
+/*.mjs
+
 # Backups written by scripts/repair-encoding.mjs. Local safety copies only -
 # the repaired originals are the files that belong in git.
 *.pre-encoding-fix.bak
