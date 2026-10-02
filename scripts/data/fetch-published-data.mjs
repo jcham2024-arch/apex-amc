@@ -1,0 +1,172 @@
+// Archives the published reloading documents the database cites.
+//
+// Reads data/published/manifest.json, downloads every entry into
+// data/published/<file>, and regenerates data/published/MANIFEST.md so the
+// provenance of every archived document is readable without opening JSON.
+//
+// Why archive at all: a citation is only useful if the cited page still says
+// the same thing. Manufacturers reorganise their websites constantly and
+// pressure tables move. Keeping a local copy means a data row's source can be
+// re-checked years later instead of 404-ing.
+//
+// The downloads themselves are gitignored. They are other people's
+// copyrighted documents and this repo is published as a website; we archive
+// for citation, we do not redistribute.
+//
+//   node scripts/data/fetch-published-data.mjs            # download what is missing
+//   node scripts/data/fetch-published-data.mjs --force    # re-download everything
+//   node scripts/data/fetch-published-data.mjs --only=saami
+// readFileSync is deliberately not imported: the manifest is read through
+// readJsonFile, which handles the BOM. Importing it anyway produced an
+// `no-unused-vars` error from `npm run lint`, which is how the leftover was
+// found - the gate earning its keep.
+import { writeFileSync, mkdirSync, statSync } from 'node:fs';
+import { resolve, sep } from 'node:path';
+import { readJsonFile } from '../shared/encoding.mjs';
+import { publishedDir } from '../shared/data.mjs';
+const dir = publishedDir;
+const manifestPath = resolve(dir, 'manifest.json');
+
+const force = process.argv.includes('--force');
+const onlyArg = process.argv.find((a) => a.startsWith('--only='));
+const only = onlyArg ? onlyArg.slice('--only='.length) : null;
+
+// Many vendor sites 403 a bare fetch() user agent.
+const HEADERS = {
+  'user-agent':
+    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 ' +
+    '(KHTML, like Gecko) Chrome/122.0 Safari/537.36',
+  accept: 'text/html,application/xhtml+xml,application/pdf,*/*',
+};
+
+// BOM-tolerant: manifest.json carries a UTF-8 BOM and JSON.parse rejects
+// U+FEFF, so a plain JSON.parse(readFileSync(...)) throws here. One shared
+// reader, documented in shared/encoding.mjs.
+const { documents } = readJsonFile(manifestPath);
+mkdirSync(dir, { recursive: true });
+
+const results = [];
+
+for (const doc of documents) {
+  if (only && !`${doc.file}${doc.publisher}`.toLowerCase().includes(only.toLowerCase())) {
+    continue;
+  }
+
+  // Path traversal guard. `doc.file` comes from manifest.json, which is a
+  // committed file - so this is not an external input today. It is a guard
+  // against the file becoming one, and against a typo writing outside the
+  // archive.
+  //
+  // `resolve()` collapses `..` silently, so a manifest entry of
+  // `file: "../../../.ssh/authorized_keys"` would write there with no error
+  // and no warning. That is the exact shape of a supply-chain attack: the
+  // manifest is the one file a contributor edits by hand when adding a source.
+  // Verified: without this check, resolve() returns a path outside the archive
+  // and the write succeeds.
+  const target = resolve(dir, doc.file);
+  const label = doc.file.padEnd(58);
+  if (!target.startsWith(dir + sep)) {
+    results.push({ ...doc, status: 'rejected', error: 'file escapes data/published' });
+    console.log(`REJECT  ${label} resolves outside data/published - refused`);
+    continue;
+  }
+
+  if (!force) {
+    try {
+      const { size } = statSync(target);
+      if (size > 0) {
+        // Already archived - keep it, a manufacturer may since have removed it.
+        results.push({ ...doc, status: 'cached', bytes: size });
+        console.log(`cached  ${label} ${size} B`);
+        continue;
+      }
+    } catch {
+      // not downloaded yet
+    }
+  }
+
+  try {
+    const res = await fetch(doc.url, { headers: HEADERS, redirect: 'follow' });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+    const body = Buffer.from(await res.arrayBuffer());
+    if (body.length === 0) throw new Error('empty response');
+
+    writeFileSync(target, body);
+    results.push({ ...doc, status: 'ok', bytes: body.length });
+    console.log(`ok      ${label} ${body.length} B`);
+  } catch (err) {
+    // `optional` documents are known to block automation (Cloudflare, bot
+    // rules). They stay in the manifest so the inventory is complete, but
+    // they must not fail the run.
+    const status = doc.optional ? 'blocked' : 'failed';
+    results.push({ ...doc, status, error: err.message });
+    // Logged to stdout, not stderr: Windows PowerShell 5.1 turns a native
+    // process's stderr into a terminating ErrorRecord, which truncates this
+    // tool's output mid-run. The non-zero exit code below still fails CI.
+    console.log(`${doc.optional ? 'blocked ' : 'FAILED  '}${label} ${err.message}`);
+  }
+}
+
+// ------------------------------------------------------------------ MANIFEST.md
+
+const byKind = (k) => results.filter((r) => r.kind === k);
+const rowsFor = (list) =>
+  list
+    .map((d) => {
+      const mark =
+        d.status === 'failed' || d.status === 'blocked'
+          ? `**${d.status.toUpperCase()}**`
+          : `${(d.bytes / 1024).toFixed(0)} KB`;
+      return `| \`${d.file}\` | ${d.title} | [${d.publisher}](${d.url}) | ${d.year ?? '-'} | ${d.doc_type} | ${mark} |`;
+    })
+    .join('\n');
+
+const header = `| File | Title | Publisher | Year | Type | Archived |\n|---|---|---|---|---|---|`;
+
+writeFileSync(
+  resolve(dir, 'MANIFEST.md'),
+  `# Published data archive
+
+Generated by \`npm run data:fetch\`. Do not edit by hand.
+
+These are third-party published documents, archived locally so that a data
+row's source can still be re-checked after a manufacturer reorganises its
+website. **They are gitignored and are never redistributed by the site** -
+only derived single facts (a pressure limit, a bullet BC) are republished,
+and always with attribution.
+
+\`kind\` separates what is authoritative from what is merely a compilation:
+
+- **primary** - the standards body or the manufacturer itself.
+- **compilation** - a third party collating primary sources. Trustworthy as an
+  index, but never quoted as the authority. Good for cross-brand burn-rate
+  ordering, where no single manufacturer can rank a competitor's powder.
+- **community** - forum/enthusiast sourced. Unverified by definition.
+
+## Primary sources
+
+${header}
+${rowsFor(byKind('primary'))}
+
+## Compilations
+
+${header}
+${rowsFor(byKind('compilation'))}
+
+## Community sources
+
+${header}
+${rowsFor(byKind('community'))}
+`,
+);
+
+// ------------------------------------------------------------------- summary
+
+const failed = results.filter((r) => r.status === 'failed');
+const bytes = results.reduce((n, r) => n + (r.bytes ?? 0), 0);
+console.log(
+  `\n${results.length} documents, ${(bytes / 1024 / 1024).toFixed(1)} MB archived` +
+    (failed.length ? `, ${failed.length} FAILED` : ''),
+);
+if (failed.length) process.exitCode = 1;
