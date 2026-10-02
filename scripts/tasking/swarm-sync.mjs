@@ -26,28 +26,53 @@ import { fileURLToPath } from 'node:url';
 const root = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const go = process.argv.includes('--go');
 
-// Agent ids come from the mailboxes, which is the swarm's own record of who exists.
-const mailboxes = readdirSync(join(root, 'tasking/mail/inbox')).filter((f) => f.endsWith('.md'));
-const agentIds = [...new Set(mailboxes.map((f) => f.replace(/\.md$/, '')))]
-  .filter((id) => id !== 'main' && id !== 'taskmaster')
-  .sort();
-
 const WT_ROOT =
   process.env.CLINE_WORKTREE_ROOT || join(process.env.USERPROFILE || '', '.cline', 'worktrees');
+
+// WHO EXISTS IS A DISK QUESTION, NOT A REPO QUESTION.
+//
+// This originally took the roster from tasking/mail/inbox/*.md. That was wrong, and it
+// failed in exactly the situation it mattered most: after the old swarm was closed and
+// six new agents were started, those agents had no mailbox yet (mailboxes are written
+// on their first STOP message), while the OLD ids still had one. So the script reported
+// all five dead agents as "absent" and skipped all six live ones - then printed "All
+// clean worktrees are current", because zero matches looked like a clean bill of health.
+//
+// A roster that silently under-reports is worse than no roster: it turns "I have not
+// looked" into "everything is fine". So the clones on disk are the roster now, and the
+// mailbox is only used to annotate. A new agent is discovered the moment its worktree
+// appears, before it has written a single file.
+//
+// Real clones are found by probing for a nested ApexProject checkout under each
+// worktree id, rather than assuming the directory name, since a worktree is not
+// required to be named after the repo.
+const known = new Set(
+  readdirSync(join(root, 'tasking/mail/inbox'))
+    .filter((f) => f.endsWith('.md'))
+    .map((f) => f.replace(/\.md$/, ''))
+);
+const ids = [];
+if (existsSync(WT_ROOT)) {
+  for (const entry of readdirSync(WT_ROOT, { withFileTypes: true })) {
+    if (!entry.isDirectory()) continue;
+    if (existsSync(join(WT_ROOT, entry.name, 'ApexProject', '.git'))) ids.push(entry.name);
+  }
+}
+ids.sort();
+
+const orphans = [...known].filter(
+  (id) => !ids.includes(id) && id !== 'main' && id !== 'taskmaster'
+);
 
 const git = (cwd, args) =>
   execFileSync('git', args, { cwd, encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] }).trim();
 
 const mainHead = git(root, ['rev-parse', 'HEAD']);
-console.log(`main ${mainHead.slice(0, 7)}   agents: ${agentIds.length}\n`);
+console.log(`main ${mainHead.slice(0, 7)}   agents on disk: ${ids.length}\n`);
 
 const rows = [];
-for (const id of agentIds) {
+for (const id of ids) {
   const wt = join(WT_ROOT, id, 'ApexProject');
-  if (!existsSync(join(wt, '.git'))) {
-    rows.push({ id, state: 'absent', detail: 'no clone on disk' });
-    continue;
-  }
   const head = git(wt, ['rev-parse', 'HEAD']);
   const dirty = git(wt, ['status', '--porcelain']).split('\n').filter(Boolean);
   const behindCount = git(wt, ['rev-list', '--count', `${head}..${mainHead}`]);
@@ -73,12 +98,25 @@ for (const id of agentIds) {
   }
 }
 
-for (const r of rows) console.log(`  ${r.id.padEnd(8)} ${r.state.padEnd(9)} ${r.detail}`);
+for (const r of rows) {
+  console.log(`  ${r.id.padEnd(8)} ${r.state.padEnd(9)} ${r.detail}${known.has(r.id) ? '' : '   (no mailbox yet)'}`);
+}
 
 const dirtyRows = rows.filter((r) => r.state === 'DIRTY');
 const unresolved = rows.filter((r) => r.state === 'behind' || r.state === 'DIVERGED');
 
 console.log('');
+if (!rows.length) {
+  console.log('NO agent clones were found under the worktree root.');
+  console.log(`  looked in: ${WT_ROOT}`);
+  console.log('Nothing was checked, so nothing can be called healthy. Is the swarm running?');
+  console.log('Set CLINE_WORKTREE_ROOT if the clones live elsewhere.');
+  process.exit(1);
+}
+if (orphans.length) {
+  console.log(`${orphans.length} mailbox(es) have no clone on disk (closed agents): ${orphans.join(', ')}`);
+  console.log('Their mail is history. Leave it in place - it is the record of what they found.');
+}
 if (dirtyRows.length) {
   console.log(`${dirtyRows.length} agent(s) hold uncommitted work and were NOT touched.`);
   console.log('That agent decides whether to commit or discard - it is the only one that knows which.');
@@ -88,4 +126,4 @@ if (unresolved.length && go) {
   const diverged = unresolved.filter((r) => r.state === 'DIVERGED').length;
   if (diverged) console.log(`${diverged} could not fast-forward and need a human.`);
 }
-if (!dirtyRows.length && !unresolved.length) console.log('All clean worktrees are current.');
+if (!dirtyRows.length && !unresolved.length && rows.length) console.log('All clean worktrees are current.');
