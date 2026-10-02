@@ -40,6 +40,14 @@ export default tseslint.config(
       'temp/**',
       '**/_tmp-*.mjs',
       '**/_tmp*/**',
+      // Agent hand-off area. Sub-Agent COPIES of main source files are staged
+      // in tasking/completed/ for review and merge, never committed as project
+      // source. Linting them is actively wrong: a staged copy may be
+      // deliberately partial (task in progress), or carry a defect the Sub-Agent
+      // is mid-way through removing, and either way `eslint .` would fail the
+      // build for a file that is not project code. tasking/pending/ is NOT
+      // ignored - those are real task briefs and must be linted and doc-checked.
+      'tasking/completed/**',
     ],
   },
 

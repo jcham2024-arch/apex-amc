@@ -23,16 +23,30 @@
 - `data/seeds/regulations.csv` - the house rule on copying other parties' claims
 - `data/generated/json/opensource_resources.json` - the licence-verification pattern to copy
 
-**Strict Write Paths** - the ONLY files you may create:
+**Strict Write Paths** - the ONLY files you may create or modify:
 
-- `docs/research-trademark/01-name-clearance.md`
-- `docs/research-trademark/02-domain-options.md`
-- `docs/research-trademark/README.md`
+- `tasking/completed/T1/` - your staged output folder, in full
+- Inside it, the three deliverables named below
+
+**You must NOT modify any file in the main project tree.** Read
+[tasking/README.md](../README.md) before starting: you copy the files you change out
+of the main tree, edit the copies, and save them under `tasking/completed/T1/`.
+Nothing you write goes anywhere else.
 
 > If a required change falls outside this list, **halt and report it**. See `.clinerules` §1.
 
 **Shared files this task may touch:** NONE. Do not edit `package.json`, `wrangler.toml`,
-`apps/`, `docs/README.md`, or the ledger.
+`apps/`, `docs/`, or the ledger.
+
+**Note:** the three deliverables are new research documents, so **no copies of main
+files are needed** - you are adding files, not changing existing ones. Create them
+directly under `tasking/completed/T1/` with their final paths preserved:
+`tasking/completed/T1/docs/research-trademark/01-name-clearance.md`, and so on.
+
+**Gate note:** your output is inside `tasking/completed/`, which `npm run lint` and
+`npm run docs:check` deliberately ignore, so a defect in it cannot be caught by
+running those gates. **Verify your own output by reading it back.** That asymmetry is
+the reason this task insists on a review step rather than trusting the exit code.
 
 ---
 
@@ -67,7 +81,8 @@ its own 18+ age gate. The current site title is
 You are doing trademark and brand-name research for a reloading-data website currently
 named after a LIVE registered trademark in its own product category.
 
-**Deliverable 1: `01-name-clearance.md`** - for **at least 12** candidate names:
+**Deliverable 1: `docs/research-trademark/01-name-clearance.md`** - for **at least 12**
+candidate names:
 
 1. Run a USPTO trademark search on the **exact string**. Record exact-match count,
    live/dead counts, and any hit in **IC 013** (ammunition) or **IC 009/042**

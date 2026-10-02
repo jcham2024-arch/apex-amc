@@ -67,6 +67,34 @@ const SKIP_DIRS = new Set([
   'node_modules', '.git', '.expo', 'dist', 'build', '.wrangler',
   // Prior drafts kept for provenance. Never built, never linked from.
   'archive', 'temp', 'tmp',
+  // Agent hand-off area, deliberately NOT skipped.
+  //
+  // tasking/pending/ holds the real task briefs and IS checked like any other
+  // doc, so a broken path in a brief is caught before an agent follows it.
+  //
+  // tasking/completed/ is skipped, and the reason is the same as tmp/ above: a
+  // Sub-Agent stages COPIES of main source files there for review and merge. A
+  // staged copy is not project documentation - it is a diff under review, may be
+  // a deliberately partial intermediate state, and its backticked paths refer to
+  // the ORIGINAL tree, not to tasking/completed/. Checking them would either
+  // fail the build for staged scratch or, worse, report the copy as a broken
+  // reference in a doc that is about to be merged or discarded.
+  //
+  // This was measured, not assumed: a staged .mjs copy failed `npm run lint` and
+  // a staged .md failed `npm run docs:check` (CRLF), before this exclusion.
+  //
+  // Only the BARE directory name goes here. SKIP_DIRS is compared against each
+  // entry's own name as the walk recurses, so a path like 'tasking/completed'
+  // can never match - `readdirSync` yields 'completed'. That was the first
+  // attempt and it silently did nothing, which is exactly the failure mode a
+  // plausible-looking config change hides.
+  //
+  // This is narrower than it looks: 'completed' would also skip any other
+  // directory of that name anywhere in the tree. That is acceptable here
+  // because no project directory is named 'completed', and the alternative -
+  // matching full relative paths - would need the walker to carry state this
+  // function deliberately does not have.
+  'completed',
 ]);
 
 /** Print a string as code points, so no console can mis-render it. */

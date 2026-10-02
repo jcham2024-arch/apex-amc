@@ -318,7 +318,7 @@
       "blocked_by": [],
       "read_only": true,
       "agent": "scout-legal",
-      "file": ".cline/tasks/task-T1-trademark-clearance.md",
+      "file": "tasking/pending/task-T1-trademark-clearance.md",
       "write_set": [
         "docs/research-trademark/ (new files only)"
       ],
@@ -331,7 +331,7 @@
       "blocked_by": [],
       "read_only": true,
       "agent": "scout-math",
-      "file": ".cline/tasks/task-T2-ballistics-oracles.md",
+      "file": "tasking/pending/task-T2-ballistics-oracles.md",
       "write_set": [
         "docs/research-oracles/ (new files only)"
       ],
@@ -345,7 +345,7 @@
         "T1"
       ],
       "blocked_reason": "The name is an OWNER DECISION. T1 produces the clearance data; the owner then chooses. Not delegable and not safe to start on an assumption.",
-      "file": ".cline/tasks/task-T3-brand-rename.md",
+      "file": "tasking/pending/task-T3-brand-rename.md",
       "write_set": [
         "package.json",
         "wrangler.toml",
@@ -354,6 +354,45 @@
         "docs/"
       ],
       "notes": "Locks package.json. Site is LIVE, so a rename changes the title, footer, wrangler project name and SITE_ORIGIN together. Do not start without an explicit owner-chosen name."
+    },
+    {
+      "id": "T4",
+      "title": "Cartridge dimensional dataset (SAAMI/CIP transcription)",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-data",
+      "file": "tasking/pending/task-T4-cartridge-dimensions.md",
+      "write_set": [
+        "tasking/completed/T4/ (new files only)"
+      ],
+      "notes": "RESEARCH ONLY, copy-out workflow. Fixes the measured finding that all 6 dimensional columns are 0/229 populated. Never invent a value; empty is a valid result. Safe alongside T1, T2, T5, T6."
+    },
+    {
+      "id": "T5",
+      "title": "Interior ballistics: powder characterisation and load synthesis",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-math",
+      "file": "tasking/pending/task-T5-interior-ballistics.md",
+      "write_set": [
+        "tasking/completed/T5/ (new files only)"
+      ],
+      "notes": "SAFETY-CRITICAL. Must NOT produce any charge weight - hard prohibition in the brief. Addresses the owner's load-synthesis goal; measures that powders.json holds ZERO quantitative burn-rate data. Safe alongside T4, T6."
+    },
+    {
+      "id": "T6",
+      "title": "Exterior ballistics: trajectory reference dataset",
+      "status": "ready",
+      "blocked_by": [],
+      "read_only": true,
+      "agent": "scout-data",
+      "file": "tasking/pending/task-T6-exterior-ballistics.md",
+      "write_set": [
+        "tasking/completed/T6/ (new files only)"
+      ],
+      "notes": "RESEARCH ONLY. Must not touch packages/ballistics-core (safety-critical). Gathers measured trajectory data; there is currently none. Safe alongside T4, T5."
     }
   ],
   "parallel_safe": [
@@ -363,7 +402,10 @@
     "B5",
     "C4",
     "T1",
-    "T2"
+    "T2",
+    "T4",
+    "T5",
+    "T6"
   ],
   "serial_chains": [
     [

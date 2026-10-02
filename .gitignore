@@ -71,6 +71,28 @@ output*.txt
 **/_tmp-*.mjs
 **/_tmp-*/
 
+# ---------------------------------------------------------------------------
+# tasking/completed/ - Sub-Agent hand-off staging.
+#
+# A Sub-Agent COPIES main source files here for review and merge. They are not
+# project source, and committing them would put two copies of the same file in
+# the repository and let a stale staged copy be mistaken for the real one.
+#
+# The briefs in tasking/pending/ ARE tracked - they are real documentation that
+# docs:check and lint both process. Only the output is ignored, because the
+# output is a diff under review.
+#
+# This was needed for the same reason tmp/ above: a staged .mjs copy failed
+# `npm run lint`, and a staged .md failed `npm run docs:check` on CRLF, neither
+# of which meant anything about the code.
+# ---------------------------------------------------------------------------
+tasking/completed/*
+# ...but the DIRECTORY itself must exist on a clean checkout, or every agent
+# starts by creating it and a stale copy can never be distinguished from the
+# real folder. Git does not track empty directories, which is the same problem
+# docs/research-methods/README.md records for the research folders.
+!tasking/completed/.gitkeep
+
 # Scratch scripts, recognisable by the leading underscore or an iterative name.
 # Real scripts are verb-named and single-file (check-seeds.mjs, build-data.mjs).
 scripts/_*.mjs
