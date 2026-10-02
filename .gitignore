@@ -170,6 +170,12 @@ tasking/review/*
 # because the reason something was rejected is the part worth not losing. An
 # ignored backlog means the same defect gets re-raised every few weeks.
 !tasking/review/FIX-BACKLOG.md
+# LESSONS.md is the compiled lesson set - why each mechanism of the swarm exists,
+# and which incident paid for it. Compiled from swarm-improvement plus the
+# corrections agents filed on each other. Read it before changing how the swarm
+# works; several mechanisms exist only because I got them wrong first, and a
+# lesson with no incident attached is a slogan rather than knowledge.
+!tasking/review/LESSONS.md
 # tasking/mail/ - inter-agent communication. TRACKED, unlike the other swarm tiers,
 # and the reason matters: a mailbox that is not committed is a message that never
 # arrived. The agents live in separate git worktrees, so an uncommitted message is
