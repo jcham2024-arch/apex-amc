@@ -53,11 +53,45 @@ AmmoSeek indexes 273 retailers and 1.24M products, and publishes per-category
 rankings (handgun / rifle / rimfire / shotgun splits, plus caliber popularity
 percentages). We have 8 retailers and 13 governed datasets.
 
-### 6. Retailer ratings
-AmmoSeek has Rate/Review Retailers and a Retailer Ratings page. We deliberately
-removed ratings on compliance grounds, so this gap is **intentional and should
-stay closed** unless we can gather real, attributable reviews. See the
-compliance note in 04-safety-content.md.
+### 6. Review aggregation — a real gap, and it is legal to close
+
+AmmoSeek has Rate/Review Retailers and a Retailer Ratings page. We removed our
+own ratings on compliance grounds in September 2026.
+
+**That removal was correct and must not be reversed. But my earlier conclusion
+that ratings should "stay closed" was too blunt, and the user's framing corrects
+it.** Aggregating genuine third-party reviews is exactly what this site is for,
+and the FTC's rule on consumer reviews expressly contemplates it.
+
+The distinction that matters, from 16 CFR 465.2:
+
+- **465.2(a)** prohibits *writing* a review that misrepresents that the reviewer
+  exists, that they used the product, or that their experience is what it claims.
+  This is what our removed ratings were. There was no reviewer at all.
+- **465.2(b)** prohibits *purchasing* a review, or **disseminating** one you knew
+  or should have known was false.
+- **465.2(d)(2)** carves out exactly our case: paragraphs (b) and (c) "do not
+  apply to... [r]eviews that appear on a website or platform as a result of the
+  business merely engaging in **consumer review hosting**."
+
+So: hosting and displaying real reviews someone else wrote is permitted. What is
+prohibited is fabricating them, buying them, or ignoring known fakes.
+
+**The obligations that come with hosting are real and we do not meet them yet.**
+From 465.3, a business that disseminates consumer reviews obtained from others
+must:
+1. have a **procedure for monitoring** the reviews it publishes;
+2. **publish a statement** of that procedure; and
+3. **send a sample** of the reviews it disseminated to the FTC, on request.
+
+That is the work. It is not a wall, it is three obligations. See
+`04-safety-content.md` and the Phase 7 plan in `02-feature-gaps.md`.
+
+One caution from the same Q&A: suppressing reviews about "a particular seller's
+customer service, delivery, returns, and exchanges" "can be deceptive in
+violation of Section 5 of the FTC Act," even if the filtering rule is applied
+evenly. A retailer rating that silently drops complaints about slow shipping is
+a deceptive rating.
 
 ### 7. Mobile app and saved profiles
 Hornady: a Reloading App with handbook data, saved products, and a personal
@@ -107,12 +141,15 @@ mainstream-trustworthy. Both are valid; ours is a deliberate differentiator.
 | 18+ age gate | Table stakes for this vertical |
 | Top-of-page disclaimer | Trust parity; currently footer-only |
 | Search/compare as the entry point | Matches user intent better than a hero image |
+| **Review aggregation** | Core to what this site is for, and expressly permitted by 16 CFR 465.2(d)(2). The gap is real and closeable. |
 
 | Do NOT copy | Reason |
 | --- | --- |
-| Fabricated retailer ratings | Unsubstantiated; FTC 16 CFR 255.2(b). We already removed these |
+| **Fabricated** ratings | No reviewer existed. That is 465.2(a), and we already removed them. Never returns. |
 | Unqualified savings claims | "30-60% avg savings" was false. Our gate blocks it |
 | Verbatim copy | Competitor text is not ours to lift |
+| Reviews we cannot source | An unattributed quote we scraped from nowhere is not aggregation, it is invention. |
+| Reviews without a monitoring procedure | Required by 465.3. Hosting without one is the exposure. |
 
 ## Honest assessment of the gap
 

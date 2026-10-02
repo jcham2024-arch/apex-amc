@@ -17,6 +17,27 @@ independent oracle behind it in CI.
 So: **match them on the account and history layer they all have, and keep the
 integrity advantage they all lack.**
 
+## What this site is
+
+Stated plainly so no future task drifts from it:
+
+> A **research and tooling site**. We do not sell ammunition, components or
+> firearms, and we will not. We aggregate data, we aggregate genuine reviews of
+> available products, and we present the result with links to where the user can
+> buy. We earn a commission on some links, which is disclosed.
+
+Three consequences that are load-bearing for everything below:
+
+1. **We never take title, inventory, or a customer's money for a physical good.**
+   That is why membership billing is ordinary e-commerce and why no FFL, no
+   hazardous-materials handling and no payment-processor firearms policy is in
+   scope.
+2. **Affiliate revenue must never influence ordering or inclusion.** If a
+   retailer pays us, they do not get a better rank. This must be enforced, not
+   promised.
+3. **"Research and tooling" means the tools stay free.** A paywall on the cost
+   calculator would contradict the site's purpose, not merely its business model.
+
 ## Phase 0 - free, no new infrastructure
 
 Highest value per hour, and it closes two gaps competitors treat as table stakes.
@@ -77,11 +98,14 @@ gate here - precisely the CSP-gate failure this repository already suffered.
 
 | Not adding | Reason |
 | --- | --- |
-| Fabricated retailer ratings | 16 CFR 255.2(b). Already removed once; `claims:check` blocks reintroduction |
+| **Fabricated** ratings | No reviewer existed: 465.2(a). Already removed once; `claims:check` blocks reintroduction. Genuine aggregated reviews are Phase 7 and are permitted by 465.2(d)(2). |
 | Unqualified savings claims | "30-60% avg savings" was false |
 | Paywalled safety content | Harmful, and a regulatory risk |
 | Breadth scraping (1000+ retailers) | Not achievable, not the point, and would cost the accuracy we have |
 | A forum before there is a community | An empty forum reads as abandonment |
+| Reviews displayed without a monitoring procedure | Required by 465.3. Hosting reviews without one is the real exposure. |
+| Selling ammunition or components | We are a research and tooling site. This is out of scope permanently, not pending. |
+| Ranking retailers by commission paid | Would make every price comparison a conflict of interest |
 
 ## Sequencing
 
@@ -130,6 +154,47 @@ data exports, ad-free viewing.
 Flarum is the right technical answer (MIT, self-hostable) but needs PHP and
 MySQL, which our stack does not have. Use GitHub Discussions meanwhile; consider
 Flarum only when there are real threads to move.
+
+## Phase 7 - review aggregation (the site is a research site; this is core)
+
+Placed last deliberately. It is the most valuable feature *and* the one with
+real obligations attached, so it goes after the data plumbing exists and after we
+have written the compliance scaffolding. Doing it first would mean shipping
+review display before we can honour 465.3.
+
+**Why it is legal at all.** 16 CFR 465.2(d)(2) exempts "[r]eviews that appear on
+a website or platform as a result of the business merely engaging in consumer
+review hosting" from the prohibition on disseminating reviews. We are a host of
+genuine third-party reviews, not their author.
+
+**Why it is not the same as what we removed.** The ratings we deleted in
+September 2026 violated 465.2(a): there was no reviewer, no experience, and no
+source. Displaying a real review written by a real person about a product they
+bought is the opposite of that.
+
+| # | Change | Why | Write-set |
+| --- | --- | --- | --- |
+| 7.1 | **Review data model** | Review, source, product, author hash, date. Provenance on every row, as with physical constants. | `data/schema/020_*.sql` (SERIAL) |
+| 7.2 | **Collector with source licensing** | Each source's terms reviewed before ingesting. Do not scrape what forbids it. | `scripts/data/*.mjs` |
+| 7.3 | **PUBLISH THE MONITORING PROCEDURE** | Required by 465.3. A real page, linked from every review display. | `apps/website/src/` |
+| 7.4 | **Ability to produce a sample of disseminated reviews** | Required by 465.3: the FTC may ask. Must be a command, not an archaeology exercise. | `scripts/data/*.mjs` |
+| 7.5 | **Review display with mandatory attribution** | Author, date, source. Never an unattributed quote. | `apps/website/src/` |
+| 7.6 | **GATE: no synthetic ratings** | Extends `claims:check`. Fails if a rating appears with no underlying review rows. | `scripts/gates/` |
+
+### Rules this phase must not violate
+
+- **No review without a traceable source row.** An unattributed quote scraped
+  from nowhere is invention, which is what we just cleaned up.
+- **Do not filter out complaints about shipping, returns or service** unless the
+  rule excludes them regardless of sentiment. The FTC Q&A warns that suppressing
+  reviews about "a particular seller's customer service, delivery, returns, and
+  exchanges" can itself be deceptive under Section 5.
+- **No review incentives of our own.** We do not pay for reviews, and we do not
+  run a "review us" campaign, because 465.2(b) prohibits purchasing reviews and
+  an incentive taints the pool we host.
+- **Affiliate status is never attached to a review.** A review of a product is
+  about the product. A review of a retailer is about the retailer. Mixing them
+  lets commission colour an opinion.
 
 ## Phase 6 - compliance follow-ups
 

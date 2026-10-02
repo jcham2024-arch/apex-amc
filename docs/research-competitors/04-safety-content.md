@@ -44,6 +44,58 @@ and the reason accounts must not gate any of it.
 | **Safety-equipment guidance** | **MISSING** |
 | Maintenance / cleaning education | thin |
 
+## Review aggregation: what the law actually requires
+
+Researched 2 Oct 2026 against 16 CFR Part 465 (Rule on the Use of Consumer
+Reviews and Testimonials) and the FTC's own Q&A. Quoted, not paraphrased,
+because this determines whether a core feature is legal.
+
+**§465.2(a)** — it is unlawful for a business to "write, create, or sell a
+consumer review... that materially misrepresents" that the reviewer exists, that
+they used the product, or that their experience is what the review claims.
+
+This is what our removed ratings were. There was no reviewer. **That removal
+stands and is not reversible.**
+
+**§465.2(b)** — it is unlawful to purchase a consumer review, or to disseminate
+one the business "knew or should have known materially misrepresented" any of
+those three things.
+
+**§465.2(d)(2)** — paragraphs (b) and (c) "do not apply to:... [r]eviews that
+appear on a website or platform as a result of the business merely engaging in
+**consumer review hosting**."
+
+**This is the provision that makes the user's stated model workable.** Aggregating
+genuine third-party reviews of available products is expressly contemplated.
+
+### The obligations hosting creates (465.3)
+
+1. Have a **procedure for monitoring** the reviews you publish.
+2. **Publish a statement** of that procedure.
+3. **Send a sample** of the reviews you disseminated to the FTC, on request.
+
+None of these is optional, and we meet none of them today. They are Phase 7 in
+the feature plan, and the sample-production capability must be a command rather
+than a reconstruction exercise.
+
+### Two traps the FTC calls out specifically
+
+- Suppressing reviews about "a particular seller's customer service, delivery,
+  returns, and exchanges" "can be deceptive in violation of Section 5 of the FTC
+  Act." Even an even-handed filter is dangerous here.
+- An **incentivised** review is a problem even if honest. We will not run a
+  "review us and get X" campaign, because it taints a pool we merely host.
+
+### The line, stated once
+
+| Prohibited | Permitted |
+| --- | --- |
+| Inventing a rating or a review | Displaying a real review with attribution |
+| Buying reviews, incentivising them | Hosting reviews written elsewhere |
+| Disseminating a review we know is false | Removing a review we can show is fake |
+| An unattributed quote from nowhere | A quote with author, date and source |
+| Ranking retailers by commission | Ranking on price, stock and history only |
+
 ## The rule that must not break when we add accounts
 
 When membership arrives, these must remain reachable without an account:
