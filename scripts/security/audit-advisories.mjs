@@ -105,7 +105,6 @@ try {
 
 const vulns = audit.vulnerabilities || {};
 const counts = (audit.metadata && audit.metadata.vulnerabilities) || {};
-const acked = new Set(acknowledgements.map((a) => a.id));
 
 say('npm audit: ' + JSON.stringify(counts));
 
