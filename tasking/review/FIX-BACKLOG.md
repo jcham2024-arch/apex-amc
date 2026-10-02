@@ -88,13 +88,22 @@ Trademark clearance is complete and `docs/BRANDING.md` holds the options. **Need
 owner-chosen name.** `APEX AMMUNITION` is a live USPTO registration (Reg. 5391055,
 IC 013) with an operating storefront, so this is a naming decision with legal weight,
 not a technical one.
-### 9. CIP licensing contradiction — BLOCKED
-Two completed tasks disagree on whether CIP cartridge dimensions may be transcribed
-(see `tasking/completed/ammoseek-coverage/KNOWLEDGE.md` §7 versus
-`tasking/completed/cartridge-dimensions/REPORT.md`). Decides whether a large body of
-data work is lawful. `cartridge-licence-reconciliation` is establishing exactly what
-the published terms say; if that is not decisive it needs a lawyer or an enquiry to
-CIP.
+### 9. CIP licensing contradiction — RESOLVED by not transcribing (see item 19)
+
+Two completed tasks disagreed on whether CIP cartridge dimensions may be transcribed (see
+`tasking/completed/ammoseek-coverage/KNOWLEDGE.md` §7 versus
+`tasking/completed/cartridge-dimensions/REPORT.md`). The reconciliation found the terms
+genuinely self-contradictory: the notice forbids reproduction, and it lives in the
+per-cartridge PDFs but not on the index page.
+
+**Resolved without a lawyer**, because the answer turned out to be a product question rather
+than a legal one: **CIP dimensions are not needed for cost, ballistics, cartridge selection
+or sourcing.** So we do not transcribe them, we link instead, and the contradiction never has
+to be adjudicated. Verified mechanically — no CIP dimensional value appears in any output.
+
+Permission was checked rather than assumed and is not available as a free self-service
+route; CIP is a body of fourteen sovereign member states. **Full reasoning and the retrieval
+evidence are in item 19.**
 ### 10. Load-table licensing — RESOLVED (owner decision, 3 Oct 2026)
 > **"Cite and link. If we are not able to give the user that data, then they need to go
 > buy the book. That keeps us legally safe."**
@@ -212,7 +221,7 @@ When doing the sweep, in order:
 ## Related
 - [HISTORY.md](HISTORY.md) — why decisions were made
 - [../completed/code-audit/KNOWLEDGE.md](../completed/code-audit/KNOWLEDGE.md) — the audit that found items 1–3, 5–7, 11–12
-### 15. "An average price based on what we know" — BLOCKED, and it is arithmetic, not opinion
+### 15. "An average price based on what we know" — RESOLVED: the average was never the answer
 > "We can display local shops, and we can determine an average price based on what we know
 > about the components."
 **Measured against the actual database before writing this down, because the claim sounds
@@ -247,9 +256,11 @@ honest, and they cost nothing to carry.
 **And the derived figure must never be visually identical to a real one** — the same rule
 already applied to load data in FIX-BACKLOG 10. An estimated price and an observed price
 looking alike is how a user spends money on a number we invented.
-**Not a blocker on the product.** It is a blocker on a *feature claimed as available now*.
-Record it as: no price is displayable until observations exist, and the honest v1 of the
-cost model says so.
+**Not a blocker on the product, and the question is now closed for a better reason.** It was
+never the right statistic: see item 17, where the owner established availability as the
+driving factor. An average hides exactly that. **The v1 cost model ranks by
+availability-filtered landed cost, and carries no average at all.** The measurement below
+still stands — it explains why the number could not be produced even if we wanted it.
 ### 18. Bullet shape taxonomy — DEFERRED, and it is the second blocked data axis
 
 > "Don't forget hollow point vs round nose vs wadcutter... The same goes for match grade
@@ -386,52 +397,50 @@ Availability and quality are unknown for every row today, so the DEFAULTS are th
 part: an unknown stock state must not rank as available, and an unknown tier must not
 render as "standard". Both are now prohibitions in component-cost-model/BRIEF.md, which was
 rewritten before an agent could pick it up.
-### 19. CIP licensing - EXPLAINED, and it is recommended for closure (owner asked, 3 Oct 2026)
+### 19. CIP licensing - DEFERRED to a paid/free test by the owner (3 Oct 2026)
 
-> "And finally what is the CIP licensing, not sure what that is."
+> "We probably won't get CIP licensing anytime soon, but we can look into what it takes
+> to do so. If it's free, let's see if we can. If it's paid, let's not. We can treat it
+> like Hodgdon's in the meantime and just link to it for now."
 
-**What CIP is.** The *Commission Internationale Permanente des Armes a Deux Epees* - the
-Permanent International Commission for Small Arms, a treaty body of signatory states
-headquartered in New York. It publishes the **TDCC** tables of official cartridge and
-chamber dimensions, recognised by member states as the governing standard in the way SAAMI
-is in North America.
+**Accepted, and the free/paid rule is the right test.** Note this retires item 9, which sat
+BLOCKED for weeks: CIP dimensions are not needed for cost, ballistics, cartridge selection
+or sourcing, so it is a nice-to-have rather than a blocker. **Until it is answered we link,**
+on exactly the Hodgdon pattern - free, authoritative, reachable by URL, zero transcription.
 
-**Why it matters to a reloader:** a cartridge has a maximum case length and headspace, and
-two authorities can specify different ones. A reloader who builds to SAAMI in a chamber
-drawn to CIP is in violation regardless of intent - which is why serious sources say
-"confirm the standard, do not assume it."
+**What checking CIP actually showed** (retrieved 3 Oct 2026). I looked for a price and a
+procedure rather than assuming one:
 
-**The licence question, and why this sat as BLOCKED.** CIP's tables carry a notice reading,
-in substance: *"Reproduction forbidden as well as in the form of extracts without approval
-of reproduction."* Two findings from `cartridge-licence-reconciliation` changed the
-picture:
+| Question | Finding |
+|---|---|
+| Are the TDCC tables sold for a price? | **No price published.** Presented as approved tables under "Menu TDCC Downloads" |
+| Is a fee published for reproduction permission? | **None published anywhere on the site** |
+| Is there a permission procedure? | **None published.** Contact is a generic web feedback form |
+| Is there an email or postal address for licensing? | **None exposed** - only `cip-bobp.org/en/contact` |
+| Does the membership route work? | A "Membership procedure" nav item exists, but **the page 404s** |
+| Who may be a member? | **Fourteen member STATES** - Austria, Belgium, Chile, Czechia, Finland, France, Germany, Hungary, Italy, Portugal, Russia, Serbia, Slovakia, Spain, UAE, UK |
 
-- The **index page** publishes a browsable table with pressure figures and **no
-  reproduction restriction**.
-- The **per-cartridge sheets inside the PDFs** **do** carry the notice - and the words are
-  kerned in the typesetting, so a naive text search for "Reproduction" reports them
-  *absent from sheets that carry them*.
+**The decisive finding: CIP is a body of sovereign states and we are not one.** Membership
+is how a body obtains standing with it, and the membership page does not even resolve. So
+the free-permission path does not exist as a self-service route - no application form, no fee
+schedule, no address to write to.
 
-**The contradiction in our own record, stated honestly.** One task wrote *"there is no
-licence wall on this task"* and then retracted it in the next: *"That sentence would have
-sent an agent to transcribe CIP dimensions into our dataset."* Both readings are defensible
-because the notice sits in one artefact and not the other, and "Reproduction" is undefined
-as to internal analysis. **That is the actual reason this was never closed: our own
-evidence contradicts itself.**
+**Therefore, by the owner's own rule: it is not free, so we do not do it.** The rule decides
+the question without anyone having to adjudicate the licence, which is the point of setting
+it. Written permission would most likely arrive as a non-response, because there is no
+published channel to send it through.
 
-**The recommendation, and it costs us almost nothing: keep not transcribing, and stop
-treating it as blocking.**
+**This supersedes an earlier suggestion in this record** that obtaining CIP approval was a
+live option. It is not one we can exercise.
 
-- CIP dimensions are **not needed for the product.** Our features are cost, ballistics,
-  cartridge selection and sourcing. None require a maximum case length.
-- The only place it would matter is **case-reuse / brass-length guidance**, and
-  `case_reuse_profiles` is the wrong place to take an unresolved legal question when the
-  alternative is to say "check which standard governs your chamber."
+**What linking looks like.** `cip-bobp.org/en/tdcc` is stable and canonical, and its index
+page carries no reproduction restriction of its own. Same treatment as item 16: new tab,
+`rel="noopener noreferrer"`, and say what the user is leaving for - "CIP Tables of
+Dimensions of Cartridges and Chambers (TDCC) - the European standard, unlike SAAMI in the
+US." That last clause is the genuinely useful part for a reloader, and it is the one a local
+shop cannot supply.
 
-**This retires item 9 without needing a lawyer.** If brass-length guidance is ever wanted,
-the options are written CIP approval, or linking the tables the way Hodgdon's are linked -
-the pattern this project already follows everywhere else.
-
-**Caveat, plainly:** this resolves our RISK, not the LAW. The "internal use" question is
-genuinely unsettled on the face of the terms, and I am not a lawyer. But nothing in the
-current product needs the answer, so the question never has to be answered.
+**And the free subset we CAN build.** CIP issues **proof marks**, and a proof-mark lookup is
+unambiguously ours to publish. A reloader can check whether a cartridge or case carries CIP
+proof without us transcribing a single dimension. If proof marks are wanted later, that is
+the part of CIP that costs nothing to use.
