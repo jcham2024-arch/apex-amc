@@ -32,7 +32,18 @@ only independent data in the repo, and nothing reads them.
 
 **This is task A1 and it is not done.**
 
-## PROVEN-2: documentation quotes stage counts that are all wrong
+## PROVEN-2: documentation quotes stage counts that are all wrong  [FIXED, GATED]
+
+> **Resolution.** All live claims corrected to 15 stages / 235 tests. A
+> `docs:check` rule now reads the real count from `package.json` and fails on
+> any document that quotes a different one. Negative-tested: injecting
+> "7 stages" fails the gate. `CHANGELOG.md` is exempt, because a stage count in
+> a historical entry is history, not drift.
+>
+> **The gate immediately found two more that my manual sweep missed:**
+> `ARCHITECTURE.md` (said 12) and `docs/README.md` (said 8, and 215 tests).
+> That is the argument for automating this rather than fixing it by hand.
+
 
 Real count: **15**. Quoted:
 
