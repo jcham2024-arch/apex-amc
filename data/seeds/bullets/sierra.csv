@@ -1,0 +1,5 @@
+manufacturer,manufacturer_slug,manufacturer_website,product_line,bullet_name,part_number,caliber,diameter_in,weight_gr,bc_g1,bc_g7,sectional_density,required_twist_in,construction,base_type,tip_type,use_case,source_url,source_kind
+Sierra Bullets,sierra,https://www.sierrabullets.com,MatchKing,MatchKing,2269,,0.308,169,0.527,,,,jacketed,boat_tail,hollow_point,match,https://sierrabullets.com/30-cal-169-gr-hpbt-cn-matchking-smk/,manufacturer
+Sierra Bullets,sierra,https://www.sierrabullets.com,MatchKing,MatchKing,2277,,0.308,177,0.545,,,,jacketed,boat_tail,hollow_point,match,https://sierrabullets.com/30-cal-177-gr-hpbt-cn-matchking-smk/,manufacturer
+Sierra Bullets,sierra,https://www.sierrabullets.com,MatchKing,MatchKing,2251,,0.308,230,,,,8.0,jacketed,boat_tail,hollow_point,match,https://sierrabullets.com/30-cal-230-gr-hpbt-cn-matchking-smk/,manufacturer
+Sierra Bullets,sierra,https://www.sierrabullets.com,GameKing,GameKing,2145,,0.308,165,0.1,,,,jacketed,boat_tail,spitzer,hunting,https://sierrabullets.com/30-cal-165-gr-sbt-gameking-sgk/,manufacturer

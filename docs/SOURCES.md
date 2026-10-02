@@ -1,11 +1,25 @@
-﻿# Source Register
+# Source Register
 
 Every number this project computes traces to one of the sources below. This is
 the single place to look to answer "where does this come from?" — the code-level
 answer lives in `packages/ballistics-core/src/provenance/constants.ts`, and the
 audit history is in `docs/BALLISTICS-AUDIT.md`.
 
-Reviewed 30 Sep 2026.
+Reviewed 30 Sep 2026. Sections 8a-8d added 30 Sep 2026.
+
+---
+
+## Reloading-data licensing status (VERIFIED 30 Sep 2026)
+
+Checked directly, because this gates the load feature:
+
+| Publisher | Terms found | Implication |
+|---|---|---|
+| **Wolfe Publishing** (load-data.com, "Ultimate Reloading Manual") | Explicit copyright notice, paywall, terms grant no right of republication | Cannot copy |
+| **Hornady** (Handbook of Cartridge Reloading) | Sold as $19.99 subscription or $0.99 per cartridge; app and book are separate products; only selected PDFs free | Cannot copy |
+
+**Conclusion: publisher load data is owned, licensed and sold. The default
+posture is to *cite and link*, never to reproduce.** See ROADMAP 1.1.
 
 ---
 
@@ -143,6 +157,59 @@ an unverifiable citation is worse than an honest derivation.
 - **Status:** referenced; not yet wired to a code constant
 
 ---
+
+### 8a. SAAMI / CIP maximum chamber pressures
+
+- **Publisher:** SAAMI (Sporting Arms and Ammunition Manufacturers Institute);
+  CIP (Commission Internationale Permanente pour l'Epreuve des Armes à Feu
+  Portatives)
+- **Document:** Cartridge pressure standards table, last updated 8/2005-11/2023
+- **URL:** http://kwk.us/pressures.html
+- **Used for:** cartridge `standard_body`, max-pressure figures in
+  BRASS-AND-PRESSURE-CLASS.md
+- **Status:** retrieved and verified for 9mm, 9mm+P, .40 S&W, 10mm, .38 Spl,
+  .38 Spl+P, .357 Mag
+- **GAP: .45 ACP and .357 SIG were not present in the reachable table and remain
+  UNVERIFIED. Do not use either in the load UI until confirmed from the CIPM or
+  SAAMI primary tables.**
+- **Note:** figures are rounded up to the nearest ksi in the source. SAAMI and
+  CIP diverge materially (.357 Mag: 35,000 vs 44,000 psi), which is why
+  `standard_body` must be populated rather than assumed.
+
+### 8b. +P brass design and case capacity
+
+- **Publisher:** American Handgunner (FMG Publications)
+- **Author:** Brad Miller
+- **Document:** "Handloading +P Brass"
+- **URL:** https://americanhandgunner.com/gear/exclusive-handloading-p-brass/
+- **Published:** 2017
+- **Used for:** the +P/NATO brass mechanism, measured case capacity comparison,
+  and the design rule that stronger brass buys durability margin but not
+  pressure margin
+- **Status:** retrieved and verified
+
+### 8c. 9mm expanding-bullet design intent
+
+- **Publisher:** RMR Bullets
+- **Document:** "9mm 124 Gr. RMR JHP (MPR NUKE)" product page
+- **URL:** https://www.rmrbullets.com/shop/bullets/pistol/357-sig-355/9mm-124-gr-rmr-jhp-mpr-nuke/
+- **Used for:** the observation that the NUKE was redesigned with a pre-cut core
+  to expand at ~1100 fps, so a shooter targeting 1175 fps for reliability may not
+  need that velocity at all
+- **Status:** retrieved and verified (manufacturer's own stated design intent)
+- **Caveat:** manufacturer marketing copy. The velocity and gel figures are the
+  maker's own claims, not independent test data.
+
+### 8d. Publisher errata
+
+- **Publisher:** Hornady Manufacturing
+- **Document:** 12th Edition Handbook errata safety notice — 6.5 PRC, page 350
+  powder misprint (StaBall Match published where StaBall HD is correct)
+- **URL:** https://www.hornady.com/support/load-data/
+- **Status:** retrieved and verified
+- **Significance:** a live, dangerous misprint in a current print edition,
+  acknowledged by the publisher, stating it "could result in dangerously high
+  pressures." This is the justification for the errata system in ROADMAP 1.1b.
 
 ## APIs and data sources
 

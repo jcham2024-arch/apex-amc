@@ -1,0 +1,70 @@
+# Column manifest: cartridge_pressure_conflicts
+#
+# A disagreement ledger between the two pressure compilations. Not loaded into
+# the pressure tables - it exists to be read, and to stop anyone "fixing" the
+# conflict by editing one of the source CSVs and losing the evidence.
+#
+# A conflict here is informative, not merely inconvenient. Two compilations
+# disagreeing on a cartridge means at least one of them transcribed the standards
+# body wrongly, and resolution='unresolved' marks the ones still to be checked
+# against SAAMI or CIP directly. Only the standard bodies can settle it.
+
+dataset: cartridge_pressure_conflicts
+storage: csv
+csv_path: data/seeds/cartridge_pressure_conflicts.csv
+primary_key: [kwk_name, secondary_name]
+
+columns:
+  kwk_name:
+    type: string
+    required: true
+    note: Cartridge designation as the primary compilation (kwk) spells it.
+
+  secondary_name:
+    type: string
+    required: true
+    note: >
+      The same cartridge as the secondary compilation spells it. Recorded
+      separately rather than assumed identical, because a naming difference is
+      itself the reason several rows cannot be matched automatically.
+
+  unit:
+    type: string
+    required: true
+    enum: [psi, bar, ksi, c.u.p., cup]
+    note: Unit both figures are expressed in, so delta is meaningful.
+
+  kwk_value:
+    type: number
+    required: true
+    note: The primary compilation's figure.
+
+  secondary_value:
+    type: number
+    required: true
+    note: The secondary compilation's figure for the same cartridge.
+
+  delta:
+    type: number
+    required: false
+    note: >
+      secondary_value minus kwk_value. Left blank rather than computed in the CSV
+      when it is not yet established which way round the subtraction goes.
+
+  resolution:
+    type: string
+    required: true
+    enum: [unresolved, secondary_correct, kwk_correct, both_valid, typo_in_name]
+    note: >
+      How the disagreement was settled.
+      - unresolved: nobody has checked the standard body yet.
+      - both_valid: not actually a conflict; the two publish different methods
+        (piezo vs cup) or different vintages, and both may be right.
+      - typo_in_name: the figures agree; the cartridges were matched by mistake.
+
+  resolution_note:
+    type: string
+    required: false
+    note: >
+      What the resolution rests on. May contain commas; keep quoted. An unresolved
+      row with no note is a task, not an oversight.

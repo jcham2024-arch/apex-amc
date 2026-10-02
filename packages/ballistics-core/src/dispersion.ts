@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Shot-group dispersion statistics.
  *
  * Conventions
@@ -23,11 +23,11 @@ export interface Dispersion {
   readonly n: number;
   /** Standard deviation along each axis, inches. */
   readonly sigma: { readonly x: number; readonly y: number };
-  /** CEP50 â€” radius containing 50% of shots, inches. */
+  /** CEP50 — radius containing 50% of shots, inches. */
   readonly cep50: number;
-  /** CEP90 â€” radius containing 90% of shots, inches. */
+  /** CEP90 — radius containing 90% of shots, inches. */
   readonly cep90: number;
-  /** Extreme spread â€” max distance between any two shots, inches. */
+  /** Extreme spread — max distance between any two shots, inches. */
   readonly extremeSpread: number;
   /** Mean radius from POI, inches. */
   readonly meanRadius: number;
@@ -121,7 +121,7 @@ export function dispersion(shots: readonly Shot[]): Dispersion | null {
 /**
  * Grubbs' test for a single outlier, applied to shot radii from the POI.
  *
- * IMPORTANT â€” this is a heuristic here, not a strict application of the
+ * IMPORTANT — this is a heuristic here, not a strict application of the
  * test. Grubbs' test is defined for a univariate sample; applying it to
  * radii from a fitted centre biases the statistic, and with very small
  * groups it will happily discard a legitimate shot. Callers must surface
@@ -158,8 +158,20 @@ export function detectFlyer(shots: readonly Shot[]): FlyerResult {
   const variance = radii.reduce((acc, r) => acc + (r - meanR) ** 2, 0) / (n - 1);
   const stdR = Math.sqrt(variance);
 
-  // Every shot is coincident â€” nothing to flag, and G would divide by zero.
-  if (stdR === 0) return none;
+  // Every shot is coincident, or equidistant from the POI - nothing to flag,
+  // and G would divide by zero.
+  //
+  // The check must be RELATIVE, not `stdR === 0`. A mathematically perfect
+  // group still leaves floating-point residue: 8 shots at radius 1.5 on an
+  // octagon give stdR = 8.4e-17 rather than 0. The exact test misses that,
+  // and dividing by 8.4e-17 amplifies pure rounding noise into a large G. This
+  // was observed flagging a perfectly uniform group as having a flyer, which
+  // would have a shooter discard a good shot on no evidence at all.
+  //
+  // The tolerance is relative to the group radius, so it behaves the same for
+  // a group measured in hundredths of an inch and one measured in yards.
+  // 1e-9 is far below any real dispersion and far above float residue.
+  if (stdR <= Math.max(meanR, ...radii) * 1e-9) return none;
 
   let maxG = 0;
   let candidate = 0;

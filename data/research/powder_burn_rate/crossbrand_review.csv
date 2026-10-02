@@ -1,0 +1,55 @@
+brand,inferred_position,column_total,powder_name_as_published,confidence,note
+Norma,1,7,200,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Norma,2,7,202,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Norma,3,7,203B,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Norma,4,7,URP,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Norma,5,7,204,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Norma,6,7,MRP,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Norma,7,7,217,primary,Clean contiguous run; brand boundary inferred from the chart header.
+unknown_p_series,1,4,P804,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+unknown_p_series,2,4,P803,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+unknown_p_series,3,4,P805,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+unknown_p_series,4,4,P806,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Rottweil_likely,1,4,R903,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Rottweil_likely,2,4,R902,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Rottweil_likely,3,4,R904,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Rottweil_likely,4,4,R905,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Vectan,1,8,Ba9,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,2,8,SPB,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,3,8,A0,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,4,8,SP3,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,5,8,SP10,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,6,8,SP9,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,7,8,SP11,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Vectan,8,8,SP13,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,1,8,RS20,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,2,8,RS30,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,3,8,RS36,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,4,8,RS50,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,5,8,RS52,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,6,8,RS60,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,7,8,RS62,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Reload Swiss,8,8,RS80,primary,Clean contiguous run; brand boundary inferred from the chart header.
+IMR,1,2,IMR3031,primary,Clean contiguous run; brand boundary inferred from the chart header.
+IMR,2,2,IMR8133,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,1,9,HP38,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,2,9,CFE 223,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,3,9,H380,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,4,9,H4350,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,5,9,H450,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,6,9,H4831SC,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,7,9,H1000,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,8,9,50BMG,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Hodgdon,9,9,US869,primary,Clean contiguous run; brand boundary inferred from the chart header.
+Winchester_Ramshot_mixed,1,12,4350,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,2,12,WST,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,3,12,Super Handicap 231,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,4,12,Super Field,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,5,12,296,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,6,12,E\037,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,7,12,PP 300-MP,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,8,12,PP 2000-MR,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,9,12,PP 4000-MR,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,10,12,Zip,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,11,12,Big Game,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."
+Winchester_Ramshot_mixed,12,12,Magnum,review,"Column boundaries inferred from run order; cells may be merged (e.g. ""Super Handicap 231"") or contain encoding artefacts. Verify against the archived PDF before loading."

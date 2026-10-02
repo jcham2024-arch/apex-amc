@@ -1,4 +1,4 @@
-﻿
+
 ---
 
 # Long-range shooting: hardware, sensors, and what we can actually integrate

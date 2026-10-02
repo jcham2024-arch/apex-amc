@@ -12,6 +12,22 @@
 -- See docs/DATA-MODEL.md for the migration plan.
 
 -- Bullets / Projectiles
+--
+-- The primary key is deliberately NOT declared here.
+--
+-- This table originally carried UNIQUE(manufacturer_id, name, weight_grains),
+-- which cannot identify a bullet: Berger sells a 6.5 mm 140 gr VLD Target (part
+-- 26401) AND a 7 mm 140 gr VLD Target (part 26504). Same name, same weight,
+-- different projectiles, and 8 of Berger's 111 published bullets collide that
+-- way. Under that constraint the second of each pair could never be inserted and
+-- `INSERT OR IGNORE` dropped it without a word.
+--
+-- Identity is (manufacturer_id, part_number), established in 015. It cannot be a
+-- UNIQUE constraint here for the same reason it cannot replace one there:
+-- SQLite cannot drop a constraint-backed index, only rebuild the table. Since
+-- this repository replays migrations in order against a fresh database and
+-- ships no .sqlite file, the fix belongs in the CREATE TABLE itself and 015
+-- records the reasoning.
 CREATE TABLE IF NOT EXISTS bullets (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     manufacturer_id INTEGER NOT NULL REFERENCES manufacturers(id) ON DELETE RESTRICT,
@@ -19,8 +35,7 @@ CREATE TABLE IF NOT EXISTS bullets (
     weight_grains DECIMAL(6,2) NOT NULL,
     diameter_inches DECIMAL(5,3) NOT NULL,
     bc_g1 DECIMAL(5,3),
-    bc_g7 DECIMAL(5,3),
-    UNIQUE(manufacturer_id, name, weight_grains)
+    bc_g7 DECIMAL(5,3)
 );
 
 -- Powders

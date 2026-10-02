@@ -1,0 +1,326 @@
+# Column manifest: bullets
+#
+# THIS IS THE AUTHORITATIVE DEFINITION OF THE COLUMNS.
+# The CSVs in data/seeds/bullets/ are the data; this file is what the columns
+# mean. `npm run data:build` validates every row against it, and
+# `npm run data:check` fails the build on a violation.
+#
+# WHY THIS EXISTS
+# ---------------
+# On 2026-10-01, 7 of 11 bullet rows were being silently dropped. Three separate
+# faults, all invisible:
+#   * manufacturer_slug was "Hornady" not "hornady"
+#   * the Hornady rows were shifted one column left
+#   * the Berger rows put a DESIGN name ("very low drift") in tip_type
+#
+# The cause was that nothing next to the data said what a column meant or what
+# it was allowed to contain. The rules lived in a SQL CHECK constraint, three
+# files away, and `INSERT OR IGNORE` swallowed the violation without a word.
+# A shooter searching for a Hornady ELD-X got an empty result set, not an error.
+#
+# With this file, the rules travel WITH the data. Adding data/seeds/bullets/rmr.csv
+# requires no other edit and gets every rule below applied automatically.
+#
+# FIELD REFERENCE
+# ---------------
+# type:      string | number | integer | boolean | date
+# required:  true = build fails if blank
+# nullable:  true = blank is a legitimate, meaningful value
+# enum:      the complete set of permitted values (mirrors the SQL CHECK)
+# unit:      physical unit, used by the JSON/MD generators
+# note:      why the column is what it is, and what commonly goes in it wrong
+
+dataset: bullets
+storage: csv
+csv_dir: data/seeds/bullets
+filename_is: manufacturer_slug
+# The identity of a bullet is its manufacturer plus its own part number.
+#
+# CHANGED 2026-10-01 from [manufacturer_slug, bullet_name, weight_gr]. That key
+# cannot tell two different products apart, and the first real multi-calibre
+# manufacturer proved it: Berger publishes a 6.5mm 140gr VLD Target (part 26401)
+# and a 7mm 140gr VLD Target (part 26504) - different bullets, same name, same
+# weight. Eight of the 111 chart rows collided that way, which would have made
+# one of each pair unreachable.
+#
+# part_number is the manufacturer's own SKU and is what the component finder
+# matches against retailers, so it is the right identity anyway: it is the same
+# at Brownells, Midway and Natchez. It is `required: true`, and across all 122
+# current rows (slug, part_number) has zero duplicates.
+#
+# The SQLite side needed the same change; see data/schema/015_bullet_identity.sql.
+# A UNIQUE constraint cannot be altered in place, so the old one is dropped and
+# replaced rather than left to reject legitimate rows.
+primary_key: [manufacturer_slug, part_number]
+
+# Cross-dataset references. Row-level validation cannot catch a slug that is
+# perfectly well-formed but points at a company that does not exist, so these
+# are checked across the whole repository rather than within one file.
+#
+# This started as a real defect, not a hypothetical one: six powder brands
+# (vihtavuori, accurate, alliant, hodgdon, imr, ramshot) were referenced by the
+# powder CSVs and missing from manufacturers.csv, orphaning 98 of 169 powder
+# rows while every per-file check passed. Those six rows were added and the
+# references now resolve - `npm run data:health` reports "all resolve".
+#
+# The check stays because that failure is invisible from inside a single file.
+references:
+  - column: manufacturer_slug   # the column in THIS dataset
+    dataset: manufacturers      # the dataset it must resolve in
+    target_column: slug         # ...and the column over there
+
+columns:
+  manufacturer:
+    type: string
+    required: true
+    note: Display name of the maker, e.g. "Hornady".
+
+  manufacturer_slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: >
+      Lowercase-hyphenated key into manufacturers.csv. MUST be all lowercase:
+      SQLite string comparison is case-sensitive, so "Hornady" does not match
+      "hornady" and the row is orphaned. This exact bug cost 3 rows.
+
+  manufacturer_website:
+    type: string
+    required: true
+    format: url
+    note: Maker's own site. Provenance for the row.
+
+  product_line:
+    type: string
+    required: true
+    note: >
+      The maker's product family - "MatchKing", "VLD Target", "ELD-X". This is
+      where a DESIGN name belongs. "Very low drift" and "Hybrid" are designs,
+      not tip types, and belong in this column rather than in tip_type.
+
+  bullet_name:
+    type: string
+    required: true
+    note: >
+      Specific designation. Currently duplicates product_line on every row,
+      which is redundant - either drop one or make this the part-level name.
+
+  part_number:
+    type: string
+    required: true
+    note: >
+      The MAKER's own item number (Hornady 65147, Sierra 2269). String, not
+      number, so leading zeros survive. This is the single most valuable field
+      for the component finder, because makers reuse their part number across
+      retailers - it is the same at Brownells, Midway and Natchez.
+
+  caliber:
+    type: string
+    required: false
+    note: >
+      CALIBER DESIGNATION, e.g. 0.308 or 0.264. Not a measured diameter.
+      A 6.5mm bullet measures 0.256 in, not 0.264. Do not use this for drag
+      calculations; see bullet_dia_in.
+
+  diameter_in:
+    type: number
+    required: true
+    unit: in
+    note: >
+      WARNING: this currently holds the caliber designation, not a measurement,
+      so it is semantically wrong. It should be renamed caliber_designation
+      and a real bullet_dia_in added. Until then, nothing may compute drag
+      from this column.
+
+  weight_gr:
+    type: number
+    required: true
+    unit: gr
+    note: Projectile weight in grains.
+
+  bc_g1:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 2.0
+    note: >
+      STANDARDIZED G1 ballistic coefficient, always the 200-yard / Mach 2.25
+      basis unless bc_reference says otherwise. See migration 014 for why a
+      bare BC is not comparable across manufacturers.
+      The ceiling was raised from 1.0 to 2.0 on 2026-10-01, and that needs
+      saying plainly because it weakens a real protection. A G1 above 1.0 IS
+      impossible on the Mach 2.25 basis, which is exactly why the old ceiling
+      was worth having - it catches a column that shifted during extraction,
+      which is the failure mode that cost 7 of 11 bullet rows once already.
+      But Berger publishes no basis at all, so its rows carry
+      bc_reference='unspecified' and its 375 Cal 407 gr ELR Match Solid is
+      published as G1 1.022. On an unstated, slower reference that is
+      plausible; as a Mach 2.25 figure it would be impossible.
+      Since a row's validity depends on a DIFFERENT column, a flat ceiling
+      cannot express the rule and can only be either uselessly strict or
+      uselessly loose. It is currently loose, and the real defence is
+      elsewhere: every parser keys off the source's own column headers and
+      throws on mismatch, and test-bullet-sources.mjs asserts G1 > G7 on every
+      row. If you want the Mach 2.25 ceiling enforced properly it needs
+      conditional validation keyed on bc_reference, which the manifest format
+      does not support yet - that is the honest fix, not a wider number.
+
+  bc_g7:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: >
+      STANDARDIZED G7 coefficient, same basis as bc_g1. This is what modern
+      long-range work uses, and it is missing on most rows - a real gap.
+
+  bc_reference:
+    type: string
+    required: false
+    nullable: true
+    enum: [mach_2_25, mach_2_0, mach_1_75, y800, unspecified]
+    default: mach_2_25
+    note: >
+      Which basis bc_g1/bc_g7 use. Leave NULL when the source states nothing
+      and the value is a plain 200-yard figure; use 'unspecified' when the
+      source publishes SOME BC but never says at what speed, which leaves it
+      uncomparable until someone resolves it. Hornady publishes three Mach
+      columns and everyone else varies. Getting this wrong is the single most
+      likely way for this table to produce a confident wrong answer.
+
+  bc_g1_mach_2_25:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: >
+      Mach 2.25 (2512 fps @ ICAO) G1. This is the standard basis, so it
+      normally equals bc_g1. Held separately so the full published set
+      survives even though the solver reads one number today.
+
+  bc_g7_mach_2_25:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: Mach 2.25 G7. Normally equals bc_g7.
+
+  bc_g1_mach_2_0:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: >
+      Mach 2.0 (2233 fps @ ICAO) G1, for mid-range where the bullet spends
+      time below 2500 fps. Unused by the solver today; kept because it is an
+      input a drag-coefficient solver needs.
+
+  bc_g7_mach_2_0:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: Mach 2.0 G7.
+
+  bc_g1_mach_1_75:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: >
+      Mach 1.75 (1954 fps @ ICAO) G1, for long range beyond ~600 yards where
+      most of the flight happens after the bullet has slowed well below muzzle
+      velocity. This is the figure that matters most for precision work at
+      distance, and it is the one most often discarded. Keeping it is why the
+      extra columns exist.
+
+  bc_g7_mach_1_75:
+    type: number
+    required: false
+    minimum: 0.005
+    maximum: 1.0
+    note: Mach 1.75 G7.
+
+
+  sectional_density:
+    type: number
+    required: false
+    unit: lb/in^2
+    note: >-
+      SD = weight / (diameter^2). Useful for comparing bullets of different
+      calibre and for loading decisions.
+
+  required_twist_in:
+    type: number
+    required: false
+    unit: in
+    minimum: 1.0
+    maximum: 30.0
+    note: >
+      Manufacturer's recommended minimum rifling twist, stored as the DENOMINATOR
+      of the twist rate: 1:10" is stored as 10, not 0.1. The column is in inches,
+      so the denominator is the inch figure; storing the reciprocal would be a
+      different physical quantity and would read as a 0.1" twist.
+      The guard was raised from 8.0 to 30.0 on 2026-10-01. Berger publishes 111
+      bullets and 81 of them need a slower twist than 1:8" - 1:10", 1:12", 1:14",
+      1:19" all occur. The old ceiling was not a physical limit, it was a guess
+      made when the column had no data in it at all, and it would have rejected
+      73% of the first real manufacturer ingested. 1:30" is about as slow as
+      rifling goes, so the ceiling still catches a dropped digit.
+      Note the sources are inconsistent about the inch mark (ASCII " and
+      U+2033 double prime both appear); scripts/lib/bullet-sources.mjs accepts
+      either rather than silently dropping rows over a glyph.
+
+  construction:
+    type: string
+    required: true
+    enum: [cup_and_core, bonded, partition, monolithic, cast_lead,
+           plated, frangible, jacketed, turned_solid, unknown]
+    note: How the projectile is built. Mirrors the SQL CHECK.
+
+  base_type:
+    type: string
+    required: false
+    enum: [flat, boat_tail, rebated_boat_tail, bevel, gas_check,
+           hollow_base, unknown]
+    note: >
+      Bullet base shape. NOT a tip type - a shifted column put "boat_tail"
+      here and "polymer_tip" in tip_type, which rejected all 3 Hornady rows.
+
+  tip_type:
+    type: string
+    required: false
+    nullable: true
+    enum: [round_nose, spitzer, soft_point, hollow_point, hpbt,
+           polymer_tip, fmj, open_tip, wadcutter, semi_wadcutter, unknown]
+    note: >
+      Terminal performance shape. This is the column most often filled with the
+      wrong thing. It is NOT a design name: "very low drift" and "hybrid" are
+      designs and belong in product_line. It is NOT a use case: "match" and
+      "hunting" belong in use_case. Leave it BLANK rather than guess - a blank
+      is a visible gap, a wrong value is a silent lie.
+
+  use_case:
+    type: string
+    required: false
+    enum: [match, hunting, target, varmint, plinking, defense, other, unknown]
+    note: What the bullet is for.
+
+  source_url:
+    type: string
+    required: true
+    format: url
+    note: >
+      Where this row's data was actually read. MANDATORY: a row without a
+      source is refused by the loader. Provenance is the safety mechanism,
+      not decoration.
+
+  source_kind:
+    type: string
+    required: false
+    enum: [manufacturer, distributor, compilation, community]
+    default: manufacturer
+    note: >
+      Where the source sits on the authority scale. "community" must not
+      appear in an official table; see data/schema/011_community_layer.sql.
+

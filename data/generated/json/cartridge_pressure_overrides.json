@@ -1,0 +1,110 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "cartridge_pressure_overrides",
+  "description": null,
+  "source": "data/seeds/cartridge_pressure_overrides.csv",
+  "manifest": "data/schemas/cartridge_pressure_overrides.yaml",
+  "row_count": 3,
+  "columns": {
+    "cartridge_name": {
+      "type": "string",
+      "required": true,
+      "note": "Cartridge designation as the compilation tables spell it."
+    },
+    "standard_body": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "SAAMI",
+        "CIP",
+        "NATO",
+        "other"
+      ],
+      "note": "Which body published the figure being overridden. Upper case, because these are the body's own name as they write it. Mirrors the CHECK constraint on cartridge_pressure_references.standard_body in data/schema/009."
+    },
+    "method": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "piezo",
+        "copper_crusher",
+        "piezo_ksi_rounded"
+      ],
+      "note": "Which measurement method the figure refers to. SAAMI and CIP both publish piezo and copper-crusher maxima, and they are not interchangeable - an override that ignored this would silently replace a piezo figure with a copper-crusher one. Mirrors the CHECK constraint in data/schema/009; the loader derives this from pressure_unit ('cup' -> copper_crusher) for the compilation files."
+    },
+    "corrected_value": {
+      "type": "number",
+      "required": true,
+      "note": "The value that should be used instead. Always read with unit."
+    },
+    "unit": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "psi",
+        "bar",
+        "ksi",
+        "c.u.p.",
+        "cup"
+      ],
+      "note": "Unit of corrected_value."
+    },
+    "basis": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "primary",
+        "compilation",
+        "known_error"
+      ],
+      "note": "Why this override exists. Required, not optional: an override with no stated basis is indistinguishable from a guess, and a guess that outranks the compilations is the worst possible failure mode for pressure data. - primary: read from the standards body's own current table. - compilation: taken from a published compilation, not the body itself. - known_error: the compilation figure is believed wrong."
+    },
+    "source_url": {
+      "type": "string",
+      "note": "Where the corrected figure was read."
+    },
+    "reviewer_note": {
+      "type": "string",
+      "note": "Why the correction was made. May contain commas; keep quoted."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/cartridge_pressure_overrides.csv",
+      "_line": 2,
+      "cartridge_name": "6.5 Creedmoor",
+      "standard_body": "SAAMI",
+      "method": "piezo",
+      "corrected_value": 62000,
+      "unit": "psi",
+      "basis": "primary",
+      "source_url": "https://saami.org/technical-information/ansi-saami-standards/",
+      "reviewer_note": "kwk.us lists 52 ksi for 6.5 Creedmoor SAAMI. That is a transposition of 62. SAAMI Z299.4-2025 gives 62,000 psi and CIP gives 63,091 psi (4,350 bar); the CIP figure is independently corroborated by CIP TDCC. The archived local copy data/published/saami-z299.4-2025-centerfire-rifle.pdf is the authority; open it and confirm before relying on this row."
+    },
+    {
+      "_source": "data/seeds/cartridge_pressure_overrides.csv",
+      "_line": 3,
+      "cartridge_name": "6.5mm Remington Magnum",
+      "standard_body": "SAAMI",
+      "method": "copper_crusher",
+      "corrected_value": 53000,
+      "unit": "cup",
+      "basis": "compilation",
+      "source_url": "http://kwk.us/pressures.html",
+      "reviewer_note": "UNRESOLVED. kwk.us says 53,000 CUP, leverguns.com says 56,200 CUP. Both are third-party compilations. Do not publish either until Z299.4 is checked directly; the pressure class is otherwise uncertain by >5%."
+    },
+    {
+      "_source": "data/seeds/cartridge_pressure_overrides.csv",
+      "_line": 4,
+      "cartridge_name": ".350 Remington Magnum",
+      "standard_body": "SAAMI",
+      "method": "copper_crusher",
+      "corrected_value": 53000,
+      "unit": "cup",
+      "basis": "compilation",
+      "source_url": "http://kwk.us/pressures.html",
+      "reviewer_note": "UNRESOLVED. kwk.us says 53,000 CUP, leverguns.com says 56,200 CUP. Same open question as 6.5mm Rem Mag; check Z299.4 before publishing."
+    }
+  ]
+}

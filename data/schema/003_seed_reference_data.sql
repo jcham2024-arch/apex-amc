@@ -52,3 +52,15 @@ VALUES
     ('Lyman Reloading Handbook', '51st Edition', 2013, 'https://www.lymanproducts.com'),
     ('Speer Reloading Manual',  '2023', 2023, 'https://www.speer.com'),
     ('Vihtavuori Reloading Guide', '2024', 2024, 'https://www.vihtavuori.com');
+
+-- Web references, kept in the same table so provenance has one home. A live
+-- page has no edition number, but it DOES have a retrieval date, and the date
+-- is the part that matters: Hornady states on this page that it "originally
+-- published 800 yard average BC values" and has since republished at Mach 2.25,
+-- so a BC without a retrieval date is a citation that cannot be resolved.
+-- 'edition' carries the snapshot date because the column is part of the
+-- UNIQUE(name, edition) key.
+INSERT OR IGNORE INTO sources (name, edition, publication_year, url)
+VALUES
+    ('Hornady Ballistic Coefficient Reference', 'retrieved 2026-10-01', 2026, 'https://www.hornady.com/bc');
+

@@ -1,0 +1,7 @@
+cartridge,bullet,barrel_in,muzzle_velocity_fps,source,source_ref,uncertainty,notes
+308 Win,Lapua 155gr Scenar,20,2690,Tireur Competition Ballistics,Table 3.1,"SD not stated; treat as +-15 fps","MEASURED, not modelled. Validates our Homann barrel-length scaling. 24in=2772, 26in=2822 also published."
+308 Win,Lapua 155gr Scenar,24,2772,Tireur Competition Ballistics,Table 3.1,"SD not stated; treat as +-15 fps","Implies ~40 fps per inch beyond 20in, consistent with the 0.27 exponent."
+308 Win,Lapua 155gr Scenar,26,2822,Tireur Competition Ballistics,Table 3.1,"SD not stated; treat as +-15 fps","Gain per inch diminishes with barrel length."
+6.5 Creedmoor,Berger 140gr Hybrid,24,"2650-2760",Tireur Competition Ballistics,Table 10.3,"range, not a measurement","Load-data envelope, NOT an oracle row. Charge 40.0-42.5gr H4350, COAL 2.800."
+6mm Creedmoor,Berger 105gr Hybrid,26,"2800-2900",Tireur Competition Ballistics,Table 10.5,"range, not a measurement","Load-data envelope only. NOT an oracle row."
+6mm BR,Berger 105gr Hybrid,,2920.9,Tireur Competition Ballistics,Table 10.5/10.8,"ES 14 fps, SD 3.9 fps over a 20-round string","ORACLE. Raw string: 2918 2925 2914 2928 2920 2916 2922 2919 2927 2921 2915 2923 2926 2917 2920 2924 2919 2922 2916 2925. Ottawa 82F, 29.75 inHg."

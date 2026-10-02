@@ -1,10 +1,10 @@
-﻿
+
 // ESLint flat config.
 //
 // Scoping note: type-aware rules only run where a tsconfig covers the file.
 // `packages/` has one; the website and the Expo app do not, so those blocks
 // disable type checking rather than erroring. Ordering matters in flat config
-// â€” later blocks override earlier ones â€” so the non-typed blocks come last.
+// — later blocks override earlier ones — so the non-typed blocks come last.
 import js from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
@@ -20,10 +20,26 @@ export default tseslint.config(
       'archive/**',
       // Single-file site; superseded by apps/website/src modules.
       'apps/website/index.html',
-      // One-shot scratch scripts from parallel data work. Prefixed with an
-      // underscore and self-described as TEMP. Excluded from lint rather than
+      // Scratch left by parallel data agents. Excluded from lint rather than
       // deleted, because that agent may still be mid-run.
+      //
+      // This is load-bearing, not cosmetic. `npm run verify` runs `eslint .`,
+      // and these one-shot scripts use `console`/`Buffer`/`process` in ways that
+      // are correct for a diagnostic but fail `no-undef` under the default
+      // config. They produced 40 errors that made the whole build look broken
+      // while every real source file was clean. New scratch goes in tmp/.
       'scripts/_*.mjs',
+      'scripts/fix_*.mjs',
+      'scripts/fix_*.ps1',
+      'scripts/remove_*.mjs',
+      'scripts/remove_*.ps1',
+      'scripts/replace_*.mjs',
+      'scripts/test_read_csv*.mjs',
+      // Second scratch directory created by later data-agent work.
+      'tmp/**',
+      'temp/**',
+      '**/_tmp-*.mjs',
+      '**/_tmp*/**',
     ],
   },
 

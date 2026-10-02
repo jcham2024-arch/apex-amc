@@ -1,0 +1,75 @@
+# Column manifest: cartridge_pressure_overrides
+#
+# A hand-curated correction list. These are the cases where a published figure is
+# known to be wrong or misleading and the value in the compilations has been
+# superseded. Overrides are applied LAST in the loader, after both compilations
+# and after the curated cartridge_specs row, so a row here is the final word.
+#
+# The basis column records WHY, which is what makes an override reviewable. An
+# override without a stated basis is indistinguishable from a guess.
+
+dataset: cartridge_pressure_overrides
+storage: csv
+csv_path: data/seeds/cartridge_pressure_overrides.csv
+primary_key: [cartridge_name, standard_body, method]
+
+columns:
+  cartridge_name:
+    type: string
+    required: true
+    note: Cartridge designation as the compilation tables spell it.
+
+  standard_body:
+    type: string
+    required: true
+    enum: [SAAMI, CIP, NATO, other]
+    note: >
+      Which body published the figure being overridden. Upper case, because these
+      are the body's own name as they write it. Mirrors the CHECK constraint on
+      cartridge_pressure_references.standard_body in data/schema/009.
+
+  method:
+    type: string
+    required: true
+    enum: [piezo, copper_crusher, piezo_ksi_rounded]
+    note: >
+      Which measurement method the figure refers to. SAAMI and CIP both publish
+      piezo and copper-crusher maxima, and they are not interchangeable - an
+      override that ignored this would silently replace a piezo figure with a
+      copper-crusher one. Mirrors the CHECK constraint in data/schema/009; the
+      loader derives this from pressure_unit ('cup' -> copper_crusher) for the
+      compilation files.
+
+  corrected_value:
+    type: number
+    required: true
+    note: The value that should be used instead. Always read with unit.
+
+  unit:
+    type: string
+    required: true
+    enum: [psi, bar, ksi, c.u.p., cup]
+    note: Unit of corrected_value.
+
+  basis:
+    type: string
+    required: true
+    enum: [primary, compilation, known_error]
+    note: >
+      Why this override exists. Required, not optional: an override with no stated
+      basis is indistinguishable from a guess, and a guess that outranks the
+      compilations is the worst possible failure mode for pressure data.
+      - primary: read from the standards body's own current table.
+      - compilation: taken from a published compilation, not the body itself.
+      - known_error: the compilation figure is believed wrong.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: Where the corrected figure was read.
+
+  reviewer_note:
+    type: string
+    required: false
+    note: Why the correction was made. May contain commas; keep quoted.

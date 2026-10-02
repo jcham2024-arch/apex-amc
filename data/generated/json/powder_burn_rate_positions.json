@@ -1,0 +1,236 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "powder_burn_rate_positions",
+  "description": null,
+  "source": "data/seeds/powder_burn_rate_positions.csv",
+  "manifest": "data/schemas/powder_burn_rate_positions.yaml",
+  "row_count": 22,
+  "columns": {
+    "chart_slug": {
+      "type": "string",
+      "required": true,
+      "note": "Which published chart this position comes from. One chart per manufacturer currently, but the column is a slug rather than a brand name so a second chart for the same brand (different product line, or a reissued edition) can be added without merging two scales into one."
+    },
+    "brand": {
+      "type": "string",
+      "required": true,
+      "note": "The manufacturer who published the chart. Redundant with chart_slug on purpose - the chart table is authoritative for this and the loader checks the two agree."
+    },
+    "position": {
+      "type": "integer",
+      "required": true,
+      "note": "Rank on that chart, 1 = fastest burning. MEANINGLESS ACROSS BRANDS. This is an ordinal rank within one manufacturer's ordering, not a measurement."
+    },
+    "column_total": {
+      "type": "integer",
+      "required": true,
+      "note": "How many powders are on the chart, so a position can be read as a percentile within this chart. Never render \"position 7 of 40\" next to another brand's \"position 7 of 22\" without saying they are different scales."
+    },
+    "powder_name_as_published": {
+      "type": "string",
+      "required": true,
+      "note": "The designation exactly as the chart spells it. Matched to powders.product_name by the loader; a row whose name has no matching powder is reported and skipped rather than creating a phantom product."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 2,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 1,
+      "column_total": 22,
+      "powder_name_as_published": "N310"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 3,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 2,
+      "column_total": 22,
+      "powder_name_as_published": "N320"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 4,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 3,
+      "column_total": 22,
+      "powder_name_as_published": "N330"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 5,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 4,
+      "column_total": 22,
+      "powder_name_as_published": "N340"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 6,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 5,
+      "column_total": 22,
+      "powder_name_as_published": "N350"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 7,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 6,
+      "column_total": 22,
+      "powder_name_as_published": "3N38"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 8,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 7,
+      "column_total": 22,
+      "powder_name_as_published": "N110"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 9,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 8,
+      "column_total": 22,
+      "powder_name_as_published": "N120"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 10,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 9,
+      "column_total": 22,
+      "powder_name_as_published": "N130"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 11,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 10,
+      "column_total": 22,
+      "powder_name_as_published": "N133"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 12,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 11,
+      "column_total": 22,
+      "powder_name_as_published": "N135"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 13,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 12,
+      "column_total": 22,
+      "powder_name_as_published": "N140"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 14,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 13,
+      "column_total": 22,
+      "powder_name_as_published": "N540"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 15,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 14,
+      "column_total": 22,
+      "powder_name_as_published": "N150"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 16,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 15,
+      "column_total": 22,
+      "powder_name_as_published": "N550"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 17,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 16,
+      "column_total": 22,
+      "powder_name_as_published": "N555"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 18,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 17,
+      "column_total": 22,
+      "powder_name_as_published": "N160"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 19,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 18,
+      "column_total": 22,
+      "powder_name_as_published": "N560"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 20,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 19,
+      "column_total": 22,
+      "powder_name_as_published": "N165"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 21,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 20,
+      "column_total": 22,
+      "powder_name_as_published": "N565"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 22,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 21,
+      "column_total": 22,
+      "powder_name_as_published": "N568"
+    },
+    {
+      "_source": "data/seeds/powder_burn_rate_positions.csv",
+      "_line": 23,
+      "chart_slug": "vihtavuori-burning-rate-chart",
+      "brand": "Vihtavuori",
+      "position": 22,
+      "column_total": 22,
+      "powder_name_as_published": "20N29"
+    }
+  ]
+}

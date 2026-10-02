@@ -1,21 +1,29 @@
-﻿# Apex AMC
+# Apex AMC
 
-**Apex Ammunition & Components** â€” apex-amc.com
+**Apex Ammunition & Components** — apex-amc.com
 
 A free-to-run ammunition reference and affiliate site: an ammunition catalog,
 a cost-per-round / press break-even calculator, a retailer directory, and
 published reloading load data.
 
-Monetization is affiliate commission (AvantLink network â€” MidwayUSA,
+Monetization is affiliate commission (AvantLink network — MidwayUSA,
 Brownells, Natchez, Palmetto State Armory, OpticsPlanet, Primary Arms, Powder
 Valley, Target Sports). Google AdSense does not serve ammunition pages, so
 affiliate is the entire revenue model. There is no server cost.
 
 **We never hold customer funds.** Pooling member money for group buys would
-make us a money transmitter â€” see
+make us a money transmitter — see
 [docs/COMMUNITY-AND-GROUP-BUY.md](docs/COMMUNITY-AND-GROUP-BUY.md).
 
 ---
+
+## Working in this repo?
+
+**Read [`AGENTS.md`](AGENTS.md) first.** It is the baseline for any agent or new
+contributor: the governing rules, the verified current state, and a table of the
+traps that have silently produced wrong behaviour in this codebase.
+
+For what to work on next, see [`docs/TODO.md`](docs/TODO.md).
 
 ## Quick start
 
@@ -36,7 +44,11 @@ Requires **Node 22.6+** (the tooling uses `node:sqlite` and type stripping).
 | `npm run typecheck` | Strict `tsc`, no emit |
 | `npm test` | Unit tests over the domain package |
 | `npm run schema:check` | Applies every D1 migration to in-memory SQLite, verifies seed rows landed |
-| `npm run seed:check` | Validates `data/incoming/*.csv`, reports coverage |
+| `npm run seed:check` | Loads every seed CSV into SQLite and checks it, including the column manifests |
+| `npm run data:health` | One-glance data quality report — run this first |
+| `npm run coverage` | Per-manufacturer coverage table |
+| `npm run data:build` | Validates CSVs against `data/schemas/*.yaml`, regenerates JSON + Markdown |
+| `npm run data:validate` | Fails if a generated file is stale (part of `verify`) |
 | `npm run data:fetch` | Archives published source PDFs to `data/published/` |
 | `npm run website:dev` | Vite dev server |
 | `npm run website:build` | Static build to `apps/website/dist` |
@@ -46,30 +58,35 @@ Requires **Node 22.6+** (the tooling uses `node:sqlite` and type stripping).
 
 ```
 ApexProject/
-â”œâ”€ apps/
-â”‚  â”œâ”€ website/          apex-amc.com â€” the primary deliverable
-â”‚  â”‚  â”œâ”€ index.html     single-file site (deployed as-is)
-â”‚  â”‚  â””â”€ src/           extracted modules: dom.js, main.js, data/
-â”‚  â””â”€ ballistics/       Expo SDK 57 field app (offline use)
-â”œâ”€ packages/
-â”‚  â””â”€ ballistics-core/  pure, tested, framework-free domain logic
-â”‚     â””â”€ src/
-â”‚        â”œâ”€ provenance/  Sourced<T>, published/derived/estimated, constants
-â”‚        â”œâ”€ domain/      BallisticProfile value object
-â”‚        â”œâ”€ drag/        G1/G7 drag tables
-â”‚        â”œâ”€ dispersion.ts  CEP, extreme spread, Grubbs flyer detection
-â”‚        â”œâ”€ reloading.ts   Homann barrel scaling, ladders, COAL warnings
-â”‚        â””â”€ atmosphere.ts  speed of sound, Mach, density
-â”œâ”€ data/
-â”‚  â”œâ”€ schema/          numbered D1 migrations (001â€¦011), applied in order
-â”‚  â”œâ”€ incoming/        hand-curated CSVs (powder, bullet, cartridgeâ€¦)
-â”‚  â”œâ”€ published/       archived source PDFs + MANIFEST.md (gitignored)
-â”‚  â””â”€ seeds/           optional seed CSVs
-â”œâ”€ scripts/            schema validation, source archiving, extractors
-â”œâ”€ docs/               architecture, data model, audits, handoff pack
-â””â”€ archive/gemini/     prior drafts, kept for provenance, never built
+├─ apps/
+│  ├─ website/          apex-amc.com — the primary deliverable
+│  │  ├─ index.html     single-file site (deployed as-is)
+│  │  └─ src/           extracted modules: dom.js, main.js, data/
+│  └─ ballistics/       Expo SDK 57 field app (offline use)
+├─ packages/
+│  └─ ballistics-core/  pure, tested, framework-free domain logic
+│     └─ src/
+│        ├─ provenance/  Sourced<T>, published/derived/estimated, constants
+│        ├─ domain/      BallisticProfile value object
+│        ├─ drag/        G1/G7 drag tables
+│        ├─ dispersion.ts  CEP, extreme spread, Grubbs flyer detection
+│        ├─ reloading.ts   Homann barrel scaling, ladders, COAL warnings
+│        └─ atmosphere.ts  speed of sound, Mach, density
+├─ data/
+│  ├─ schema/          numbered D1 migrations (001-013), applied in order
+│  ├─ seeds/           the curated reference data - CSV, one file per maker
+│  ├─   bullets/        sierra.csv, hornady.csv, berger.csv, ...
+│  ├─   powders/        accurate, alliant, hodgdon, imr, ramshot, vihtavuori, winchester
+│  ├─   cartridge_specs/ rifle.csv, pistol.csv, shotgun.csv
+│  ├─ schemas/         column contracts (YAML) - the rules the loader enforces
+│  ├─ generated/       json/ and md/, built from the CSVs. Never edit.
+│  ├─ incoming/        raw research drop, gitignored. Never read by the loader.
+│  ├─ published/       archived source PDFs + MANIFEST.md (gitignored)
+├─ scripts/            schema validation, source archiving, extractors
+├─ docs/               architecture, data model, audits, handoff pack
+└─ archive/gemini/     prior drafts, kept for provenance, never built
 
-## The provenance system â€” read before adding any number
+## The provenance system — read before adding any number
 
 This project publishes reloading data. **A wrong charge weight can injure
 someone.** Every physical constant declares where it came from:
@@ -84,7 +101,7 @@ export const GRAINS_PER_POUND = published(7000, SOURCES.cip, { units: 'gr/lb' })
 export const SPEED_OF_SOUND_COEF = derived(49.022, SOURCES.usStdAtm,
   'Fitted from the standard-atmosphere table: a = k * sqrt(T_rankine).');
 
-// No published figure exists â€” and we say so.
+// No published figure exists — and we say so.
 export const TRANSONIC_MACH_THRESHOLD = estimated(1.2, SOURCES.sierraBallistics,
   'Instability onset is load-dependent; 1.2 Mach is a field convention, not a standard.');
 ```
@@ -122,11 +139,11 @@ import it.
 | Device layer | **Contracts + pipeline + turret gate built.** No vendor driver yet |
 | Weather | Conditions module + Open-Meteo parser. No screen yet |
 | Database schema | 20 tables, validated |
-| Seed data | Powders 145, pressure refs 275, published docs 23 |
+| Seed data | Powders 169 (7 brands), bullets 120, cartridges 229, pressure refs 782, published docs 23 |
 | Website | Single-file, XSS-hardened, calculator working |
 | Field app | Works; screens rewired to the solver |
 | Community/forum | Designed only — see `docs/COMMUNITY-AND-GROUP-BUY.md` |
-| Tests | 157 passing, lint and typecheck clean |
+| Tests | 215 passing, lint and typecheck clean |
 
 ### Verified state of the ballistics
 

@@ -1,0 +1,731 @@
+model,mach,cd,source,source_ref,verification,notes
+G1,0,0.2629,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.05,0.2558,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.1,0.2487,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.15,0.2413,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.2,0.2344,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.25,0.2278,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.3,0.2214,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.35,0.2155,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.4,0.2104,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.45,0.2061,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.5,0.2032,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.55,0.202,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.6,0.2034,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.7,0.2165,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.725,0.223,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.75,0.2313,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.775,0.2417,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.8,0.2546,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.825,0.2706,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.85,0.2901,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.875,0.3136,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.9,0.3415,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.925,0.3734,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.95,0.4084,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,0.975,0.4448,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1,0.4805,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.025,0.5136,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.05,0.5427,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.075,0.5677,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.1,0.5883,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.125,0.6053,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.15,0.6191,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.2,0.6393,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.25,0.6518,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.3,0.6589,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.35,0.6621,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.4,0.6625,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.45,0.6607,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.5,0.6573,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.55,0.6528,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.6,0.6474,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.65,0.6413,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.7,0.6347,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.75,0.628,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.8,0.621,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.85,0.6141,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.9,0.6072,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,1.95,0.6003,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2,0.5934,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.05,0.5867,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.1,0.5804,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.15,0.5743,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.2,0.5685,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.25,0.563,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.3,0.5577,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.35,0.5527,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.4,0.5481,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.45,0.5438,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.5,0.5397,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.6,0.5325,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.7,0.5264,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.8,0.5211,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,2.9,0.5168,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3,0.5133,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.1,0.5105,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.2,0.5084,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.3,0.5067,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.4,0.5054,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.5,0.504,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.6,0.503,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.7,0.5022,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.8,0.5016,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,3.9,0.501,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,4,0.5006,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,4.2,0.4998,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,4.4,0.4995,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,4.6,0.4992,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,4.8,0.499,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G1,5,0.4988,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG1,cross-source-3-way,Flat-based reference projectile; transonic rise 0.2032 -> 0.6625
+G2,0,0.2303,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.05,0.2298,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.1,0.2287,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.15,0.2271,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.2,0.2251,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.25,0.2227,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.3,0.2196,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.35,0.2156,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.4,0.2107,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.45,0.2048,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.5,0.198,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.55,0.1905,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.6,0.1828,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.65,0.1758,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.7,0.1702,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.75,0.1669,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.775,0.1664,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.8,0.1667,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.825,0.1682,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.85,0.1711,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.875,0.1761,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.9,0.1831,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.925,0.2004,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.95,0.2589,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,0.975,0.3492,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1,0.3983,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.025,0.4075,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.05,0.4103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.075,0.4114,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.1,0.4106,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.125,0.4089,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.15,0.4068,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.175,0.4046,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.2,0.4021,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.25,0.3966,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.3,0.3904,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.35,0.3835,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.4,0.3759,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.45,0.3678,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.5,0.3594,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.55,0.3512,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.6,0.3432,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.65,0.3356,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.7,0.3282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.75,0.3213,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.8,0.3149,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.85,0.3089,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.9,0.3033,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,1.95,0.2982,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2,0.2933,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.05,0.2889,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.1,0.2846,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.15,0.2806,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.2,0.2768,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.25,0.2731,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.3,0.2696,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.35,0.2663,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.4,0.2632,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.45,0.2602,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.5,0.2572,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.55,0.2543,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.6,0.2515,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.65,0.2487,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.7,0.246,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.75,0.2433,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.8,0.2408,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.85,0.2382,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.9,0.2357,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,2.95,0.2333,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3,0.2309,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.1,0.2262,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.2,0.2217,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.3,0.2173,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.4,0.2132,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.5,0.2091,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.6,0.2052,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.7,0.2014,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.8,0.1978,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,3.9,0.1944,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,4,0.1912,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,4.2,0.1851,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,4.4,0.1794,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,4.6,0.1741,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,4.8,0.1693,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G2,5,0.1648,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG2,cross-source-3-way,Conical banded boat-tail artillery
+G5,0,0.171,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.05,0.1719,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.1,0.1727,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.15,0.1732,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.2,0.1734,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.25,0.173,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.3,0.1718,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.35,0.1696,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.4,0.1668,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.45,0.1637,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.5,0.1603,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.55,0.1566,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.6,0.1529,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.65,0.1497,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.7,0.1473,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.75,0.1463,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.8,0.1489,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.85,0.1583,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.875,0.1672,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.9,0.1815,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.925,0.2051,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.95,0.2413,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,0.975,0.2884,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1,0.3379,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.025,0.3785,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.05,0.4032,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.075,0.4147,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.1,0.4201,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.15,0.4278,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.2,0.4338,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.25,0.4373,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.3,0.4392,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.35,0.4403,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.4,0.4406,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.45,0.4401,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.5,0.4386,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.55,0.4362,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.6,0.4328,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.65,0.4286,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.7,0.4237,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.75,0.4182,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.8,0.4121,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.85,0.4057,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.9,0.3991,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,1.95,0.3926,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2,0.3861,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.05,0.38,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.1,0.3741,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.15,0.3684,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.2,0.363,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.25,0.3578,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.3,0.3529,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.35,0.3481,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.4,0.3435,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.45,0.3391,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.5,0.3349,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.6,0.3269,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.7,0.3194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.8,0.3125,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,2.9,0.306,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3,0.2999,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.1,0.2942,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.2,0.2889,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.3,0.2838,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.4,0.279,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.5,0.2745,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.6,0.2703,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.7,0.2662,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.8,0.2624,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,3.9,0.2588,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,4,0.2553,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,4.2,0.2488,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,4.4,0.2429,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,4.6,0.2376,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,4.8,0.2326,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G5,5,0.228,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG5,cross-source-3-way,Round-nose boat-tail
+G6,0,0.2617,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.05,0.2553,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.1,0.2491,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.15,0.2432,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.2,0.2376,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.25,0.2324,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.3,0.2278,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.35,0.2238,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.4,0.2205,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.45,0.2177,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.5,0.2155,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.55,0.2138,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.6,0.2126,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.65,0.2121,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.7,0.2122,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.75,0.2132,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.8,0.2154,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.85,0.2194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.875,0.2229,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.9,0.2297,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.925,0.2449,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.95,0.2732,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,0.975,0.3141,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1,0.3597,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.025,0.3994,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.05,0.4261,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.075,0.4402,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.1,0.4465,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.125,0.449,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.15,0.4497,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.175,0.4494,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.2,0.4482,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.225,0.4464,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.25,0.4441,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.3,0.439,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.35,0.4336,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.4,0.4279,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.45,0.4221,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.5,0.4162,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.55,0.4102,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.6,0.4042,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.65,0.3981,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.7,0.3919,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.75,0.3855,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.8,0.3788,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.85,0.3721,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.9,0.3652,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,1.95,0.3583,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2,0.3515,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.05,0.3447,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.1,0.3381,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.15,0.3314,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.2,0.3249,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.25,0.3185,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.3,0.3122,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.35,0.306,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.4,0.3,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.45,0.2941,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.5,0.2883,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.6,0.2772,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.7,0.2668,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.8,0.2574,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,2.9,0.2487,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3,0.2407,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.1,0.2333,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.2,0.2265,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.3,0.2202,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.4,0.2144,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.5,0.2089,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.6,0.2039,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.7,0.1991,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.8,0.1947,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,3.9,0.1905,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,4,0.1866,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,4.2,0.1794,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,4.4,0.173,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,4.6,0.1673,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,4.8,0.1621,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G6,5,0.1574,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG6,cross-source-3-way,Flat-base spire-point
+G7,0,0.1198,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.05,0.1197,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.1,0.1196,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.15,0.1194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.2,0.1193,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.25,0.1194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.3,0.1194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.35,0.1194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.4,0.1193,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.45,0.1193,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.5,0.1194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.55,0.1193,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.6,0.1194,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.65,0.1197,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.7,0.1202,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.725,0.1207,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.75,0.1215,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.775,0.1226,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.8,0.1242,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.825,0.1266,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.85,0.1306,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.875,0.1368,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.9,0.1464,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.925,0.166,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.95,0.2054,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,0.975,0.2993,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1,0.3803,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.025,0.4015,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.05,0.4043,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.075,0.4034,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.1,0.4014,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.125,0.3987,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.15,0.3955,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.2,0.3884,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.25,0.381,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.3,0.3732,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.35,0.3657,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.4,0.358,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.5,0.344,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.55,0.3376,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.6,0.3315,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.65,0.326,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.7,0.3209,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.75,0.316,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.8,0.3117,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.85,0.3078,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.9,0.3042,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,1.95,0.301,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2,0.298,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.05,0.2951,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.1,0.2922,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.15,0.2892,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.2,0.2864,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.25,0.2835,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.3,0.2807,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.35,0.2779,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.4,0.2752,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.45,0.2725,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.5,0.2697,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.55,0.267,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.6,0.2643,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.65,0.2615,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.7,0.2588,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.75,0.2561,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.8,0.2533,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.85,0.2506,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.9,0.2479,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,2.95,0.2451,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3,0.2424,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.1,0.2368,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.2,0.2313,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.3,0.2258,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.4,0.2205,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.5,0.2154,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.6,0.2106,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.7,0.206,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.8,0.2017,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,3.9,0.1975,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,4,0.1935,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,4.2,0.1861,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,4.4,0.1793,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,4.6,0.173,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,4.8,0.1672,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G7,5,0.1618,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG7,cross-source-3-way,Secant-ogive boat-tail; transonic peak 0.4043 at Mach 1.05
+G8,0,0.2105,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.05,0.2105,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.1,0.2104,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.15,0.2104,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.2,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.25,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.3,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.35,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.4,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.45,0.2102,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.5,0.2102,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.55,0.2102,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.6,0.2102,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.65,0.2102,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.7,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.75,0.2103,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.8,0.2104,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.825,0.2104,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.85,0.2105,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.875,0.2106,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.9,0.2109,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.925,0.2183,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.95,0.2571,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,0.975,0.3358,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1,0.4068,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.025,0.4378,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.05,0.4476,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.075,0.4493,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.1,0.4477,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.125,0.445,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.15,0.4419,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.2,0.4353,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.25,0.4283,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.3,0.4208,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.35,0.4133,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.4,0.4059,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.45,0.3986,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.5,0.3915,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.55,0.3845,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.6,0.3777,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.65,0.371,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.7,0.3645,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.75,0.3581,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.8,0.3519,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.85,0.3458,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.9,0.34,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,1.95,0.3343,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2,0.3288,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.05,0.3234,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.1,0.3182,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.15,0.3131,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.2,0.3081,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.25,0.3032,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.3,0.2983,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.35,0.2937,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.4,0.2891,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.45,0.2845,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.5,0.2802,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.6,0.272,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.7,0.2642,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.8,0.2569,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,2.9,0.2499,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3,0.2432,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.1,0.2368,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.2,0.2308,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.3,0.2251,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.4,0.2197,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.5,0.2147,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.6,0.2101,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.7,0.2058,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.8,0.2019,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,3.9,0.1983,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,4,0.195,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,4.2,0.189,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,4.4,0.1837,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,4.6,0.1791,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,4.8,0.175,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+G8,5,0.1713,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableG8,cross-source-3-way,Flat-base 10-caliber secant ogive
+GI,0,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.05,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.1,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.15,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.2,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.25,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.3,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.35,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.4,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.45,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.5,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.55,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.6,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.65,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.7,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.725,0.2353,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.75,0.2434,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.775,0.2515,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.8,0.2596,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.825,0.2677,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.85,0.2759,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.875,0.2913,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.9,0.317,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.925,0.3442,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,0.95,0.3728,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1,0.4349,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.05,0.5034,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.075,0.5402,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.1,0.5756,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.125,0.5887,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.15,0.6018,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.175,0.6149,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.2,0.6279,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.225,0.6418,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.25,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.3,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.35,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.4,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.45,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.5,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.55,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.6,0.6423,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.625,0.6407,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.65,0.6378,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.7,0.6321,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.75,0.6266,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.8,0.6213,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.85,0.6163,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.9,0.6113,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,1.95,0.6066,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2,0.602,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.05,0.5976,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.1,0.5933,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.15,0.5891,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.2,0.585,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.25,0.5811,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.3,0.5773,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.35,0.5733,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.4,0.5679,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.45,0.5626,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.5,0.5576,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.6,0.5478,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.7,0.5386,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.8,0.5298,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,2.9,0.5215,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3,0.5136,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.1,0.5061,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.2,0.4989,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.3,0.4921,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.4,0.4855,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.5,0.4792,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.6,0.4732,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.7,0.4674,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.8,0.4618,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,3.9,0.4564,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,4,0.4513,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,4.2,0.4415,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,4.4,0.4323,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,4.6,0.4238,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,4.8,0.4157,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GI,5,0.4082,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGI,cross-source-3-way,Ingalls G1 variant
+GS,0,0.4662,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.05,0.4689,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.1,0.4717,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.15,0.4745,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.2,0.4772,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.25,0.48,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.3,0.4827,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.35,0.4852,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.4,0.4882,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.45,0.492,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.5,0.497,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.55,0.508,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.6,0.526,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.65,0.559,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.7,0.592,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.75,0.6258,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.8,0.661,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.85,0.6985,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.9,0.737,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,0.95,0.7757,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1,0.814,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.05,0.8512,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.1,0.887,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.15,0.921,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.2,0.951,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.25,0.974,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.3,0.991,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.35,0.999,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.4,1.003,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.45,1.006,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.5,1.008,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.55,1.009,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.6,1.009,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.65,1.009,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.7,1.009,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.75,1.008,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.8,1.007,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.85,1.006,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.9,1.004,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,1.95,1.0025,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2,1.001,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.05,0.999,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.1,0.997,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.15,0.9956,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.2,0.994,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.25,0.9916,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.3,0.989,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.35,0.9869,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.4,0.985,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.45,0.983,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.5,0.981,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.55,0.979,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.6,0.977,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.65,0.975,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.7,0.973,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.75,0.971,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.8,0.969,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.85,0.967,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.9,0.965,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,2.95,0.963,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3,0.961,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.05,0.9589,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.1,0.957,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.15,0.9555,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.2,0.954,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.25,0.952,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.3,0.95,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.35,0.9485,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.4,0.947,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.45,0.945,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.5,0.943,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.55,0.9414,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.6,0.94,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.65,0.9385,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.7,0.937,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.75,0.9355,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.8,0.934,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.85,0.9325,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.9,0.931,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,3.95,0.9295,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+GS,4,0.928,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableGS,cross-source-3-way,9/16 inch smooth sphere
+RA4,0,0.2283,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.05,0.2283,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.1,0.2282,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.15,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.2,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.25,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.3,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.35,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.4,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.45,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.5,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.55,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.6,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.65,0.2281,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.7,0.2288,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.725,0.2296,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.75,0.2307,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.775,0.232,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.8,0.2334,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.825,0.2359,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.85,0.2389,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.875,0.248,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.9,0.2604,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.925,0.2819,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.95,0.3111,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,0.975,0.3496,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1,0.3975,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.025,0.453,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.05,0.501,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.075,0.5476,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.1,0.5719,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.125,0.5895,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.15,0.5943,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.175,0.5933,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.2,0.5881,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.225,0.581,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.25,0.5736,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.275,0.569,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.3,0.5651,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.325,0.5629,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.35,0.5609,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.375,0.5591,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.4,0.5575,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.425,0.5558,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.45,0.5543,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.475,0.5527,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.5,0.5513,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.525,0.5499,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.55,0.5485,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.575,0.5472,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.6,0.546,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.625,0.5449,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.65,0.5438,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.675,0.5428,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.7,0.5419,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.725,0.541,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.75,0.5401,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.775,0.5393,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.8,0.5385,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.825,0.5377,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.85,0.5369,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.875,0.5361,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.9,0.5354,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.925,0.5346,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,1.95,0.5338,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2,0.5323,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.1,0.5294,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.2,0.5267,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.3,0.524,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.4,0.5216,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.5,0.5193,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.6,0.517,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.65,0.516,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.7,0.5149,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.8,0.5129,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,2.9,0.5109,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3,0.5091,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.1,0.5074,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.2,0.5058,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.3,0.5043,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.4,0.5029,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.5,0.5017,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.6,0.5006,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.7,0.4995,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.8,0.4986,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,3.9,0.4977,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific
+RA4,4,0.4969,"McCoy, Modern Exterior Ballistics (2012)",drag_tables.py TableRA4,cross-source-3-way,.22 LR 40gr projectile-specific

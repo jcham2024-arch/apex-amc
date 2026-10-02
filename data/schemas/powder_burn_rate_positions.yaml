@@ -1,0 +1,63 @@
+# Column manifest: powder_burn_rate_positions
+#
+# Where a powder sits on its OWN manufacturer's published burn-rate chart.
+#
+# The single most important caveat in this dataset lives in the position column
+# below: these numbers are NOT comparable across brands. Position 7 on the
+# Vihtavuori chart says nothing about Hodgdon 7. Sorting every powder into one
+# global burn-rate number would be a category error, so nothing in this
+# repository does that - see the chart_slug column.
+
+dataset: powder_burn_rate_positions
+storage: csv
+csv_path: data/seeds/powder_burn_rate_positions.csv
+# powder_burn_rate_charts is intentionally NOT declared as a cross-dataset
+# reference here. It is a seeded SQL table, not a CSV dataset, so there is no
+# manifest for it and validateReferences() would report the reference as pointing
+# at an unknown dataset. The chart_slug -> powders.product_name relationship is
+# checked at load time instead, where a position whose powder name matches
+# nothing is reported and skipped rather than creating a phantom product.
+primary_key: [chart_slug, powder_name_as_published]
+
+columns:
+  chart_slug:
+    type: string
+    required: true
+    note: >
+      Which published chart this position comes from. One chart per manufacturer
+      currently, but the column is a slug rather than a brand name so a second
+      chart for the same brand (different product line, or a reissued edition)
+      can be added without merging two scales into one.
+
+  brand:
+    type: string
+    required: true
+    note: >
+      The manufacturer who published the chart. Redundant with chart_slug on
+      purpose - the chart table is authoritative for this and the loader checks
+      the two agree.
+
+  position:
+    type: integer
+    required: true
+    minimum: 1
+    note: >
+      Rank on that chart, 1 = fastest burning. MEANINGLESS ACROSS BRANDS. This is
+      an ordinal rank within one manufacturer's ordering, not a measurement.
+
+  column_total:
+    type: integer
+    required: true
+    minimum: 1
+    note: >
+      How many powders are on the chart, so a position can be read as a
+      percentile within this chart. Never render "position 7 of 40" next to
+      another brand's "position 7 of 22" without saying they are different scales.
+
+  powder_name_as_published:
+    type: string
+    required: true
+    note: >
+      The designation exactly as the chart spells it. Matched to
+      powders.product_name by the loader; a row whose name has no matching powder
+      is reported and skipped rather than creating a phantom product.

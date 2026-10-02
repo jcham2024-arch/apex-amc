@@ -1,5 +1,20 @@
+/**
+ * Rayleigh group / CEP calculator.
+ *
+ * SAFETY: the maths here now comes from `@apex/ballistics-core`, which is the
+ * same validated code the website uses. It used to be reimplemented inline:
+ *
+ *   const sigma = Math.sqrt(sumSqRadii / (2 * n));
+ *   return { cep50: 1.1774 * sigma, cep90: 2.1460 * sigma };
+ *
+ * The arithmetic happened to be right, but the constants were copy-pasted
+ * literals. That is precisely the duplication the provenance system exists to
+ * prevent, and it had already let one wrong Grubbs table survive in two places.
+ * Now there is one CEP definition in the repo, and the test suite guards it.
+ */
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { dispersion } from '@apex/ballistics-core';
 
 const TARGET_SIZE = 280;
 const SCALE_INCHES = 6;
@@ -21,22 +36,13 @@ export default function RayleighGroupCalculator() {
   };
 
   const calculateMetrics = () => {
-    const n = shots.length;
-    if (n < 3) return null;
-
-    const coiX = shots.reduce((sum, s) => sum + s.x, 0) / n;
-    const coiY = shots.reduce((sum, s) => sum + s.y, 0) / n;
-
-    const radii = shots.map((s) => Math.sqrt(Math.pow(s.x - coiX, 2) + Math.pow(s.y - coiY, 2)));
-    const meanRadius = radii.reduce((sum, r) => sum + r, 0) / n;
-
-    const sumSqRadii = radii.reduce((sum, r) => sum + r * r, 0);
-    const sigma = Math.sqrt(sumSqRadii / (2 * n));
-
-    return { n, coiX, coiY, meanRadius, cep50: 1.1774 * sigma, cep90: 2.1460 * sigma };
+    // Delegates to the shared domain. It returns null for fewer than 3 shots.
+    return dispersion(shots);
   };
 
-  const metrics = calculateMetrics();
+  // A Rayleigh CEP needs at least 3 shots to be meaningful. The shared domain
+  // permits 2 (it can return an SD), so the stricter UI rule is kept here.
+  const metrics = shots.length >= 3 ? calculateMetrics() : null;
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
@@ -62,7 +68,10 @@ export default function RayleighGroupCalculator() {
       {metrics && (
         <View style={styles.card}>
           <Text style={styles.cardTitle}>CEP 50% RADIUS: {metrics.cep50.toFixed(2)}"</Text>
+          <Text style={styles.cardTitle}>CEP 90% RADIUS: {metrics.cep90.toFixed(2)}"</Text>
           <Text style={styles.cardTitle}>MEAN RADIUS: {metrics.meanRadius.toFixed(2)}"</Text>
+          <Text style={styles.cardTitle}>EXTREME SPREAD: {metrics.extremeSpread.toFixed(2)}"</Text>
+          <Text style={styles.cardSubtitle}>{metrics.n} shots</Text>
         </View>
       )}
     </ScrollView>
@@ -97,4 +106,5 @@ const styles = StyleSheet.create({
   shotNumber: { color: '#ffffff', fontSize: 7, fontWeight: '900' },
   card: { backgroundColor: '#1e293b', padding: 12, borderRadius: 8, borderWidth: 1, borderColor: '#334155' },
   cardTitle: { color: '#38bdf8', fontSize: 14, fontWeight: '900', marginBottom: 4 },
+  cardSubtitle: { color: '#94a3b8', fontSize: 12, marginTop: 6 },
 });

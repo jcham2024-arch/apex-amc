@@ -1,0 +1,91 @@
+# Column manifest: sourcing_searches
+#
+# The queries that a retailer search box should be given for an entity. This is
+# the bridge between our internal naming and a retailer's naming - we call a
+# thing "Sierra MatchKing 169gr HPBT", a retailer calls it "Sierra SMK HPBT
+# 169gr".
+#
+# entity_slug is BLANK on every row today, deliberately. The bullets table had no
+# slug column until migration 013, and inventing a slug here would break the
+# entity_slug contract for every dataset that uses it. The column exists so that
+# the join can be filled in later without a schema change.
+
+dataset: sourcing_searches
+storage: csv
+csv_path: data/seeds/sourcing_searches.csv
+primary_key: [slug]
+
+columns:
+  slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: Stable id for this search, e.g. "sierra-mk-169gr-hpbt".
+
+  entity_type:
+    type: string
+    required: false
+    enum: [bullet, powder, cartridge, brass, primer]
+    note: >
+      What kind of thing is being searched for. Blank today for the same reason
+      entity_slug is - it is derivable from category and the pair should be
+      filled in together.
+
+  entity_slug:
+    type: string
+    required: false
+    note: >
+      Our own id for the thing, once one exists. Optional because it is blank
+      across the file today; when filled, it must resolve in the dataset named by
+      entity_type.
+
+  display_name:
+    type: string
+    required: true
+    note: How we show it to a user.
+
+  search_terms:
+    type: string
+    required: true
+    note: >
+      The query string to hand a retailer. Deliberately shorter than
+      display_name: retailer search boxes do better with fewer, better tokens than
+      with our full internal designation.
+
+  match_quality:
+    type: string
+    required: true
+    enum: [exact_sku, model, fuzzy]
+    note: >
+      How well the search is expected to land.
+      - exact_sku: the part number is reused verbatim by retailers, so an exact
+        search should hit.
+      - model: a product line with several variants, so results need filtering.
+      Never silently upgraded to a better value - a user shown a fuzzy match as an
+      exact one will buy the wrong thing.
+
+  manufacturer_part_number:
+    type: string
+    required: false
+    note: >
+      The manufacturer's own part number. A STRING, never an integer: these carry
+      leading zeros ("065147") and coercing them destroys the exact-match key.
+
+  category:
+    type: string
+    required: true
+    enum: [bullet, powder]
+    note: Component class, used to pick which retailer set to search.
+
+  notes:
+    type: string
+    required: false
+    note: >
+      Free prose. May contain commas; keep quoted. Where the reasoning for a
+      blank or a match_quality choice is recorded.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: The manufacturer's page this designation was read from.

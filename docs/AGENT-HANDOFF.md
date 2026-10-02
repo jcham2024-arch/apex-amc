@@ -7,12 +7,13 @@ repo beyond what the brief states. Hand them out one per agent.
 
 1. **Never invent a value.** Safety-critical reference data only comes from a
    published manufacturer manual, CIP/SAAMI standard, or NIST. Leave a cell
-   EMPTY rather than guessing. See `data/incoming/powders.md` for the
+   EMPTY rather than guessing. See `data/research/POWDER-ACCURACY-DOCTRINE.md` for the
    accuracy doctrine already in force.
 2. **Never commit an original source document.** Archived PDFs are gitignored.
    Republish derived single facts with attribution only.
 3. **Run `npm run verify` before you finish.** It is lint + typecheck + tests
-   + schema + seed. All five must pass.
+   + encoding + bullets + schema + seed + data drift. All must pass, and it must
+   exit 0. 215 tests currently pass.
 4. **Do not edit files you were not assigned.** If you find a bug elsewhere,
    report it in your summary rather than fixing it.
 5. **Document provenance in code.** Every physical constant belongs in
@@ -23,9 +24,14 @@ repo beyond what the brief states. Hand them out one per agent.
 ## Repo shape
 
 npm workspaces monorepo. `apps/website` (Cloudflare Pages), `apps/ballistics`
-(Expo 57), `packages/ballistics-core` (pure domain logic), `data/schema`
-(numbered D1 migrations), `data/published` (archived source PDFs),
-`data/incoming` (hand-curated CSVs).
+(Expo 57), `packages/ballistics-core` (pure domain logic), `data/seeds` (curated
+loadable CSVs), `data/schemas` (column contracts), `data/schema` (numbered D1
+migrations), `data/published` (archived source PDFs, gitignored except the
+manifest), `data/research` (curated analysis, not data), `data/incoming`
+(research staging, gitignored, **never read by the loader**).
+
+**Start with [`TODO.md`](TODO.md)** — it is the consolidated task list, measured
+1 Oct 2026.
 
 ## Lane dependency map
 
@@ -152,28 +158,46 @@ numbers. That is what stops magic numbers re-entering the UI.
 
 # Lane 3 — Data intake pipeline
 
-**Why:** the schema is rich but **empty**. 20 tables, effectively zero rows of
-real component data. `data/incoming/powders.md` is an excellent exemplar of the
-accuracy doctrine — follow it.
+**⚠️ Rewritten 1 Oct 2026. The loader described below already exists — do not
+build it.** This lane is now *content and data-quality* work. Read
+[`TODO.md`](TODO.md) first; it is the authoritative task list.
 
-**Current state:** `data/incoming/` has powders. `data/published/` archives
-real primary sources (SAAMI Z299.3/299.4, Hodgdon burn-rate chart, Vihtavuori
-and Alliant reloading guides, CIP TDCC index).
+**Why it still matters:** the schema is rich but the content is not. 989
+governed rows across 13 datasets, and `recipes` is **completely empty**.
 
-**Build the loader — do not hand-write inserts:**
+**What already exists:**
 
-1. `scripts/import-csv.ts` — streaming CSV loader that upserts into D1,
-   header-driven, with per-column transforms and a `--dry-run` mode reporting
-   what would be written and what was rejected.
-2. `scripts/validate-row.ts` — plausibility checks that refuse absurd data:
-   - bullet weight 5–1000 gr; charge weight 0.1–200 gr
-   - BC 0.005–1.0; velocity 300–5000 fps
-   - **bullet weight and charge weight within 0.2–1.2× of each other** for a
-     given load — this catches the most common transcription error
-3. Wire `npm run data:import -- <file>`.
-4. Every row must land with a `source_id` pointing at `sources`. Reject
-   anything without provenance.
-5. `scripts/report-coverage.ts` — per-table row count plus columns still
+| Thing | Where |
+|---|---|
+| CSV loader + validation | `scripts/check-seeds.mjs` |
+| Column manifests | `data/schemas/*.yaml` (13 datasets, all 23 CSVs governed) |
+| Generation + drift check | `scripts/build-data.mjs`, `npm run data:validate` |
+| Health / coverage reports | `npm run data:health`, `npm run coverage` |
+| Encoding + structure guard | `npm run test:encoding` |
+| Bullet chart importer | `npm run bullets:import -- <slug>` |
+
+**Do NOT build these again:** `import-csv.ts`, `validate-row.ts`,
+`report-coverage.ts`, `data:import`. They exist as `.mjs` with different names.
+
+**Your task — content, in priority order:**
+
+1. **Load recipes (§0 in TODO.md).** Zero exist, and they gate the feature that
+   matters most. Store *citations* to published loads, not reproductions — the
+   manuals are copyrighted and commercially licensed.
+2. **Cartridge dimensions (§2.1).** 10 of 21 columns are empty on all 229 rows.
+   CIP tables are in `data/published/` and are machine-readable; start there.
+3. **Bullet coverage (§2.3).** 32 manufacturers have no rows. `npm run bullets:
+   import -- <slug>` works. **Check `SOURCE-SURVEY.md` first** — several
+   manufacturers publish nothing usable, and that is a legitimate "not started".
+4. **The four integrity defects in TODO.md §1.** Already diagnosed, all small.
+
+**The two validity rules that override convenience:**
+
+- A load's bullet weight and charge weight must be within 0.2–1.2× of each
+  other. This catches the most common transcription error by far.
+- Never `INSERT OR IGNORE`. Seven legitimate Berger bullets were dropped this
+  way on 2026-10-01 — same name, same weight, different diameters, so the old
+  `(name, weight)` key collided and the insert was silently skipped.
 
 ---
 

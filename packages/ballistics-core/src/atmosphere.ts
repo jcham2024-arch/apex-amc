@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Atmospheric properties. Pure, no dependencies.
  *
  * Every function documents the source of its coefficient and the verification
@@ -50,7 +50,7 @@ export const celsiusToFahrenheit = (c: number): number => (c * 9) / 5 + 32;
  * k = 49.022 fps/sqrt(R) is fitted so the ISA table is reproduced at low
  * altitude, where the linearised and full solutions agree to better than
  * 0.1%. It is an implementation constant *for the standard atmosphere*, not a
- * measured speed of sound in real air â€” real air is humid, and humidity
+ * measured speed of sound in real air — real air is humid, and humidity
  * raises it. See {@link speedOfSoundHumidFps}.
  *
  * VERIFIED: 1116.4 fps at 59 degF, matching ISA sea level at 15 degC.
@@ -76,8 +76,8 @@ export function speedOfSoundFps(tempF: number): number {
  *
  * Why it matters here: the drag tables are indexed by Mach number, so an
  * error in the speed of sound becomes an error in the drag coefficient.
- * The effect is small (a few tenths of a percent at high humidity) â€” wind
- * and elevation dominate â€” but it is free to compute.
+ * The effect is small (a few tenths of a percent at high humidity) — wind
+ * and elevation dominate — but it is free to compute.
  *
  * @param relativeHumidityPct 0-100
  */
@@ -257,7 +257,7 @@ export function humidityDensityCorrection(
 /**
  * Resolve a wind report into the components the solver needs.
  *
- * A shooter reports wind as "10 mph from 10 o'clock" â€” a *direction of
+ * A shooter reports wind as "10 mph from 10 o'clock" — a *direction of
  * origin*. The solver needs the vector the air moves *toward*, because that
  * is what carries the bullet sideways. Getting this backwards makes a
  * left-to-right crosswind push the bullet right-to-left, a classic and very
@@ -303,7 +303,7 @@ export function resolveWind(speedMph: number, directionDeg: number): {
  * medium-burn rifle cartridge; the cube-root law predicts 0.1%/1000 ft.
  *
  * FIRST-ORDER ONLY. The dominant effect at altitude is that the bullet loses
- * less velocity, so the trajectory is flatter â€” a correction the solver
+ * less velocity, so the trajectory is flatter — a correction the solver
  * applies to the trajectory, not one the shooter applies to the muzzle
  * velocity. See docs/BALLISTICS-AUDIT.md.
  */

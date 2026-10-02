@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Physical and statistical constants, each with its citation.
  *
  * This module exists to eliminate magic numbers. If a computation needs a
@@ -20,7 +20,7 @@ const RETRIEVED = '2026-09-30';
 // ---------------------------------------------------------------------------
 
 export const SOURCES = {
-  /** CIP (CIPM) dimensions â€” the international cartridge standard. */
+  /** CIP (CIPM) dimensions — the international cartridge standard. */
   cip: {
     id: 'cipm',
     publisher: 'International Commission of Metrology',
@@ -133,7 +133,7 @@ export const MILRAD = published(0.001, SOURCES.cip, { units: 'rad' });
  * G1 and G7 are the two standard drag models. A projectile's BC is a
  * *model-specific ratio*, not a physical constant, so the G1 figure is
  * published and the G7 is derived from it where a manufacturer supplies only
- * G1 â€” see `deriveG7FromG1`.
+ * G1 — see `deriveG7FromG1`.
  */
 export const G1_DRAG_MODEL = published(1, SOURCES.sierraBallistics, {
   units: 'BC',

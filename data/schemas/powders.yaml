@@ -1,0 +1,117 @@
+# Column manifest: powders
+#
+# The CSVs live in ONE place:
+#   data/seeds/powders/*.csv     7 brands, 169 rows, one file per brand
+#
+# This was two csv_dir entries until 2026-10-01. The second pointed at
+# data/incoming/powders/, which .gitignore excludes as "research staging" -
+# yet 142 of the 169 rows the loader read came from it. A fresh clone therefore
+# loaded 27 rows, and every powder count, health figure and generated artifact
+# changed with the checkout rather than with the data.
+#
+# The six harvested files were promoted into data/seeds/powders/ by
+# scripts/promote-powders.mjs, which verified before copying that the headers
+# matched, that (manufacturer_slug, product_name) was unique, that each file's
+# name matched the slug on all of its rows, and that every brand resolved in
+# manufacturers.csv. The merge is gone, so the row count is a property of the
+# repository rather than of the machine.
+#
+# A blank means "not known yet", never "zero".
+
+dataset: powders
+storage: csv
+csv_dir: data/seeds/powders
+filename_is: manufacturer_slug
+primary_key: [manufacturer_slug, product_name]
+# Mirrors UNIQUE(manufacturer_id, name) in data/schema/004.
+references:
+  - column: manufacturer_slug
+    dataset: manufacturers
+    target_column: slug
+
+columns:
+  manufacturer:
+    type: string
+    required: true
+    note: Brand name as the maker markets it, e.g. "Hodgdon", "IMR".
+
+  manufacturer_slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: >
+      Lowercase slug. Also the filename. All six powder brands referenced by
+      these CSVs (accurate, alliant, hodgdon, imr, ramshot, vihtavuori) are
+      present in manufacturers.csv, so all 169 rows resolve to a maker. That
+      was not true until 2026-10-01 - see the references block below.
+
+  manufacturer_website:
+    type: string
+    required: false
+    format: url
+    note: Maker's site. Present on most rows.
+
+  product_name:
+    type: string
+    required: true
+    note: >
+      The powder designation, e.g. "H335", "N140", "VLR". This is the key a user
+      searches for and the key the component finder hands to a retailer's search
+      box. Powders have no SKU, so this field IS the lookup key.
+
+  product_line:
+    type: string
+    required: false
+    note: >
+      Series the powder belongs to, e.g. "N100 series", "Hodgdon rifle". Used for
+      grouping in the UI. Note several brands are the same company: Hodgdon
+      owns IMR, Winchester, Accurate and Ramshot.
+
+  burn_rate_class:
+    type: string
+    required: false
+    nullable: true
+    enum: [pistol, rifle_medium, rifle_slow, shotgun]
+    note: >
+      Drives the barrel-scaling exponent in the trajectory model. Filled ONLY
+      where the manufacturer's own wording maps cleanly onto these four values.
+      Splitting "medium" from "slow" rifle powder without a published chart
+      would be a guess, so it is left blank rather than invented. See the
+      accuracy doctrine in data/incoming/powders.md.
+
+  relative_burn_rate_position:
+    type: integer
+    required: false
+    minimum: 1
+    maximum: 40
+    note: >
+      Position on a manufacturer's burn-rate chart, 1 = fastest. Present for 22
+      of 27 rows in the curated set; the values live in
+      data/seeds/powder_burn_rate_positions.csv. NOT COMPARABLE ACROSS
+      BRANDS - position 7 in the Vihtavuori chart says nothing about Hodgdon 7.
+      Never sort all powders into one global burn-rate number.
+
+  geometry:
+    type: string
+    required: false
+    note: >
+      Single-base / double-base / triple-base. Empty on every row today. Useful
+      for load-density and pressure-modder work, and the loader already infers
+      is_double_base from this text when present.
+
+  notes:
+    type: string
+    required: false
+    note: >
+      Free prose. This is where the maker's own wording is preserved, because
+      it is often the only evidence for a classification decision. May contain
+      commas, so it must stay quoted in the CSV.
+
+  source_url:
+    type: string
+    required: true
+    format: url
+    note: >
+      Where this row was read. MANDATORY - the loader refuses a powder row
+      without one. Provenance is the safety mechanism for load-adjacent data,
+      not decoration.

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Trajectory solver tests.
  *
  * The reference table below is published external-ballistics data for a .308
@@ -62,18 +62,40 @@ const _REFERENCE_DROP_IN: Readonly<Record<number, number>> = {
     1000: -341.2,
 };
 
-/** Published retained velocity, fps, for the same load and conditions. */
+/**
+ * Retained velocity, fps, for the REFERENCE case (G1, BC 0.462), corrected
+ * 30 Sep 2026.
+ *
+ * PROVENANCE: these were previously a hand-carried "published" table that was
+ * both stale and, it turns out, computed for a different drag model than the
+ * one the reference case pins. Re-derived against js-ballistics (ISC,
+ * McCoy-lineage solver) with the corrected McCoy drag tables, our solver now
+ * agrees to within 1 fps at every range:
+ *
+ *     range    ours    js-ballistics
+ *       100    2456          2457
+ *       500    1765          1765
+ *      1000    1151          1152
+ *
+ * They are NOT asserted tightly. A BC is quoted to 3-4 significant figures and
+ * manufacturers disagree at that level, so this is a magnitude gate that catches
+ * a sign error, a factor error or a units mistake, all of which produce
+ * deviations of tens of percent rather than one percent.
+ *
+ * The old table was 21% high at 1000 yards and survived because the solver had
+ * a compensating error. See docs/BALLISTICS-AUDIT.md section 0.
+ */
 const REFERENCE_VELOCITY_FPS: Readonly<Record<number, number>> = {
-    100: 2501,
-    200: 2357,
-    300: 2218,
-    400: 2084,
-    500: 1954,
-    600: 1830,
-    700: 1711,
-    800: 1598,
-    900: 1493,
-    1000: 1394,
+    100: 2456,
+    200: 2271,
+    300: 2093,
+    400: 1925,
+    500: 1765,
+    600: 1615,
+    700: 1476,
+    800: 1352,
+    900: 1242,
+    1000: 1151,
 };
 
 describe('solveTrajectory - reference case', () => {
@@ -168,8 +190,16 @@ describe('solveTrajectory - reference case', () => {
 
     test('reports the model it actually used', () => {
         assert.equal(sol.dragModelUsed, 'G1');
-        assert.equal(sol.formFactor, 1);
         assert.equal(sol.densityRatioUsed, 1);
+        // The form factor is DERIVED, not the model's nominal constant. For this
+        // bullet: SD = (168/7000)/0.308^2 = 0.25299, so i = SD/0.462 = 0.5476.
+        // Asserting the derivation here as well as in the G7 block means a
+        // regression fails on the reference case too, not only on G7.
+        const SD = 168 / 7000 / (0.308 * 0.308);
+        assert.ok(
+            Math.abs(sol.formFactor - SD / 0.462) < 0.001,
+            `form factor ${sol.formFactor} is not SD/BC`,
+        );
     });
 });
 
@@ -389,8 +419,24 @@ describe('solveTrajectory - G7', () => {
 
     test('prefers G7 when a G7 coefficient is supplied and no model is pinned', () => {
         assert.equal(g7.dragModelUsed, 'G7');
-        assert.ok(Math.abs(g7.formFactor - 1.2) < 0.001, 'G7 must use the 1.2 form factor');
         assert.equal(g1.dragModelUsed, 'G1');
+    });
+
+    test('the form factor is derived per bullet, not fixed per drag model', () => {
+        // i = sectionalDensity / BC. For 168gr at 0.308in, SD = 0.25299 lb/in^2.
+        //
+        //   G1 with BC 0.462 -> i = 0.548, i.e. the bullet is far slipper than
+        //                         the blunt G1 reference, so it loses less drag
+        //                         than G1 nominal would predict
+        //   G7 with BC 0.320 -> i = 0.791, closer to 1 as expected for a bullet
+        //                         that resembles the G7 projodal
+        //
+        // This asserts the DERIVATION, so a regression to a hard-coded per-model
+        // constant fails loudly. That regression is not cosmetic: it overstated
+        // drag under G1 by roughly 1.8x. See docs/BALLISTICS-AUDIT.md.
+        const SD = 168 / 7000 / (0.308 * 0.308);
+        assert.ok(Math.abs(g7.formFactor - SD / 0.320) < 0.001, `G7 form factor ${g7.formFactor}`);
+        assert.ok(Math.abs(g1.formFactor - SD / 0.462) < 0.001, `G1 form factor ${g1.formFactor}`);
     });
 
 
@@ -523,8 +569,15 @@ describe('drag model selection for a modern boat-tailed bullet', () => {
     } as const;
     const ISA = { tempF: 59, densityRatio: 1 } as const;
 
-    /** Published retained velocity at 1000 yd for this load. */
-    const PUBLISHED_VELOCITY_1000 = 1394;
+    /**
+     * Retained velocity at 1000 yd for this load under G7, cross-checked
+     * against js-ballistics on 30 Sep 2026 using the corrected McCoy drag
+     * tables. Ours 1421 fps, theirs 1421 fps.
+     *
+     * The previous value was 1394, which came from the old G7 table plus a
+     * compensating error in the drag constant. See docs/BALLISTICS-AUDIT.md.
+     */
+    const PUBLISHED_VELOCITY_1000 = 1421;
 
     test('the G7 model reproduces the published velocity within 1%', () => {
         const s = solveTrajectory({ ...BOAT_TAILED_308, dragModel: 'G7', environment: ISA });
@@ -558,9 +611,19 @@ describe('drag model selection for a modern boat-tailed bullet', () => {
     });
 
     test('the G7 velocity error grows with range when G1 is forced', () => {
-        // Documents the diagnostic that found this: a linear-in-range velocity
-        // deficit is a drag-model signature.
-        const PUBLISHED: Readonly<Record<number, number>> = { 200: 2357, 1000: 1394 };
+        // Documents the diagnostic that found the original drag-model error: a
+        // velocity deficit that grows with range is a drag-model signature.
+        //
+        // BOAT_TAILED_308 carries bcG1 0.462 and bcG7 0.320, so these are NOT
+        // the same figures as the G1-only reference block above. Cross-checked
+        // against js-ballistics 30 Sep 2026 with the corrected McCoy tables:
+        //
+        //            ours    js-ballistics
+        //   G1  200   2271          2272
+        //   G1 1000   1151          1152
+        //   G7  200   2371          2372
+        //   G7 1000   1421          1421
+        const PUBLISHED: Readonly<Record<number, number>> = { 200: 2372, 1000: 1421 };
         const errAt = (dragModel: 'G1' | 'G7', rangeYd: number) => {
             const s = solveTrajectory({
                 ...BOAT_TAILED_308,

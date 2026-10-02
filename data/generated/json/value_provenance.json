@@ -1,0 +1,173 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "value_provenance",
+  "description": null,
+  "source": "data/seeds/value_provenance.csv",
+  "manifest": "data/schemas/value_provenance.yaml",
+  "row_count": 4,
+  "columns": {
+    "entity_type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "cartridge",
+        "bullet",
+        "powder",
+        "manufacturer"
+      ],
+      "note": "Which kind of record this row is about."
+    },
+    "entity_slug": {
+      "type": "string",
+      "required": true,
+      "note": "The record's slug, e.g. \"308-win\"."
+    },
+    "field_name": {
+      "type": "string",
+      "required": true,
+      "note": "The single column this row explains. One row per field: provenance for a whole record is not provenance for a number."
+    },
+    "tier": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "published",
+        "derived",
+        "estimated",
+        "assumed"
+      ],
+      "note": "How the value was arrived at. Required, because a value with no stated tier has no provenance and this row is then worse than useless - it looks like an audit trail while providing none."
+    },
+    "value": {
+      "type": "number",
+      "note": "The numeric value being explained, when it is a number."
+    },
+    "text_value": {
+      "type": "string",
+      "note": "The value being explained, when it is text."
+    },
+    "unit": {
+      "type": "string",
+      "note": "Unit of `value`. Required whenever value is present."
+    },
+    "source_id": {
+      "type": "integer",
+      "note": "The `sources` row for the document read. Optional and often empty: the sources table currently holds only load-data manuals, so a pressure figure read from SAAMI Z299.4 has no row to point at yet. That is a known gap, not a reason to leave the tier unstated."
+    },
+    "method": {
+      "type": "string",
+      "note": "How the number was computed, spelled out. On the .308 row this records that 62 ksi x 1000 = 62,000 psi exactly and that the source's `ksi_rounded_up_to_1000psi` note makes the rounding direction known rather than assumed."
+    },
+    "reasoning": {
+      "type": "string",
+      "note": "Why this tier and not a stronger one. May contain commas; keep quoted. A `derived` value with no reasoning is indistinguishable from a `published` one at read time."
+    },
+    "source_url": {
+      "type": "string",
+      "note": "Direct link to the cited material."
+    },
+    "safety_risk": {
+      "type": "string",
+      "note": "What could go wrong if this value is wrong, e.g. an over-pressure figure producing an overloaded case. Free text today; a controlled vocabulary would help once there are enough rows to justify one."
+    },
+    "corroboration": {
+      "type": "string",
+      "note": "Independent source that agrees. Agreement between compilations is evidence, not a standard - see tier."
+    },
+    "reviewed_by": {
+      "type": "string",
+      "note": "Who reviewed it. Empty means unreviewed."
+    },
+    "reviewed_on": {
+      "type": "date",
+      "note": "When it was reviewed. Empty means unreviewed."
+    },
+    "notes": {
+      "type": "string",
+      "note": "Free prose. May contain commas; keep quoted. Where the explicit open task sits - on the .308 row, the note names the PDF to open and the page to cite before the tier may be promoted."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/value_provenance.csv",
+      "_line": 2,
+      "entity_type": "cartridge",
+      "entity_slug": "308-win",
+      "field_name": "saami_max_psi",
+      "tier": "derived",
+      "value": 62000,
+      "text_value": null,
+      "unit": "psi",
+      "source_id": null,
+      "method": "Unit conversion from the kwk.us figure of 62 ksi: x1000 gives 62,000 psi exactly. The source row's unit_note reads `ksi_rounded_up_to_1000psi`, so the rounding direction is known and documented rather than assumed. Cross-checked against leverguns.com, which independently lists 62,000 psi for .308 Winchester; the two compilations agree exactly.",
+      "reasoning": null,
+      "source_url": null,
+      "safety_risk": null,
+      "corroboration": null,
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "notes": "Recorded as `derived` rather than `published` because nothing has been read out of SAAMI Z299.4 directly - only two third-party compilations that happen to agree. Agreement between compilations is strong evidence, but it is not a standard. Promoting this to `published` requires opening data/published/saami-z299.4-2025-centerfire-rifle.pdf and citing the page. No `sources` row exists for a pressure standard yet; that table currently holds only load-data manuals, which is why source_id is empty."
+    },
+    {
+      "_source": "data/seeds/value_provenance.csv",
+      "_line": 3,
+      "entity_type": "cartridge",
+      "entity_slug": "270",
+      "field_name": "saami_max_psi",
+      "tier": "derived",
+      "value": 65000,
+      "text_value": null,
+      "unit": "psi",
+      "source_id": null,
+      "method": "Unit conversion from the kwk.us figure of 65 ksi: x1000 gives 65,000 psi exactly, with the rounding direction recorded in that row's unit_note. Cross-checked against leverguns.com, which independently lists 65,000 psi for .270 Winchester.",
+      "reasoning": null,
+      "source_url": null,
+      "safety_risk": null,
+      "corroboration": null,
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "notes": "Same reasoning as the .308 Winchester row: two compilations agreeing is not the same as a standard. Note this value is 3,000 psi HIGHER than .308 Winchester, which is correct and worth stating because the reverse assumption is a common error."
+    },
+    {
+      "_source": "data/seeds/value_provenance.csv",
+      "_line": 4,
+      "entity_type": "cartridge",
+      "entity_slug": "7mm-08",
+      "field_name": "saami_max_psi",
+      "tier": "estimated",
+      "value": 61000,
+      "text_value": null,
+      "unit": "psi",
+      "source_id": null,
+      "method": null,
+      "reasoning": "7mm-08 does not appear in cartridge_pressures.csv at all, so there is no primary-transcription route to a figure. The only number available anywhere in the project is leverguns.com at 61,000 psi, a compilation whose own note dates it to SAAMI specs as of 2004.",
+      "source_url": "http://www.leverguns.com/articles/saami_pressures.htm",
+      "safety_risk": "medium",
+      "corroboration": "1",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "notes": "corroboration=1 because a single 2004 compilation is the sole source and nothing has confirmed it. This row is the clearest example of the gap this table exists to make visible: saami_max_psi is EMPTY for this cartridge in cartridge_specs.csv, and this annotation says \"here is the best number anyone has, and here is exactly how weak it is\". It is recorded but NOT applied to the cartridge row. Do not treat 61,000 psi as a limit - open Z299.4 and replace it."
+    },
+    {
+      "_source": "data/seeds/value_provenance.csv",
+      "_line": 5,
+      "entity_type": "cartridge",
+      "entity_slug": "308-win",
+      "field_name": "bullet_dia_in",
+      "tier": "estimated",
+      "value": 0.308,
+      "text_value": null,
+      "unit": "in",
+      "source_id": null,
+      "method": null,
+      "reasoning": "No dimension column in cartridge_specs.csv is populated for any cartridge, so there is no transcription to cite and no archived figure has been read for this field. The value is inferred from the cartridge's caliber designation, which for .308 Winchester does coincide numerically with the published land diameter - but that coincidence is cartridge-specific and does not generalise to any other cartridge.",
+      "source_url": null,
+      "safety_risk": "low",
+      "corroboration": "1",
+      "reviewed_by": null,
+      "reviewed_on": null,
+      "notes": "WARNING for maintainers: bullets.csv `diameter_in` holds CALIBER DESIGNATIONS, not measurements - a 6.5mm bullet is 0.256 in, not the 0.264 its designation implies. Any drag calculation must use a true dimension, and this row is NOT a substitute for one. Promoting it to `published` requires reading the chamber drawing in the archived SAAMI Z299.4 PDF. See SEED-DATA-GUIDE 3.7."
+    }
+  ]
+}

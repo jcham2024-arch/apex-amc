@@ -1,0 +1,121 @@
+# Column manifest: sourcing_listings
+#
+# "This retailer probably stocks this item." Every row today is confidence
+# 'likely' with a blank retailer_url, blank price and blank verified_on, because
+# no product page has actually been retrieved for any of them.
+#
+# That is the honest state and the schema is built to make a fake one hard. A
+# row claiming to be verified requires source_kind, source_url, verified_by and
+# verified_on together, so an unbacked "verified" cannot be expressed - and the
+# component finder must not present these as confirmed availability.
+
+dataset: sourcing_listings
+storage: csv
+csv_path: data/seeds/sourcing_listings.csv
+primary_key: [search_slug, retailer_slug]
+references:
+  - column: search_slug
+    dataset: sourcing_searches
+    target_column: slug
+  - column: retailer_slug
+    dataset: sourcing_retailers
+    target_column: manufacturer_slug
+
+columns:
+  search_slug:
+    type: string
+    required: true
+    note: The search this listing answers. Resolves in sourcing_searches.slug.
+
+  retailer_slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: >
+      The retailer, resolving on sourcing_retailers.manufacturer_slug - the same
+      key, named for its role here because the subject of a listing is the
+      retailer rather than the manufacturer of the item. 013_sourcing.sql exposes
+      it to listings as m.slug AS retailer_slug.
+
+  confidence:
+    type: string
+    required: true
+    enum: [possible, likely, verified]
+    note: >
+      How sure we are the retailer stocks it.
+      - possible: the brand is carried; this specific item is unconfirmed.
+      - likely: this product line is carried, but this variant is unconfirmed.
+      - verified: a product page was retrieved and is cited.
+      Every row is currently 'likely'. Nothing may be promoted to 'verified'
+      without retailer_url and source_url.
+
+  in_stock:
+    type: boolean
+    required: false
+    note: >
+      Whether it was in stock when last checked. BLANK on every row, which means
+      "not observed" rather than "no". A blank must never be rendered as
+      out of stock.
+
+  stock_checked_on:
+    type: date
+    required: false
+    note: When stock was last observed. Blank while in_stock is blank.
+
+  retailer_sku:
+    type: string
+    required: false
+    note: >
+      The retailer's own product code. Kept as a string, never a number - retailer
+      SKUs carry leading zeros, and coercing 065147 to 65147 breaks the join.
+
+  retailer_url:
+    type: string
+    required: false
+    format: url
+    note: >
+      The actual product page. This is what distinguishes 'verified' from 'likely',
+      and it is blank on every row today.
+
+  price_cents:
+    type: integer
+    required: false
+    minimum: 0
+    note: >
+      Observed price in whole cents. Integer, not a float, because binary floats
+      cannot represent a price exactly and a 0.01 drift in a displayed price is
+      a support ticket.
+
+  price_observed_on:
+    type: date
+    required: false
+    note: When the price was seen. A stale price is worse than no price.
+
+  note:
+    type: string
+    required: false
+    note: >
+      Why this listing is at this confidence. May contain commas; keep quoted.
+      This is where "core match-bullet line, variant unconfirmed" lives.
+
+  source_kind:
+    type: string
+    required: false
+    enum: [product_page, feed, manual_entry, inferred]
+    note: How the listing was obtained. Blank until a page is actually retrieved.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: The page or feed that backs this listing.
+
+  verified_by:
+    type: string
+    required: false
+    note: Who checked it. Empty on unverified rows by definition.
+
+  verified_on:
+    type: date
+    required: false
+    note: When it was checked. Empty on unverified rows by definition.

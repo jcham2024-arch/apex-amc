@@ -1,8 +1,8 @@
-﻿/**
+/**
  * @apex/ballistics-core
  *
  * Pure, framework-free ballistics and reloading logic, shared by the website
- * and the field app. No React, no storage, no DOM â€” everything here is
+ * and the field app. No React, no storage, no DOM — everything here is
  * directly unit-testable.
  *
  * Safety note: `reloading.ts` produces charge weights. Its output is a

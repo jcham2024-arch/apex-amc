@@ -1,0 +1,242 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "sourcing_searches",
+  "description": null,
+  "source": "data/seeds/sourcing_searches.csv",
+  "manifest": "data/schemas/sourcing_searches.yaml",
+  "row_count": 12,
+  "columns": {
+    "slug": {
+      "type": "string",
+      "required": true,
+      "note": "Stable id for this search, e.g. \"sierra-mk-169gr-hpbt\"."
+    },
+    "entity_type": {
+      "type": "string",
+      "enum": [
+        "bullet",
+        "powder",
+        "cartridge",
+        "brass",
+        "primer"
+      ],
+      "note": "What kind of thing is being searched for. Blank today for the same reason entity_slug is - it is derivable from category and the pair should be filled in together."
+    },
+    "entity_slug": {
+      "type": "string",
+      "note": "Our own id for the thing, once one exists. Optional because it is blank across the file today; when filled, it must resolve in the dataset named by entity_type."
+    },
+    "display_name": {
+      "type": "string",
+      "required": true,
+      "note": "How we show it to a user."
+    },
+    "search_terms": {
+      "type": "string",
+      "required": true,
+      "note": "The query string to hand a retailer. Deliberately shorter than display_name: retailer search boxes do better with fewer, better tokens than with our full internal designation."
+    },
+    "match_quality": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "exact_sku",
+        "model",
+        "fuzzy"
+      ],
+      "note": "How well the search is expected to land. - exact_sku: the part number is reused verbatim by retailers, so an exact\n  search should hit.\n- model: a product line with several variants, so results need filtering. Never silently upgraded to a better value - a user shown a fuzzy match as an exact one will buy the wrong thing."
+    },
+    "manufacturer_part_number": {
+      "type": "string",
+      "note": "The manufacturer's own part number. A STRING, never an integer: these carry leading zeros (\"065147\") and coercing them destroys the exact-match key."
+    },
+    "category": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "bullet",
+        "powder"
+      ],
+      "note": "Component class, used to pick which retailer set to search."
+    },
+    "notes": {
+      "type": "string",
+      "note": "Free prose. May contain commas; keep quoted. Where the reasoning for a blank or a match_quality choice is recorded."
+    },
+    "source_url": {
+      "type": "string",
+      "note": "The manufacturer's page this designation was read from."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 2,
+      "slug": "sierra-mk-169gr-hpbt",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Sierra MatchKing 169gr HPBT",
+      "search_terms": "MatchKing 169 HPBT",
+      "match_quality": "model",
+      "manufacturer_part_number": "2269",
+      "category": "bullet",
+      "notes": "Caliber 0.308, 169gr, HPBT. Part number is Sierra's own and is reused verbatim by most US retailers, which is what makes it the best deep-linking key we have. No entity_slug yet: the bullets table has no slug column until migration 013 adds one, and inventing one here would break the entity_slug contract.",
+      "source_url": "https://sierrabullets.com/30-cal-169-gr-hpbt-cn-matchking-smk/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 3,
+      "slug": "sierra-mk-177gr-hpbt",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Sierra MatchKing 177gr HPBT",
+      "search_terms": "MatchKing 177 HPBT",
+      "match_quality": "model",
+      "manufacturer_part_number": "2277",
+      "category": "bullet",
+      "notes": "Caliber 0.308, 177gr, HPBT. One of the most common match bullets in the country, so expect the widest retailer coverage of anything in the seed set.",
+      "source_url": "https://sierrabullets.com/30-cal-177-gr-hpbt-cn-matchking-smk/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 4,
+      "slug": "sierra-mk-230gr-hpbt",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Sierra MatchKing 230gr HPBT",
+      "search_terms": "MatchKing 230 HPBT",
+      "match_quality": "model",
+      "manufacturer_part_number": "2251",
+      "category": "bullet",
+      "notes": "Caliber 0.308, 230gr, HPBT. Heavier match bullet; fewer retailers carry it than the 175gr and 177gr.",
+      "source_url": "https://sierrabullets.com/30-cal-230-gr-hpbt-cn-matchking-smk/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 5,
+      "slug": "hornady-eld-x-143",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady ELD-X 143gr",
+      "search_terms": "ELD-X 143",
+      "match_quality": "model",
+      "manufacturer_part_number": "65147",
+      "category": "bullet",
+      "notes": "Caliber 0.264 (6.5mm), 143gr polymer tip. Hornady item numbers are stable across Brownells, Midway and Natchez, so 65147 is the single highest-value deep-link key in the bullet data.",
+      "source_url": "https://www.hornady.com/bullets/eld-x/6-5mm-143-gr-eld-x/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 6,
+      "slug": "hornady-atip-175",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady A-Tip Match 175gr",
+      "search_terms": "A-Tip 175",
+      "match_quality": "model",
+      "manufacturer_part_number": "63087",
+      "category": "bullet",
+      "notes": "Caliber 0.308, 175gr aluminium tip. Polymer-tip sibling of the ELD-X.",
+      "source_url": "https://www.hornady.com/bullets/a-tip-match/308-175-gr-a-tip-match/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 7,
+      "slug": "hornady-interlock-180",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady InterLock 180gr",
+      "search_terms": "InterLock 180",
+      "match_quality": "model",
+      "manufacturer_part_number": "2920",
+      "category": "bullet",
+      "notes": "Caliber 0.308, 180gr, spiral-wound protective jacket. Hunting rather than match bullet.",
+      "source_url": "https://www.hornady.com/bullets/interlock/30-06-180-gr-interlock/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 8,
+      "slug": "berger-vld-140-264",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Berger VLD Target 140gr",
+      "search_terms": "VLD Target 140",
+      "match_quality": "model",
+      "manufacturer_part_number": "6516",
+      "category": "bullet",
+      "notes": "Caliber 0.264 (6.5mm), 140gr VLD. Berger part numbers are the maker's own and are carried by most specialist retailers.",
+      "source_url": "https://bergerbullets.com/bullet-reference-charts/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 9,
+      "slug": "hodgdon-h335",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hodgdon H335 rifle powder",
+      "search_terms": "H335",
+      "match_quality": "model",
+      "manufacturer_part_number": null,
+      "category": "powder",
+      "notes": "The archetypal medium rifle powder and probably the single most searched-for item in reloading. No manufacturer part number: powders are sold by brand and name, not SKU, so the search term IS the key. match_quality is 'model' rather than 'exact_sku' for exactly that reason.",
+      "source_url": "https://www.hodgdonpowderco.com/h335/"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 10,
+      "slug": "hornady-eldvt-22-62",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady ELD-VT 62gr",
+      "search_terms": ".22 62gr ELD-VT",
+      "match_quality": "exact_sku",
+      "manufacturer_part_number": "22762",
+      "category": "bullet",
+      "notes": "Caliber .224, 62gr ELD-VT. Item number read from the Hornady product page, so a retailer deep link can be built directly rather than by fuzzy search. BCs are on the Hornady BC page, not the product page, which still reads \"Ballistic data coming soon\" for this line.",
+      "source_url": "https://www.hornady.com/bullets/rifle/22-cal-.224-62-gr-eld-vt"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 11,
+      "slug": "hornady-eldvt-6mm-80",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady ELD-VT 6mm 80gr",
+      "search_terms": "6mm 80gr ELD-VT",
+      "match_quality": "exact_sku",
+      "manufacturer_part_number": "24372",
+      "category": "bullet",
+      "notes": "Caliber .243, 80gr ELD-VT. Item number read from the Hornady product page.",
+      "source_url": "https://www.hornady.com/bullets/rifle/6mm-.243-80-gr-eld-vt"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 12,
+      "slug": "hornady-eldvt-65-100",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady ELD-VT 6.5mm 100gr",
+      "search_terms": "6.5mm 100gr ELD-VT",
+      "match_quality": "exact_sku",
+      "manufacturer_part_number": "26103",
+      "category": "bullet",
+      "notes": "Caliber .264, 100gr ELD-VT. Item number read from the Hornady product page. The most in-demand ELD-VT weight, so expect the widest retailer coverage.",
+      "source_url": "https://www.hornady.com/bullets/rifle/6.5mm-.264-100-gr-eld-vt"
+    },
+    {
+      "_source": "data/seeds/sourcing_searches.csv",
+      "_line": 13,
+      "slug": "hornady-eldvt-30-174",
+      "entity_type": null,
+      "entity_slug": null,
+      "display_name": "Hornady ELD-VT 30 cal 174gr",
+      "search_terms": ".30 174gr ELD-VT",
+      "match_quality": "exact_sku",
+      "manufacturer_part_number": "30620",
+      "category": "bullet",
+      "notes": "Caliber .308, 174gr ELD-VT. Item number read from the Hornady product page.",
+      "source_url": "https://www.hornady.com/bullets/rifle/30-cal-.308-174-gr-eld-vt"
+    }
+  ]
+}

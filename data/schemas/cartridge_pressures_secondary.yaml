@@ -1,0 +1,67 @@
+# Column manifest: cartridge_pressures_secondary
+#
+# A second pressure compilation, kept separate from the primary one on purpose.
+# The two disagree on a handful of cartridges, and merging them would destroy
+# the evidence of that disagreement - which is the most useful thing in the whole
+# pressure dataset, because a disagreement is a pointer to a transcription error
+# or a genuine difference of standard.
+#
+# So the two are loaded as separate source rows against the same cartridge, and
+# cartridge_pressure_conflicts.yaml records where they part company.
+
+dataset: cartridge_pressures_secondary
+storage: csv
+csv_path: data/seeds/cartridge_pressures_secondary.csv
+primary_key: [cartridge_name]
+
+columns:
+  cartridge_name:
+    type: string
+    required: true
+    note: >
+      Cartridge designation as THIS source spells it. Uses more aggressive
+      abbreviation than cartridge_pressures.csv - e.g. ".45-06 Rem" here against
+      ".45-06 Remington" in the primary file - so the loader's name index is what
+      reconciles them, and the residual mismatches are the conflicts table.
+
+  pressure_value:
+    type: number
+    required: true
+    note: The pressure figure. Always read together with pressure_unit.
+
+  pressure_unit:
+    type: string
+    required: true
+    enum: [psi, bar, ksi, c.u.p., cup]
+    note: >
+      Unit of pressure_value. Constrained rather than free text, because a
+      number without a trustworthy unit is worse than no number for a
+      load-adjacent table.
+
+  family:
+    type: string
+    required: false
+    enum: [rifle, pistol, shotgun]
+    note: >
+      Family as this source classifies it. Present here but not in the primary
+      compilation; it is NOT used to create a cartridge, because a wrong family
+      files a pistol cartridge on a rifle page.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: Where the figure was read. Provenance is mandatory in spirit for pressure data.
+
+  source_kind:
+    type: string
+    required: true
+    enum: [standard, compilation, measured, estimated]
+    note: >
+      Whether this is a standards body's own figure or someone's compilation of
+      them. 'compilation' ranks below 'standard' when both claim a cartridge.
+
+  source_note:
+    type: string
+    required: false
+    note: How the value was derived. May contain commas; keep quoted.

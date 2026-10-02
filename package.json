@@ -13,10 +13,19 @@
     "data:fetch": "node scripts/fetch-published-data.mjs",
     "data:snapshot": "node scripts/export-d1.mjs",
     "data:extract": "node scripts/extract-kwk-pressures.mjs && node scripts/extract-leverguns-pressures.mjs && node scripts/extract-vihtavuori-burn-rate.mjs && node scripts/crosscheck-pressures.mjs",
+    "coverage": "node scripts/report-coverage.mjs",
+    "coverage:md": "node scripts/report-coverage.mjs --md",
+    "data:build": "node scripts/build-data.mjs",
+    "data:validate": "node scripts/build-data.mjs --check-drift",
+    "data:health": "node scripts/data-health.mjs",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "test": "node --experimental-strip-types --test \"packages/ballistics-core/test/*.test.ts\"",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run schema:check && npm run seed:check",
+    "test:encoding": "node scripts/test-encoding.mjs",
+    "test:bullets": "node scripts/test-bullet-sources.mjs",
+    "bullets:import": "node scripts/import-bullets.mjs",
+    "text:scan": "node scripts/scan-encoding.mjs",
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run test:encoding && npm run test:bullets && npm run schema:check && npm run seed:check && npm run data:validate",
     "website:dev": "npm run dev --workspace apps/website",
     "website:build": "npm run build --workspace apps/website"
   },
@@ -26,7 +35,8 @@
     "eslint": "^10.11.0",
     "globals": "^16.5.0",
     "typescript": "~6.0.3",
-    "typescript-eslint": "^8.71.0"
+    "typescript-eslint": "^8.71.0",
+    "yaml": "^2.9.1"
   },
   "engines": {
     "node": ">=22.6.0"

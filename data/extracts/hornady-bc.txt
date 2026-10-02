@@ -1,0 +1,22 @@
+# Hornady ballistic coefficients - verbatim extract
+#
+# Source: https://www.hornady.com/bc   (Hornady Manufacturing, Inc)
+# Retrieved: 2026-10-01
+# Column basis, per Hornady's own page:
+#   BULLET | MACH 2.25 (2512 fps @ ICAO) | MACH 2.0 (2232 fps) | MACH 1.75 (1953 fps)
+# Each figure is published with its own G1/G7 label inline, so no column
+# header has to be inferred. Mach 2.25 is the standardized basis.
+#
+# Format below is the ELD-VT table exactly as published, one bullet per line,
+# six BC values in Mach order. Retained verbatim (modulo HTML entity decoding
+# of &reg;) so the parser can be re-run against exactly what was read.
+#
+#   .22 cal  62gr  ELD-VT   0.395 G1  0.199 G7  0.389 G1  0.195 G7  0.385 G1  0.194 G7
+#   6mm      80gr  ELD-VT   0.410 G1  0.206 G7  0.406 G1  0.204 G7  0.403 G1  0.203 G7
+#   6.5mm   100gr  ELD-VT   0.448 G1  0.226 G7  0.441 G1  0.222 G7  0.434 G1  0.218 G7
+#   .30 cal 174gr  ELD-VT   0.573 G1  0.289 G7  0.564 G1  0.283 G7  0.563 G1  0.283 G7
+
+.22 cal 62gr ELD-VT 0.395 G1 0.199 G7 0.389 G1 0.195 G7 0.385 G1 0.194 G7
+6mm 80gr ELD-VT 0.410 G1 0.206 G7 0.406 G1 0.204 G7 0.403 G1 0.203 G7
+6.5mm 100gr ELD-VT 0.448 G1 0.226 G7 0.441 G1 0.222 G7 0.434 G1 0.218 G7
+.30 cal 174gr ELD-VT 0.573 G1 0.289 G7 0.564 G1 0.283 G7 0.563 G1 0.283 G7

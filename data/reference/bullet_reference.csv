@@ -1,0 +1,9 @@
+cartridge,bullet,weight_gr,diameter_in,bc_g1,bc_g7,sd,twist,source,source_ref,notes
+6mm Creedmoor,Berger 105gr Hybrid,105,0.243,0.536,0.275,0.254,1:7.5,Tireur Competition Ballistics,Table 11.1,"Cites Litz 2011/2015b. SD is sectional density."
+6.5 Creedmoor,Berger 140gr Hybrid,140,0.264,0.607,0.311,0.287,1:8,Tireur Competition Ballistics,Table 11.1,"Common long-range reference bullet. G7 0.311."
+6.5 Creedmoor,Hornady 147gr ELD-M,147,0.264,0.697,0.351,0.301,1:7.5,Tireur Competition Ballistics,Table 11.1,
+7mm,Berger 180gr Hybrid,180,0.284,0.683,0.350,0.319,1:8.5,Tireur Competition Ballistics,Table 11.1,
+.308 Winchester,Sierra 175gr MatchKing,175,0.308,0.505,0.243,0.264,1:10,Tireur Competition Ballistics,Table 11.1,"G1 0.505 above 2600fps is the classic figure."
+.308 Winchester,Berger 185gr Juggernaut,185,0.308,0.552,0.283,0.279,1:10,Tireur Competition Ballistics,Table 11.1,
+.308 Winchester,Hornady 178gr ELD-M,178,0.308,0.535,0.274,0.268,1:10,Tireur Competition Ballistics,Table 11.1,
+.338 LM,Berger 300gr Hybrid,300,0.338,0.818,0.419,0.375,1:9.4,Tireur Competition Ballistics,Table 11.1,

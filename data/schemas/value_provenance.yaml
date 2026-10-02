@@ -1,0 +1,130 @@
+# Column manifest: value_provenance
+#
+# Why a non-blank value in some other table holds what it holds. One row per
+# (entity, field) that needed a human decision.
+#
+# The tier column is the point of the whole table:
+#   published - read out of the standards body's own document, cited by page.
+#   derived   - computed from a published figure, or agreed on by two
+#               independent compilations. Evidence, but not the standard.
+#   estimated - a working value with no published source.
+#   assumed   - filled in because the schema demanded it.
+#
+# The .308 Winchester SAAMI maximum is the worked example in the data today: two
+# compilations agree exactly on 62,000 psi, but nothing has been read out of
+# SAAMI Z299.4 itself, so it is recorded as `derived` and not `published`. That
+# distinction is the difference between a number a reloader can rely on and one
+# they cannot.
+
+dataset: value_provenance
+storage: csv
+csv_path: data/seeds/value_provenance.csv
+primary_key: [entity_type, entity_slug, field_name]
+
+columns:
+  entity_type:
+    type: string
+    required: true
+    enum: [cartridge, bullet, powder, manufacturer]
+    note: Which kind of record this row is about.
+
+  entity_slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: The record's slug, e.g. "308-win".
+
+  field_name:
+    type: string
+    required: true
+    note: >
+      The single column this row explains. One row per field: provenance for a
+      whole record is not provenance for a number.
+
+  tier:
+    type: string
+    required: true
+    enum: [published, derived, estimated, assumed]
+    note: >
+      How the value was arrived at. Required, because a value with no stated tier
+      has no provenance and this row is then worse than useless - it looks like an
+      audit trail while providing none.
+
+  value:
+    type: number
+    required: false
+    note: The numeric value being explained, when it is a number.
+
+  text_value:
+    type: string
+    required: false
+    note: The value being explained, when it is text.
+
+  unit:
+    type: string
+    required: false
+    note: Unit of `value`. Required whenever value is present.
+
+  source_id:
+    type: integer
+    required: false
+    note: >
+      The `sources` row for the document read. Optional and often empty: the
+      sources table currently holds only load-data manuals, so a pressure figure
+      read from SAAMI Z299.4 has no row to point at yet. That is a known gap, not
+      a reason to leave the tier unstated.
+
+  method:
+    type: string
+    required: false
+    note: >
+      How the number was computed, spelled out. On the .308 row this records that
+      62 ksi x 1000 = 62,000 psi exactly and that the source's
+      `ksi_rounded_up_to_1000psi` note makes the rounding direction known rather
+      than assumed.
+
+  reasoning:
+    type: string
+    required: false
+    note: >
+      Why this tier and not a stronger one. May contain commas; keep quoted. A
+      `derived` value with no reasoning is indistinguishable from a `published`
+      one at read time.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: Direct link to the cited material.
+
+  safety_risk:
+    type: string
+    required: false
+    note: >
+      What could go wrong if this value is wrong, e.g. an over-pressure figure
+      producing an overloaded case. Free text today; a controlled vocabulary
+      would help once there are enough rows to justify one.
+
+  corroboration:
+    type: string
+    required: false
+    note: Independent source that agrees. Agreement between compilations is
+      evidence, not a standard - see tier.
+
+  reviewed_by:
+    type: string
+    required: false
+    note: Who reviewed it. Empty means unreviewed.
+
+  reviewed_on:
+    type: date
+    required: false
+    note: When it was reviewed. Empty means unreviewed.
+
+  notes:
+    type: string
+    required: false
+    note: >
+      Free prose. May contain commas; keep quoted. Where the explicit open task
+      sits - on the .308 row, the note names the PDF to open and the page to cite
+      before the tier may be promoted.

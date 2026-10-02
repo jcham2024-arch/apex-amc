@@ -604,6 +604,170 @@ So that a future reader can reproduce or challenge this:
 - **No Doppler-radar measurement of this specific bullet.** The 1% accuracy
   figure in the literature is for other projectiles.
 
+# Cross-path consistency auditing (30 Sep 2026)
+
+## 0. URGENT: the G7 drag table is wrong — do not ship G7 output
+
+Found 30 Sep 2026 by diffing our G7 drag table against `js-ballistics`, then
+**confirmed against the published source.**
+
+**Our `G7_DRAG_TABLE` is exactly constant at Cd = 0.0886 from Mach 1.3 through
+Mach 3.5** — 37 of 63 rows sharing one value, with no transonic region at all.
+Standard drag models rise sharply through the sound barrier. Measured
+consequence: our solver lands **~22 inches low at 1000 yards** and retains up to
+3.7% less velocity through the transonic region than an independent
+implementation.
+
+### The authoritative table has been located
+
+McCoy, *Modern Exterior Ballistics* (2012), Table 5.2, as reproduced in the
+Tireur *Competition Ballistics* manual (now archived in `data/published/`):
+
+| Mach | McCoy | js-ballistics | Ours |
+|---|---|---|---|
+| 0.00 | **0.1198** | 0.1198 | 0.1954 ✗ |
+| 0.90 | **0.1464** | — | ✗ |
+| 0.95 | **0.2054** | — | ✗ |
+| 1.00 | **0.3803** | 0.3803 | 0.0892 ✗ |
+| 1.05 | **0.4043** | — | ✗ (peak) |
+| 2.00 | **0.2980** | 0.2980 | 0.0886 ✗ |
+| 3.00 | **0.2424** | 0.2424 | 0.0886 ✗ |
+| 4.00 | **0.1935** | 0.1935 | (extrapolated) ✗ |
+
+**js-ballistics matches McCoy exactly at every comparable point. Our table matches
+nothing.** The transonic cliff — Cd tripling between Mach 0.8 and Mach 1.0 — is
+absent from ours entirely, which is precisely the missing physics.
+
+Fix: replace both tables in `packages/ballistics-core/src/drag/dragTables.ts` from
+McCoy, and record the citation in `provenance/constants.ts`.
+
+Full comparison and the wider oracle survey: **`docs/ORACLE-SOURCES.md`**.
+
+Every existing test passed before this was found. The velocity regression asserts
+agreement at 1000 yards for one reference load, and a single end-point check
+cannot see a wrong curve.
+
+**This supersedes the "read one authoritative drag table" open item below — it is
+now done, and it found the defect.**
+
+Both the G7 and G1 tables need replacing before any trajectory output ships.
+
+---
+
+## 1. A perfect group was reported as containing a flyer
+
+**Severity: high. A shooter could discard a good shot on no evidence.**
+
+`detectFlyer` guarded its division with:
+
+```ts
+if (stdR === 0) return none;
+```
+
+That test looks sufficient and is not. A mathematically uniform group still
+leaves floating-point residue. Measured on 8 shots at radius 1.5 inches:
+
+```
+radii: 1.500e+0 (all eight, to displayed precision)
+stdR : 8.3925e-17     <-- should be zero, is not
+```
+
+Dividing by 8.4e-17 amplifies pure rounding noise into a large G score. The
+observed result:
+
+```
+detectFlyer(regular octagon).gScore     = 2.6458
+GRUBBS_CRITICAL[8]                      = ~2.126
+=> flagged as a flyer
+```
+
+**A geometrically perfect group was flagged as having a flyer.** The guard was
+written for the exact-zero case and did not cover the near-zero case, which is
+the only case that actually occurs in floating-point arithmetic.
+
+**Fix:** a *relative* tolerance against the group radius, so it behaves
+identically for a group in hundredths of an inch and one in yards.
+
+```ts
+if (stdR <= Math.max(meanR, ...radii) * 1e-9) return none;
+```
+
+Verified after the fix: uniform octagon no longer flagged; coincident shots
+still safe; a genuine 30x outlier is still caught and correctly identified.
+
+**Generalisable lesson:** `=== 0` is the wrong way to guard a division by a
+computed quantity. It is always exactly right in no real cases and wrong in all
+the ones that matter.
+
+---
+
+## 2. Rayleigh CEP was correct but for two independent reasons
+
+Not a defect — a check that passed, recorded because it validates the design.
+
+The domain carries `k = 1.1774` (rounded) where the exact Rayleigh quantile is
+`1.1774100225`, a relative difference of **8.6e-6**. `dispersion()` returns
+values consistent with the *rounded published* constant, not the exact one.
+
+Both are defensible; using the published constant is correct here because the
+provenance system records the table it came from. The cross-check test asserts
+against the exact closed form at a tolerance of 1e-4, with a comment stating
+that tighter would be asserting the table is more precise than it is.
+
+---
+
+## 3. What the audit checked, and what passed
+
+Every property reachable two independent ways was computed both ways:
+
+| Property | Route A | Route B | Result |
+|---|---|---|---|
+| Density ratio | geometric altitude via barometric formula | measured pressure via ideal gas | agree to 1e-9 |
+| Density altitude | invert sigma | invert pressure | round-trip to 1.5e-11 ft |
+| Pressure altitude | invert barometric | — | round-trip to 1e-6 ft |
+| Mach number | v / c(T) | feed c(T) back | exactly 1.0, 7 temperatures |
+| Wind components | rotation of speed | reconstruct via hypot | lossless to 1e-9, 8 directions |
+| Radial sigma | from per-axis variance | from sum of squared radii | agree to 1e-12 |
+| **Population vs sample sigma** | denominator `n` | denominator `n-1` | **must differ — asserted** |
+| CEP quantiles | sigma * k | closed-form k | agree within published rounding |
+| Group scaling | 1x coordinates | 2x coordinates | CEP exactly doubles |
+| Translation | origin | moved 4,3 inches | dispersion unchanged |
+
+Two invariants are worth calling out:
+
+- **Population sigma must NOT equal sample sigma.** The test asserts they
+  differ. If that ever stops being true, the Bessel correction has been silently
+  cancelled somewhere. This is the specific check that would catch the mobile
+  screen defect recurring.
+- **Flyer detection must not fire on a wide but uniform group.** Grubbs rejects
+  on outlier *relative to the rest of the group*, so a 3-inch-wide tight group
+  is not a flyer. A naive absolute-spread threshold gets this wrong.
+
+---
+
+## 4. Why a separate cross-check file
+
+Every existing test compares a function to a published constant or an ISA table
+value. That catches a function being wrong. It does not catch:
+
+- two correct functions drifting apart
+- a constant changed in one copy and not another
+- a composition error where each piece is individually correct
+
+Both defects above in this repo were invisible to the existing suite, because
+the existing suite tests each unit against an external authority and never
+tests units against *each other*.
+
+`packages/ballistics-core/test/crosscheck.test.ts` now holds 53 such tests.
+
+**The generalisable rule: if a quantity has two legitimate derivations, compute
+it both ways and assert they agree.** That check is cheaper than the debugging
+it replaces, and it is the only kind that catches a wrong composition.
+
+---
+
+# Still open
+
 ## What we would do to close it
 
 1. Read the McCoy reference and one authoritative drag table, and diff our

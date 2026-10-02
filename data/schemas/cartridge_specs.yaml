@@ -1,0 +1,147 @@
+# Column manifest: cartridge_specs
+#
+# Split one file per family under data/seeds/cartridge_specs/:
+#   rifle.csv     212 rows
+#   pistol.csv     16 rows
+#   shotgun.csv     1 row
+#
+# This was a single 229-row data/seeds/cartridge_specs.csv until 2026-10-01.
+# Family is the split key because it is the coarsest key that is both populated
+# and meaningful. Every finer candidate is empty on all 229 rows: parent_case,
+# bullet_dia_in, case_length_max_in, max_col_in, cip_max_bar, rim_dia_in,
+# head_dia_in, capacity_gr_h2o, primer_type and typical_twist_in all have zero
+# non-blank values, so none could key a file or a directory level. Splitting by
+# calibre instead would have produced ~90 files of 1-3 rows each.
+#
+# This file previously had NO manifest, which is why it was the largest
+# hand-maintained dataset in the repo with nothing checking its columns - and it
+# had been stored as UTF-16LE for some time without anything failing.
+
+dataset: cartridge_specs
+storage: csv
+csv_dir: data/seeds/cartridge_specs
+columns:
+  slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: >
+      Cartridge identity, lowercase ASCII with hyphens, e.g. "308-winchester".
+      This is the primary key and the join target for the pressure tables, so a
+      slug change orphans every pressure figure that referenced it.
+
+  name:
+    type: string
+    required: true
+    note: Full designation as published, e.g. ".308 Winchester".
+
+  short_name:
+    type: string
+    required: false
+    note: Abbreviated form used in dense UI, e.g. "308 Win". Falls back to `name`.
+
+  family:
+    type: string
+    required: true
+    enum: [rifle, pistol, shotgun]
+    note: >
+      Also the filename. family is NOT NULL in SQLite and a wrong guess files a
+      pistol cartridge on a rifle page, so it is constrained rather than inferred.
+
+  parent_case:
+    type: string
+    required: false
+    note: >
+      Case this cartridge is loaded on. EMPTY ON ALL 229 ROWS - not yet
+      transcribed, and deliberately left empty rather than guessed.
+
+  bullet_dia_in:
+    type: number
+    required: false
+    note: Nominal bullet diameter, inches. EMPTY ON ALL ROWS.
+
+  case_length_max_in:
+    type: number
+    required: false
+    note: CIP/SAAMI maximum case length, inches. EMPTY ON ALL ROWS.
+
+  max_col_in:
+    type: number
+    required: false
+    note: Overall cartridge length limit, inches. EMPTY ON ALL ROWS.
+
+  saami_max_psi:
+    type: integer
+    required: false
+    note: >
+      SAAMI maximum pressure, psi. The one dimension-like column that IS
+      populated - all 229 rows carry a figure from the kwk.us compilation, with
+      ksi rounded up to the nearest 1000 psi.
+
+  saami_max_cup:
+    type: number
+    required: false
+    note: Maximum pressure in cup. Blank throughout.
+
+  cip_max_bar:
+    type: number
+    required: false
+    note: CIP maximum pressure, bar. EMPTY ON ALL ROWS - CIP data is an open gap.
+
+  rim_dia_in:
+    type: number
+    required: false
+    note: Rim diameter, inches. EMPTY ON ALL ROWS.
+
+  head_dia_in:
+    type: number
+    required: false
+    note: Case head diameter, inches. EMPTY ON ALL ROWS.
+
+  capacity_gr_h2o:
+    type: number
+    required: false
+    note: Case capacity in grains of water. EMPTY ON ALL ROWS.
+
+  primer_type:
+    type: string
+    required: false
+    note: Smallest primer the case accepts, e.g. "small". EMPTY ON ALL ROWS.
+
+  typical_twist_in:
+    type: number
+    required: false
+    note: Typical rifling twist rate, in per inch. EMPTY ON ALL ROWS.
+
+  is_reloadable:
+    type: boolean
+    required: false
+    note: Whether the case is reloadable. The loader defaults to true when blank.
+
+  notes:
+    type: string
+    required: false
+    note: Free prose. May contain commas, so it must stay quoted in the CSV.
+
+  source_name:
+    type: string
+    required: false
+    note: >
+      Which publisher the row was read from. All 229 rows are "kwk.us Cartridge
+      Pressure Standards" - one source for the whole dataset, which is why these
+      are compilation figures rather than primary data.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: Canonical URL for the figure.
+
+  source_note:
+    type: string
+    required: false
+    note: How the value was derived, e.g. that ksi was rounded up.
+# The filename is the family, and family is also a column, so the loader can
+# check that rifle.csv does not quietly gain a pistol row.
+filename_is: family
+primary_key: [slug]

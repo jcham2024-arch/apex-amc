@@ -38,9 +38,51 @@ data/published/*
 
 # Research staging area produced by the harvesting agents. The curated results
 # land in data/seeds/; raw drops are not reference data.
+#
+# Nothing the loader reads may live here. Until 2026-10-01 the powders manifest
+# merged data/incoming/powders/ alongside data/seeds/powders/, so 142 of the 169
+# powder rows came from this gitignored directory and a fresh clone loaded 27.
+# Row counts that depend on the checkout instead of the repository are worse than
+# no data at all. See scripts/promote-powders.mjs.
 data/incoming/
+
+# Generated D1 migration snapshot, ~3.1 MB. Rebuilt from data/published/
+# manifest.json - which IS committed - by `npm run data:snapshot`, and verified
+# to be unnecessary for `npm run seed:check`. Committing a generated artifact
+# this size means every clone carries it and it can drift from its own source.
+data/schema/100_seed_full_snapshot.sql
 
 # Archive is kept in git for provenance, but exclude the huge
 # raw AI transcript from language servers and typecheckers.
 archive/**/*.txt
+
+# ---------------------------------------------------------------------------
+# Agent scratch. Parallel data agents leave diagnostic and repair scripts behind;
+# they are not part of the build. These are ignored rather than deleted, because
+# another agent may still be mid-run and own them.
+#
+# This was not cosmetic: `npm run verify` runs `eslint .`, and scratch scripts
+# using `console`/`Buffer` under a Node-source lint config produced 40 errors,
+# which made the whole build look broken while every real source file was clean.
+# ---------------------------------------------------------------------------
+tmp/
+temp/
+output*.txt
+**/_tmp-*.mjs
+**/_tmp-*/
+
+# Scratch scripts, recognisable by the leading underscore or an iterative name.
+# Real scripts are verb-named and single-file (check-seeds.mjs, build-data.mjs).
+scripts/_*.mjs
+scripts/fix_*.mjs
+scripts/fix_*.ps1
+scripts/remove_*.mjs
+scripts/remove_*.ps1
+scripts/replace_*.mjs
+scripts/test_read_csv*.mjs
+scripts/fix_encoding.ps1
+
+# Backups written by scripts/repair-encoding.mjs. Local safety copies only -
+# the repaired originals are the files that belong in git.
+*.pre-encoding-fix.bak
 

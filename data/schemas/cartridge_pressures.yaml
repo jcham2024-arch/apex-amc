@@ -1,0 +1,67 @@
+# Column manifest: cartridge_pressures
+#
+# The primary pressure compilation, keyed on cartridge name as the publisher
+# spells it. This is a COMPILATION, not primary data: the figures are maxima
+# collected from SAAMI and CIP member tables by a third party, which is why
+# every row's source_kind is 'compilation' and why a curated cartridge_specs
+# figure outranks it (see cartridge_specs.yaml).
+#
+# The key here is cartridge_NAME, not the cartridge_specs slug, so names that
+# disagree between sources are a known and separate problem - see
+# cartridge_pressure_conflicts.yaml, which records the disagreements explicitly
+# rather than papering over them.
+
+dataset: cartridge_pressures
+storage: csv
+csv_path: data/seeds/cartridge_pressures.csv
+primary_key: [cartridge_name]
+
+columns:
+  cartridge_name:
+    type: string
+    required: true
+    note: >
+      Cartridge designation exactly as the compiler prints it. Joined to
+      cartridge_specs.slug via the loader's name index, so a spelling change
+      orphans the row rather than silently creating a new cartridge.
+
+  saami_piezo_ksi:
+    type: number
+    required: false
+    note: SAAMI maximum piezo pressure, ksi. Blank where the cartridge is not SAAMI-listed.
+
+  cip_piezo_ksi:
+    type: number
+    required: false
+    note: CIP maximum piezo pressure, ksi. Blank where not CIP-listed.
+
+  saami_cup:
+    type: number
+    required: false
+    note: SAAMI maximum pressure in cup of copper (c.u.p.). Blank where not SAAMI-listed.
+
+  cip_cup:
+    type: number
+    required: false
+    note: CIP maximum pressure in cup. Blank where not CIP-listed.
+
+  other:
+    type: string
+    required: false
+    note: >
+      Free-text non-tabletted value for a handful of cartridges, e.g. a European
+      proof figure in bar. Kept as text rather than parsed, because the units
+      and standards are not consistent enough to coerce.
+
+  footnote:
+    type: string
+    required: false
+    note: Marker for a note in the publisher's own table. May contain commas; keep quoted.
+
+  unit_note:
+    type: string
+    required: false
+    note: >
+      Where the source's unit differs from the column's stated unit. The ksi
+      columns in particular were rounded up by the compiler, so a row carrying
+      a unit_note must not be read as a precise figure.

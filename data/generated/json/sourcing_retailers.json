@@ -1,0 +1,245 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "sourcing_retailers",
+  "description": null,
+  "source": "data/seeds/sourcing_retailers.csv",
+  "manifest": "data/schemas/sourcing_retailers.yaml",
+  "row_count": 8,
+  "columns": {
+    "manufacturer_slug": {
+      "type": "string",
+      "required": true,
+      "note": "The stocking retailer's own slug in manufacturers.csv. Named manufacturer_slug rather than slug because this file describes a retailer viewed as a supplier, and 013_sourcing.sql exposes it to listings as retailer_slug via m.slug. A column alias in SQL does not make it a different key, so this is the one a cross-dataset reference must target."
+    },
+    "source_type": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "online",
+        "local_store",
+        "dealer"
+      ],
+      "note": "How the retailer sells. 'online' is a website; 'dealer' is a distributor or wholesaler rather than a shop a consumer visits."
+    },
+    "ships_domestically": {
+      "type": "boolean",
+      "note": "Whether it ships within its own country."
+    },
+    "ships_to_regions": {
+      "type": "string",
+      "note": "Comma-separated region codes it ships to, e.g. \"US, CA, UK, EU\". Free text rather than an enum because region boundaries differ between retailers and a retailer may ship to a country with no region code."
+    },
+    "hazmat_shipping": {
+      "type": "boolean",
+      "note": "Whether it ships flammable reloading components. Practically all do, but it is recorded because it is a real constraint on where a user can buy powder, and it is the kind of fact that should come from the retailer rather than be assumed."
+    },
+    "directions": {
+      "type": "string",
+      "note": "Street address, for a physical store."
+    },
+    "city": {
+      "type": "string",
+      "note": "City, for a physical store."
+    },
+    "region_code": {
+      "type": "string",
+      "note": "State or province code, for a physical store."
+    },
+    "affiliate_network": {
+      "type": "string",
+      "note": "Which affiliate programme the retailer belongs to. NULL for every retailer today - the project README names AvantLink but also warns that several programmes have since migrated, and an unconfirmed network that is filled in anyway produces dead links."
+    },
+    "network_store_id": {
+      "type": "string",
+      "note": "The retailer's id within the affiliate network. Blank while affiliate_network is."
+    },
+    "link_template": {
+      "type": "string",
+      "note": "Search URL with a {search} placeholder, e.g. https://www.midwayusa.com/search/?q={search}. Almost always the site's own search form, because per-SKU deep links have not been captured. A URL with no {search} is a defect: it would send every query to one page."
+    },
+    "feed_format": {
+      "type": "string",
+      "note": "Machine-readable product feed the retailer publishes, if any. NULL for all retailers today; recorded so that \"no feed\" is a known answer rather than an unchecked one."
+    },
+    "affiliate_status": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "not_applicable",
+        "pending",
+        "active",
+        "rejected"
+      ],
+      "note": "State of the affiliate relationship. 'unknown' is an honest starting point, not a failure - it says nobody has checked, which is different from claiming there is no programme."
+    },
+    "scraping_status": {
+      "type": "string",
+      "enum": [
+        "unknown",
+        "blocked",
+        "allowed",
+        "not_attempted"
+      ],
+      "note": "Whether this retailer's terms permit automated product lookup. Always 'unknown' today and deliberately so: 'allowed' must never be assumed, and the answer decides whether the component finder may query it at all."
+    },
+    "notes": {
+      "type": "string",
+      "note": "Free prose, and the place where the reasoning behind a blank lives. May contain commas; keep quoted."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 2,
+      "manufacturer_slug": "midwayusa",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US, CA",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.midwayusa.com/search/?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "Largest US reloading retailer; carries bullets, powders, primers, brass and loaded ammo. Link template is the site search form - no product-feed deep link captured yet. Affiliate network left NULL on purpose: the project README names AvantLink but also warns several programs have since migrated, so it is unconfirmed and must not be guessed."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 3,
+      "manufacturer_slug": "brownells",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US, CA, UK, EU",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.brownells.com/search/?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "Strong on reloading components and specialty bullets. Ships to the UK and EU, which matters for reach. Template is a site search; per-SKU URLs use a different path we have not captured. Affiliate network unconfirmed - see midwayusa note."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 4,
+      "manufacturer_slug": "natchez",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US, CA",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.natchezss.com/search?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "Known for in-stock reloading components and transparent inventory counts. One of the easiest retailers to verify stock against, which makes it a good first target for the scraper lane. Affiliate network unconfirmed - see midwayusa note."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 5,
+      "manufacturer_slug": "psa",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://palmettostatearmory.com/search/?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "General firearms retailer. Ammo and brass heavy, thinner on match bullets and powders than the specialist reloading houses. Carries a wide accessories range that a component finder can also surface."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 6,
+      "manufacturer_slug": "targetsports",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US, CA",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.targetsportsusa.com/search?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "Match-oriented and carries a good spread of premium bullets. Not a full reloading-supply house - powder availability in particular is limited."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 7,
+      "manufacturer_slug": "powdervalley",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.powdervalleyinc.com/search?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "One of the two houses that genuinely covers the whole reloading supply range: powders, primers, bullets, brass, scales and presses. A strong default for powder and primer queries."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 8,
+      "manufacturer_slug": "opticsplanet",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US, CA, UK, EU",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.opticsplanet.com/search?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "Optics and accessories rather than reloading components. Included because the finder should still be able to surface a scope or mount for a given cartridge, but it is a weak source for components."
+    },
+    {
+      "_source": "data/seeds/sourcing_retailers.csv",
+      "_line": 9,
+      "manufacturer_slug": "primaryarms",
+      "source_type": "online",
+      "ships_domestically": true,
+      "ships_to_regions": "US",
+      "hazmat_shipping": true,
+      "directions": null,
+      "city": null,
+      "region_code": null,
+      "affiliate_network": null,
+      "network_store_id": null,
+      "link_template": "https://www.primaryarms.com/search?q={search}",
+      "feed_format": null,
+      "affiliate_status": "unknown",
+      "scraping_status": "unknown",
+      "notes": "Firearms and accessories. Limited reloading component range; included for completeness of the directory rather than as a primary component source."
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "_generated": true,
+  "_warning": "GENERATED FILE - DO NOT EDIT. Built from the CSV by scripts/build-data.mjs; edits are lost on the next build. Edit the CSV, then run: npm run data:build",
+  "dataset": "cartridge_pressure_conflicts",
+  "description": null,
+  "source": "data/seeds/cartridge_pressure_conflicts.csv",
+  "manifest": "data/schemas/cartridge_pressure_conflicts.yaml",
+  "row_count": 2,
+  "columns": {
+    "kwk_name": {
+      "type": "string",
+      "required": true,
+      "note": "Cartridge designation as the primary compilation (kwk) spells it."
+    },
+    "secondary_name": {
+      "type": "string",
+      "required": true,
+      "note": "The same cartridge as the secondary compilation spells it. Recorded separately rather than assumed identical, because a naming difference is itself the reason several rows cannot be matched automatically."
+    },
+    "unit": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "psi",
+        "bar",
+        "ksi",
+        "c.u.p.",
+        "cup"
+      ],
+      "note": "Unit both figures are expressed in, so delta is meaningful."
+    },
+    "kwk_value": {
+      "type": "number",
+      "required": true,
+      "note": "The primary compilation's figure."
+    },
+    "secondary_value": {
+      "type": "number",
+      "required": true,
+      "note": "The secondary compilation's figure for the same cartridge."
+    },
+    "delta": {
+      "type": "number",
+      "note": "secondary_value minus kwk_value. Left blank rather than computed in the CSV when it is not yet established which way round the subtraction goes."
+    },
+    "resolution": {
+      "type": "string",
+      "required": true,
+      "enum": [
+        "unresolved",
+        "secondary_correct",
+        "kwk_correct",
+        "both_valid",
+        "typo_in_name"
+      ],
+      "note": "How the disagreement was settled. - unresolved: nobody has checked the standard body yet. - both_valid: not actually a conflict; the two publish different methods\n  (piezo vs cup) or different vintages, and both may be right.\n- typo_in_name: the figures agree; the cartridges were matched by mistake."
+    },
+    "resolution_note": {
+      "type": "string",
+      "note": "What the resolution rests on. May contain commas; keep quoted. An unresolved row with no note is a task, not an oversight."
+    }
+  },
+  "rows": [
+    {
+      "_source": "data/seeds/cartridge_pressure_conflicts.csv",
+      "_line": 2,
+      "kwk_name": "6.5 Rem Mag",
+      "secondary_name": "6.5 Rem Mag",
+      "unit": "cup",
+      "kwk_value": 53000,
+      "secondary_value": 56200,
+      "delta": -3200,
+      "resolution": "unresolved",
+      "resolution_note": "Compilations disagree beyond tolerance. Resolve against SAAMI Z299.x or CIP TDCC before publishing."
+    },
+    {
+      "_source": "data/seeds/cartridge_pressure_conflicts.csv",
+      "_line": 3,
+      "kwk_name": ".350 Rem Mag",
+      "secondary_name": ".350 Rem Mag",
+      "unit": "cup",
+      "kwk_value": 53000,
+      "secondary_value": 56200,
+      "delta": -3200,
+      "resolution": "unresolved",
+      "resolution_note": "Compilations disagree beyond tolerance. Resolve against SAAMI Z299.x or CIP TDCC before publishing."
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+# Column manifest: manufacturers
+#
+# The company directory. This is the canonical list every other dataset
+# references, and the thing the per-manufacturer coverage report is built from.
+# It stays a single file because it IS one row per company - the split applies to
+# component data, not to the directory itself.
+
+dataset: manufacturers
+storage: csv
+csv_path: data/seeds/manufacturers.csv
+primary_key: [slug]
+
+columns:
+  slug:
+    type: string
+    required: true
+    pattern: '^[a-z0-9]+(-[a-z0-9]+)*$'
+    note: >
+      The key everything else joins on. MUST be lowercase: SQLite string
+      comparison is case-sensitive. Also the filename used by the
+      per-manufacturer component files in data/seeds/<type>/.
+
+  name:
+    type: string
+    required: true
+    note: Display name, e.g. "Hodgdon Powder Company".
+
+  kinds:
+    type: string
+    required: true
+    note: >
+      SEMICOLON-DELIMITED LIST - this is a many-to-many relationship flattened
+      into one cell, and the loader splits it into the manufacturer_kinds
+      table. Permitted: ammo, bullet, powder, primer, brass, shotshell,
+      retailer, reloading_equipment, wads.
+      A maker that is both an ammo maker and a brass maker is ONE row with
+      several kinds, not two companies.
+      RESOLVED 2026-10-01: six powder brands (accurate, alliant, hodgdon, imr,
+      ramshot, vihtavuori) were referenced by the powder CSVs but missing here,
+      orphaning 98 of 169 powder rows. All six now exist and cross-dataset
+      references resolve.
+
+  website:
+    type: string
+    required: true
+    format: url
+    note: Maker's site. Required - a company with no site is not useful to a user looking for a source.
+
+  country:
+    type: string
+    required: false
+    note: Country of manufacture, not of the brand owner.
+
+  region:
+    type: string
+    required: false
+    enum: [north_america, europe, oceania, asia, south_america, africa]
+    note: Coarse region, used to group the directory in the UI.
+
+  status:
+    type: string
+    required: false
+    enum: [active, acquired, defunct, unknown]
+    default: active
+    note: >
+      All 36 rows are currently `active`. Several brands are owned by larger
+      groups (Hodgdon owns IMR, Winchester, Accurate and Ramshot; Vista Outdoor
+      owns Hornady, Federal and Remington), but that is recorded in `notes` -
+      `acquired` is for a brand that no longer trades under its own name.
+
+  notes:
+    type: string
+    required: false
+    note: >
+      Free prose, deliberately well-researched: brand ownership, product lines,
+      and the reason a brand is or is not in scope. This is real editorial
+      value, not filler, and it is the part most likely to go stale.
+
+  source_url:
+    type: string
+    required: false
+    format: url
+    note: Where the company details were confirmed.
