@@ -196,6 +196,37 @@ bought is the opposite of that.
   about the product. A review of a retailer is about the retailer. Mixing them
   lets commission colour an opinion.
 
+## Phase A - ammunition catalogue (BLOCKS all comparison work)
+
+Placed first because it is a hard dependency and it is currently missing
+entirely. **We hold no loaded-ammunition data at all** - no SKU, no box, no
+stated velocity, no loaded bullet weight. Every comparison feature is blocked
+until this lands.
+
+Detail in `06-ammunition-comparison-model.md`. The short version:
+
+| # | Change | Write-set |
+| --- | --- | --- |
+| A.1 | **Ammunition product schema** - caliber, loaded weight, bullet type, stated velocity with source, box size, UPC | `data/schema/021_*.sql` (SERIAL) |
+| A.2 | **Seed ~20 duty and defensive lines**, not 1,000 SKUs | `data/seeds/`, `data/schemas/` |
+| A.3 | **Provenance on every velocity**, tiered like every other number we hold | `data/seeds/value_provenance.csv` |
+| A.4 | **GATE: no ammunition row without a source** | `scripts/gates/` |
+
+Then Phase B: comparison view, review aggregation, conditions-required gate,
+scoped conclusions, and a citation on every claim.
+
+### The rule B4 turns on
+
+We may draw our own conclusions. What we may not do is synthesise a score from
+incomparable inputs. **Terminal performance is not a property of the
+ammunition** - it depends on barrel length, media and temperature, so averaging
+results across setups produces a number that is precise and meaningless. That
+would be the fabricated-rating defect rebuilt out of real data.
+
+Entitled to claim: cheapest per round, best value within a stated budget frame,
+and "these sources agree". Not entitled to claim: a bare winner, or a star
+rating synthesised across sources that measured different things.
+
 ## Phase 8 - ballistics video and review links
 
 Deliberately adjacent to Phase 7 and sequenced after it, because both are
