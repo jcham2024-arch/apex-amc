@@ -145,6 +145,70 @@ with a NEW provenance requirement, not a value to fill in.
 - Specify the USER OVERRIDE path. The owner wants users able to enter their own prices. Make override structurally distinct from sourced data so nobody later mistakes a typed number for an observed one. That distinction is the difference between a useful tool and a confident wrong answer.
 - Define provenance end to end: how a price travels from source to screen, and what renders when the chain is incomplete.
 
+## Ballistics: what we build, what we do not — owner raised 3 Oct 2026
+
+> "When it comes to hollow points, we want to see if we can find ballistics data on them.
+> What do they expand to and at what speeds? How much penetration can be expected at what
+> muzzle velocities, etc."
+
+**Half of this is ordinary reference data and half is a duty-to-care question. Both matter,
+so here is exactly where the line falls and why.**
+
+### Build it: bullet performance as a property of the BULLET
+
+Manufacturers publish expansion and penetration per projectile — diameter recovered and
+depth in calibrated gelatin, usually with a stated velocity condition. That is **published
+specification about a manufactured item**, and it can be stored, attributed and cited
+exactly like a burn-rate figure.
+
+**Confirmed by inspection, not assumed:** `bullets` has no expansion or penetration column,
+and no table anywhere in the schema mentions them.
+
+Required fields: recovered diameter, penetration depth, gelatin standard and block used,
+**muzzle velocity under test**, barrel length, publisher, edition and retrieval date.
+
+### Do not build it: penetration or expansion as a function of the USER'S LOAD
+
+The risky part of the sentence is *"at what muzzle velocities, **etc.**"* — because in a
+reloading tool, velocity is not a constant. **It is the output of a charge weight the user
+chooses.** So "expansion at velocity V" sitting next to a load calculator is a duty-to-care
+device wearing the costume of a spec sheet.
+
+- ✅ "**This bullet**, per Hornady, expanded to X in their published test at Y fps."
+- ❌ "**Your load** will expand to X at Y fps."
+
+The first cites a fixed fact about a fixed product under the manufacturer's own conditions.
+The second is our own inference about a specific charge fired from a specific barrel with a
+specific lot of powder — a chain we neither control nor measure.
+
+**This is a different boundary from the load-lookup prohibition, drawn for a different
+reason.** Item 10 prohibits computing *charge weights*, because a wrong charge weight is
+dangerous to fire. This prohibits *predicting a bullet's behaviour in the user's gun*,
+because it is a duty-of-care inference we have no basis for. Same destination, different
+argument — and writing both down is what stops someone finding the gap later and assuming it
+was an oversight.
+
+### And there is a plain technical impossibility, which is the more useful answer
+
+**We hold no load data — that is item 10, by the owner's own decision.** So we cannot tell
+any user what velocity their load produces. **A penetration model keyed to muzzle velocity
+is inoperable without load data.**
+
+Either we model penetration only against a manufacturer's published test velocity — safe,
+citable, honestly labelled as the manufacturer's result rather than the user's — or we build
+the load side first and revisit. **The load side is exactly the part we decided not to
+build**, so this is not a restriction we are imposing; it is what the existing decision
+already implies.
+
+**Recommendation, which costs us nothing:** build the performance table as sourced,
+attributed, test-condition-labelled reference data. Every figure carries publisher, barrel
+length and velocity condition, plus a link. The user reads what the manufacturer found; we
+never tell them what their round will do.
+
+Most of this data lives in manufacturer PDFs, so it takes the same **cite-and-link**
+treatment as load data in item 10 — store attribution and conditions, and where a figure sits
+behind a purchase, say so plainly.
+
 ## Do not
 
 - Do not populate any price, primer or component value. Design the schema. A fabricated price in a cost calculator is worse than no calculator.
@@ -153,6 +217,12 @@ with a NEW provenance requirement, not a value to fill in.
   driving factor: he drove 30 minutes and overpaid because his preferred primers were out
   everywhere else. A cheapest-first list that ignores stock answers the wrong question and
   looks authoritative while doing it.
+- Do not predict or infer what a bullet will do in the USER'S load. Citing a
+  manufacturer's published expansion or penetration result under stated test conditions is
+  reference data and is in scope; projecting that onto a user's charge weight, barrel and
+  powder lot is not, and it is a duty-to-care inference with no measurement behind it. Note
+  that we hold no load data at all (FIX-BACKLOG 10), so no such projection is even
+  computable.
 - Do not default an unknown quality tier to "standard", and do not default an unknown stock
   state to "available". Both would convert absent data into a confident claim, and unknown
   is the normal case for every price, stock and quality field in this database today.

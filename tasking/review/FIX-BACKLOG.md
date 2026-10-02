@@ -250,6 +250,67 @@ looking alike is how a user spends money on a number we invented.
 **Not a blocker on the product.** It is a blocker on a *feature claimed as available now*.
 Record it as: no price is displayable until observations exist, and the honest v1 of the
 cost model says so.
+### 18. Bullet shape taxonomy — DEFERRED, and it is the second blocked data axis
+
+> "Don't forget hollow point vs round nose vs wadcutter... The same goes for match grade
+> flat nose, these are more competition style bullets and cost more off the shelf. We need to
+> have those distinctions in our dataset."
+
+**Correct, and this is the same axis as match grade (item 17) rather than a separate
+problem. Measured against `bullets` (120 rows):**
+
+| `tip_type` | Rows |
+|---|---|
+| **NULL** | **111** |
+| `polymer_tip` | 4 |
+| `hollow_point` | 1 |
+| `hpbt` | 1 |
+| `round_nose` | 1 |
+| `spitzer` | 1 |
+
+**The axis is 93% empty, and the 9 populated rows use five different vocabularies for the
+same concept** — `hollow_point` and `hpbt` are the same shape written two ways. So this is
+not "add some values"; it is **define a controlled vocabulary, then populate it**, and the
+vocabulary is a judgement call about shape, use and performance that belongs in a spec
+rather than in an import script.
+
+**Do not let an importer invent it.** The temptation is to pattern-match on product names
+("FMC", "HP", "HPBT", "OTBT", "Flat Nose"), and each is ambiguous — "FM" is both a
+manufacturer prefix and a full-metal jacket, and `HPBT` and `OTBT` differ by one letter. A
+name heuristic produces confident wrong answers, which is the exact failure this project has
+been guarding against all along.
+
+**The cost argument is the strongest statement of the thesis we have**
+
+> "I shoot hollow points as the price is the same as round nose, but to buy a hollow point
+> off the shelf is generally way more expensive. **So the bullets I make have a massive
+> savings versus buying a similar product.**"
+
+**Loading is not a cheaper way to make range ammo — it is the way to get premium
+projectiles cheaply.** That is the opposite of the assumption most people start from, and
+exactly what a cost calculator exists to reveal.
+
+Which makes the missing fields load-bearing: **a price comparison that cannot say "this is a
+hollow point" is the same defect as one that cannot say "this is match grade"** — and per
+item 17 there is no such field. Both axes must land together or the cost surface cannot make
+the argument that justifies it.
+
+**Distinct shapes to model — note the first two are a different axis again**
+
+| Shape | Character | Notes |
+|---|---|---|
+| **Round nose** | Range ammo only, per the owner | The cheap baseline; the denominator for every comparison |
+| **Hollow point** | Expands; duty cycle | Much more expensive off the shelf |
+| **Wadcutter** | Flat nose, pre-cut skirt | The pre-HP expansion answer; the owner's third category |
+| **Flat nose (match)** | Competition | Costs more off the shelf |
+| **Spitzer / boat tail / polymer tip** | Target | Already partly present |
+
+**Careful: "wadcutter" and "flat nose" overlap but are not identical.** A wadcutter is
+defined by its cut skirt (and usually a hollow base or rebated nose); a match flat nose need
+not be skived. `base_type` currently holds `boat_tail` (96) and `flat` (13) but **0 rows**
+distinguishing wadcutter from plain flat nose. Decide explicitly rather than folding them
+together.
+
 ### 16. Hodgdon link presentation — RESOLVED (owner, 3 Oct 2026)
 > "As far as Hodgdon is concerned, we give a link to their calculator, perhaps a pop-up
 > window or new tab. We make it easy for our user to use their resource."
@@ -274,7 +335,7 @@ than from analysis.** A price the user cannot obtain is worth zero; the cheapest
 frequently not the cheapest option. Ranking by price while ignoring stock produces advice
 that is wrong in the only way that matters.
 
-### The real thesis: quality per dollar, on projectiles
+**The real thesis: quality per dollar, on projectiles**
 
 > "Are the bullets match grade? For example, the bullets I buy from RMR are match-grade
 > hollow points with free shipping that cost as much as plated Berry's at the local stores.
@@ -296,7 +357,7 @@ prices while unable to say WHAT is being compared. **This is the highest-value d
 found in the project.** One piece of good news - quality tier is published product
 specification, not a load quantity, so the cite-and-link rule in item 10 does not forbid it.
 
-### The market splits cleanly, and local shops are not the competitor
+**The market splits cleanly, and local shops are not the competitor**
 
 | | Powder | Primers | Projectiles |
 |---|---|---|---|
@@ -312,16 +373,65 @@ sourcing channel to price against. Pricing a full basket against a local shop mo
 wrong market, and would rank the local shop as the sensible choice for everything - which
 is precisely wrong for the niche projectile the user actually wants.
 
-### Free shipping is a cost input
+**Free shipping is a cost input**
 
 > "Things like free shipping make a huge difference."
 
 It changes which retailer wins and, at a threshold, changes it discontinuously. Part of
 **landed** cost, never an afterthought.
 
-### Two guards written into the brief
+**Two guards written into the brief**
 
 Availability and quality are unknown for every row today, so the DEFAULTS are the dangerous
 part: an unknown stock state must not rank as available, and an unknown tier must not
 render as "standard". Both are now prohibitions in component-cost-model/BRIEF.md, which was
 rewritten before an agent could pick it up.
+### 19. CIP licensing - EXPLAINED, and it is recommended for closure (owner asked, 3 Oct 2026)
+
+> "And finally what is the CIP licensing, not sure what that is."
+
+**What CIP is.** The *Commission Internationale Permanente des Armes a Deux Epees* - the
+Permanent International Commission for Small Arms, a treaty body of signatory states
+headquartered in New York. It publishes the **TDCC** tables of official cartridge and
+chamber dimensions, recognised by member states as the governing standard in the way SAAMI
+is in North America.
+
+**Why it matters to a reloader:** a cartridge has a maximum case length and headspace, and
+two authorities can specify different ones. A reloader who builds to SAAMI in a chamber
+drawn to CIP is in violation regardless of intent - which is why serious sources say
+"confirm the standard, do not assume it."
+
+**The licence question, and why this sat as BLOCKED.** CIP's tables carry a notice reading,
+in substance: *"Reproduction forbidden as well as in the form of extracts without approval
+of reproduction."* Two findings from `cartridge-licence-reconciliation` changed the
+picture:
+
+- The **index page** publishes a browsable table with pressure figures and **no
+  reproduction restriction**.
+- The **per-cartridge sheets inside the PDFs** **do** carry the notice - and the words are
+  kerned in the typesetting, so a naive text search for "Reproduction" reports them
+  *absent from sheets that carry them*.
+
+**The contradiction in our own record, stated honestly.** One task wrote *"there is no
+licence wall on this task"* and then retracted it in the next: *"That sentence would have
+sent an agent to transcribe CIP dimensions into our dataset."* Both readings are defensible
+because the notice sits in one artefact and not the other, and "Reproduction" is undefined
+as to internal analysis. **That is the actual reason this was never closed: our own
+evidence contradicts itself.**
+
+**The recommendation, and it costs us almost nothing: keep not transcribing, and stop
+treating it as blocking.**
+
+- CIP dimensions are **not needed for the product.** Our features are cost, ballistics,
+  cartridge selection and sourcing. None require a maximum case length.
+- The only place it would matter is **case-reuse / brass-length guidance**, and
+  `case_reuse_profiles` is the wrong place to take an unresolved legal question when the
+  alternative is to say "check which standard governs your chamber."
+
+**This retires item 9 without needing a lawyer.** If brass-length guidance is ever wanted,
+the options are written CIP approval, or linking the tables the way Hodgdon's are linked -
+the pattern this project already follows everywhere else.
+
+**Caveat, plainly:** this resolves our RISK, not the LAW. The "internal use" question is
+genuinely unsettled on the face of the terms, and I am not a lawyer. But nothing in the
+current product needs the answer, so the question never has to be answered.
