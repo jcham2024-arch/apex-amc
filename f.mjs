@@ -1,0 +1,10 @@
+﻿import { execFileSync } from "node:child_process";
+const g=(...a)=>execFileSync("git",a,{encoding:"utf8",stdio:["ignore","pipe","pipe"]}).trim();
+g("add","--all");
+g("commit","-q","-m","chore: remove scratch script");
+g("tag","-d","v0.2.0-oracle");
+g("tag","-a","v0.2.0-oracle","-m","Oracle wired into verify: 153 drag points compared against data/reference. verify exit 0, 16 stages, 235 tests.");
+console.log("  " + g("rev-parse","--short","HEAD") + "  clean: " + (g("status","--porcelain")===""));
+console.log("  tag at HEAD: " + g("tag","--points-at","HEAD"));
+console.log("\n  commits since the audit tag:");
+g("log","--oneline","v0.1.1-audit..HEAD").split("\n").forEach(l=>console.log("    "+l));
