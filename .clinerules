@@ -1,0 +1,169 @@
+# Multi-Agent Workspace & Context Isolation Rules
+
+**Read this first. It is binding on every agent in this repository, whether it
+was spawned by the Master Planner, by Cline Kanban, or opened manually.**
+
+This file is **not** the generic Cline template. It is specific to this
+repository, and the differences are load-bearing. Where this file and a generic
+multi-agent guide disagree, this file is right, and the reason is stated inline.
+
+---
+
+## 0. Roles
+
+| Role | May write source code? | Responsibility |
+| --- | --- | --- |
+| **Master Planner** | No | Decomposes work, assigns write-sets, maintains `.cline/tasks/ledger.json` |
+| **Sub-Agent** | Yes, within its write-set only | Executes exactly one task, then reports |
+| **Integrator** | Yes | Serial §D work: commit splits, merges, deploys |
+
+---
+
+## 1. The isolation rule
+
+> **A Sub-Agent may only write files listed in its own task's Allowed Write
+> Paths. If a needed file is not in that list, the task is blocked — report it
+> and halt. Do not "just add it".**
+
+`npm run verify` is a shared global gate. If it is red when you start, **stop and
+report** — a red baseline invalidates every Definition of Done in every task.
+
+Baseline: **exit 0, 235 tests, 14 stages.** If the count differs, measure and
+report; do not assume your prompt is current.
+
+---
+
+## 2. Shared files — the specific list, and how to handle them
+
+A generic guide says "root config files are off-limits to Sub-Agents." That is
+**wrong here** and would block three legitimate tasks. The real rule is a
+**lock**, not a ban.
+
+| Path | Why it collides | Rule |
+| --- | --- | --- |
+| `package.json` | A1, A2, A3, C2 all add scripts | One task at a time. Claim it in the ledger. |
+| `data/schema/*.sql` | Migration numbering is **global**, and every gate replays the chain | **Strictly one at a time.** See §3. |
+| `data/generated/**` | `npm run data:build` rewrites **every** dataset, not just yours | See §4. |
+| `scripts/shared/data.mjs` | Read by nearly every gate | Read freely; only infra tasks may write it. |
+
+**Locking protocol.** Before touching a shared file:
+1. Set `"lock": "<your-task-id>"` on that path in `ledger.json`.
+2. If a lock is already held by another task, **halt and report**. Do not proceed.
+3. Release it in your summary. The Integrator clears stale locks.
+
+---
+
+## 3. Migrations are strictly serial
+
+`data/schema/*.sql` is numbered, append-only, and every `schema:check` run
+replays the whole chain. Two agents adding migrations concurrently collide on
+numbering and produce a chain neither tested.
+
+- **Never edit an existing migration.** A deployed D1 has already run it.
+  A new column is a new numbered file.
+- **Coordinate before writing one.** Claim the lock; if held, do other work and
+  return to it.
+- Read `data/schema/016_affiliate_outreach.sql` before writing a comment. It is
+  the model.
+
+---
+
+## 4. `data/generated/**` — one builder at a time
+
+`npm run data:build` rewrites **all** datasets. Two agents each add a row to
+different CSVs, both run it, and each sees ~28 modified files they cannot
+attribute.
+
+- **Only one agent may run `npm run data:build` at a time.**
+- To validate your own CSV edits, use `npm run seed:check` — it reads the CSV,
+  enforces its manifest, and writes **nothing**.
+- Prefer: let the Integrator run `data:build` once after all data work lands.
+
+---
+
+## 5. Non-negotiable engineering rules
+
+These are in [`docs/CONVENTIONS.md`](docs/CONVENTIONS.md), which every Sub-Agent
+must read. Repeated here because they are the ones most likely to be skipped.
+
+1. **Never invent a value. Leave it EMPTY.** A blank means "not known"; a wrong
+   number can injure someone. This applies to pressures, diameters, geometries,
+   commission rates, and affiliate parameters equally.
+2. **Every gate needs a negative test**, observed failing. Three gates in this
+   repo passed against deliberately broken input before that was discovered.
+3. **Verify the artefact, not the exit code.** Print what the function returned;
+   re-read the file; count the matches.
+4. **Never build DOM with `innerHTML`.** Use `el()`, `icon()`, `safeUrl()` from
+   `apps/website/src/dom.js`. A single `innerHTML` reverts deliberate XSS
+   hardening.
+5. **Never use `INSERT OR IGNORE` as validation.** It dropped 7 legitimate bullets.
+6. **Part numbers and SKUs are strings.** `065147` → `65147` destroys a join.
+7. **Comments explain *why*, and carry trap history.** When you fix a bug, leave a
+   comment saying what the old code did and how you know.
+8. **OOP is load-bearing.** See
+   [`packages/ballistics-core/src/domain/BallisticProfile.ts`](../packages/ballistics-core/src/domain/BallisticProfile.ts)
+   for the pattern. Do not manufacture a class where pure functions are correct.
+9. **Never write a file with a shell redirect.** Use the editor.
+10. **Scratch goes in `tmp/`**, not the repo root. `npm run lint` runs `eslint .`
+    and a stray diagnostic file fails the build for everyone.
+
+---
+
+## 6. The main app boundary
+
+`apps/website/src/` is the source; `npm run website:build` produces
+`apps/website/dist/index.html`, which Cloudflare serves.
+
+- **A data-layer Sub-Agent must never write into `apps/`.** A script once did
+  exactly that and stripped `main.js`'s XSS hardening; only lint caught it.
+- **If you change the main app deliberately**, run:
+
+  ```bash
+  npm run website:build
+  npm run handoff:accept -- --note="what changed and why"
+  ```
+
+  `npm run handoff:status` (inside `verify`) fails on any unaccepted change. That
+  is the system working. It is deliberately not in `verify`: a gate that re-arms
+  its own baseline is a mirror, not a tripwire.
+
+---
+
+## 7. Model selection
+
+When spawning a Sub-Agent, use **a fresh instance of the default model** unless
+the user says otherwise. Do not silently downgrade to a different or paid model.
+
+Record in the task's Definition of Done block: the model used, and whether it was
+a fresh instance.
+
+---
+
+## 8. Reporting contract
+
+Every Sub-Agent summary must state, in this order:
+
+1. **What changed** — files and the substance of each.
+2. **What you verified and how** — paste negative-test output verbatim. A claim
+   of success without a pasted failing run is not a verification.
+3. **What you found but did NOT touch** — problems outside your write-set.
+4. **What you believe is wrong** — your professional judgement, even if out of
+   scope.
+5. **Locks released**, and any task now unblocked.
+
+Item 3 is not optional. A Sub-Agent that silently "fixes" a neighbouring file has
+defeated the entire isolation scheme.
+
+---
+
+## 9. Coordination between agents
+
+If the tooling provides a shared task board or mailbox:
+
+- **Claim dependencies explicitly.** If your task needs another's output, mark it
+  `Blocked by [ID]` in your task file and in `ledger.json` before starting.
+- **Broadcast cross-task findings** so a peer does not rediscover the same
+  problem.
+- **Never assume a peer's uncommitted work exists.** Only committed, merged state
+  is visible to you.
+

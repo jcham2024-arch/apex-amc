@@ -23,7 +23,8 @@ make us a money transmitter — see
 contributor: the governing rules, the verified current state, and a table of the
 traps that have silently produced wrong behaviour in this codebase.
 
-For what to work on next, see [`docs/TODO.md`](docs/TODO.md).
+For what to work on next, see [`docs/DATA-TODO.md`](docs/DATA-TODO.md) for the
+data layer and [`docs/TASK-LIST.md`](docs/TASK-LIST.md) for code and safety.
 
 ## Quick start
 
@@ -43,16 +44,28 @@ Requires **Node 22.6+** (the tooling uses `node:sqlite` and type stripping).
 | `npm run lint` | ESLint 10, type-aware across `packages/` |
 | `npm run typecheck` | Strict `tsc`, no emit |
 | `npm test` | Unit tests over the domain package |
-| `npm run schema:check` | Applies every D1 migration to in-memory SQLite, verifies seed rows landed |
+| `npm run schema:check` | Applies every D1 migration to in-memory SQLite, then asserts CSV→table row parity |
 | `npm run seed:check` | Loads every seed CSV into SQLite and checks it, including the column manifests |
 | `npm run data:health` | One-glance data quality report — run this first |
 | `npm run coverage` | Per-manufacturer coverage table |
+| `npm run docs:check` | Markdown structure **and** that every repository path in backticks resolves: fences, swallowed headings, duplicates, encoding. **In `verify`.** |
+| `npm run docs:audit` | Report line-ending / BOM drift across text files. Changes nothing. |
+| `npm run docs:fix` | Apply that normalisation. Markdown only unless `--all`. |
+| `npm run handoff:status` | Main app is unchanged, self-contained, supply-chain clean. **In `verify`.** |
+| `npm run security:check` | Security review of the deployed app: XSS sinks, unpinned remote scripts. **In `verify`.** See [`SECURITY.md`](SECURITY.md). |
+| `npm run modules:check` | Module architecture: everything loads, imports resolve, no cycles, packages assemble. **In `verify`.** See [`ARCHITECTURE.md`](ARCHITECTURE.md). |
 | `npm run data:build` | Validates CSVs against `data/schemas/*.yaml`, regenerates JSON + Markdown |
 | `npm run data:validate` | Fails if a generated file is stale (part of `verify`) |
 | `npm run data:fetch` | Archives published source PDFs to `data/published/` |
 | `npm run website:dev` | Vite dev server |
 | `npm run website:build` | Static build to `apps/website/dist` |
-| `npm run db:local` / `db:remote` | Apply D1 migrations locally / to production |
+| `npm run website:check` | Verifies the built artefact (in `verify`) |
+| `npm run website:csp:browser` | Serves `dist/` under its real `_headers`, asserts in headless Chrome that the script actually runs (in `verify`) |
+| `npm run claims:check` | Bans unsupported advertising claims, checks affiliate-disclosure placement and an accessibility floor (in `verify`) |
+| `npm run tasks:check` | Multi-agent task ledger: fails on any overlapping write-set between runnable tasks (in `verify`) |
+| `npm run tasks:gen` | Regenerates the 16 task files from `docs/AGENT-PROMPTS.md` |
+| `npm run probe:pdf` | One-shot: try to extract text from an archived source PDF with no dependencies |
+| `npm run db:local` | Builds `data/generated/apex.sqlite` from migrations + seed CSVs (1,666 rows) |
 
 ## Repository layout
 
@@ -60,8 +73,10 @@ Requires **Node 22.6+** (the tooling uses `node:sqlite` and type stripping).
 ApexProject/
 ├─ apps/
 │  ├─ website/          apex-amc.com — the primary deliverable
-│  │  ├─ index.html     single-file site (deployed as-is)
-│  │  └─ src/           extracted modules: dom.js, main.js, data/
+│  │  ├─ src/           the site: index.html (Vite entry), main.js, dom.js, data/
+│  │  ├─ dist/          GENERATED single-file site (built by npm run website:build)
+│  │  ├─ vite.config.js asset inlining, so dist/ stays self-contained
+│  │  └─ README.md
 │  └─ ballistics/       Expo SDK 57 field app (offline use)
 ├─ packages/
 │  └─ ballistics-core/  pure, tested, framework-free domain logic
@@ -85,6 +100,7 @@ ApexProject/
 ├─ scripts/            schema validation, source archiving, extractors
 ├─ docs/               architecture, data model, audits, handoff pack
 └─ archive/gemini/     prior drafts, kept for provenance, never built
+```
 
 ## The provenance system — read before adding any number
 
@@ -129,7 +145,6 @@ import it.
 3. **Archived PDFs are never redistributed.** They are gitignored. Only
    derived single facts are republished, always with attribution.
 
-## Current status
 ## Current status
 
 | Area | State |
@@ -184,19 +199,23 @@ this as the one open item.
   invisible to the others. Needs a shared context.
 - **No weather screen.** The module and parser exist and are tested; the UI
   that consumes them does not.
-- **`apps/website/index.html`** still carries CDN React, Babel standalone and an
-  unpinned `lucide@latest`, and still has its own copy of the renderer that was
-  fixed in `src/`. It is the file actually deployed today.
+- **The website still loads `cdn.tailwindcss.com`** — a runtime CSS compiler,
+  unpinned and with no Content Security Policy. Both are tracked in
+  `SECURITY.md` and recorded in the finding baseline. The target is a
+  build-time stylesheet and a nonce-based strict CSP.
+- **The database is empty.** Migrations create 25 tables; the loader that
+  populates them from the seed CSVs does not exist yet, so the site renders
+  from its hand-held datasets. See `docs/DATA-TODO.md` §0.2.
 
 
 ## Documentation
 
 | Doc | Contents |
 |---|---|
-| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Layout, rationale, free-tier infrastructure |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Layout, rationale, free-tier infrastructure |
 | [docs/DATA-MODEL.md](docs/DATA-MODEL.md) | Entity map, invariants, D1 vs Supabase |
 | [docs/BALLISTICS-AUDIT.md](docs/BALLISTICS-AUDIT.md) | Which formulas were wrong, by how much, with evidence |
 | [docs/SOURCES.md](docs/SOURCES.md) | **Every source, its verification status, and what is NOT yet verified** |
 | [docs/HARDWARE-AND-SENSORS.md](docs/HARDWARE-AND-SENSORS.md) | Rangefinders, weather meters, and the scope-camera question |
 | [docs/COMMUNITY-AND-GROUP-BUY.md](docs/COMMUNITY-AND-GROUP-BUY.md) | Forum + group-buy design and the money-transmitter constraint |
-| [docs/AGENT-HANDOFF.md](docs/AGENT-HANDOFF.md) | Parallel-agent briefs |
+| [AGENTS.md](AGENTS.md) | Parallel-agent briefs |

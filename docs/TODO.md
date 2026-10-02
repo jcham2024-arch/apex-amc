@@ -1,10 +1,30 @@
 # To-do list
 
-Last measured 1 Oct 2026. Every number below came out of `npm run data:health`,
-`npm run coverage` and `npm run seed:check`, not from memory. Re-run those three
-before trusting any figure here.
+> **SUPERSEDED 2 Oct 2026 by [`DATA-TODO.md`](DATA-TODO.md).**
+>
+> This file was the consolidated data task list until 2 Oct 2026, when a full
+> audit of every seed CSV, manifest, migration and generated artefact was
+> performed. That audit found a blocker no task here had recorded — **no
+> script wrote the seeds into the schema, so 19 of 24 tables loaded zero rows**
+> and the 989 curated rows never reached SQLite or D1. **That blocker is now
+> fixed**: `npm run db:local` builds a populated database and `schema:check`
+> asserts CSV→table parity. See [`DATA-TODO.md`](DATA-TODO.md) §0.2.
+>
+> **Go to [`DATA-TODO.md`](DATA-TODO.md).** The material below is kept for
+> provenance only: the reasoning behind the accepted decisions is still worth
+> reading, but the row counts, priorities and "done" markers are from 1 Oct 2026
+> and were re-verified, not re-derived, on 2 Oct.
+>
+> `AGENTS.md` and `docs/README.md` have also been repointed at `DATA-TODO.md`.
 
-**This is the single consolidated task list for the data work.** It replaces the
+---
+
+## Archived content, last measured 1 Oct 2026
+
+Every number below came out of `npm run data:health`, `npm run coverage` and
+`npm run seed:check`, not from memory.
+
+**This was the single consolidated task list for the data work.** It replaces the
 competing task lists that used to live in `DATA-PLAN.md`, `SEED-DATA-GUIDE.md`
 and the gaps section of `DATA-REPOSITORY.md`. If a task is not here, it is either
 done (§5) or parked in `FUTURE-INTEGRATIONS.md`.

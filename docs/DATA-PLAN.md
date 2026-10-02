@@ -3,11 +3,15 @@
 **How this repository grows.** Companion to [`DATA-REPOSITORY.md`](DATA-REPOSITORY.md),
 which describes what exists; this describes what to do about it.
 
-> **The task list now lives in [`TODO.md`](TODO.md).** That is the single
-> consolidated list, measured 1 Oct 2026. This document keeps the *reasoning*
-> behind the ordering - which is still worth reading - but the individual task
-> items below are a snapshot and should be read against `TODO.md`, which is
+> **The task list now lives in [`DATA-TODO.md`](DATA-TODO.md).** That is the
+> single consolidated list, produced by the full data audit of 2 Oct 2026 and
+> measured since. This document keeps the *reasoning* behind the ordering -
+> which is still worth reading - but the individual task
+> items below are a snapshot and should be read against `DATA-TODO.md`, which is
 > authoritative.
+>
+> (`TODO.md` was the previous home of this list and is itself now superseded; it
+> is retained for provenance only.)
 
 Ordered by **value per unit of effort**, and the ordering changes as the data
 grows. Re-run `npm run data:health` to see the current bottleneck.
@@ -117,7 +121,7 @@ data/seeds/bullets/lehigh-defense.csv  data/seeds/bullets/missouri-bullet.csv
 data/seeds/bullets/bayou.csv           data/seeds/bullets/cutting-edge.csv
 ```
 
-Each maker's published reference chart is the source. `docs/AGENT-HANDOFF.md`
+Each maker's published reference chart is the source. `../AGENTS.md`
 Lane 5 already ranks them by user interest.
 
 **Multi-kind makers** (`federal`, `nosler`, `lapua`, `norma`, `remington`) come

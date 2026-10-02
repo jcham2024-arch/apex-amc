@@ -1,0 +1,310 @@
+{
+  "project": "ApexProject",
+  "schema_version": 1,
+  "generated_on": "2026-10-02",
+  "baseline": {
+    "command": "npm run verify",
+    "exit_code": 0,
+    "tests": 235,
+    "stages": 14,
+    "note": "Re-measure before trusting this. If it differs, report before starting."
+  },
+  "model_policy": {
+    "preferred": "default (the planning agent's own model)",
+    "require_fresh_instance": true,
+    "allow_downgrade": false,
+    "note": "Spawn each Sub-Agent on a fresh instance of the default model unless the user says otherwise. Never silently switch to a different or paid model. Record the model used in each task's Definition of Done."
+  },
+  "shared_path_locks": {
+    "package.json": null,
+    "data/schema/": null,
+    "data/generated/": null,
+    "scripts/shared/data.mjs": null
+  },
+  "lock_rules": [
+    "Claim a lock by setting the path's value to your task id before writing it.",
+    "If a lock is held by another task, HALT and report. Do not proceed.",
+    "Release locks in your summary. The Integrator clears stale locks."
+  ],
+  "tasks": [
+    {
+      "id": "A1",
+      "title": "CI oracle cross-check",
+      "status": "ready",
+      "blocked_by": [],
+      "priority": "highest",
+      "file": ".cline/tasks/task-A1-ci-oracle.md",
+      "write_set": [
+        ".github/workflows/verify.yml",
+        "scripts/gates/ (new file)",
+        "scripts/tests/ (new file)",
+        "package.json",
+        "README.md"
+      ],
+      "notes": "Blocks confidence in all data work. Nothing runs data/reference/ in CI today."
+    },
+    {
+      "id": "A2",
+      "title": "Migration for the bullet-diameter split",
+      "status": "ready",
+      "blocked_by": [],
+      "serial": true,
+      "file": ".cline/tasks/task-A2-diameter-migration.md",
+      "write_set": [
+        "data/schema/ (one new numbered file)",
+        "docs/DATA-MODEL.md"
+      ],
+      "notes": "STRICTLY SERIAL. All migrations are global and every gate replays the chain."
+    },
+    {
+      "id": "A3",
+      "title": "Front-door the browser CSP check in CI",
+      "status": "blocked",
+      "blocked_by": [
+        "A1"
+      ],
+      "file": ".cline/tasks/task-A3-csp-in-ci.md",
+      "write_set": [
+        ".github/workflows/verify.yml",
+        "package.json"
+      ],
+      "notes": "Shares .github/workflows/verify.yml and package.json with A1. Strictly after A1."
+    },
+    {
+      "id": "B1",
+      "title": "Bullet diameter split",
+      "status": "blocked",
+      "blocked_by": [
+        "A2"
+      ],
+      "file": ".cline/tasks/task-B1-diameter-split.md",
+      "write_set": [
+        "data/seeds/bullets/*.csv",
+        "data/schemas/bullets.yaml",
+        "data/generated/ (own datasets only)"
+      ],
+      "notes": "Live correctness defect. Live in the same files as B4."
+    },
+    {
+      "id": "B2",
+      "title": ".45 ACP and .357 SIG maximum pressures",
+      "status": "ready",
+      "blocked_by": [],
+      "file": ".cline/tasks/task-B2-pistol-pressures.md",
+      "write_set": [
+        "data/seeds/cartridge_specs/pistol.csv",
+        "data/schemas/cartridge_specs.yaml",
+        "data/generated/ (own dataset only)"
+      ],
+      "notes": "Safety-critical. Source is the archived SAAMI Z299.3 PDF."
+    },
+    {
+      "id": "B3",
+      "title": "Load-recipe decision and first rows",
+      "status": "blocked",
+      "blocked_by": [
+        "A2"
+      ],
+      "longest_lead_time": true,
+      "file": ".cline/tasks/task-B3-load-recipes.md",
+      "write_set": [
+        "docs/DATA-MODEL.md",
+        "data/schemas/load_recipes.yaml",
+        "data/seeds/load_recipes.csv",
+        "data/schema/ (one new numbered file, AFTER claiming the lock)"
+      ],
+      "notes": "Needs a migration AND docs/DATA-MODEL.md, both of which A2 holds. Strictly after A2. Start the research now, write later."
+    },
+    {
+      "id": "B4",
+      "title": "Bullet coverage: Hornady and Sierra",
+      "status": "blocked",
+      "blocked_by": [
+        "B1"
+      ],
+      "file": ".cline/tasks/task-B4-bullet-coverage.md",
+      "write_set": [
+        "data/seeds/bullets/hornady.csv",
+        "data/seeds/bullets/sierra.csv",
+        "data/generated/ (own dataset only)"
+      ],
+      "notes": "B1 owns bullets.yaml and rewrites these same CSVs. Do not run concurrently."
+    },
+    {
+      "id": "B5",
+      "title": "Powder geometry and burn-rate class",
+      "status": "ready",
+      "blocked_by": [],
+      "file": ".cline/tasks/task-B5-powder-data.md",
+      "write_set": [
+        "data/seeds/powders/*.csv",
+        "data/schemas/powders.yaml",
+        "data/generated/ (own datasets only)"
+      ],
+      "notes": "Burn-rate positions are NOT comparable across brands. Do not merge scales."
+    },
+    {
+      "id": "C1",
+      "title": "YMYL trust signals",
+      "status": "blocked_external",
+      "blocked_by": [],
+      "external_blocker": "Owner decision on authorship. An agent must NOT invent an author, qualifications, or a review date.",
+      "file": ".cline/tasks/task-C1-ymyl-trust.md",
+      "write_set": [
+        "docs/ (one new brief)"
+      ],
+      "notes": "Produces a decision brief ONLY. Implementation is blocked."
+    },
+    {
+      "id": "C2",
+      "title": "Accessibility pass",
+      "status": "blocked",
+      "blocked_by": [
+        "A3"
+      ],
+      "file": ".cline/tasks/task-C2-accessibility.md",
+      "write_set": [
+        "apps/website/src/index.html",
+        "apps/website/src/main.js",
+        "apps/website/src/styles/theme.css",
+        "scripts/gates/check-claims.mjs",
+        "package.json"
+      ],
+      "notes": "Shares package.json with A3. Strictly after A3."
+    },
+    {
+      "id": "C3",
+      "title": "Verify affiliate network parameters",
+      "status": "blocked_external",
+      "blocked_by": [],
+      "external_blocker": "An approved affiliate account. Without dashboard access, STOP.",
+      "file": ".cline/tasks/task-C3-network-params.md",
+      "write_set": [
+        "scripts/shared/affiliate-links.mjs",
+        "scripts/tests/test-affiliate-links.mjs"
+      ],
+      "notes": "Do not weaken the no-tagging-without-store-id safety property."
+    },
+    {
+      "id": "C4",
+      "title": "Apply to affiliate networks",
+      "status": "ready",
+      "blocked_by": [],
+      "file": ".cline/tasks/task-C4-apply.md",
+      "write_set": [
+        "data/seeds/sourcing_retailers.csv"
+      ],
+      "notes": "Research and prepare only. Owner submits. commission_rate_pct stays NULL until read from the network."
+    },
+    {
+      "id": "D1",
+      "title": "Reconcile stale doc counts",
+      "status": "blocked",
+      "blocked_by": [
+        "A1",
+        "B3"
+      ],
+      "serial": true,
+      "integrator": true,
+      "file": ".cline/tasks/task-D1-doc-counts.md",
+      "write_set": [
+        "AGENTS.md",
+        "README.md",
+        "HANDOFF.md",
+        "docs/TASK-LIST.md",
+        "docs/DATA-TODO.md",
+        "docs/"
+      ],
+      "notes": "Runs after the last doc writer. It also RE-MEASURES the stage count rather than copying it, so an out-of-date run cannot ship a wrong number."
+    },
+    {
+      "id": "D2",
+      "title": "Logical commit split",
+      "status": "blocked",
+      "blocked_by": [
+        "D1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "B4",
+        "B5",
+        "C2",
+        "C4"
+      ],
+      "serial": true,
+      "integrator": true,
+      "file": ".cline/tasks/task-D2-commit-split.md",
+      "write_set": [
+        "(git index only)"
+      ],
+      "notes": "Runs last. Never git add -A. Each commit must pass npm run verify on its own."
+    },
+    {
+      "id": "D3",
+      "title": "Push review branch, confirm CI, merge",
+      "status": "blocked",
+      "blocked_by": [
+        "D2",
+        "A3"
+      ],
+      "serial": true,
+      "integrator": true,
+      "file": ".cline/tasks/task-D3-push-ci.md",
+      "write_set": [
+        "(git remote only)"
+      ],
+      "notes": "Do not merge until the browser CSP step is seen RUNNING and PASSING."
+    },
+    {
+      "id": "D4",
+      "title": "Cloudflare deploy",
+      "status": "blocked_external",
+      "blocked_by": [
+        "D3"
+      ],
+      "external_blocker": "wrangler.toml database_id is still REPLACE_WITH_YOUR_D1_DATABASE_ID.",
+      "serial": true,
+      "integrator": true,
+      "file": ".cline/tasks/task-D4-deploy.md",
+      "write_set": [
+        "(deploy commands only)"
+      ],
+      "notes": "No deploy succeeds until database_id is real."
+    }
+  ],
+  "parallel_safe": [
+    "A1",
+    "A2",
+    "B2",
+    "B5",
+    "C4"
+  ],
+  "serial_chains": [
+    [
+      "A1",
+      "A3",
+      "C2"
+    ],
+    [
+      "A2",
+      "B1",
+      "B4"
+    ],
+    [
+      "A2",
+      "B3"
+    ],
+    [
+      "A1",
+      "B3",
+      "D1"
+    ],
+    [
+      "D1",
+      "D2",
+      "D3",
+      "D4"
+    ]
+  ]
+}

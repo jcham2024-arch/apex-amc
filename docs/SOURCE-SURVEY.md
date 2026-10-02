@@ -222,7 +222,7 @@ editing a config.
    product line at a time rather than the whole chart.
 3. Write the extract file with `#` comments naming the source and retrieval
    date. The parser ignores `#` lines.
-4. Declare the column map in `scripts/lib/bullet-sources.mjs`. Do not let the
+4. Declare the column map in `scripts/shared/bullet-sources.mjs`. Do not let the
    parser infer positions.
 5. Add every value the source publishes, including ones the app cannot use.
 6. `npm run test:bullets` then `npm run verify`.

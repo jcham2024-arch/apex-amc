@@ -55,7 +55,7 @@ CSV's real costs, both of which are handled:
 
 - **90 values genuinely need quoting** — cartridge names contain commas and
   escaped quotes (`.500 NE 3"`, `12 gauge 3 1/2" mag`). Handled by an RFC-4180
-  reader in `scripts/lib/data.mjs`; `split(',')` would be wrong here.
+  reader in `scripts/shared/data.mjs`; `split(',')` would be wrong here.
 - **A blank is ambiguous.** A blank might be "unknown" or "zero". Handled by
   declaring every column in a manifest, which says which.
 
@@ -160,7 +160,8 @@ npm run coverage        # per-manufacturer coverage table
 npm run data:build      # validate CSVs, regenerate JSON + Markdown
 npm run data:validate   # fail if a generated file is stale (in `npm run verify`)
 npm run seed:check      # load everything into SQLite and check it
-npm run schema:check    # apply migrations, assert seed produced rows
+npm run schema:check    # apply migrations, assert CSV→table row parity
+npm run db:local        # write data/generated/apex.sqlite from migrations + seeds
 npm run verify          # everything, in order. The gate before committing.
 ```
 
@@ -169,7 +170,7 @@ npm run verify          # everything, in order. The gate before committing.
 ## 6. The rules
 
 Not style preferences. They come from the schema's own comments and
-`docs/AGENT-HANDOFF.md`.
+`../AGENTS.md`.
 
 1. **Never invent a value.** A value that does not exist stays NULL. A value
    that exists but has no source may be recorded at `derived`/`estimated` tier
@@ -196,7 +197,7 @@ Not style preferences. They come from the schema's own comments and
 | You want to… | Do this |
 |---|---|
 | Add a manufacturer's bullets | Create `data/seeds/bullets/<slug>.csv`, copy the header from a sibling. Nothing else. |
-| Add a manufacturer's powders | Create `data/seeds/powders/<slug>.csv`. Harvest into `data/incoming/powders/`, then promote with `scripts/promote-powders.mjs`. |
+| Add a manufacturer's powders | Create `data/seeds/powders/<slug>.csv`. Harvest into `data/incoming/powders/`, then promote with `scripts/data/promote-powders.mjs`. |
 | Add a component type | Create `data/seeds/<type>/`, then `data/schemas/<type>.yaml`, then `npm run data:build` |
 | Change what a column means | Edit `data/schemas/<type>.yaml` — the only place column rules live — then rebuild |
 | Add a database table | New numbered migration in `data/schema/`, then update `data/schemas/` if it has a CSV |
@@ -224,7 +225,7 @@ now; the content is the work.
 ### Known data problems, in priority order
 
 **The full list, with what "done" means for each item, is in
-[`TODO.md`](TODO.md).** This is the summary:
+[`DATA-TODO.md`](DATA-TODO.md).** This is the summary:
 
 1. **Zero load recipes.** `recipes` is empty. `ROADMAP.md` §1 argues the right
    approach is to store *citations* to published loads, not reproductions,
@@ -268,4 +269,6 @@ applied automatically.
 `data/schema/*.sql` is the target shape — the tables, the constraints, and the
 migrations that build them. The CSVs are the *input*; the SQL is the *output*.
 `npm run schema:check` applies every migration to an in-memory SQLite and asserts
-the seed produced rows, so a migration that breaks the data fails immediately.
+CSV→table row parity, so a migration that breaks the data fails immediately.
+`npm run db:local` writes the result to `data/generated/apex.sqlite`
+(1,666 rows across 24 tables).

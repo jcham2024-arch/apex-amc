@@ -1,8 +1,12 @@
 # Data Model
 
-D1 (SQLite). Migrations apply in filename order via
-`npm run db:local` / `npm run db:remote`. `npm run schema:check` applies all
-of them to an in-memory SQLite and asserts the seed produced rows.
+D1 (SQLite). Migrations apply in filename order. `npm run db:local` applies them
+plus every seed CSV and writes `data/generated/apex.sqlite`; `npm run
+schema:check` applies them to an in-memory SQLite and asserts CSV→table row
+parity (1,666 rows across 24 tables).
+
+Remote D1 is not yet provisioned — `wrangler.toml` still carries a placeholder
+`database_id`. See `docs/DATA-TODO.md` §0.2c.
 
 ## Entity map
 

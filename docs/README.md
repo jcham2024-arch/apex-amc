@@ -28,7 +28,7 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 |---|---|
 | **[../AGENTS.md](../AGENTS.md)** | **Baseline for any agent or contributor.** Governing rules, verified state, and the traps that have silently produced wrong behaviour here. |
 | **[TASK-LIST.md](TASK-LIST.md)** | **THE PLAN for code and safety.** Blockers, priorities, done-when criteria, rules. |
-| **[TODO.md](TODO.md)** | **THE PLAN for the data layer.** Row counts, per-manufacturer coverage, accuracy doctrine. |
+| **[DATA-TODO.md](DATA-TODO.md)** | **THE PLAN for the data layer.** Row counts, coverage, integrity defects, and the unbuilt database path. |
 | [SOURCES.md](SOURCES.md) | Every external figure we rely on, with provenance and retrieval dates. |
 | [BALLISTICS-AUDIT.md](BALLISTICS-AUDIT.md) | Solver correctness. **Section 0 is the current state — read it before trusting any trajectory number.** |
 | [OPEN-SOURCE-LANDSCAPE.md](OPEN-SOURCE-LANDSCAPE.md) | External implementations and datasets. **How three defects hid each other — 1.1b.** |
@@ -38,7 +38,10 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 
 | Doc | What it is |
 |---|---|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Monorepo layout, workspaces, module boundaries. |
+| [**../ARCHITECTURE.md**](../ARCHITECTURE.md) | **The module map** — what is split, what deliberately is not, and the gate that proves the pieces still fit. |
+| [**VARIABLES.md**](VARIABLES.md) | **Where every value lives.** The three tiers, which literals must never be hardcoded, and which must stay inline. |
+| [**REVIEW.md**](REVIEW.md) | **Security and practice review (Oct 2026).** Open findings, outdated dependencies, and what *not* to change — including why OOP stays. |
+| [**DEPENDABOT.md**](DEPENDABOT.md) | **Automated dependency updates.** What Dependabot is, how it is configured here, and why Expo is notify-only. |
 | [DATA-MODEL.md](DATA-MODEL.md) | Schema overview and migration plan. |
 | [SEED-DATA-GUIDE.md](SEED-DATA-GUIDE.md) | How to populate the data layer correctly. Provenance rules for the data agent. |
 | [DATA-REPOSITORY.md](DATA-REPOSITORY.md) | How the data pipeline works end to end. Start at `data/README.md`. |
@@ -57,6 +60,7 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 | Doc | What it is |
 |---|---|
 | [HARDWARE-AND-SENSORS.md](HARDWARE-AND-SENSORS.md) | Rangefinders, weather meters, turrets. What integrates and what does not. |
+| **[../SECURITY.md](../SECURITY.md)** | **Security findings in the shipped app**, their severity, and what fixes each one. |
 | [COMMUNITY-AND-GROUP-BUY.md](COMMUNITY-AND-GROUP-BUY.md) | Pledge → group closes → shooter pays retailer. Why Apex never holds pooled funds. |
 | [COMPETITIVE-LANDSCAPE.md](COMPETITIVE-LANDSCAPE.md) | Who we compete with, and where we can actually win. |
 
@@ -65,7 +69,7 @@ Three real ballistics defects were found and fixed on 30 Sep 2026, **all while
 | Doc | What it is |
 |---|---|
 | [FUTURE-INTEGRATIONS.md](FUTURE-INTEGRATIONS.md) | LLM integration, errata monitoring, review aggregation. **Parked, not abandoned** — the reasoning and safety boundaries are preserved. |
-| [AGENT-HANDOFF.md](AGENT-HANDOFF.md) | Context for parallel data agents. |
+| [**../AGENTS.md**](../AGENTS.md) | **Baseline for agents.** (Previously duplicated here as `AGENT-HANDOFF.md`; removed to stop the two copies drifting.) |
 | [LANE-7-FORUM-AGENT.md](LANE-7-FORUM-AGENT.md) | **Ready-to-hand brief** for a model tasked with reading, mapping and linking forum threads. Self-contained. |
 
 ---

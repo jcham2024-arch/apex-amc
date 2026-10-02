@@ -2,9 +2,13 @@
 
 **Consolidated 30 Sep 2026. This is the source of truth for CODE, SAFETY and
 VERIFICATION work.** Data-population tasks live in
-**[TODO.md](TODO.md)**, which is more detailed and owns them.
+**[DATA-TODO.md](DATA-TODO.md)**, which is more detailed and owns them.
 
-> **Read both.** `TODO.md` covers the data layer. This file covers everything
+> 
+> **Splitting this across multiple agents? Use
+> [`PARALLEL-WORK-PLAN.md`](PARALLEL-WORK-PLAN.md) instead.** This file is ordered by
+> priority, which does not tell two agents which files they would both edit.
+**Read both.** `DATA-TODO.md` covers the data layer. This file covers everything
 > else, and above all **Priority 1 — the solver shipped three real ballistics
 > defects while 161 tests passed.** If you take one thing from this document, take
 > P1.1.
@@ -14,7 +18,7 @@ dependency, not by appeal.
 
 **Repo:** `C:\Cline\ApexProject`
 **Verify:** `npm run verify` (lint + typecheck + test + encoding + schema + seed
-+ data validation). **All seven stages must pass.**
++ data validation + docs). **All nine stages must pass.**
 
 ---
 
@@ -23,7 +27,7 @@ dependency, not by appeal.
 | | |
 |---|---|
 | Tests | **215 passing, 0 failing** |
-| `npm run verify` | **green, all 7 stages** |
+| `npm run verify` | **green, all 9 stages** |
 | Data | 989 rows, 13 datasets, cross-references resolve |
 | Bullets | 120 rows (Berger 109, Hornady 7, Sierra 4) |
 | Powders | 169 rows, 7 manufacturers |
@@ -190,12 +194,17 @@ Same class of bug may exist elsewhere. For each numeric constant in the app ask:
 **what independent physical bound would this violate if it were wrong by 10×?**
 If nothing would catch it, that is a missing test.
 
-### P2.3 Website rebuild — Vite, CSP, single renderer
+### P2.3 Website hardening — CSP and compiled CSS
 
-`apps/website/index.html` still loads React and Babel from a CDN with no CSP, and
-there is a **duplicate renderer** alongside `src/main.js`. Both are security and
-maintenance issues. Sequence after P1–P2: a UI built over divergent screens gets
-rebuilt.
+**Done:** the duplicate renderer is gone. `apps/website/index.html` (a
+hand-maintained 1,075-line file that never loaded `src/`) has been retired; the
+site is now built from `apps/website/src/` by `npm run website:build`. That
+removed 5 `innerHTML` sinks and 3 recorded XSS findings.
+
+**Still open:** the page loads `cdn.tailwindcss.com` (a runtime CSS compiler)
+with no Content Security Policy. Both are tracked in `SECURITY.md` and recorded
+in the finding baseline, so they do not fail `verify` — but they are real. The
+target is a build-time stylesheet and a nonce-based strict CSP.
 
 ---
 
@@ -258,7 +267,7 @@ or would create an unrecoverable one.
 4. **Cite, do not reproduce, publisher load data.** Verified 30 Sep 2026.
 5. **Community data never enters published tables.** Enforced by schema: no foreign
    keys from official tables into the community set. Do not weaken it.
-6. **Run `npm run verify` before finishing.** All seven stages.
+6. **Run `npm run verify` before finishing.** All nine stages.
 7. **Do not edit files you were not assigned.** Report problems in your summary.
 
 ---
