@@ -167,5 +167,6 @@ meaning anything.
   why a fabricated number is worse than an absent one
 - [../../completed/interior-ballistics/KNOWLEDGE.md](../../completed/interior-ballistics/KNOWLEDGE.md)
   — the charge-weight prohibition
-- [SDK-HOST-AUDIT.md](SDK-HOST-AUDIT.md) — the `C:\Cline` dependency advisories, which are
-  a different audit in a different tree and belong in their own document
+- [SWARM-RESEARCH-ASSESSMENT.md](SWARM-RESEARCH-ASSESSMENT.md) — the external multi-agent
+  research, tested against this swarm. It found a live write collision we had not detected.
+- [SDK-HOST-AUDIT.md](SDK-HOST-AUDIT.md) — the `C:\Cline` dependency advisories

@@ -73,6 +73,7 @@
     "roster": "node scripts/tasking/roster.mjs",
     "agents": "node scripts/tasking/discover-agents.mjs",
     "role": "node scripts/tasking/claim-role.mjs",
+    "claim:scan": "node scripts/tasking/claim-scan.mjs",
     "quarantine": "node scripts/tasking/quarantine.mjs",
     "seed:research": "node scripts/tasking/seed-research.mjs",
     "quarantine:check": "node scripts/tasking/quarantine.mjs check",
