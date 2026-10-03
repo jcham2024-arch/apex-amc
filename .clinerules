@@ -363,6 +363,45 @@ same "the move IS the lock" idea as claiming a task: no registry to race on, no 
 expire. Two agents cannot both hold `DATA-STEWARD`, and an agent that tries is told who
 has it.
 
+### Never wait for input — a prompt is a stall with better manners
+
+Lifted from the Convex skill, which sets `CONVEX_AGENT_MODE=anonymous` "so it skips every
+interactive prompt" for headless agents. It matters more here than there.
+
+An agent that waits for a prompt **is** an agent that has stalled. This project has
+stalled repeatedly, and the cause was always an agent obeying an instruction to escalate.
+Measured on 2 Oct: four of eight status messages were BLOCKED or QUESTION.
+
+So, in order of how often it happens here:
+
+- **A red gate is not a prompt.** Record it and keep working. `tasking:check` is scoped
+  to your outputs; `verify` is not yours to fix.
+- **A wrong brief is not a prompt.** Report it. Reporting is the contribution.
+- **An unknown value is not a prompt.** Leave it EMPTY and say so.
+- **A decision you cannot make is not a prompt — unless it genuinely is one.** Name the
+  decision, say who owns it, route it, then **take the next task.** Escalating and then
+  waiting is the failure; escalating and continuing is the fix.
+
+The only things that stop you are the two in §10.6: the folder is gone, or `pending/` is
+empty.
+
+### Failure output carries a code
+
+Lifted from the same skill, which lists bare error strings as an anti-pattern: *"gives
+clients no way to react."* Every refusal here prints a `CODE:` line before the prose:
+
+```
+CODE: ROLE_HELD
+means: The role is at capacity. Someone already holds it.
+do:    pick another role
+```
+
+**Branch on the code, not the wording.** Prose gets reworded by the next person who
+touches the file; a code does not. This project already has an agent that could not tell
+a gate false-alarm from a real defect because both printed sentences. The list lives in
+`scripts/shared/swarm-errors.mjs` and every code carries the action it implies — a code
+that does not say what to do is just a shorter sentence.
+
 ### Roles are instanced, not unique
 
 Most roles scale by adding agents. Some must not:
