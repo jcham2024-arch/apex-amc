@@ -82,6 +82,30 @@ look complete — the reviewer will open the files.
 For `stalled` and `blocked`, "What is NOT done" and "Why I stopped" are the two most
 important sections in the repository. The reviewer reads them first.
 
+## If you cannot commit — quarantine, and keep working
+
+**This is not stalling.** If you have finished the work but cannot commit it, do this
+instead of stopping:
+
+```bash
+npm run quarantine -- put <task-id>
+npm run role -- next        # then claim another role, or take a task
+```
+
+Work goes to `tasking/completed/_quarantine/<task-id>/` with a required `QUARANTINE.md`
+saying what broke, why you could not fix it, and what you recommend. Then **keep going.**
+
+Use it when: a push conflicts, a gate fails outside your write-set, or you need a
+decision you cannot make.
+
+**Do NOT use it for unfinished work.** If you stopped mid-task, that is a
+`HANDOVER.md` with `Status: partial` or `stalled`, and the folder moves to `completed/`
+normally. Quarantine is for work that *finished and cannot be landed*; using it for work
+that did not finish hides the stall, which is the thing you are trying to avoid.
+
+The rules are unchanged inside quarantine: never `git add -f`, never weaken a gate,
+never edit another agent's file, never delete the output.
+
 ## Hard rules
 
 - **Never state a charge weight** for any cartridge/projectile/powder combination, not

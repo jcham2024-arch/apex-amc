@@ -99,6 +99,7 @@ jobs:
           npm run tasking:check
           npm run mail:check
           npm run roles:check
+          npm run quarantine:check
           npm run proposals:check
           npm run oracle:check
           npm run regulations:check

@@ -39,7 +39,7 @@
  */
 
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, relative, resolve } from 'node:path';
+import { join, relative, resolve, basename } from 'node:path';
 import { root } from '../shared/data.mjs';
 
 const TASKING = resolve(root, 'tasking');
@@ -51,11 +51,34 @@ const problems = [];
 const fail = (msg) => problems.push(msg);
 
 /** Directories that are task folders rather than loose files. */
+/**
+ * The quarantine is NOT a task tier, and must never be counted as one.
+ *
+ * tasking/completed/quarantine/ holds finished work that cannot be committed - a
+ * conflicted merge, a file another agent owns, an unresolvable encoding fault. It sits
+ * inside completed/ because that is where finished work belongs and where a reviewer
+ * will look, but it is a HOLDING AREA, not a task.
+ *
+ * Counting it as a task was not hypothetical: adding an empty folder made the gate
+ * report "23 task(s) in completed/" against 22 real ones, and every counter downstream -
+ * role ranking, backlog depth, docs:check - inherited the lie. So the exclusion lives in
+ * this one function, which every counter already goes through.
+ */
+export const QUARANTINE = '_quarantine';
+
 function taskFolders(dir) {
   if (!existsSync(dir)) return [];
   return readdirSync(dir)
     .map((n) => join(dir, n))
-    .filter((p) => statSync(p).isDirectory());
+    // statSync throws on a broken symlink, which a quarantined entry can be; a name that
+    // cannot be stat-ed is not a task folder and must not fail the whole gate.
+    .filter((p) => {
+      try {
+        return statSync(p).isDirectory() && basename(p) !== QUARANTINE;
+      } catch {
+        return false;
+      }
+    });
 }
 
 /**

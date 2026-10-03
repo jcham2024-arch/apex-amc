@@ -155,6 +155,32 @@ it is what stops a stall from becoming a lost task. Status is one of \`complete\
 4. Append anything reusable to \`tasking/mail/bulletin/<your-id>.md\`.
 5. Run \`npm run tasking:restock\`, then claim the next task. Do not wait for a reply.
 
+### If you finished but cannot commit
+
+That is not stalling, and it has its own move:
+
+\`\`\`bash
+npm run quarantine -- put <task-id>
+npm run role -- next          # then claim another role, or take a task
+\`\`\`
+
+\`tasking/completed/_quarantine/<task-id>/\` holds finished work whose COMMIT is blocked -
+a conflict, a gate outside your write-set, a decision you cannot make. A required
+\`QUARANTINE.md\` records what broke, why you could not fix it, what you recommend, and
+**which shortcuts you rejected**. Then keep working.
+
+This exists because the old protocol had no move that was not "stop". A merge conflict
+became a stalled agent holding completed work nobody could see, and on 2 Oct that cost an
+agent's entire research output - it had to be recovered from a dangling git checkpoint.
+
+**Not for unfinished work.** Mid-task stops use \`HANDOVER.md\` with \`Status: partial\` or
+\`stalled\`, and the folder moves to \`completed/\` normally. Quarantine is for work that
+*finished and cannot be landed*; using it for work that did not finish would hide the
+stall, which is the exact thing it exists to prevent.
+
+Quarantine is excluded from task counting, so it never inflates \`completed/\`, and
+\`npm run quarantine:check\` fails if any quarantined folder lacks its explanation.
+
 ## If you get stuck — read this before you stop
 
 **You are working in a sandbox. Everything you write is reviewed before it reaches the
