@@ -58,12 +58,32 @@ Read both before starting.
 ```bash
 ls tasking/pending/                        # what's available
 cat tasking/pending/<task>/task.json       # what is REQUIRED of you
-mv tasking/pending/<task> tasking/in-progress/   # CLAIM - the move is the lock
+npm run claim:lock -- take <task>          # CLAIM - atomic. exit 0 = yours, 1 = taken
+mv tasking/pending/<task> tasking/in-progress/
 ```
 
-**The move is the lock.** The folder physically leaves `pending/`, so a second agent
-listing the directory cannot see it. No registry to race on, no lock to expire. First
-mover owns it. If the folder is gone, another agent has it — pick a different one.
+**The lock is `refs/locks/<task>`, not the folder move.** Run the lock command *first*; if it
+exits 1, another agent has it — pick a different task and do not retry. Release when you stop
+for any reason:
+
+```bash
+npm run claim:lock -- release <task>
+```
+
+The lock is one atomic compare-and-swap in git's shared ref namespace, so exactly one agent
+can win even when all eight fire at the same instant. Verified on the real worktrees: 8
+simultaneous claims, exactly 1 winner, 7 denied.
+
+**Do not rely on the folder move to exclude other agents.** It only moves the folder in
+*your* working tree. The eight agent directories are linked git worktrees of ONE repository —
+they share objects and refs but each has its own `tasking/pending/`. A move here is invisible
+to the other seven, which is exactly how three tasks ended up held by two or three agents at
+once on 3 Oct 2026, each with different output and each certain it owned the work.
+
+**Locks do not expire.** A task can legitimately run for hours, so nothing will take a lock
+away from you mid-task. If an agent dies, its lock stays until someone reclaims it on purpose
+after confirming the worktree is really gone — see `npm run claim:lock -- stale`. Never script
+that as a cron job: a working agent is indistinguishable from a dead one.
 
 Work in `in-progress/<task>/`. When you are done, that folder must contain **every
 file listed in `required_outputs`** — no exceptions. Then move the whole folder to

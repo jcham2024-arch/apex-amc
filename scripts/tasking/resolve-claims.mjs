@@ -31,22 +31,31 @@ const WT_ROOT = process.env.CLINE_WORKTREE_ROOT
 const dry = process.argv.includes('--dry-run');
 
 /**
- * The winner for each task. The owner delegated the judgement; these were chosen on
- * evidence rather than arrival order — most output files, most bytes written, and the only
- * claimant carrying a NOTES.md.
+ * Past collisions, and the winner chosen for each by the owner.
  *
  *   blocker-ledger          ff96c   4 files 21468 B    (fc6cc 20468, e981f 20762)
  *   code-review-sweep       ff96c   9 files 43197 B + NOTES.md   (23e31 8 files 43386 B)
  *   claims-gate-prose-scope 40a43   4 files 15577 B    (fc6cc 13488)
+ *   script-library-docs     ff96c  11 files, a strict SUPERSET of 9aad8's 9 (both had
+ *                                  10/11 of the same filenames; ff96c additionally has
+ *                                  05-external-libraries.md and README.md)
  *
- * Every loser is PRESERVED. These are not duplicates-with-no-value: three agents produced
- * materially different research on the same question, and that difference is worth a
- * reviewer's attention rather than a bin.
+ * Every loser is PRESERVED, not discarded. These were not duplicates-with-no-value: the
+ * outputs are byte-different, so agents reached materially different conclusions and a
+ * reviewer should diff the quarantined copy against the winner rather than bin it.
+ *
+ * THIS MAP IS DELIBERATELY NOT A DEFAULT. It records decisions a human made about specific
+ * named incidents; it is not a rule that generalises. `npm run claim:lock` is what prevents
+ * new collisions. Do NOT add entries here to "handle" a collision automatically - a winner
+ * chosen by file count is a guess, and this project's entire recent history is what happens
+ * when a guess about someone's finished work goes wrong. A NEW collision must be decided by
+ * a person.
  */
 const DECIDED = {
   'blocker-ledger': 'ff96c',
   'code-review-sweep': 'ff96c',
   'claims-gate-prose-scope': '40a43',
+  'script-library-docs': 'ff96c',
 };
 
 const NOTE = (task, winner, id) => `# QUARANTINE — ${task}

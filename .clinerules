@@ -221,10 +221,26 @@ If the tooling provides a shared task board or mailbox:
 
 ### 10.1 Ownership of `tasking/pending/`
 
-> **`pending/` is read-only to every Sub-Agent.** Claiming a task means MOVING its
-> brief out of `pending/` into `in-progress/`. That move is the lock: there is no
-> registry to race on and no lock to expire, so a second agent simply cannot see a
-> claimed task and will pick another.
+> **`pending/` is read-only to every Sub-Agent.** Claiming a task means taking an
+> atomic lock on it, then MOVING its brief out of `pending/` into `in-progress/`:
+>
+> ```bash
+> npm run claim:lock -- take <task>     # exit 0 = you own it, 1 = someone else does
+> mv tasking/pending/<task> tasking/in-progress/
+> ```
+>
+> If the lock command exits 1, **pick a different task.** Do not retry it. Release with
+> `npm run claim:lock -- release <task>` when you stop, including when you abandon the task.
+>
+> The folder move alone is NOT a lock. The eight agent directories are linked git worktrees
+> of ONE repository — shared objects and refs, but each has its own `tasking/pending/`. A
+> move in your tree is invisible to the other seven. That gap let three tasks be claimed by
+> two or three agents at once on 3 Oct 2026, each producing different output and each
+> believing it owned the work.
+>
+> Locks never expire and nothing will steal yours mid-task, so a long task is safe. If an
+> agent dies holding a lock, `npm run claim:lock -- stale` reports it; reclaiming it is a
+> deliberate act, never a scheduled one.
 
 This has already been violated. On 2 Oct 2026 several agents edited briefs in
 `pending/` at once; one brief was corrupted into a single collapsed line, another was

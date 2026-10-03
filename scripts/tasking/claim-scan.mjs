@@ -22,12 +22,16 @@
 //
 // tasking/README.md says claiming is a folder move and that the move IS the lock, so two
 // agents cannot see a claimed task. That is TRUE within one worktree and FALSE across
-// eight: each agent has its own clone with its own `tasking/pending/`, so moving the folder
-// here is invisible there. The lock was designed for agents sharing a filesystem and
-// deployed to agents that do not.
+// eight. State the mechanism precisely, because the easy version of it is also wrong: the
+// agent directories are LINKED GIT WORKTREES of one repository, not separate clones. They
+// share an object store and a ref namespace, but each has its OWN working tree, and
+// therefore its own `tasking/pending/`. Moving the folder here is invisible in the other
+// seven. The lock was designed for agents sharing a filesystem and deployed to agents that
+// do not.
 //
-// The fix is a central registry that every worktree can see, which is what
-// `tasking/roles/held/` became for roles. This applies it to task claims.
+// The shared ref namespace is also what makes refs/locks/<task> a real lock - see
+// scripts/tasking/claim-lock.mjs. This scan stays as the independent auditor of that lock:
+// it is the only thing that can still catch an agent which skipped the lock altogether.
 //
 // Usage:
 //   node scripts/tasking/claim-scan.mjs           report
