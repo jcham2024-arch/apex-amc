@@ -49,6 +49,10 @@ An empty folder with an explanation is not.
 - Identify **sponsored content**, and say how to tell. Undisclosed sponsorship is not automatically untrustworthy; it is undisclosed.
 - Recommend which source types may support which kinds of derived field.
 
+## Tools — verified working, use these
+
+`firecrawl_scrape` is what reveals a video's real character — the description carries the affiliate disclosure, the transcript carries the scripted intro, and the metadata carries views and likes. That triple is the whole job. `exa_search` finds forum threads keywords miss.
+
 ## Extra rules for this task
 
 Do not name a channel reliable without **three independent data points**, or mark it

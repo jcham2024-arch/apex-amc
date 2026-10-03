@@ -45,6 +45,51 @@ The `derivation` field is the whole point. It makes the number auditable, which 
 reviewer can disagree with it. A number nobody can check is indistinguishable from one
 somebody made up, and the difference only shows up later.
 
+## Verified 3 Oct 2026 — the tools, and one trap they immediately exposed
+
+Checked what is actually wired up rather than assuming, because a research brief that
+names a tool nobody has is worse than one that names none.
+
+**Available and confirmed working:**
+
+| Tool | Use here |
+|---|---|
+| `firecrawl_search` | find videos, forums and review pages |
+| `firecrawl_scrape` | full page, **including YouTube transcripts** |
+| `firecrawl_crawl` / `map` | sweep a manufacturer's or retailer's doc site |
+| `exa_search` | semantic search, better for "what do shooters complain about" than keywords |
+| `firecrawl-research-papers` | PubMed / bioRxio / arXiv — for anything touching physiology or materials |
+
+**YouTube transcripts do work.** `firecrawl_scrape` on a watch URL returns title, channel,
+upload date, view count, description and the full transcript. That is more than enough to
+do what the owner asked — read the video, form a view, cite it.
+
+### The trap, found on the first real search
+
+The top result for *"best range bags"* was a video that turned out to be:
+
+- an **Amazon Associates affiliate** video — the description carries a
+  `participants in the Amazon Services LLC Associates Program` disclosure,
+- with **affiliate redirect links** for every product,
+- and a **scripted intro**: *"Grab your top picks naturally through the links in the
+  description below."*
+- **1,112 views, 3 likes.**
+
+It reads exactly like an independent review. It is not one. A ranking built from these
+would be a ranking of who gets paid to link, presented to the user as "owners commonly
+report".
+
+**So, concretely, a video is disqualified as a source of a derived value when:**
+
+1. The description contains an affiliate disclosure or affiliate redirect URLs.
+2. The video ranks products rather than reporting use.
+3. Views and likes are wildly divergent — low views with near-zero engagement means
+   few real users, so "commonly reported" may be one person.
+
+None of those are visible from a search result. All three are visible after a scrape, and
+the scrape is cheap. **That is the argument for scraping before citing**, and it is why
+`review-evidence-sources` exists as a task rather than as an assumption.
+
 ## Worked examples
 
 **Good — auditable:**

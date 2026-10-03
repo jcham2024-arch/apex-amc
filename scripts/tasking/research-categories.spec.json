@@ -22,7 +22,8 @@
         "Estimate **typical loadout weight** per category, with the derivation shown.",
         "Record **what is deliberately left out** and why (weight, cost, or policy)."
       ],
-      "youtube": "Range-bag walkthroughs are exactly the evidence this needs: a person showing what they actually carry, unprompted by marketing. Record the link, title, channel, date, and what you concluded. **Never store a transcript.**"
+      "youtube": "Range-bag walkthroughs are exactly the evidence this needs: a person showing what they actually carry, unprompted by marketing. Record the link, title, channel, date, and what you concluded. **Never store a transcript.**",
+    "tools": "Use `firecrawl_search` to find videos and forum threads, then `firecrawl_scrape` on each before you cite it — the scrape returns title, channel, upload date, views, description AND the full transcript. `exa_search` is better than keywords for \"what do shooters complain about\". **Scrape before citing, never cite a search snippet.** A snippet hides the affiliate disclosure."
     },
     {
       "id": "review-evidence-sources",
@@ -43,7 +44,8 @@
         "Identify **sponsored content**, and say how to tell. Undisclosed sponsorship is not automatically untrustworthy; it is undisclosed.",
         "Recommend which source types may support which kinds of derived field."
       ],
-      "extra": "Do not name a channel reliable without **three independent data points**, or mark it\nunknown. Do not fabricate view counts, dates or subscriber numbers. Do not assume a low\nview count means low quality, or a high one means high quality."
+      "extra": "Do not name a channel reliable without **three independent data points**, or mark it\nunknown. Do not fabricate view counts, dates or subscriber numbers. Do not assume a low\nview count means low quality, or a high one means high quality.",
+      "tools": "`firecrawl_scrape` is what reveals a video's real character — the description carries the affiliate disclosure, the transcript carries the scripted intro, and the metadata carries views and likes. That triple is the whole job. `exa_search` finds forum threads keywords miss."
     },
     {
       "id": "accessory-category-coverage",

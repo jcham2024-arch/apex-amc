@@ -178,6 +178,10 @@ tasking/review/*
 # except the allowlist below, so this file was silently uncommitted until someone checked
 # that it was actually IN the repo rather than merely present on disk.
 !tasking/review/DERIVED-VALUES.md
+# SKILLS-ASSESSMENT.md records which of the 66 agent skills this project uses, which it
+# deliberately does not, and why. Read before adding a skill to a brief: naming a tool
+# nobody has, or a platform this project is not on, wastes an agent's whole turn.
+!tasking/review/SKILLS-ASSESSMENT.md
 # HISTORY.md is the swarm's reasoning record - why a decision was made, what an
 # agent refused to do, what the evidence was. It is the one file in this folder
 # that must survive, and it is exactly the kind of thing that evaporates when it

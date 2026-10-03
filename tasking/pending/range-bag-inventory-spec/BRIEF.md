@@ -53,6 +53,10 @@ An empty folder with an explanation is not.
 
 Range-bag walkthroughs are exactly the evidence this needs: a person showing what they actually carry, unprompted by marketing. Record the link, title, channel, date, and what you concluded. **Never store a transcript.**
 
+## Tools — verified working, use these
+
+Use `firecrawl_search` to find videos and forum threads, then `firecrawl_scrape` on each before you cite it — the scrape returns title, channel, upload date, views, description AND the full transcript. `exa_search` is better than keywords for "what do shooters complain about". **Scrape before citing, never cite a search snippet.** A snippet hides the affiliate disclosure.
+
 ## If you get stuck — read this before you stop
 
 **You are working in a sandbox. Everything you write is reviewed before it reaches the main

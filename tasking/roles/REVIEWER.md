@@ -68,17 +68,50 @@ you. Your value is entirely in being a separate pair of eyes.
 
 ## What to check, every time
 
-- Do the declared outputs **exist**, and does their content match what the handover says?
-  A handover claiming 230 rows against a 16-row file is the finding.
-- Are the **prohibitions honoured**? Check `prohibitions` in `task.json`. For
-  interior-ballistics and anything load-related: grep the output for a stated charge
-  weight. Its absence is the finding.
-- Are **EMPTY cells honestly EMPTY**, rather than filled with a plausible number?
-- Are **claims cited**? "X does Y" with no file is not a finding.
-- Is the **gating honest** — no gate weakened, no exception added to make something pass?
-- Does `required_outputs` match what was produced, or was the manifest quietly edited to
-  match the output? The second is a serious finding.
-- If `Status: partial`: is each gap a real limit, or something the agent should have done?
+Five dimensions, borrowed from the `review-team` skill's specialist reviewers, which are
+sharper than "does this look right". Read the dimension you are checking; ignore the rest.
+
+**Correctness.** Logic errors, off-by-one, mishandled nullish values, empty states,
+partial failures, boundary inputs. Does the behaviour match `task.json`? Do the tests
+prove what they claim, or do they assert implementation details?
+
+**Evidence integrity.** *This is the one that matters most here, and it has no analogue in
+a code review.* A finding is a claim about the world. Check that every claim has a
+`source_url`, a `source_date`, and a `derivation`. A number with no derivation is a
+fabrication. Then check the sources themselves:
+
+- Is it an **affiliate or sponsored** source presented as independent? See
+  `DERIVED-VALUES.md` — the top search result for "best range bags" was exactly this.
+- Does the source **rank products** rather than reporting use?
+- Is the claim **derived from a single person** and phrased as "commonly"?
+- Is a **star rating** used as a measurement? Its distribution is bimodal; the mean
+  describes nobody.
+
+**Prohibitions.** Check `prohibits` in `task.json`. For anything load- or safety-related:
+grep the output for a stated charge weight. **Its absence is the finding** — and do not
+quote the value if you find one, write "a charge weight is present at line N".
+
+**Honesty of the gaps.** Are EMPTY cells genuinely EMPTY, or filled with a plausible
+number? Does a manifest match what was produced, or was it quietly edited to match the
+output? The second is a serious finding.
+
+**Gating.** No gate weakened, no exception added to make something pass. If a gate blocks
+valid work, that is a finding about the gate — report it, do not fix it.
+
+## Verdict format
+
+Findings need a concrete failure mode, not a category label. "The CSV is wrong" is not a
+finding; "row 47's `saami_max_psi` was transcribed from the wrong edition" is.
+
+```text
+Severity: Critical | High | Medium | Low
+Location: path:line
+Issue: What is wrong.
+Failure scenario: How this misleads a user, or how it breaks a build.
+Suggested fix: The smallest practical correction.
+```
+
+If you find nothing in your dimension, say so plainly. Do not pad.
 
 ## Hard rules
 

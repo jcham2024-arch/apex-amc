@@ -76,6 +76,7 @@ for (const cat of spec.categories) {
     + spec.preamble.replace('{ID}', id).replace('{OUTPUTS}', outputs) + '\n\n'
     + `## Scope\n\n${cat.scope.map((s) => `- ${s}`).join('\n')}\n\n`
     + (cat.youtube ? `## YouTube as evidence\n\n${cat.youtube}\n\n` : '')
+    + (cat.tools ? `## Tools — verified working, use these\n\n${cat.tools}\n\n` : '')
     + (cat.extra ? `## Extra rules for this task\n\n${cat.extra}\n\n` : '')
     + spec.antiStall.replace('{ID}', id) + '\n';
 
