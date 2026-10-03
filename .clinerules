@@ -298,7 +298,7 @@ work back and check it. That is also the entire reason the review step exists.
 
 ---
 
-## 10.6 The four agent roles — and why there are four
+## 10.6 The agent roles — and why there are more than four
 
 Added 3 Oct 2026 after too many worker agents stalled. The stall evidence is in §1: four
 of eight status messages in one session were BLOCKED or QUESTION, and the agents were
@@ -306,49 +306,67 @@ obeying instructions rather than being timid.
 
 One generic "agent" prompt produced three different failure modes: workers stalled on
 concerns, nobody caught their work before it moved, and the eventual fixes had nowhere
-safe to go. Four roles, with a hard boundary between them:
+safe to go. Roles exist to separate those jobs so each has an owner and a boundary.
 
 | Role | Owns | May write | May NOT |
 |---|---|---|---|
-| **taskmaster** | `tasking/pending/`, seeding, triage | `tasking/pending/`, `tasking/mail/proposals/` seeds | app source, gates, another agent's files |
-| **worker** (N of them) | one task at a time, in `tasking/in-progress/` | its own task folder, its own mailbox | `pending/`, app source, gates |
-| **reviewer** | auditing, never authoring | `tasking/review/`, verdicts | fixing anything it reviews |
-| **implementation** | code, gates, seeds | `apps/`, `packages/`, `scripts/`, `data/seeds/` | `tasking/` authoring, deciding scope |
+| **task author** | `tasking/pending/`, seeding | `tasking/pending/` | implement, review, seed duplicates |
+| **worker-monitor** | the live swarm | `outbox/taskmaster/**` | implement, review, ignore a stall |
+| **worker** (N) | one task at a time | its own task folder | `pending/`, app source, gates |
+| **data-steward** (1) | `data/seeds/`, honesty of values | `data/seeds/`, `data/reference/` | invent, interpolate, or delete a row |
+| **reviewer** (N) | auditing, never authoring | `tasking/review/`, verdicts | fix anything it reviews |
+| **qa-gate-tester** (1) | proving gates bite | `scripts/tests/**` | edit the gate it is testing |
+| **implementation** (1) | code | `apps/`, `packages/`, `scripts/` | decide what to build |
 
-The critical rule is the last column of the third and fourth rows: **the reviewer never
-edits what it reviews, and the implementation agent never decides what to build.** Those
-two separations are the whole point. An agent that reviews its own work finds nothing,
-and an agent that both decides and implements has no one to disagree with it.
+The rules that carry the weight are the "May NOT" column: **the reviewer never edits
+what it reviews**, **the implementation agent never decides what to build**, and **the
+qa-gate-tester never edits the gate it is testing**. Each of those three, broken, removes
+the only independent check in its step.
 
 ### Read your own file first
 
-Full instructions, one per role, are in `tasking/roles/`:
-
 ```
-tasking/roles/TASKMASTER.md      plan, seed, triage - never touch code
-tasking/roles/WORKER.md          take a task, finish it, never stall
-tasking/roles/REVIEWER.md        audit completed/ and stall logs - never fix
-tasking/roles/IMPLEMENTATION.md  write the code a review has approved
+tasking/roles/README.md           the index, the pipeline, and how to scale
+tasking/roles/TASK-AUTHOR.md      plan — turn findings into well-specified tasks
+tasking/roles/WORKER-MONITOR.md   watch — keep the swarm moving, answer stalls
+tasking/roles/WORKER.md          produce — take a task, finish it, never stall
+tasking/roles/DATA-STEWARD.md     own — reference data correctness, honest EMPTY
+tasking/roles/REVIEWER.md        check — audit findings, never fix them
+tasking/roles/QA-GATE-TESTER.md  check — prove the gates actually catch defects
+tasking/roles/IMPLEMENTATION.md  build — write code a review has approved
 ```
 
 Read yours before starting. They are short and they are binding.
 
-### The pipeline, end to end
+### Roles are instanced, not unique
+
+Most roles scale by adding agents. Some must not:
+
+- **worker, reviewer** — scale freely. **The reviewer is the current bottleneck**: 22
+  tasks completed, 1 verdict. Partition the queue or two reviewers audit one folder.
+- **worker-monitor, task-author** — one each. The monitor's job is holding the whole
+  picture; two means two agents messaging the same worker.
+- **data-steward, qa-gate-tester, implementation** — **one at a time.** Each takes a lock
+  or owns files that collide immediately. A second instance waits; it does not work.
+
+### The pipeline
 
 ```
-taskmaster ──seeds──▶ pending/
+task author ──seeds──▶ pending/
                           │
-worker ──claims──▶ in-progress/ ──completes──▶ completed/ + HANDOVER.md
-                                                          │
-                                              reviewer ──audits──▶ verdict
-                                                          │
-                                     pass ───────────────┤
-                                     fail ───────────────┘ (back to worker,
-                                                          with the finding cited)
-                                                          │
-                                              implementation agent
-                                                          │
-                                                    code + gates
+worker ──claims──▶ in-progress/ ──▶ completed/ + HANDOVER.md
+                          │                    │
+              worker-monitor              data-steward (if data changed)
+              watches, routes                  │
+                          └──────────▶ reviewer ──▶ PASS │ FAIL │ SUSPEND
+                                                            │
+                                              PASS ────────┤
+                                              FAIL ────────┘ back to a worker
+                                                            │
+                                                    implementation
+                                                            │
+                                                  qa-gate-tester proves
+                                                  the gate still bites
 ```
 
 ### `HANDOVER.md` — required of every worker, and the answer to stalling

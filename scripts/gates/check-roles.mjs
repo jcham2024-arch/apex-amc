@@ -32,31 +32,59 @@ const warnings = [];
 const fail = (m) => problems.push(m);
 const warn = (m) => warnings.push(m);
 
-const REQUIRED = ['TASKMASTER.md', 'WORKER.md', 'REVIEWER.md', 'IMPLEMENTATION.md', 'README.md'];
+// Named ROLES_DIR, not ROLES: the list below is the role FILES, and `ROLES` is already
+// the directory they live in. Shadowing it made the module fail to parse, and a gate
+// that does not run is indistinguishable from a gate that passes.
+const ROLE_FILES = [
+  'README.md',
+  'TASK-AUTHOR.md',
+  'WORKER-MONITOR.md',
+  'WORKER.md',
+  'DATA-STEWARD.md',
+  'REVIEWER.md',
+  'QA-GATE-TESTER.md',
+  'IMPLEMENTATION.md',
+];
 
 // Each role's single defining prohibition. If this string disappears, the boundary has
 // been edited away and the role has quietly become something else.
 const BOUNDARY = [
   ['WORKER.md', /never stall/i, 'the no-stalling rule'],
-  ['WORKER.md', /never write app code|never state a charge weight/i, 'the no-app-code rule'],
+  ['WORKER.md', /never state a charge weight/i, 'the no-charge-weight rule'],
+  ['WORKER-MONITOR.md', /never let one blocked worker stop/i, 'the keep-the-swarm-moving rule'],
+  ['WORKER-MONITOR.md', /never tell a worker to stop and wait/i, 'the never-idle-workers rule'],
   ['REVIEWER.md', /never edit what you review|you never fix it/i, 'the no-self-repair rule'],
   ['IMPLEMENTATION.md', /if the reviewer said FAIL, the code does not get written/i, 'the PASS-only rule'],
-  ['TASKMASTER.md', /never implement/i, 'the no-implementation rule'],
+  ['IMPLEMENTATION.md', /never weaken a gate/i, 'the no-gate-weakening rule'],
+  ['TASK-AUTHOR.md', /never implement/i, 'the no-implementation rule'],
+  ['TASK-AUTHOR.md', /never seed a task that duplicates/i, 'the no-duplicate-task rule'],
+  ['QA-GATE-TESTER.md', /never make a gate pass or fail deliberately/i, 'the no-deliberate-breakage rule'],
+  ['QA-GATE-TESTER.md', /never edit a gate you are testing/i, 'the never-edit-the-gate rule'],
+  ['DATA-STEWARD.md', /never fill a cell to make a column look populated/i, 'the honest-emptiness rule'],
+  ['DATA-STEWARD.md', /never state a charge weight/i, 'the no-charge-weight rule'],
 ];
 
-// 1. Files present.
-for (const f of REQUIRED) {
+// The invariants that matter regardless of which role is reading. These are the lines
+// that caused real harm when absent, so losing one is a build failure.
+const INVARIANTS = [
+  ['WORKER.md', /HANDOVER\.md/, 'the handover requirement'],
+  ['DATA-STEWARD.md', /seeds lock/, 'the seeds lock'],
+  ['REVIEWER.md', /PASS \| FAIL \| SUSPEND/, 'the three verdicts'],
+];
+
+// 1. Files present, and the index links every one of them.
+for (const f of ROLE_FILES) {
   if (!existsSync(join(ROLES, f))) fail(`tasking/roles/${f} is missing.`);
 }
 if (existsSync(join(ROLES, 'README.md'))) {
   const idx = readFileSync(join(ROLES, 'README.md'), 'utf8');
-  for (const f of REQUIRED) {
+  for (const f of ROLE_FILES) {
     if (f === 'README.md') continue;
     if (!idx.includes(f)) fail(`tasking/roles/README.md does not link ${f}.`);
   }
 }
 
-// 2 + 3. Boundaries, and the handover template that must not drift.
+// 2 + 3. Boundaries, invariants, and the handover statuses that must not drift.
 if (existsSync(join(ROLES, 'README.md')) && existsSync(join(root, '.clinerules'))) {
   const idx = readFileSync(join(ROLES, 'README.md'), 'utf8');
   const rules = readFileSync(join(root, '.clinerules'), 'utf8');
@@ -71,7 +99,7 @@ if (existsSync(join(ROLES, 'README.md')) && existsSync(join(root, '.clinerules')
     }
   }
 
-  for (const [file, pattern, what] of BOUNDARY) {
+  for (const [file, pattern, what] of [...BOUNDARY, ...INVARIANTS]) {
     const p = join(ROLES, file);
     if (!existsSync(p)) continue;
     if (!pattern.test(readFileSync(p, 'utf8'))) {
@@ -106,4 +134,6 @@ if (problems.length) {
   process.exit(1);
 }
 
-console.log(`roles verified: ${REQUIRED.length} files, ${BOUNDARY.length} boundaries intact`);
+console.log(
+  `roles verified: ${ROLE_FILES.length} files, ${BOUNDARY.length + INVARIANTS.length} boundaries intact`,
+);
