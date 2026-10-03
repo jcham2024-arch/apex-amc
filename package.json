@@ -74,6 +74,7 @@
     "agents": "node scripts/tasking/discover-agents.mjs",
     "role": "node scripts/tasking/claim-role.mjs",
     "claim:scan": "node scripts/tasking/claim-scan.mjs",
+    "claim:lock": "node scripts/tasking/claim-lock.mjs",
     "quarantine": "node scripts/tasking/quarantine.mjs",
     "seed:research": "node scripts/tasking/seed-research.mjs",
     "quarantine:check": "node scripts/tasking/quarantine.mjs check",
