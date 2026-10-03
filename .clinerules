@@ -22,16 +22,57 @@ multi-agent guide disagree, this file is right, and the reason is stated inline.
 ## 1. The isolation rule
 
 > **A Sub-Agent may only write files listed in its own task's Allowed Write
-> Paths. If a needed file is not in that list, the task is blocked — report it
-> and halt. Do not "just add it".**
+> Paths. If a needed file is not in that list, note it in `NOTES.md`, work around it
+> if you can, and carry on. Do not "just add it" — and do not stop.**
 
-`npm run verify` is a shared global gate. If it is red when you start, **stop and
-report** — a red baseline invalidates every Definition of Done in every task.
+### The sandbox is real. Nothing you write reaches production unreviewed.
 
-Baseline: **exit 0, all stages green.** Never quote a stage or test count from
-memory, from a task brief, or from another document — those drift, and a stale
-count in a rules file is worse than no count because agents trust it. Measure it:
-`npm run verify` for the exit code, and count the `&&` segments in `package.json`'s
+> **You are working in a sandbox. Your work is reviewed and verified before it
+> reaches the main project. A concern is not a reason to stop working.**
+
+This rule was rewritten on 3 Oct 2026 because the previous version - "if a needed file
+is not in the list, the task is blocked; report it and halt" - **stopped working
+agents on 2 Oct 2026 and was the single biggest cause of idle time.**
+
+Measured, not assumed. Across one swarm session, 4 of 8 status messages were BLOCKED or
+QUESTION. Reading them:
+
+- `dc408` finished both of its tasks, then halted: *"four decisions that are not mine,
+  plus two red gates I will not fix."* It then sat idle through the rest of the session.
+- `ee247` halted on a gate red it had no write-path to.
+- `4880a` halted on a gate bug - correctly, since it had found a real defect, but it
+  stopped rather than continuing.
+
+All three were behaving exactly as instructed. **The instruction was the defect.**
+
+### The rules, in order
+
+1. **A red gate is information, not a stop.** Record the failing gate and its message
+   in `NOTES.md`, then **keep working**. Your task's own completion is judged by
+   `npm run tasking:check`, which checks *your* declared outputs and is scoped to your
+   work. A failure outside your write-set is someone else's defect, and reporting it
+   is useful - halting over it is not.
+2. **You are not the last line of defence.** Every output is reviewed before it reaches
+   the main project. If you ship something wrong with an honest `NOTES.md` saying so,
+   the reviewer catches it. If you ship nothing because you were unsure, nobody catches
+   anything, and the work does not exist.
+3. **Finishing is not optional.** A task with a known gap is finished when the gap is
+   written down. "I completed 80% and documented the remaining 20%" is a **successful**
+   task. An empty folder with an explanation is not.
+4. **Only two things genuinely stop you:** the task folder is gone (another agent has
+   it), or `pending/` is empty. Both are correct results. Report **"queue empty"** and
+   stop.
+5. **Never weaken a gate, and never `handoff:accept`.** Not because you need permission -
+   because accepting a checksum change is a judgement about production, and that is
+   exactly the class of decision the review step exists to catch.
+
+### Baseline, when you do need to check one
+
+`npm run verify` is a shared global gate. Measure the baseline **before you start**, so
+you can tell later whether *you* broke something. Never quote a stage or test count from
+memory, from a task brief, or from another document — those drift, and a stale count in
+a rules file is worse than no count because agents trust it. Measure it: `npm run
+verify` for the exit code, and count the `&&` segments in `package.json`'s
 `verify` script for the stages. If your measurement disagrees with a number written
 anywhere, trust the measurement and say so in your report.
 
