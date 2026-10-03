@@ -75,21 +75,69 @@ WORKER ──claims──▶ in-progress/ ──finishes──▶ completed/ + H
                                                         the gate still bites
 ```
 
-## Who holds which role
+## Who holds which role — agents claim it themselves
 
-Roles are not assigned by reading this file. They are recorded, so two agents cannot
-quietly end up holding the one role that must have a single writer.
+**Any agent may take any role**, provided it reads that role's file first and knows the
+context. There is no assignment queue and no waiting for an operator.
 
 ```bash
-npm run roster -- plan                  # what the swarm most needs right now
-npm run roster -- assign <agent-id> ROLE
-npm run roster -- release <agent-id>
-npm run roster -- list
+npm run role -- next              what the swarm most needs, ranked with reasons
+npm run role -- claim <id>        take the top role (or: claim <ROLE> <id>)
+npm run role -- release <id>      done — give it up, then claim again or take a task
+npm run role -- status            who holds what
 ```
 
-`assign` **refuses** to exceed a role's capacity and explains why. `roles:check` fails
-the build if the roster is malformed, names a role that does not exist, gives one agent
-two roles, or over-fills a single-writer role.
+Every new agent starts the same way:
+
+```bash
+npm run mail:init -- <id>          # your mailbox first
+npm run role -- next               # see what the swarm needs
+npm run role -- claim <id>         # take it; you are told to read that role's file
+```
+
+### The ranking is computed, not declared
+
+`role -- next` measures the queue and ranks roles by what is actually blocking the
+swarm. Right now:
+
+```
+pending 21 · in-progress 1 · completed 22 · unreviewed 21 · stalled 1
+
+-> REVIEWER         held 0/*
+     21 completed task(s) have no verdict. Nothing downstream can start until these
+     are reviewed.
+
+   WORKER-MONITOR   held 0/1
+     1 worker(s) marked stalled or blocked. Only the monitor answers a stall, and an
+     unanswered stall is a lost task.
+```
+
+**Each rule names the number that makes it fire.** A role nobody needs scores zero and
+is not suggested — which is the important property, because an agent told to "be useful"
+from a list of seven roles will pick one that isn't needed and then sit idle in it.
+That is exactly the failure this swarm has been fighting.
+
+### A role nobody needs is not offered
+
+`WORKER` is always available as the fallback: there are pending tasks, and a worker is
+never idle while the queue is non-empty. That is what stops an agent from finding every
+specialist role occupied and having nothing to do.
+
+### Claiming is a folder, not a flag
+
+A claim is a file at `tasking/roles/held/<ROLE>/<agent-id>.md`, created exclusively.
+This is the same "the move IS the lock" idea `tasking/pending/` already uses — no
+registry to race on, no lock to expire, and two agents cannot both believe they hold
+`DATA-STEWARD`.
+
+Single-writer roles are capped, and an agent that tries to take a full one is **told who
+has it** rather than silently queued.
+
+### Old roster
+
+`npm run roster -- assign <id> <ROLE>` still works and is checked the same way. It exists
+for an operator who wants to pin someone to a role deliberately; self-selection is the
+normal path.
 
 ### There is no "fill admin first" ordering
 

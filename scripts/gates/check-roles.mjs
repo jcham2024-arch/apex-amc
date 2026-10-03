@@ -152,7 +152,46 @@ if (existsSync(ROSTER)) {
   }
 }
 
-// 6. Handover presence - warned, never failed.
+// 6. Held roles: the live claim record. A claim is a file at
+//    tasking/roles/held/<ROLE>/<agent-id>.md — the same folder-move-as-lock idea that
+//    tasking/pending/ uses, so two agents cannot both believe they hold a single-writer
+//    role.
+//
+//    The legacy roster.json is still read when present, so the two mechanisms coexist
+//    rather than forcing a migration during a live session.
+const HELD = join(ROLES, 'held');
+if (existsSync(HELD)) {
+  try {
+    const seen = new Map();
+    for (const role of readdirSync(HELD, { withFileTypes: true })) {
+      if (!role.isDirectory()) continue;
+      if (!CAPACITY[role.name]) {
+        fail(`tasking/roles/held/${role.name}/ is held, but no such role file exists.`);
+        continue;
+      }
+      const ids = readdirSync(join(HELD, role.name))
+        .filter((f) => f.endsWith('.md'))
+        .map((f) => f.replace(/\.md$/, ''));
+      const cap = CAPACITY[role.name].max;
+      if (cap !== Infinity && ids.length > cap) {
+        fail(
+          `${ids.length} agents hold ${role.name}, but its capacity is ${cap}. `
+          + `${CAPACITY[role.name].note}.`,
+        );
+      }
+      for (const id of ids) {
+        if (seen.has(id)) {
+          fail(`agent "${id}" holds both ${seen.get(id)} and ${role.name}. One agent, one role.`);
+        }
+        seen.set(id, role.name);
+      }
+    }
+  } catch (err) {
+    fail(`could not read tasking/roles/held/: ${err.message}`);
+  }
+}
+
+// 7. Handover presence - warned, never failed.
 const COMPLETED = join(root, 'tasking', 'completed');
 if (existsSync(COMPLETED)) {
   const missing = readdirSync(COMPLETED, { withFileTypes: true })

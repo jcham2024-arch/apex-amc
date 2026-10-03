@@ -338,6 +338,31 @@ tasking/roles/IMPLEMENTATION.md  build — write code a review has approved
 
 Read yours before starting. They are short and they are binding.
 
+### Any agent may claim any role
+
+There is no assignment queue. An agent asks what the swarm most needs, claims it, reads
+that role's file, and does the work:
+
+```bash
+npm run role -- next              ranked by what is actually blocking the swarm
+npm run role -- claim <your-id>   take it; you are told to read the role file
+npm run role -- release <your-id> done - then claim again, or take a task
+```
+
+**The ranking is computed from the live queue, and each rule cites the number that makes
+it fire.** A role nobody needs scores zero and is not suggested. That property is the
+whole design: an agent told to "be useful" from a list of seven roles will pick one that
+is not needed and then sit idle in it, which is precisely the failure this swarm has
+been fighting.
+
+`WORKER` is always the fallback — there is always a pending task, so an agent that finds
+every specialist role occupied still has somewhere to go.
+
+A claim is a file created exclusively at `tasking/roles/held/<ROLE>/<id>.md`. This is the
+same "the move IS the lock" idea as claiming a task: no registry to race on, no lock to
+expire. Two agents cannot both hold `DATA-STEWARD`, and an agent that tries is told who
+has it.
+
 ### Roles are instanced, not unique
 
 Most roles scale by adding agents. Some must not:
