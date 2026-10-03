@@ -1,0 +1,67 @@
+{
+  "//": "Standing research categories the owner named on 3 Oct 2026: guns, gun parts, scopes, gun accessories, range bags, range-bag contents, and where to get each. One task per category. Idempotent - seed-research.mjs skips anything already in pending/, in-progress/ or completed/. Briefs are composed from these fields plus the shared PREAMBLE/ANTI_STALL below, so the protocol text cannot drift between them.",
+  "preamble": "**This is a research task.** You write only inside your own task folder.\n\n## Before you start\n\n1. Read `.clinerules` — especially §1 (the sandbox rule) and §10.6 (the roles).\n2. Read `tasking/review/DERIVED-VALUES.md` — **binding on every number you produce.**\n3. `npm run mail:init -- <your-id>` — your mailbox, or your findings go nowhere.\n4. Read `tasking/pending/README.md` for the claiming procedure.\n5. Claim it: `mv tasking/pending/{ID} tasking/in-progress/`\n6. Append a START message to your inbox.\n\n## Do not\n\n- **State a charge weight, powder constant, burn rate or chamber safety limit** for any\n  cartridge. Not as an example, not in a footnote, not to show you know the rule.\n- **Store a transcript or verbatim text** from any video or article. Link and cite;\n  summarise in your own words. Transcripts are gitignored for exactly this reason.\n- **Scrape retailer prices.** Cite and link instead; retailer terms generally prohibit it.\n- **Fill a cell you cannot source.** EMPTY is a valid, correct answer.\n\n## Definition of done\n\n{OUTPUTS}\n\nPlus **`HANDOVER.md`** — always, whatever happened. Status is `complete`, `partial`,\n`stalled` or `blocked`. **`partial` with specific documented gaps is a SUCCESSFUL task.**\nAn empty folder with an explanation is not.",
+  "antiStall": "## If you get stuck — read this before you stop\n\n**You are working in a sandbox. Everything you write is reviewed before it reaches the main\nproject.** A concern is not a reason to stop working.\n\n- A red gate → your completion is judged by `npm run tasking:check`, which is scoped to\n  YOUR declared outputs. Note the failure in `NOTES.md` and keep working.\n- A file outside your write-set → write it up in `NOTES.md`, work around it.\n- An unknown value → **leave it EMPTY.** An honest gap beats an invented number.\n\nOnly two things stop you: your task folder is gone (someone else claimed it), or\n`pending/` is empty. Report **\"queue empty\"** and stop — that is a correct result.\n\n## If you finished but cannot commit\n\n```bash\nnpm run quarantine -- put {ID}\nnpm run role -- next\n```\n\nWork moves to `tasking/completed/_quarantine/{ID}/` with a `QUARANTINE.md` explaining\nwhat broke and what you recommend. Then keep working. That is not stalling.",
+  "categories": [
+    {
+      "id": "range-bag-inventory-spec",
+      "title": "What goes in a range bag, and what it weighs",
+      "priority": "high",
+      "derived_from": "tasking/review/PRODUCT.md",
+      "required_outputs": [
+        "01-category-taxonomy.md",
+        "02-item-list.csv",
+        "03-typical-loadout-weight.csv",
+        "04-sources.md",
+        "REPORT.md"
+      ],
+      "why": "The site's third job is *where to buy the parts*. A range bag is where a\nshooter discovers they need a third of what they thought, so the bag is both a purchase\nand a checklist. Nobody has written down what a complete one contains, or what it weighs\nempty.",
+      "scope": [
+        "Build a **category taxonomy** for range-bag contents: ammunition, magazines, eye and ear protection, targets, tools, cleaning, first aid, spares, storage.",
+        "For each category, list the **items actually observed** in range-bag walkthrough videos and forum threads — not a manufacturer's \"essentials\" list.",
+        "Estimate **typical loadout weight** per category, with the derivation shown.",
+        "Record **what is deliberately left out** and why (weight, cost, or policy)."
+      ],
+      "youtube": "Range-bag walkthroughs are exactly the evidence this needs: a person showing what they actually carry, unprompted by marketing. Record the link, title, channel, date, and what you concluded. **Never store a transcript.**"
+    },
+    {
+      "id": "review-evidence-sources",
+      "title": "Which video and forum sources are worth citing for gear",
+      "priority": "medium",
+      "derived_from": "tasking/review/DERIVED-VALUES.md",
+      "required_outputs": [
+        "01-source-taxonomy.md",
+        "02-channel-assessment.csv",
+        "03-what-reviewers-notice-that-marketing-does-not.md",
+        "REPORT.md"
+      ],
+      "why": "The owner approved using videos as evidence for review-derived values. That\nonly works if we know which sources are worth citing, because the whole value rests on the\ncitation. **This task produces the source-quality rules the other research tasks depend\non.**",
+      "scope": [
+        "Classify source **types**: long-form review, first-person range report, forum thread, comparison, sponsored review, aggregator.",
+        "Assess specific **channels and forums** on evidence, not reputation.",
+        "Record **what reviewers notice that manufacturer copy does not** — this is the specific value of video as a source.",
+        "Identify **sponsored content**, and say how to tell. Undisclosed sponsorship is not automatically untrustworthy; it is undisclosed.",
+        "Recommend which source types may support which kinds of derived field."
+      ],
+      "extra": "Do not name a channel reliable without **three independent data points**, or mark it\nunknown. Do not fabricate view counts, dates or subscriber numbers. Do not assume a low\nview count means low quality, or a high one means high quality."
+    },
+    {
+      "id": "accessory-category-coverage",
+      "title": "Which accessory categories we have no data for at all",
+      "priority": "medium",
+      "derived_from": "tasking/pending/range-bag-inventory-spec",
+      "required_outputs": [
+        "01-coverage-matrix.csv",
+        "02-priority-gaps.md",
+        "REPORT.md"
+      ],
+      "why": "The owner named the domains: guns, gun parts, scopes, gun accessories, range\nbags, range-bag contents, and where to get each. This task asks the question none of the\nothers will: **which of those do we have nothing on, and which gap matters most?**\n\nA coverage matrix is worth more than another category, because it tells the task author\nwhere to point the next hour.",
+      "scope": [
+        "Build a **matrix**: category × what we hold today (rows from `data/seeds/`, columns for citation, price, dimensions, reviews).",
+        "Identify **gaps**, ranked by how much a user would care.",
+        "For the top gaps, say whether filling them is research or needs code — and name the task that would do it.",
+        "Read `data/seeds/` to see what actually exists. Do not guess from the README."
+      ],
+      "extra": "Do not propose a task that duplicates existing work. Check `pending/`,\n`in-progress/` and `completed/`, plus `tasking/review/HISTORY.md` for rejected ideas."
+    }
+  ]}

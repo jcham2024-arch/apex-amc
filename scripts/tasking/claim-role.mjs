@@ -41,6 +41,7 @@ import { fileURLToPath } from 'node:url';
 import { CAPACITY } from './role-capacity.mjs';
 import { rankRoles, FALLBACK } from './role-value.mjs';
 import { discover } from './discover-agents.mjs';
+import { fail } from '../shared/swarm-errors.mjs';
 
 const root = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const HELD = join(root, 'tasking', 'roles', 'held');
@@ -197,14 +198,21 @@ switch (cmd) {
     }
     const mine = Object.entries(holders()).filter(([, ids]) => ids.includes(ME));
     if (mine.length) {
-      console.log(`You already hold ${mine.map(([r]) => r).join(', ')}. Release it first.`);
+      console.log(fail(
+      'ALREADY_HELD',
+      `You already hold ${mine.map(([r]) => r).join(', ')}.`,
+    ));
       break;
     }
     const cap = CAPACITY[want].max;
     const have = (holders()[want] || []).length;
     if (cap !== Infinity && have >= cap) {
-      console.log(`${want} is held by ${(holders()[want] || []).join(', ')}, capacity ${cap}.`);
-      console.log(`  ${CAPACITY[want].note}. Pick another: npm run role -- next`);
+      console.log(fail(
+        'ROLE_HELD',
+        `${want} is held by ${(holders()[want] || []).join(', ')}, capacity ${cap}.`,
+        CAPACITY[want].note,
+      ));
+      console.log('  Pick another: npm run role -- next');
       break;
     }
     const claimBody = `# ${want} held by ${ME}\n\nclaimed ${new Date().toISOString().replace(/\.\d+Z$/, 'Z')}\n`;
