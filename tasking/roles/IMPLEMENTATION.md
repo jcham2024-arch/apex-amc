@@ -20,7 +20,12 @@ decides and implements has nobody to disagree with it.
 |---|---|
 | `apps/**`, `packages/**` | `tasking/pending/**`, `tasking/completed/**` |
 | `scripts/**` (including gates, with care) | `tasking/review/**` — verdicts are not yours |
-| `data/seeds/**` (under the seeds lock) | `tasking/mail/**` (except your own inbox) |
+| `tasking/mail/inbox/<you>.md` | `data/seeds/**` — **the data steward's, always** |
+
+**`data/seeds/` belongs to the data-steward, not to you.** Both roles used to claim it,
+which is exactly the collision this role structure exists to prevent — two agents editing
+the same rows is how a value loses its citation. If a PASS finding requires a seed
+change, hand it to the data-steward with the finding attached.
 | `tasking/mail/inbox/<you>.md` | |
 
 ## Procedure

@@ -75,6 +75,59 @@ WORKER ──claims──▶ in-progress/ ──finishes──▶ completed/ + H
                                                         the gate still bites
 ```
 
+## Who holds which role
+
+Roles are not assigned by reading this file. They are recorded, so two agents cannot
+quietly end up holding the one role that must have a single writer.
+
+```bash
+npm run roster -- plan                  # what the swarm most needs right now
+npm run roster -- assign <agent-id> ROLE
+npm run roster -- release <agent-id>
+npm run roster -- list
+```
+
+`assign` **refuses** to exceed a role's capacity and explains why. `roles:check` fails
+the build if the roster is malformed, names a role that does not exist, gives one agent
+two roles, or over-fills a single-writer role.
+
+### There is no "fill admin first" ordering
+
+The intuitive plan — fill the admin roles, then start workers — is wrong here, and it
+costs a session.
+
+**A reviewer can start the moment it is given a role**, because the work is already
+sitting in `completed/`. A task author has nothing to do until workers surface a
+finding. Filling admin first buys nothing and delays the only real backlog.
+
+Current state, from `roster -- plan`:
+
+```
+completed 22 · verdicts 1 · UNREVIEWED 21
+pending 21 · in-progress 1
+
+assign next:
+  REVIEWER         21 completed task(s) have no verdict. This is the backlog.
+```
+
+So the order is: **reviewers first** (there is a 21-deep queue), workers freely, and
+leave the rest until the evidence says they are needed.
+
+### When to fill the rest
+
+| Role | Fill it when |
+|---|---|
+| `REVIEWER` | the unreviewed count grows — it already has |
+| `WORKER` | always; they never block anything |
+| `WORKER-MONITOR` | three or more workers are running at once |
+| `TASK-AUTHOR` | `pending/` drops to two or fewer |
+| `DATA-STEWARD` | a reviewed finding requires a seed change |
+| `QA-GATE-TESTER` | the reviewer finds a gate that passes when it should fail |
+| `IMPLEMENTATION` | a reviewer returns a PASS |
+
+`roster -- plan` computes the first three of those from the live queue. The last four
+are event-driven, and forcing them early means an agent with nothing to do.
+
 ## HANDOVER.md is required of every worker
 
 Every task folder ends with one. It is what stops a stall from becoming a loss.

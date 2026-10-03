@@ -25,6 +25,7 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import { root } from '../shared/data.mjs';
+import { CAPACITY } from '../tasking/role-capacity.mjs';
 
 const ROLES = join(root, 'tasking', 'roles');
 const problems = [];
@@ -108,7 +109,50 @@ if (existsSync(join(ROLES, 'README.md')) && existsSync(join(root, '.clinerules')
   }
 }
 
-// 4. Handover presence - warned, never failed.
+// 5. Roster: who holds which role, and are the capacities respected?
+//
+// The role files say IMPLEMENTATION may be held by one agent. That was an unenforced
+// claim until this check: nothing recorded who held what, so two agents could be handed
+// the one role whose entire purpose is to have a single writer. Capacity lives in
+// role-capacity.mjs, next to the write-sets it derives from.
+const ROSTER = join(ROLES, 'roster.json');
+if (existsSync(ROSTER)) {
+  try {
+    const { assignments } = JSON.parse(readFileSync(ROSTER, 'utf8'));
+    const holders = new Map();
+
+    for (const [role, ids] of Object.entries(assignments)) {
+      if (!ROLE_FILES.includes(`${role}.md`)) {
+        fail(`roster.json assigns "${role}", which has no role file in tasking/roles/.`);
+        continue;
+      }
+      const cap = CAPACITY[role];
+      if (!cap) {
+        fail(`roster.json assigns "${role}", which has no entry in role-capacity.mjs.`);
+        continue;
+      }
+      if (cap.max !== Infinity && ids.length > cap.max) {
+        fail(
+          `roster.json holds ${role} by ${ids.length} agents, but its capacity is ${cap.max}. `
+          + `${cap.note}.`,
+        );
+      }
+      for (const id of ids) {
+        if (holders.has(id)) {
+          fail(
+            `roster.json gives "${id}" both ${holders.get(id)} and ${role}. One agent, one `
+            + 'role: the boundaries only work if each is unambiguous.',
+          );
+        }
+        holders.set(id, role);
+      }
+    }
+  } catch (err) {
+    fail(`roster.json is not readable JSON: ${err.message}`);
+  }
+}
+
+// 6. Handover presence - warned, never failed.
 const COMPLETED = join(root, 'tasking', 'completed');
 if (existsSync(COMPLETED)) {
   const missing = readdirSync(COMPLETED, { withFileTypes: true })
