@@ -208,6 +208,8 @@ const DECISIONS = [
   'tasking/review/LESSONS.md',
   'tasking/review/FIX-BACKLOG.md',
   'tasking/review/HISTORY.md',
+  'tasking/review/SKILLS-ASSESSMENT.md',
+  'tasking/review/SDK-HOST-AUDIT.md',
   'tasking/completed/_quarantine/README.md',
   'tasking/roles/README.md',
 ];

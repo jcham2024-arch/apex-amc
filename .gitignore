@@ -182,6 +182,10 @@ tasking/review/*
 # deliberately does not, and why. Read before adding a skill to a brief: naming a tool
 # nobody has, or a platform this project is not on, wastes an agent's whole turn.
 !tasking/review/SKILLS-ASSESSMENT.md
+# SDK-HOST-AUDIT.md assesses the dependency advisories in C:\Cline, which hosts
+# @cline/sdk. It is a different tree from this one and its own gate deliberately does not
+# cover it, so without this file the answer exists only in a chat transcript.
+!tasking/review/SDK-HOST-AUDIT.md
 # HISTORY.md is the swarm's reasoning record - why a decision was made, what an
 # agent refused to do, what the evidence was. It is the one file in this folder
 # that must survive, and it is exactly the kind of thing that evaporates when it
