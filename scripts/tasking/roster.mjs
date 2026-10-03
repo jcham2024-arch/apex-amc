@@ -22,6 +22,7 @@ import { existsSync, readFileSync, writeFileSync, readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CAPACITY } from './role-capacity.mjs';
+import { discover } from './discover-agents.mjs';
 
 const root = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const ROSTER = join(root, 'tasking', 'roles', 'roster.json');
@@ -56,6 +57,20 @@ const free = (r, role) => {
   return cap === Infinity ? (have ? 0 : 1) : Math.max(0, cap - have);
 };
 
+/**
+ * How many more REVIEWERs the backlog justifies.
+ *
+ * Not the same as free(). An unlimited role with one holder still has capacity, and
+ * against a queue this shape one reviewer and twenty-one unreviewed tasks is not a
+ * filled slot - it is a bottleneck. The first free() returned 0 for ANY unlimited role
+ * someone held, so `plan` printed "no role gaps" while the backlog sat at twenty-one.
+ * A tool that reports nothing to do while a queue grows is worse than no tool.
+ *
+ * One reviewer per three unreviewed tasks, so a single-reviewer swarm is still told to
+ * add capacity rather than being told it is fine.
+ */
+const reviewersWanted = (unreviewed, have) => Math.max(0, Math.ceil(unreviewed / 3) - have);
+
 /** What the swarm most needs right now, measured from the actual queue. */
 export function plan() {
   const r = load();
@@ -71,8 +86,13 @@ export function plan() {
   console.log(`pending ${pending} · in-progress ${inProgress}\n`);
 
   const advice = [];
-  if (unreviewed >= 3 && free(r, 'REVIEWER')) {
-    advice.push(['REVIEWER', `${unreviewed} completed task(s) have no verdict. This is the backlog.`]);
+  const wantReviewers = reviewersWanted(unreviewed, (r.assignments.REVIEWER || []).length);
+  if (wantReviewers >= 1) {
+    advice.push([
+      'REVIEWER',
+      `${unreviewed} unreviewed task(s); ${wantReviewers} more reviewer(s) would cover it `
+      + '(one per three). This is the backlog.',
+    ]);
   }
   if (pending <= 2 && free(r, 'TASK-AUTHOR')) {
     advice.push(['TASK-AUTHOR', `only ${pending} pending - the queue is nearly dry.`]);
@@ -87,6 +107,21 @@ export function plan() {
   }
   console.log('assign next:\n');
   for (const [role, why] of advice) console.log(`  ${role.padEnd(16)} ${why}`);
+
+  // Name the agents an operator can actually assign, discovered LIVE rather than
+  // read from the roster - so a newly started agent appears here with nobody
+  // editing a file. Agent ids change constantly, and a plan naming stale ids is
+  // worse than no plan at all.
+  const d = discover();
+  const pool = d.agents.filter((a) => !a.role);
+  if (pool.length) {
+    console.log(`\nunassigned agents available: ${pool.map((a) => a.id).join(", ")}`);
+  }
+  const stale = d.agents.filter((a) => a.role && !a.hasWorktree && !a.hasMailbox);
+  if (stale.length) {
+    console.log(`\nWARN holds a role but is gone: ${stale.map((a) => a.id).join(", ")}`);
+    console.log("  release: npm run roster -- release <id>");
+  }
   console.log(`
 
 Then add WORKER instances freely - they never block another role.
