@@ -87,7 +87,8 @@
     "mail:init": "node scripts/tasking/mail-lifecycle.mjs init",
     "mail:retire": "node scripts/tasking/mail-lifecycle.mjs retire",
     "mail:status": "node scripts/tasking/mail-lifecycle.mjs status",
-    "mail:normalise-order": "node scripts/tasking/normalise-mailbox-order.mjs"
+    "mail:normalise-order": "node scripts/tasking/normalise-mailbox-order.mjs",
+    "claims:resolve": "node scripts/tasking/resolve-claims.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
