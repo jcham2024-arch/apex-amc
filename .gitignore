@@ -171,6 +171,13 @@ tasking/in-progress/*
 tasking/review/*
 !tasking/review/.gitkeep
 !tasking/review/README.md
+# DERIVED-VALUES.md is the owner's 3 Oct decision permitting review-derived values, and
+# the conditions attached to it. Without it an agent cannot tell a legitimate derived
+# number from a fabrication - which is the difference the whole citation rule exists to
+# make. It was written, and nearly evaporated: `tasking/review/*` ignores everything
+# except the allowlist below, so this file was silently uncommitted until someone checked
+# that it was actually IN the repo rather than merely present on disk.
+!tasking/review/DERIVED-VALUES.md
 # HISTORY.md is the swarm's reasoning record - why a decision was made, what an
 # agent refused to do, what the evidence was. It is the one file in this folder
 # that must survive, and it is exactly the kind of thing that evaporates when it

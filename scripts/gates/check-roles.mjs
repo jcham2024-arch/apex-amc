@@ -191,7 +191,34 @@ if (existsSync(HELD)) {
   }
 }
 
-// 7. Handover presence - warned, never failed.
+// 8. The owner's decision documents must be IN THE REPO, not merely on disk.
+//
+// `tasking/review/*` is gitignored except for an explicit allowlist, so a new document
+// written there is invisible to `git status` and vanishes with the working tree. That is
+// not hypothetical: DERIVED-VALUES.md was written, and committed in a different commit
+// without it, because nothing checked that a decision document had actually been
+// committed. The file existed on disk the whole time and existed nowhere else.
+//
+// This is the general shape of the bug this project keeps hitting - something is present,
+// so it looks fine, and it is actually gone. The check is cheap and it is here to make the
+// next one loud.
+const DECISIONS = [
+  'tasking/review/DERIVED-VALUES.md',
+  'tasking/review/PRODUCT.md',
+  'tasking/review/LESSONS.md',
+  'tasking/review/FIX-BACKLOG.md',
+  'tasking/review/HISTORY.md',
+  'tasking/completed/_quarantine/README.md',
+  'tasking/roles/README.md',
+];
+
+for (const f of DECISIONS) {
+  if (!existsSync(join(root, f))) {
+    fail(`${f} is missing. It is required reading and must not be absent.`);
+  }
+}
+
+// 9. Handover presence - warned, never failed.
 const COMPLETED = join(root, 'tasking', 'completed');
 if (existsSync(COMPLETED)) {
   const missing = readdirSync(COMPLETED, { withFileTypes: true })
