@@ -46,11 +46,24 @@ data/published/*
 # no data at all. See scripts/promote-powders.mjs.
 data/incoming/
 
+# Generated SQLite database built by scripts/data/load-seeds-to-sqlite.mjs
+# (`npm run data:sqlite`). A build artefact, not source: it is fully reproducible from
+# data/seeds/ in under a second, and committing a binary that drifts from its inputs is
+# how a snapshot goes stale without anyone noticing.
+data/generated/
+
 # Generated D1 migration snapshot, ~3.1 MB. Rebuilt from data/published/
 # manifest.json - which IS committed - by `npm run data:snapshot`, and verified
 # to be unnecessary for `npm run seed:check`. Committing a generated artifact
 # this size means every clone carries it and it can drift from its own source.
 data/schema/100_seed_full_snapshot.sql
+
+# data/generated/ - build artefacts. A SQLite database built by `npm run data:sqlite` is
+# a build output like the snapshot above, and for the same reason: it is fully derivable
+# from data/seeds/ plus data/schema/, so committing it means every clone carries a binary
+# that can silently drift from its own source. It also should not be committed by accident
+# - a .db file in a diff is unreadable and unreviewable, which defeats code review.
+data/generated/
 
 # Archive is kept in git for provenance, but exclude the huge
 # raw AI transcript from language servers and typecheckers.
