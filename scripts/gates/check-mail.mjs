@@ -163,18 +163,69 @@ for (const file of mailboxes) {
           );
         } else {
           const declared = /\*\*Written:\*\*\s*(\d+)\s*\/\s*(\d+)/.exec(msg.body);
-          // Count the agent's OUTPUT files. `task.json` and `BRIEF.md` travel with
-          // the folder because claiming is a move, and an agent that correctly
-          // counts its declared outputs must not be failed for not counting the
-          // manifest it was handed. Caught by agent ee247 reporting 4/4 against a
-          // folder holding 6 files, where its 4 were exactly right.
-          const CARRY = new Set(['task.json', 'BRIEF.md', 'NOTES.md', '.gitkeep']);
-          const actual = readdirSync(dir, { withFileTypes: true })
-            .filter((d) => d.isFile() && !CARRY.has(d.name)).length;
-          if (declared && Number(declared[2]) !== actual) {
+          // What counts as "written" is the task's DECLARED OUTPUTS, not every file in
+          // the folder. Counting raw files produced two false alarms, and both were
+          // correct reports being failed:
+          //
+          //  - ee247 reported 4/4 against a folder holding 6. Its 4 were exactly
+          //    right; task.json and BRIEF.md merely travel with the folder, because
+          //    claiming is a move. Hence the CARRY exclusions.
+          //  - 879ca reported 5/5 against a folder holding 9. Also correct. Four files
+          //    and a SUMMARY.md were later recovered from a dangling checkpoint, and
+          //    SUMMARY.md is a house convention present in 10 completed tasks - the
+          //    agent was following the norm and was being failed for it.
+          //
+          // So the manifest is now authoritative. A STOP claims "the task's declared
+          // outputs exist", so that is what gets verified: every declared output
+          // present, and the declared number matching task.json. Extra files are never
+          // inflation. A folder with no readable manifest falls back to a raw count, so
+          // nothing goes unchecked.
+          const CARRY = new Set(['task.json', 'BRIEF.md', 'NOTES.md', 'SUMMARY.md', '.gitkeep']);
+          const present = readdirSync(dir, { withFileTypes: true })
+            .filter((d) => d.isFile() && !CARRY.has(d.name))
+            .map((d) => d.name);
+
+          let expected = null;
+          const manifest = join(dir, 'task.json');
+          if (existsSync(manifest)) {
+            try {
+              const req = JSON.parse(readFileSync(manifest, 'utf8')).required_outputs;
+              if (Array.isArray(req) && req.length) expected = req;
+            } catch {
+              // A malformed manifest is tasking:check's problem, not this gate's.
+            }
+          }
+
+          if (expected) {
+            const missing = expected.filter((f) => !present.includes(f));
+            if (missing.length) {
+              fail(
+                `${label}: STOP for "${task}" claims complete, but ${missing.length} declared `
+                + `output(s) absent from completed/${task}/: ${missing.join(', ')}.`,
+              );
+            }
+            // The NUMBER is deliberately not compared to required_outputs.length.
+            // Counting styles differ and both are honest: some agents count only their
+            // declared outputs, others count everything in the folder. A first attempt
+            // to require an exact match failed two accurate reports - 4880a said 7/7
+            // and 6/6 for tasks declaring 5 and 4, having counted the manifest and
+            // brief it was handed. Requiring equality punished a more thorough agent
+            // for being thorough.
+            //
+            // What matters is that every declared output exists, and that the claim is
+            // not a LIE in the inflating direction. An agent claiming more files than
+            // exist is the fraud case, so that direction is still checked against the
+            // full folder contents.
+            if (declared && Number(declared[1]) > readdirSync(dir).length) {
+              fail(
+                `${label}: STOP for "${task}" claims **Written:** ${declared[1]}, but `
+                + `completed/${task}/ holds only ${readdirSync(dir).length} files in total.`,
+              );
+            }
+          } else if (declared && Number(declared[2]) !== present.length) {
             fail(
               `${label}: STOP for "${task}" declares ${declared[1]}/${declared[2]} files `
-              + `written, but ${actual} are present in completed/${task}/. Report what is `
+              + `written, but ${present.length} are present in completed/${task}/. Report what is `
               + 'actually on disk.',
             );
           }
