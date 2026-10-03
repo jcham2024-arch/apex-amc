@@ -53,6 +53,8 @@
 3. `AGENTS.md` - traps and boundaries
 4. `.cline/tasks/task-T1-trademark-clearance.md` - the evidence this depends on
 
+**Provision your mailbox:** `npm run mail:init -- <your-id>`. It is idempotent, so run it even if the file looks present. An agent with no inbox is an agent whose findings nobody reads. Archived mail from closed agents is in `tasking/mail/archive/` — worth reading before you rediscover their findings.
+
 ### Established facts - MEASURED, do not re-derive
 
 - **APEX AMMUNITION** is a LIVE USPTO registration, Reg. **5391055**, IC 013 (shotgun

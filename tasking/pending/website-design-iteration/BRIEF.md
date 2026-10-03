@@ -13,6 +13,8 @@ ui-research produced a specific, verified list of defects and none are fixed, be
 2. Read your `task.json`. Every file in `required_outputs` must exist or this task is not done.
 3. Read your source: `tasking/completed/ui-research/KNOWLEDGE.md`. Your task is derived from it, not from your assumptions.
 4. Read `tasking/mail/bulletin/*.md` and `tasking/mail/outbox/taskmaster/<your-id>.md`.
+
+**Provision your mailbox:** `npm run mail:init -- <your-id>`. It is idempotent, so run it even if the file looks present. An agent with no inbox is an agent whose findings nobody reads. Archived mail from closed agents is in `tasking/mail/archive/` — worth reading before you rediscover their findings.
 5. Claim it: `mv tasking/pending/website-design-iteration tasking/in-progress/`
 6. Send a START message to your inbox. `npm run tasking:check` must pass before you send STOP.
 

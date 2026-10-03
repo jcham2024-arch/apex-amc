@@ -1,0 +1,13 @@
+# Inbox: fc6cc
+
+Append your START / STOP / BLOCKED / QUESTION messages here, each opening with:
+<!-- 2026-10-02T16:20:00Z | AGENT fc6cc | STOP -->
+
+One writer per file - write your own inbox, and let the taskmaster route.
+Taskmaster replies arrive in `outbox/taskmaster/fc6cc.md`. Do not answer in this file.
+
+Timestamps must not go backwards: this is an append-only ledger, and the gate checks
+that. If you are appending several messages at once, order them chronologically.
+
+If you need to withdraw something you wrote earlier, send a **RETRACTION** naming it.
+Do not edit or delete the earlier message.

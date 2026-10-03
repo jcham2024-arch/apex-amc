@@ -115,11 +115,12 @@ ${t.why}
 ## Before you start
 
 1. Read \`.clinerules\` — especially §10 (the swarm), §11 (mail), §12 (proposals), §13 (the standing slot).
-2. Read your \`task.json\`. Every file in \`required_outputs\` must exist or this task is not done.
-3. Read your source: \`${t.derived_from}\`. Your task is derived from it, not from your assumptions.
-4. Read \`tasking/mail/bulletin/*.md\` and \`tasking/mail/outbox/taskmaster/<your-id>.md\`.
-5. Claim it: \`mv tasking/pending/${t.id} tasking/in-progress/\`
-6. Send a START message to your inbox. \`npm run tasking:check\` must pass before you send STOP.
+2. Provision your mailbox: \`npm run mail:init -- \${AGENT_ID}\`. It creates \`inbox/\${AGENT_ID}.md\` and \`bulletin/\${AGENT_ID}.md\` from template. It is idempotent, so run it even if you think the file exists — an agent whose inbox is missing is an agent whose findings nobody will read.
+3. Read your \`task.json\`. Every file in \`required_outputs\` must exist or this task is not done.
+4. Read your source: \`${t.derived_from}\`. Your task is derived from it, not from your assumptions.
+5. Read \`tasking/mail/bulletin/*.md\`, \`tasking/mail/outbox/taskmaster/<your-id>.md\`, and the archived mail in \`tasking/mail/archive/\` — closed agents found things there that you would otherwise rediscover.
+6. Claim it: \`mv tasking/pending/${t.id} tasking/in-progress/\`
+7. Send a START message to your inbox. \`npm run tasking:check\` must pass before you send STOP.
 
 ## Scope
 

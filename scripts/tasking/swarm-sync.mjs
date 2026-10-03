@@ -51,6 +51,16 @@ const known = new Set(
     .filter((f) => f.endsWith('.md'))
     .map((f) => f.replace(/\.md$/, ''))
 );
+// A mailbox that has been ARCHIVED belongs to a closed agent. Reading it here would
+// resurrect every retired agent as "missing", which is how this script reported five
+// dead ids as a problem when six live ones were on disk. Archived mail is deliberately
+// preserved - it just is not a live mailbox any more.
+const ARCHIVE = join(root, 'tasking/mail/archive');
+if (existsSync(ARCHIVE)) {
+  for (const e of readdirSync(ARCHIVE, { withFileTypes: true })) {
+    if (e.isDirectory()) known.delete(e.name);
+  }
+}
 const ids = [];
 if (existsSync(WT_ROOT)) {
   for (const entry of readdirSync(WT_ROOT, { withFileTypes: true })) {

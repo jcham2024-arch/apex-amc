@@ -14,6 +14,8 @@ The owner asked for a standing improvement pass over the code itself, not a one-
 2. Read your `task.json`. Every file in `required_outputs` must exist or it is not done.
 3. Read `tasking/mail/bulletin/*.md` — do not research what another agent already found.
 4. Read `tasking/review/HISTORY.md` — do not re-propose something already rejected there.
+
+**Provision your mailbox:** `npm run mail:init -- <your-id>`. It is idempotent, so run it even if the file looks present. An agent with no inbox is an agent whose findings nobody reads. Archived mail from closed agents is in `tasking/mail/archive/` — worth reading before you rediscover their findings.
 5. Claim it: `mv tasking/pending/code-health tasking/in-progress/`
 6. Append START to your inbox.
 

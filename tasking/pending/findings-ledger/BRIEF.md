@@ -13,7 +13,9 @@ Highest value in the queue. swarm-improvement measured 134 files / 915 KB with N
 
 1. Read `.clinerules` — §10 swarm, §11 mail, §12 proposals, §13 the standing slot.
 2. Read your source: `tasking/completed/swarm-improvement/01-finding.md`.
-3. **Read `tasking/mail/bulletin/*.md` and `tasking/completed/FINDINGS.md` first.** Check
+3. **Read `tasking/mail/bulletin/*.md` and `tasking/completed/FINDINGS.md` first.** Check, plus the archived mail in `tasking/mail/archive/` — closed agents found things there that you would otherwise rediscover.
+
+**Provision your mailbox:** `npm run mail:init -- <your-id>`. It is idempotent, so run it even if the file looks present. An agent with no inbox is an agent whose findings nobody reads. Archived mail from closed agents is in `tasking/mail/archive/` — worth reading before you rediscover their findings.
    whether this ground is already covered. Two agents once proposed the same index and
    neither could see the other; a third version is worse than the first.
 4. Claim it: `mv tasking/pending/findings-ledger tasking/in-progress/`

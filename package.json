@@ -73,7 +73,11 @@
     "proposals:check": "node scripts/gates/check-proposals.mjs",
     "tasking:restock": "node scripts/tasking/ensure-standing-task.mjs",
     "swarm:sync": "node scripts/tasking/swarm-sync.mjs",
-    "tasking:stuck-policy": "node scripts/tasking/apply-stuck-policy.mjs"
+    "tasking:stuck-policy": "node scripts/tasking/apply-stuck-policy.mjs",
+    "mail:init": "node scripts/tasking/mail-lifecycle.mjs init",
+    "mail:retire": "node scripts/tasking/mail-lifecycle.mjs retire",
+    "mail:status": "node scripts/tasking/mail-lifecycle.mjs status",
+    "mail:normalise-order": "node scripts/tasking/normalise-mailbox-order.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

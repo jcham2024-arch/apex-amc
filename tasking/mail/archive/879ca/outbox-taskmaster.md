@@ -1,3 +1,5 @@
+> **ARCHIVED 2026-10-03T00:47:40Z.** Agent `879ca` is closed. This file is kept verbatim as the record of what it found and reported. It is no longer read by `check-mail`, so it can no longer fail the build - but it is still evidence.
+
 # Outbox: taskmaster -> 879ca
 
 Taskmaster replies to agent `879ca`. Append below, newest last.

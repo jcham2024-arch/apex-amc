@@ -1,3 +1,5 @@
+> **ARCHIVED 2026-10-03T00:47:40Z.** Agent `552f4` is closed. This file is kept verbatim as the record of what it found and reported. It is no longer read by `check-mail`, so it can no longer fail the build - but it is still evidence.
+
 # Inbox: 552f4
 
 <!-- 2026-10-02T16:05:00Z | AGENT 552f4 | START -->

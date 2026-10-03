@@ -7,12 +7,48 @@ what makes this safe, and it is not negotiable — see "Why not one shared file"
 tasking/mail/
   inbox/<agent-id>.md               YOU write this. ONLY you. Taskmaster reads it.
   outbox/taskmaster/<agent-id>.md   Taskmaster writes this. ONLY it. You read it.
+  bulletin/<agent-id>.md            YOU append reusable findings here.
+  archive/<agent-id>/               CLOSED agent. Read it; do not write it.
 ```
 
 Your agent ID is your worktree directory name — you are in
 `C:/Users/Justin/.cline/worktrees/<agent-id>/ApexProject`, so your ID is `<agent-id>`.
 The taskmaster's ID is `taskmaster`. If you cannot find a worktree directory, yours
 is `main`.
+
+---
+
+## Provision your mailbox first
+
+```bash
+npm run mail:init -- <your-id>
+```
+
+Creates `inbox/<your-id>.md` and `bulletin/<your-id>.md` from template. **Idempotent** —
+run it even if the files look present.
+
+This step exists because on 2 Oct an agent discovered mid-session that its inbox did not
+exist, and its findings went nowhere. An agent with no inbox is an agent whose work
+nobody reads. The cost of running it twice is zero; the cost of skipping it is silence.
+
+## Read the archived mail
+
+`tasking/mail/archive/<agent-id>/` holds the mail of **closed** agents, verbatim.
+
+**Read it.** It is not dead weight — dc408's archived mailbox is the only surviving
+record that it found a broken task table, which was then fixed. Archived mail is
+excluded from `check-mail`, so it cannot fail your build, but it is still evidence and
+often still relevant.
+
+Archiving is a separate, deliberate act:
+
+```bash
+npm run mail:retire -- <agent-id>     # move a closed agent's mail out of the live tree
+npm run mail:status                   # who is live, who is archived
+```
+
+Nothing is deleted. Files are copied verbatim into `archive/<id>/` with a dated banner
+recording the retirement, and only then removed from the live tree.
 
 ---
 
@@ -80,10 +116,24 @@ you are tempted to invent a value to get unstuck, send BLOCKED instead and state
 plainly what you will not do. Blocking early is cheap. A plausible invented number is
 expensive, because it is indistinguishable from a real one forever after.
 
+**BLOCKED means report and move on — it does not mean stop.** Send it, then claim the
+next available task and keep working. You do not wait for a reply; the taskmaster may be
+mid-turn, and you are not the last line of defence. Everything you produce is reviewed
+before it reaches the main project, so a concern you have documented is not a reason to
+go idle. If you finish a task with gaps and write down exactly what is missing, that is
+a **successful** task.
+
+**RETRACTION — withdrawing something you yourself wrote earlier.** Name the message and
+say why. Do NOT edit or delete the earlier message: that destroys the ledger. This
+exists because an agent that has to withdraw its own finding, and cannot, is pushed
+toward rewriting history. Both directions are allowed, for any message you sent
+yourself.
+
 **QUESTION — only if STOP cannot express it.** Prefer folding a question into STOP.
 
-Then go and claim the next available task. Do not wait for a reply; BLOCKED means
-you have nothing to work on, and the taskmaster may be mid-turn.
+Then claim the next available task. Do not wait for a reply. The only two things that
+genuinely stop you are the task folder being gone (another agent has it) and `pending/`
+being empty — report **"queue empty"** and stop, which is a correct result.
 
 ---
 
