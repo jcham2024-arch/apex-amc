@@ -298,6 +298,130 @@ work back and check it. That is also the entire reason the review step exists.
 
 ---
 
+## 10.6 The four agent roles — and why there are four
+
+Added 3 Oct 2026 after too many worker agents stalled. The stall evidence is in §1: four
+of eight status messages in one session were BLOCKED or QUESTION, and the agents were
+obeying instructions rather than being timid.
+
+One generic "agent" prompt produced three different failure modes: workers stalled on
+concerns, nobody caught their work before it moved, and the eventual fixes had nowhere
+safe to go. Four roles, with a hard boundary between them:
+
+| Role | Owns | May write | May NOT |
+|---|---|---|---|
+| **taskmaster** | `tasking/pending/`, seeding, triage | `tasking/pending/`, `tasking/mail/proposals/` seeds | app source, gates, another agent's files |
+| **worker** (N of them) | one task at a time, in `tasking/in-progress/` | its own task folder, its own mailbox | `pending/`, app source, gates |
+| **reviewer** | auditing, never authoring | `tasking/review/`, verdicts | fixing anything it reviews |
+| **implementation** | code, gates, seeds | `apps/`, `packages/`, `scripts/`, `data/seeds/` | `tasking/` authoring, deciding scope |
+
+The critical rule is the last column of the third and fourth rows: **the reviewer never
+edits what it reviews, and the implementation agent never decides what to build.** Those
+two separations are the whole point. An agent that reviews its own work finds nothing,
+and an agent that both decides and implements has no one to disagree with it.
+
+### Read your own file first
+
+Full instructions, one per role, are in `tasking/roles/`:
+
+```
+tasking/roles/TASKMASTER.md      plan, seed, triage - never touch code
+tasking/roles/WORKER.md          take a task, finish it, never stall
+tasking/roles/REVIEWER.md        audit completed/ and stall logs - never fix
+tasking/roles/IMPLEMENTATION.md  write the code a review has approved
+```
+
+Read yours before starting. They are short and they are binding.
+
+### The pipeline, end to end
+
+```
+taskmaster ──seeds──▶ pending/
+                          │
+worker ──claims──▶ in-progress/ ──completes──▶ completed/ + HANDOVER.md
+                                                          │
+                                              reviewer ──audits──▶ verdict
+                                                          │
+                                     pass ───────────────┤
+                                     fail ───────────────┘ (back to worker,
+                                                          with the finding cited)
+                                                          │
+                                              implementation agent
+                                                          │
+                                                    code + gates
+```
+
+### `HANDOVER.md` — required of every worker, and the answer to stalling
+
+A worker that stops for any reason other than "queue empty" **must** leave a
+`HANDOVER.md` in its task folder before stopping. This is not a report of success. It is
+the thing that lets the next person continue without re-deriving your work.
+
+```markdown
+# HANDOVER — <task-id>
+
+**Status:** complete | partial | stalled | blocked
+**Claimed:** <task id> · **Finished/abandoned:** <ISO-8601>
+**Declared outputs written:** N/M  (list which, if not all)
+
+## What I did
+## What I found — the actual result, cited to a file
+## What is NOT done, specifically
+## Why I stopped
+## What the next agent should do first
+```
+
+Four statuses, and they are not interchangeable:
+
+- **`complete`** — every `required_outputs` file exists.
+- **`partial`** — real work landed, gaps documented. **This is a successful outcome**,
+  not a failure. An agent that documents what it could not do has handed over
+  something usable. An empty folder with an explanation has not.
+- **`stalled`** — you hit something you could not resolve. Say exactly what.
+- **`blocked`** — waiting on a human decision. Name the decision and who owns it.
+
+**Never leave a task folder without one of these.** A stalled agent that wrote down its
+state is a normal event. A stalled agent that left nothing is work that will be
+rediscovered from scratch, or worse, silently duplicated.
+
+### What "stalled" is no longer allowed to mean
+
+Per §1: a red gate, a missing write-path, a wrong brief, or an unknown value are all
+**things to document, not reasons to stop**. Write the `HANDOVER.md`, claim the next
+task, and keep going. You are not the last line of defence.
+
+The only reasons to stop are:
+
+1. `tasking/pending/` is empty — report **"queue empty"** and stop.
+2. Your task folder has been claimed by someone else.
+3. You are the implementation agent and no approved change exists.
+
+### The reviewer's job, precisely
+
+The reviewer audits `tasking/completed/*/` **and** every `HANDOVER.md` marked `stalled`
+or `blocked`. It does not fix what it finds. Its output is a verdict per item:
+
+- **PASS** — sound, complete, cites its evidence. Approved for implementation.
+- **FAIL** — with the specific defect, the file and line, and what would fix it. Goes
+  back to a worker, not to the implementer.
+- **SUSPEND** — needs a human decision. Name the decision.
+
+Reviewer findings become `tasking/review/FINDINGS.md`. The reviewer **never edits
+`completed/`, the application, or a gate.** If it fixed things itself, there would be no
+one checking its work.
+
+### The implementation agent's job, precisely
+
+It touches **only** code that a reviewer has marked PASS, and it works from the review's
+finding — not from its own reading of the raw research. It is the only role permitted to
+write `apps/`, `packages/`, `scripts/` or `data/seeds/`.
+
+It still may not: weaken a gate, run `handoff:accept` without the owner's note, state a
+charge weight, or decide that a FAIL should be implemented anyway. **If the review says
+FAIL, the code does not get written.** That is the entire reason the roles are separate.
+
+---
+
 ## 11. Agent mail — how the swarm talks to itself
 
 > **Check your outbox when you start a task and when you finish one. Write to your

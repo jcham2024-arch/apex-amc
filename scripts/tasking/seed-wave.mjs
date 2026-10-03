@@ -142,6 +142,11 @@ npm run verify            # must exit 0
 Plus, in \`REPORT.md\`: what you did, what you found, the reasoning, what you did NOT
 do and why, and any unresolved issue in \`NOTES.md\`.
 
+**Plus \`HANDOVER.md\` — always, whatever happened.** The reviewer reads this first, and
+it is what stops a stall from becoming a lost task. Status is one of \`complete\`,
+\`partial\`, \`stalled\` or \`blocked\`. \`partial\` with specific documented gaps is a
+**successful** task; an empty folder with an explanation is not.
+
 ## When you finish
 
 1. \`mv tasking/in-progress/${t.id} tasking/completed/\`
