@@ -1,4 +1,4 @@
-﻿---
+---
 proposal: cartridge-verdict-enforcement
 title: Make the licence verdict machine-enforced, so an empty dimensional cell is a decision and not a bug
 derived_from: tasking/completed/cartridge-licence-reconciliation/KNOWLEDGE.md

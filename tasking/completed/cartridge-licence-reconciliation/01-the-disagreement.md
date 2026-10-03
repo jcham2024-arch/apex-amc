@@ -1,4 +1,4 @@
-﻿# 01 — The disagreement, on the record
+# 01 — The disagreement, on the record
 
 **Task:** cartridge-licence-reconciliation · **Agent:** dc408 · **Date:** 10 Feb 2026
 

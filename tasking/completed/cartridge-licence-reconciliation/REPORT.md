@@ -1,4 +1,4 @@
-﻿# REPORT — cartridge-licence-reconciliation
+# REPORT — cartridge-licence-reconciliation
 
 **Task:** resolve the contradiction between two completed tasks on CIP licensing.
 **Agent:** dc408 · **Date:** 10 Feb 2026 · **Write-set:**

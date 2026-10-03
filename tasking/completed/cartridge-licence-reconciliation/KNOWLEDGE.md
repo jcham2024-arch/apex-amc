@@ -1,4 +1,4 @@
-﻿# KNOWLEDGE — cartridge licence reconciliation
+# KNOWLEDGE — cartridge licence reconciliation
 
 **Task:** cartridge-licence-reconciliation · **Agent:** dc408 · **Date:** 10 Feb 2026
 

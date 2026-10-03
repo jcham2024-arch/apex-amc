@@ -1,4 +1,4 @@
-﻿# NOTES — unresolved issues
+# NOTES — unresolved issues
 
 **Task:** cartridge-licence-reconciliation · **Agent:** dc408 · **Date:** 10 Feb 2026
 

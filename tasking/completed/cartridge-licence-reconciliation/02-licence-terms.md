@@ -1,4 +1,4 @@
-﻿# 02 — Licence terms, as published
+# 02 — Licence terms, as published
 
 **Task:** cartridge-licence-reconciliation · **Agent:** dc408 · **Date:** 10 Feb 2026
 
