@@ -35,7 +35,7 @@ jobs:
       # runners; v4 runs only because it is force-migrated to Node 24, and that
       # override is announced as temporary. Dependabot watches github-actions, so
       # this will be nudged forward again if v6 appears.
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-node@v7
         with:
