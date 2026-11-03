@@ -345,5 +345,6 @@
       "D3",
       "D4"
     ]
-  ]
+  ],
+  "note_on_superseded": "The T*/U* tasks were moved to tasking/pending/<id>/ as folder-based task.json manifests, enforced by npm run tasking:check. This ledger now tracks only the legacy A/B/C/D task plan."
 }

@@ -1,0 +1,31 @@
+{
+  "schema": "apex-task/1",
+  "id": "script-object-factory",
+  "title": "Design the script object factory - real insulation, not ceremony",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/script-object-factory/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-insulation-evidence.md",
+    "02-script-object-contract.md",
+    "03-module-contract-for-agents.md",
+    "04-migration-plan-and-line.md"
+  ],
+  "derived_from": "tasking/review/LESSONS.md",
+  "prohibits": [
+    "Do not implement anything. Produce the contract, the evidence and the migration plan.",
+    "Do not wrap a pure function in a class merely to satisfy the request. State plainly where that adds nothing and why - the owner's own rule is that a change which does not improve the code should not be made.",
+    "Do not convert packages/ballistics-core. It is a published library whose functional purity IS the API contract; wrapping it would break that contract for no benefit. Say so in the report rather than silently omitting it.",
+    "Do not touch a gate while proposing this. If a gate would need to change, that is a separate reviewed change set."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "apex-task/1",
+  "id": "cartridge-row-identity",
+  "title": "One row per cartridge, or one per cartridge-platform — decide before re-filing anything",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/cartridge-row-identity/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-duplicate-clusters.csv",
+    "02-platform-policy.md"
+  ],
+  "derived_from": "tasking/completed/cartridge-family-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not enact the protocol or policy change this task specifies. You produce the analysis and the recommendation; the owner decides. `.clinerules` 12.",
+    "Do not edit another task's files. One writer per file.",
+    "Do not re-derive a finding already stated in tasking/completed/FINDINGS.md. Quote it and add only what is new."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

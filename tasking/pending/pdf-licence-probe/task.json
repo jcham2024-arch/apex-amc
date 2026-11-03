@@ -1,0 +1,29 @@
+{
+  "schema": "apex-task/1",
+  "id": "pdf-licence-probe",
+  "title": "Build a reusable notice-detector for third-party PDF data sources",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/pdf-licence-probe/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-the-trap.md",
+    "02-detector.md",
+    "03-negative-test.md"
+  ],
+  "derived_from": "tasking/completed/cartridge-licence-reconciliation/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not enact the protocol or policy change this task specifies. You produce the analysis and the recommendation; the owner decides. `.clinerules` 12.",
+    "Do not edit another task's files. One writer per file.",
+    "Do not re-derive a finding already stated in tasking/completed/FINDINGS.md. Quote it and add only what is new."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

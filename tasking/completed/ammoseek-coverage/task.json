@@ -1,0 +1,26 @@
+{
+  "schema": "apex-task/1",
+  "id": "ammoseek-coverage",
+  "title": "AmmoSeek breadth gap analysis and sourcing plan",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": "scout-data",
+  "write_set": [
+    "tasking/completed/ammoseek-coverage/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "ammo_seek_coverage_gap.csv",
+    "01-method-and-sources.md",
+    "02-sourcing-plan.md",
+    "03-priority-ranks.md"
+  ],
+  "prohibits": [
+    "MUST NOT copy any price, SKU, stock status or retailer listing from AmmoSeek"
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

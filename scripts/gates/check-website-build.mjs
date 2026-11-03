@@ -142,6 +142,44 @@ if (!existsSync(resolve(distDir, '_headers'))) {
   const cspMatch = /Content-Security-Policy:\s*([\s\S]*?)(?=\n\s*\n|\n\/\*|$)/.exec(directives);
   const csp = cspMatch ? cspMatch[1].replace(/\s+/g, ' ').trim() : '';
 
+  // 1c-bis. The policy must be ONE line, and the file must be ONE block.
+  //
+  // This is the check whose absence let production serve with no CSP at all on
+  // 2 Oct 2026. The policy was written folded across eleven lines - one
+  // directive per line - which is how a person reads a CSP, and Cloudflare
+  // Pages silently discarded it. The file was also split into three separate
+  // `/*` blocks; Pages starts a NEW block at each `/*` rather than merging them,
+  // so the first two were dropped too.
+  //
+  // Both shipped as HTTP 200 with correct HTML and zero headers, and every other
+  // check in this file passed, because all of them read the FILE. Nothing looked
+  // at the deployed response. Both forms were confirmed against a live preview
+  // deployment: folded + three blocks served no policy; single line + single
+  // block served all six headers.
+  //
+  // Cloudflare's documented form is `[name]: [value]` on one line under one URL
+  // pattern (developers.cloudflare.com/pages/configuration/headers).
+  const headerLines = headers.split('\n').filter((l) => l.trim() && !l.trim().startsWith('#'));
+
+  const cspHeaderLines = headerLines.filter((l) => /^\s*Content-Security-Policy\s*:/.test(l));
+  if (cspHeaderLines.length === 1 && !/Content-Security-Policy\s*:\s*\S/.test(cspHeaderLines[0])) {
+    problems.push(
+      'dist/_headers has Content-Security-Policy with no value on its line. Cloudflare '
+        + 'Pages parses `[name]: [value]` literally and has no folded-value support, so '
+        + 'the whole policy is discarded and the site ships with no CSP. Put the entire '
+        + 'policy on ONE line after the colon.',
+    );
+  }
+
+  const blockCount = headerLines.filter((l) => /^\s*\/\*\s*$/.test(l)).length;
+  if (blockCount > 1) {
+    problems.push(
+      `dist/_headers declares ${blockCount} separate /* blocks. Cloudflare Pages starts a `
+        + 'NEW block at each /* instead of merging them, so every block but the last is '
+        + 'dropped. Put all headers under a single /* block.',
+    );
+  }
+
   // 1d. The hashes must match THIS build. A hash is a property of the emitted
   // bytes, not of the source: the bundler rewrites module boundaries and
   // Tailwind class names, so an edit anywhere upstream changes it. A stale hash

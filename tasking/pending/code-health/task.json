@@ -1,0 +1,32 @@
+{
+  "schema": "apex-task/1",
+  "id": "code-health",
+  "title": "Continuous code health - functionality, design, efficiency, commentary",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "standing",
+  "standing": true,
+  "write_set": [
+    "tasking/completed/code-health/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-finding.md",
+    "02-verified-clean.md",
+    "03-sourced-practices.md"
+  ],
+  "derived_from": "tasking/review/LESSONS.md",
+  "prohibits": [
+    "Do not edit the application. Produce findings, diffs and proposals; a human applies them. Same rule as every other research task.",
+    "Do not recommend a pattern because it is fashionable. The owner said it directly: if a change does not improve the code, do not do it. Applying OOP to a deliberately functional module is a regression with extra indirection, and saying so is part of the deliverable.",
+    "Do not re-run a negative test you have already run. It is queued as its own task; check pending/ first.",
+    "Do not weaken, disable or reorder a gate to make something pass. A red gate is information.",
+    "Do not treat a metric as a verdict. Fewer lines, more classes, or more abstraction are not improvements by themselves - only a stated problem being measurably better is."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

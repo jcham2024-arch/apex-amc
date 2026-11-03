@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "review-evidence-sources",
+  "title": "Which video and forum sources are worth citing for gear",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "medium",
+  "write_set": [
+    "tasking/completed/review-evidence-sources/"
+  ],
+  "required_outputs": [
+    "01-source-taxonomy.md",
+    "02-channel-assessment.csv",
+    "03-what-reviewers-notice-that-marketing-does-not.md",
+    "REPORT.md"
+  ],
+  "derived_from": "tasking/review/DERIVED-VALUES.md",
+  "prohibits": [
+    "Do not state a charge weight, powder constant, burn rate or chamber safety limit for any cartridge. Not as an example, not in a footnote, not to show you know the rule.",
+    "Do not store a transcript or verbatim text from any video or article. Link and cite; summarise in your own words. Transcripts are gitignored for exactly this reason.",
+    "Every derived weight or score must carry source_url, source_date and derivation. Minimum three independent sources, or the cell stays EMPTY. See tasking/review/DERIVED-VALUES.md.",
+    "Do not scrape retailer prices. Cite and link instead; retailer terms generally prohibit scraping.",
+    "Do not delete or rewrite another task output. This task reports; the record stays as written."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

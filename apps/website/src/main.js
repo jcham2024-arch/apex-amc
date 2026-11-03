@@ -1,5 +1,5 @@
 /**
- * Apex AMC — website entry module.
+ * Project Apex (placeholder name) — website entry module.
  *
  * Imports the dataset modules first. These are separate modules so the data
  * can be regenerated or replaced (e.g. from the D1 catalog) without touching

@@ -1,0 +1,29 @@
+{
+  "schema": "apex-task/1",
+  "id": "accessory-category-coverage",
+  "title": "Which accessory categories we have no data for at all",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "medium",
+  "write_set": [
+    "tasking/completed/accessory-category-coverage/"
+  ],
+  "required_outputs": [
+    "01-coverage-matrix.csv",
+    "02-priority-gaps.md",
+    "REPORT.md"
+  ],
+  "derived_from": "tasking/pending/range-bag-inventory-spec",
+  "prohibits": [
+    "Do not state a charge weight, powder constant, burn rate or chamber safety limit for any cartridge. Not as an example, not in a footnote, not to show you know the rule.",
+    "Do not store a transcript or verbatim text from any video or article. Link and cite; summarise in your own words. Transcripts are gitignored for exactly this reason.",
+    "Every derived weight or score must carry source_url, source_date and derivation. Minimum three independent sources, or the cell stays EMPTY. See tasking/review/DERIVED-VALUES.md.",
+    "Do not scrape retailer prices. Cite and link instead; retailer terms generally prohibit scraping.",
+    "Do not delete or rewrite another task output. This task reports; the record stays as written."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -46,11 +46,24 @@ data/published/*
 # no data at all. See scripts/promote-powders.mjs.
 data/incoming/
 
+# Generated SQLite database built by scripts/data/load-seeds-to-sqlite.mjs
+# (`npm run data:sqlite`). A build artefact, not source: it is fully reproducible from
+# data/seeds/ in under a second, and committing a binary that drifts from its inputs is
+# how a snapshot goes stale without anyone noticing.
+data/generated/
+
 # Generated D1 migration snapshot, ~3.1 MB. Rebuilt from data/published/
 # manifest.json - which IS committed - by `npm run data:snapshot`, and verified
 # to be unnecessary for `npm run seed:check`. Committing a generated artifact
 # this size means every clone carries it and it can drift from its own source.
 data/schema/100_seed_full_snapshot.sql
+
+# data/generated/ - build artefacts. A SQLite database built by `npm run data:sqlite` is
+# a build output like the snapshot above, and for the same reason: it is fully derivable
+# from data/seeds/ plus data/schema/, so committing it means every clone carries a binary
+# that can silently drift from its own source. It also should not be committed by accident
+# - a .db file in a diff is unreadable and unreviewable, which defeats code review.
+data/generated/
 
 # Archive is kept in git for provenance, but exclude the huge
 # raw AI transcript from language servers and typecheckers.
@@ -70,6 +83,143 @@ temp/
 output*.txt
 **/_tmp-*.mjs
 **/_tmp-*/
+
+# ---------------------------------------------------------------------------
+# tasking/completed/ - Sub-Agent hand-off, and the project's research record.
+#
+# WHAT CHANGED ON 2 OCT 2026, AND WHY
+# -----------------------------------
+# This was previously ignored, on the reasoning that a staged copy is "a diff under
+# review, not project source". That reasoning was sound for CODE copies and wrong
+# for RESEARCH output, and the cost was severe:
+#
+#   Agents were dispatched from tasking/pending/. They finished. They wrote their
+#   findings into tasking/completed/. And because that folder was ignored, those
+#   findings did not exist for anyone else - not in git, not in a clone, not after
+#   a session closed. The queue looked identical before and after the entire
+#   research phase. The work was real and it was already gone.
+#
+# The distinction the old rule missed:
+#
+#   A STAGED CODE COPY is a proposal. It is superseded the moment it is merged, and
+#   committing it puts two copies of one file in the repo, so a stale one can be
+#   mistaken for the real one. Ignoring those is correct.
+#
+#   TASK RESEARCH OUTPUT is not a proposal. It is the ONLY durable record of what
+#   was learned - which sources were checked, what was measured, what was refused
+#   and why. It does not get "merged" into anything, because there is nothing to
+#   merge it into. Ignoring it makes it evaporate.
+#
+# So: code-path output stays ignored (see the narrow rule below), and RESEARCH
+# output is now tracked. Every task's `required_outputs` lives under its own folder
+# and is enforced by `npm run tasking:check`.
+#
+# The lint/docs problem that motivated the old rule is real, and is handled by the
+# staged-code carve-out directly beneath rather than by ignoring the whole tier.
+# ---------------------------------------------------------------------------
+tasking/completed/*
+
+# RESEARCH OUTPUT IS TRACKED. This is the fix for the incident above.
+# A task folder's own manifest, brief, and findings are the project record.
+!tasking/completed/*/
+!tasking/completed/*/**
+tasking/completed/**/tmp/
+tasking/completed/**/node_modules/
+
+# STAGED CODE COPIES stay ignored, for the original reason: they duplicate a file
+# that already has a canonical home in the repo.
+tasking/completed/**/*.mjs
+tasking/completed/**/*.js
+tasking/completed/**/*.ts
+tasking/completed/**/*.tsx
+tasking/completed/**/*.json
+tasking/completed/**/*.css
+tasking/completed/**/*.html
+
+# ...but the manifests are .json and MUST be tracked, or `tasking:check` cannot
+# verify a completed task against what it declared. The rule below is the narrow
+# exception that keeps the check honest.
+!tasking/completed/*/task.json
+!tasking/completed/*/**/task.json
+
+# ...and the directory must exist on a clean checkout, or every agent starts by
+# creating it. Git does not track empty directories.
+!tasking/completed/.gitkeep
+
+# ---------------------------------------------------------------------------
+# tasking/in-progress/ and tasking/review/ - the other two swarm tiers.
+#
+#   in-progress/  an agent's LIVE workspace. Ephemeral by design: it is
+#                 mid-flight by definition, and if the agent dies a reassigned
+#                 one restarts from the brief rather than half-inheriting an
+#                 undocumented intermediate state.
+#   review/       the review agent's findings. Written TO the swarm, so every
+#                 agent can read the decision that applies to it. Tracked
+#                 content would be better long-term, but the folder is a
+#                 scratch surface until that policy exists.
+#
+# Same reasoning as completed/ above: none of it is project source. The briefs
+# in tasking/pending/ remain tracked and gated, which is the part that matters -
+# a brief with a broken path must fail the build before an agent follows it.
+# ---------------------------------------------------------------------------
+tasking/in-progress/*
+!tasking/in-progress/.gitkeep
+# The README is the tier's protocol, not scratch. An agent arriving in an empty
+# folder MUST be able to find the rules without the planner being present to
+# explain them - that is the whole reason this tier exists.
+!tasking/in-progress/README.md
+tasking/review/*
+!tasking/review/.gitkeep
+!tasking/review/README.md
+# DERIVED-VALUES.md is the owner's 3 Oct decision permitting review-derived values, and
+# the conditions attached to it. Without it an agent cannot tell a legitimate derived
+# number from a fabrication - which is the difference the whole citation rule exists to
+# make. It was written, and nearly evaporated: `tasking/review/*` ignores everything
+# except the allowlist below, so this file was silently uncommitted until someone checked
+# that it was actually IN the repo rather than merely present on disk.
+!tasking/review/DERIVED-VALUES.md
+# SKILLS-ASSESSMENT.md records which of the 66 agent skills this project uses, which it
+# deliberately does not, and why. Read before adding a skill to a brief: naming a tool
+# nobody has, or a platform this project is not on, wastes an agent's whole turn.
+!tasking/review/SKILLS-ASSESSMENT.md
+# SWARM-RESEARCH-ASSESSMENT.md tests an external multi-agent research document against
+# this swarm's measured behaviour. It found a live duplicate-claim collision that no
+# existing gate could see, because every gate reads a single worktree.
+!tasking/review/SWARM-RESEARCH-ASSESSMENT.md
+# SDK-HOST-AUDIT.md assesses the dependency advisories in C:\Cline, which hosts
+# @cline/sdk. It is a different tree from this one and its own gate deliberately does not
+# cover it, so without this file the answer exists only in a chat transcript.
+!tasking/review/SDK-HOST-AUDIT.md
+# HISTORY.md is the swarm's reasoning record - why a decision was made, what an
+# agent refused to do, what the evidence was. It is the one file in this folder
+# that must survive, and it is exactly the kind of thing that evaporates when it
+# is not committed. FINDINGS and NEXT-TASKS are scratch between reviews; this is
+# not, and losing it would lose the trap history .clinerules asks for.
+!tasking/review/HISTORY.md
+# FIX-BACKLOG.md is the record of every defect the swarm has found and what
+# happened to it. It is the one file in this folder that is BOTH the working list
+# and the permanent record: findings that are closed stay here with their status,
+# because the reason something was rejected is the part worth not losing. An
+# ignored backlog means the same defect gets re-raised every few weeks.
+!tasking/review/FIX-BACKLOG.md
+# LESSONS.md is the compiled lesson set - why each mechanism of the swarm exists,
+# and which incident paid for it. Compiled from swarm-improvement plus the
+# corrections agents filed on each other. Read it before changing how the swarm
+# works; several mechanisms exist only because I got them wrong first, and a
+# lesson with no incident attached is a slogan rather than knowledge.
+!tasking/review/LESSONS.md
+# PRODUCT.md is the owner's statement of what the site is for, plus what is
+# blocked and why. It is the test every later proposal is measured against -
+# and the reason two obvious features (live pricing, load ladders) are deliberately
+# NOT being built the obvious way.
+!tasking/review/PRODUCT.md
+# tasking/mail/ - inter-agent communication. TRACKED, unlike the other swarm tiers,
+# and the reason matters: a mailbox that is not committed is a message that never
+# arrived. The agents live in separate git worktrees, so an uncommitted message is
+# invisible to the taskmaster and to every other agent - which is the entire failure
+# this folder exists to fix. Re-committing after the fact cannot recover a message
+# written to an ignored file, because the bytes were never in the repo.
+!tasking/mail/
 
 # Scratch scripts, recognisable by the leading underscore or an iterative name.
 # Real scripts are verb-named and single-file (check-seeds.mjs, build-data.mjs).

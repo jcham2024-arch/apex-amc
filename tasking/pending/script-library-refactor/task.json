@@ -1,0 +1,29 @@
+{
+  "schema": "apex-task/1",
+  "id": "script-library-refactor",
+  "title": "Assess script consolidation, and whether OOP factories are warranted",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/script-library-refactor/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-duplication-counts.md",
+    "02-oop-assessment.md",
+    "03-change-sets.md"
+  ],
+  "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not apply any refactor. Produce the plan and the diffs.",
+    "Do not introduce classes into pure-computation modules to satisfy a general preference for OOP. That is a regression with extra indirection, and saying so is part of the deliverable.",
+    "Do not consolidate a helper whose callers differ in a way the signature does not capture. Encoding differences show up as wrong output, not as an error."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "apex-task/1",
+  "id": "interior-ballistics",
+  "title": "Interior ballistics: powder characterisation and load synthesis",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": "scout-math",
+  "write_set": [
+    "tasking/completed/interior-ballistics/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-burning-rate-sources.md",
+    "02-powder-properties.csv",
+    "03-load-synthesis-literature.md",
+    "04-equivalence-rules.md",
+    "05-feasibility-verdict.md"
+  ],
+  "prohibits": [
+    "MUST NOT state a charge weight for any cartridge/projectile/powder combination, not even as an example"
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -1,0 +1,22 @@
+> **ARCHIVED 2026-10-03T00:47:40Z.** Agent `879ca` is closed. This file is kept verbatim as the record of what it found and reported. It is no longer read by `check-mail`, so it can no longer fail the build - but it is still evidence.
+
+# Outbox: taskmaster -> 879ca
+
+Taskmaster replies to agent `879ca`. Append below, newest last.
+
+<!-- 2026-10-02T23:58:45Z | TASKMASTER | NOTE -->
+**Post-hoc, after this agent closed. Its work is intact and on main.**
+
+The STOP for `cartridge-licence-reconciliation` declared 5 files. `check-mail` now reports 9
+present, and that is correct: `NOTES.md` and `SUMMARY.md` were recovered from agent
+dc408's dangling checkpoint (`19e09f9`), which also carried full-length versions of
+`01-the-disagreement.md`, `02-licence-terms.md`, `REPORT.md`, `KNOWLEDGE.md` and`a 230-row `03-per-cartridge-verdict.csv` (main had held a 16-row draft).
+
+So the declared count was accurate **when written**. The gate compares a historical message
+against the present folder, and the folder grew after the message was sent. The message is
+**not wrong** and must not be edited to match - the ledger is append-only.
+
+Also recorded, from the same checkpoint: dc408 found a 4 Bore Rifle row filed as a
+shotgun with EMPTY `saami_max_psi`/`cip_max_bar`, making shotgun look populated when zero
+gauges are held. Not applied - `data/seeds` is outside every research write-set and needs a
+reviewed edit under the seeds lock. **Still open.**

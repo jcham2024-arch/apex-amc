@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "knowledge-base-audit",
+  "title": "Audit the knowledge base for staleness and contradiction",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "medium",
+  "write_set": [
+    "tasking/completed/knowledge-base-audit/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-inventory.md",
+    "02-contradictions.md",
+    "03-stale-claims.md",
+    "04-structure-proposal.md"
+  ],
+  "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not resolve a contradiction by choosing a side. Record both claims with their sources; resolution is the taskmaster's or the owner's.",
+    "Do not delete or rewrite another task's KNOWLEDGE.md. This task reports; the record stays as written, because the reason a claim changed is itself worth keeping.",
+    "Do not treat an absence of contradiction as success. Twenty-two files agreeing is a claim to verify, not a fact to assume."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

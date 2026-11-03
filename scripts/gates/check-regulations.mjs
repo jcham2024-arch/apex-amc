@@ -35,8 +35,12 @@
 
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { root } from '../shared/data.mjs';
 
-const ROOT = resolve(process.cwd());
+// Root from the shared module, NOT process.cwd(): run from the wrong directory and
+// a cwd-rooted gate walks the wrong tree and can report a FALSE GREEN.
+// See tasking/review/FIX-BACKLOG.md item 2 - this exact pattern was found in 12 files.
+const ROOT = resolve(root);
 const CSV = resolve(ROOT, 'data/seeds/regulations.csv');
 const OSS = resolve(ROOT, 'data/seeds/opensource_resources.csv');
 

@@ -66,33 +66,99 @@ if (!existsSync(HEADERS)) {
 }
 
 const before = readFileSync(HEADERS, 'utf8');
-
-// Only directive lines are rewritten. The comment block above them discusses the
-// keywords this policy forbids, and a whole-file replace would either corrupt
-// that explanation or fail to match it.
 const lines = before.split('\n');
-let sawScript = false;
-let sawStyle = false;
+
+// Only the CSP line is rewritten. The comment block above it explains what this
+// policy forbids, and a whole-file replace would either corrupt that
+// explanation or fail to match it.
+//
+// ONE LINE, ALWAYS.
+//
+// The policy is emitted as a single `Content-Security-Policy: ...` line rather
+// than one directive per line. That is not a style choice - it is what makes
+// Cloudflare apply the header at all.
+//
+// This generator previously emitted each directive on its own indented line,
+// mirroring how a human reads a CSP. Pages parses `_headers` as literal
+// `[name]: [value]` lines and has no concept of a folded value, so a
+// `Content-Security-Policy:` with nothing after the colon, followed by
+// continuation lines, was discarded. The policy shipped to production on
+// 2 Oct 2026 and the site served with no CSP whatsoever: HTTP 200, correct
+// HTML, zero protection, and no error anywhere. Confirmed on a live preview
+// deployment - folded produced no header, single-line produced the header.
+//
+// `check-website-build.mjs` now fails the build if this value ever spans more
+// than one line, so the regression cannot come back quietly.
+const cspLine = /^(\s*)Content-Security-Policy\s*:(.*)$/;
 
 const after = lines
   .map((line) => {
-    if (/^\s*script-src\s/.test(line)) {
-      sawScript = true;
-      // 'strict-dynamic' is a policy decision, not a build artefact, so it is
-      // re-appended rather than regenerated.
-      return `    script-src ${scriptHashes.join(' ')} 'strict-dynamic';`;
-    }
-    if (/^\s*style-src\s/.test(line)) {
-      sawStyle = true;
+    const match = cspLine.exec(line);
+    if (!match) return line;
+
+    const indent = match[1];
+    const rest = match[2].trim();
+
+    // Split the existing value on ';' and drop the two hashes this script owns,
+    // which are then re-inserted in the right directives. Everything else the
+    // author wrote is preserved in order, so a hand-added directive is not
+    // silently deleted by a rebuild.
+    //
+    // The canonical directive list is emitted wholesale below, so any directive
+    // that IS on that list has to be dropped here first. Keeping them would
+    // append a second copy on every run: the file grew on each invocation and
+    // was no longer idempotent, which is the property that makes re-running the
+    // generator safe to call unconditionally. Verified by running it twice and
+    // comparing SHA-256.
+    const CANONICAL = [
+      'default-src',
+      'script-src',
+      'style-src',
+      'font-src',
+      'img-src',
+      'connect-src',
+      'base-uri',
+      'form-action',
+      'frame-ancestors',
+      'object-src',
+      'upgrade-insecure-requests',
+    ];
+
+    const kept = rest
+      .split(';')
+      .map((d) => d.trim())
+      .filter(Boolean)
+      .filter((d) => !CANONICAL.some((name) => new RegExp(`^${name}\\b`).test(d)));
+
+    const directives = [
+      `default-src 'self'`,
+      `script-src ${scriptHashes.join(' ')} 'strict-dynamic'`,
       // fonts.googleapis.com serves the Inter stylesheet the page links to.
-      return `    style-src ${styleHashes.join(' ')} https://cdnjs.cloudflare.com https://fonts.googleapis.com;`;
-    }
-    return line;
+      `style-src ${styleHashes.join(' ')} https://cdnjs.cloudflare.com https://fonts.googleapis.com`,
+      `font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com`,
+      `img-src 'self' data: https://cdnjs.cloudflare.com`,
+      `connect-src 'self'`,
+      `base-uri 'none'`,
+      `form-action 'self'`,
+      `frame-ancestors 'none'`,
+      `object-src 'none'`,
+      `upgrade-insecure-requests`,
+      ...kept,
+    ];
+
+    return `${indent}Content-Security-Policy: ${directives.join('; ')}`;
   })
   .join('\n');
 
-if (!sawScript || !sawStyle) {
-  console.error('no script-src / style-src directive found in dist/_headers.');
+const cspLines = after.split('\n').filter((l) => cspLine.test(l));
+if (cspLines.length !== 1) {
+  console.error(
+    'the policy must occupy exactly one line; found ' + cspLines.length + '.',
+  );
+  process.exit(1);
+}
+if (/^\s*Content-Security-Policy\s*:\s*$/.test(cspLines[0])) {
+  console.error('Content-Security-Policy has no value on its line.');
   process.exit(1);
 }
 
