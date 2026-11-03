@@ -1,0 +1,32 @@
+{
+  "schema": "apex-task/1",
+  "id": "swarm-improvement",
+  "title": "Improve the agentic swarm framework",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "standing",
+  "standing": true,
+  "write_set": [
+    "tasking/completed/swarm-improvement/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-finding.md",
+    "02-measurement.md",
+    "03-portability-notes.md"
+  ],
+  "derived_from": "tasking/review/HISTORY.md",
+  "prohibits": [
+    "Do not build ApexProject features here. The queue in pending/ exists for those. This task improves the framework or researches the framework's own problems, and touches neither the application nor the data.",
+    "Do not change the protocol. A change to .clinerules, to tasking/README.md, or to a gate alters how every agent behaves, including agents on other projects. That is the owner's decision: write a proposal with shape: change and say what would break.",
+    "Do not write a broad survey. Depth on one dimension, cited, beats coverage of all four. 'Consider using X' is not a finding; 'X does Y, we do Z because W, measured at N' is.",
+    "Do not propose work that duplicates a task already in pending/ or in-progress/. Check first.",
+    "Do not restock this slot yourself and do not edit the restock script. Run `npm run tasking:restock`; that is all."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

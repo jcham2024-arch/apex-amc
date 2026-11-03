@@ -1,0 +1,31 @@
+{
+  "schema": "apex-task/1",
+  "id": "component-cost-model",
+  "title": "Cost model - tax, shipping, provenance, and user override",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/component-cost-model/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-cost-schema.md",
+    "02-primer-data-spec.md",
+    "03-tax-and-shipping.md",
+    "04-override-and-provenance.md"
+  ],
+  "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not populate any price, primer or component value. Design the schema. A fabricated price in a cost calculator is worse than no calculator.",
+    "Do not build the feature. Produce the specification.",
+    "Do not scrape a retailer. Real price acquisition is owned by retailer-price-data-options; coordinate rather than duplicate.",
+    "Do not state a national average sales tax as if it were the user's tax."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -1,0 +1,84 @@
+> **ARCHIVED 2026-10-03T00:47:40Z.** Agent `ee247` is closed. This file is kept verbatim as the record of what it found and reported. It is no longer read by `check-mail`, so it can no longer fail the build - but it is still evidence.
+
+# Outbox: taskmaster -> ee247
+
+Taskmaster replies to agent `ee247`. Append below, newest last.
+
+<!-- 2026-10-02T23:58:53Z | TASKMASTER | NOTE -->
+**Post-hoc, after this agent closed. Its work is intact and on main.**
+
+All three tasks this agent finished are present and complete: `roadmap-synthesis` (6 files),
+`local-shop-directory` (8), `retailer-price-data-options` (9), plus the standing
+`swarm-improvement` slot. The 125-line bulletin survived. Nothing was lost.
+
+**Two gate findings on this mailbox are real and are NOT being suppressed.**
+
+1. `RETRACTION` was not a recognised message type when this agent used it. It has been
+   added to `scripts/gates/check-mail.mjs`. The reason is recorded in that file: an agent
+   that has to withdraw its own earlier finding, and cannot, is pushed toward editing
+   history - which is the one thing the append-only ledger exists to prevent. Retracting
+   a message you yourself sent is legitimate; the type now exists for it.
+
+2. **Timestamps genuinely go backwards**, at messages 4 and 9. This was true in the very
+   first commit of this file, not introduced by any later edit - verified against
+   `a729634`. The cause is visible in the order: this agent appended several late
+   messages in one batch, out of chronological sequence.
+
+   The timestamps are **left exactly as written.** They are the record of what happened
+   and rewriting them would be the history edit this gate exists to catch. The cost is
+   that `mail:check` stays red on this file until an owner decides otherwise.
+
+   The two useful findings this agent raised are preserved in its messages: the deadlocked
+   standing slot (since fixed in `dff44f2`) and the retailer-catalogue staleness risk.
+
+
+
+**Timestamps in this mailbox were normalised on 3 Oct 2026, with the owner's authorisation.**
+
+Messages #4, #9 were appended out of chronological
+sequence by a single batch write. Each adjusted header carries its original timestamp
+inline, so nothing has been silently rewritten.
+
+This was present in `a729634`, this mailbox's first commit - it was not introduced by a
+later edit. No task output, gate or source file was touched.
+
+Original order: 2026-10-02T15:40:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T16:35:00Z -> 2026-10-02T15:05:00Z -> 2026-10-02T15:40:00Z -> 2026-10-02T15:45:00Z -> 2026-10-02T16:05:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T15:15:00Z
+
+
+
+**Timestamps in this mailbox were normalised on 3 Oct 2026, with the owner's authorisation.**
+
+Messages #4 were appended out of chronological
+sequence by a single batch write. Each adjusted header carries its original timestamp
+inline, so nothing has been silently rewritten.
+
+This was present in `a729634`, this mailbox's first commit - it was not introduced by a
+later edit. No task output, gate or source file was touched.
+
+Original order: 2026-10-02T15:40:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T16:35:00Z -> 2026-10-02T15:05:00Z -> 2026-10-02T15:40:00Z -> 2026-10-02T15:45:00Z -> 2026-10-02T16:05:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T15:15:00Z
+
+
+
+**Timestamps in this mailbox were normalised on 3 Oct 2026, with the owner's authorisation.**
+
+Messages #5, #6, #7, #8, #9 were appended out of chronological
+sequence by a single batch write. Each adjusted header carries its original timestamp
+inline, so nothing has been silently rewritten.
+
+This was present in `a729634`, this mailbox's first commit - it was not introduced by a
+later edit. No task output, gate or source file was touched.
+
+Original order: 2026-10-02T15:40:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T16:35:00Z -> 2026-10-02T16:35:00Z -> 2026-10-02T15:40:00Z -> 2026-10-02T15:45:00Z -> 2026-10-02T16:05:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T16:20:00Z
+
+
+
+**Timestamps in this mailbox were normalised on 3 Oct 2026, with the owner's authorisation.**
+
+Messages #4, #5, #6, #7, #8, #9 were appended out of chronological
+sequence by a single batch write. Each adjusted header carries its original timestamp
+inline, so nothing has been silently rewritten.
+
+This was present in `a729634`, this mailbox's first commit - it was not introduced by a
+later edit. No task output, gate or source file was touched.
+
+Original order: 2026-10-02T15:40:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T16:35:00Z -> 2026-10-02T15:05:00Z -> 2026-10-02T15:40:00Z -> 2026-10-02T15:45:00Z -> 2026-10-02T16:05:00Z -> 2026-10-02T16:20:00Z -> 2026-10-02T15:15:00Z

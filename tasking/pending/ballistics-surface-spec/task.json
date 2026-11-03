@@ -1,0 +1,29 @@
+{
+  "schema": "apex-task/1",
+  "id": "ballistics-surface-spec",
+  "title": "Make the ballistics module reachable from the main page",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "medium",
+  "write_set": [
+    "tasking/completed/ballistics-surface-spec/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-module-surface.md",
+    "02-reachable-inputs.md",
+    "03-limits-and-refusals.md"
+  ],
+  "derived_from": "tasking/completed/exterior-ballistics/REPORT.md",
+  "prohibits": [
+    "Do not build the surface. Produce the specification.",
+    "Do not design any shooter-fault diagnosis, confidence percentage, or threshold rule. shot-group-taxonomy records that a named instructor calls target-photo fault diagnosis the most misused tool in the training industry, and that no diagnostic accuracy figure exists in any source retrieved.",
+    "Do not compute a charge weight, powder constant, or pressure figure."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -2,7 +2,7 @@
   "name": "apex-project",
   "private": true,
   "type": "module",
-  "description": "Apex Ammunition & Components - ammunition catalog, cost calculator, and reloading reference.",
+  "description": "Reloading data directory, cost calculator, and ammunition reference. Name pending trademark clearance - see docs/BRANDING.md.",
   "repository": {
     "type": "git",
     "url": "https://github.com/jcham2024-arch/apex-amc.git"
@@ -12,7 +12,7 @@
     "This project is `private: true` and is not published to npm, so nothing",
     "requires a license today. The default without one is 'all rights reserved',",
     "which means nobody else may legally reuse the domain physics, the drag",
-    "tables, or the data pipeline. If Apex AMC is ever to be open source, add a",
+    "tables, or the data pipeline. If the project is ever to be open source, add a",
     "LICENSE file AND set \"license\" here. See docs/REVIEW.md P3-1."
   ],
   "workspaces": [
@@ -29,6 +29,7 @@
     "website:csp": "node scripts/website/write-csp-hashes.mjs",
     "data:fetch": "node scripts/data/fetch-published-data.mjs",
     "data:snapshot": "node scripts/data/export-d1.mjs",
+    "data:sqlite": "node scripts/data/load-seeds-to-sqlite.mjs",
     "data:extract": "node scripts/extract/extract-kwk-pressures.mjs && node scripts/extract/extract-leverguns-pressures.mjs && node scripts/extract/extract-vihtavuori-burn-rate.mjs && node scripts/extract/crosscheck-pressures.mjs",
     "coverage": "node scripts/data/report-coverage.mjs",
     "coverage:md": "node scripts/data/report-coverage.mjs --md",
@@ -54,7 +55,7 @@
     "security:baseline": "node scripts/security/security-baseline.mjs",
     "modules:check": "node scripts/gates/check-modules.mjs",
     "website:check": "node scripts/gates/check-website-build.mjs",
-    "verify": "npm run lint && npm run typecheck:all && npm run test:all && npm run test:encoding && npm run test:bullets && npm run schema:check && npm run seed:check && npm run data:validate && npm run docs:check && npm run handoff:status && npm run security:check && npm run modules:check && npm run website:check && npm run claims:check && npm run tasks:check && npm run oracle:check && npm run ci:check && npm run audit:check && npm run regulations:check",
+    "verify": "npm run lint && npm run typecheck:all && npm run test:all && npm run test:encoding && npm run test:bullets && npm run schema:check && npm run seed:check && npm run data:validate && npm run docs:check && npm run handoff:status && npm run security:check && npm run modules:check && npm run website:check && npm run claims:check && npm run tasking:check && npm run mail:check && npm run roles:check && npm run quarantine:check && npm run proposals:check && npm run oracle:check && npm run ci:check && npm run audit:check && npm run regulations:check",
     "website:dev": "npm run dev --workspace apps/website",
     "website:build": "npm run build --workspace apps/website && npm run website:csp",
     "test:affiliate": "node --test scripts/tests/test-affiliate-links.mjs",
@@ -67,15 +68,40 @@
     "ci:check": "node scripts/gates/check-ci-parity.mjs",
     "regulations:check": "node scripts/gates/check-regulations.mjs",
     "audit:check": "node scripts/security/audit-advisories.mjs",
-    "tasks:gen": "node scripts/tools/generate-task-files.mjs"
+    "tasks:gen": "node scripts/tools/generate-task-files.mjs",
+    "roles:check": "node scripts/gates/check-roles.mjs",
+    "roster": "node scripts/tasking/roster.mjs",
+    "agents": "node scripts/tasking/discover-agents.mjs",
+    "role": "node scripts/tasking/claim-role.mjs",
+    "claim:scan": "node scripts/tasking/claim-scan.mjs",
+    "claim:lock": "node scripts/tasking/claim-lock.mjs",
+    "quarantine": "node scripts/tasking/quarantine.mjs",
+    "seed:research": "node scripts/tasking/seed-research.mjs",
+    "quarantine:check": "node scripts/tasking/quarantine.mjs check",
+    "quarantine:list": "node scripts/tasking/quarantine.mjs list",
+    "tasking:check": "node scripts/gates/check-tasking.mjs",
+    "mail:check": "node scripts/gates/check-mail.mjs",
+    "proposals:check": "node scripts/gates/check-proposals.mjs",
+    "tasking:restock": "node scripts/tasking/ensure-standing-task.mjs",
+    "swarm:sync": "node scripts/tasking/swarm-sync.mjs",
+    "tasking:stuck-policy": "node scripts/tasking/apply-stuck-policy.mjs",
+    "mail:init": "node scripts/tasking/mail-lifecycle.mjs init",
+    "mail:retire": "node scripts/tasking/mail-lifecycle.mjs retire",
+    "mail:status": "node scripts/tasking/mail-lifecycle.mjs status",
+    "mail:normalise-order": "node scripts/tasking/normalise-mailbox-order.mjs",
+    "claims:resolve": "node scripts/tasking/resolve-claims.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/node": "^24.19.0",
     "@typescript/typescript6": "^6.0.2",
     "eslint": "^10.11.0",
-    "globals": "^16.5.0",
+    dependabot/npm_and_yarn/globals-17.12.0
+    "globals": "^17.12.0",
     "typescript": "^6.0.3",
+    "globals": "^16.5.0",
+    "typescript": "^7.0.2",
+    main
     "typescript-eslint": "^8.71.0",
     "yaml": "^2.9.1"
   },

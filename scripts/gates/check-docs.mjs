@@ -57,9 +57,13 @@
 // reasoning as scripts/test-encoding.mjs.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
+import { root } from '../shared/data.mjs';
 import { repairMojibake } from '../shared/encoding.mjs';
 
-const ROOT = resolve(process.cwd());
+// Root from the shared module, NOT process.cwd(): run from the wrong directory and
+// a cwd-rooted gate walks the wrong tree and can report a FALSE GREEN.
+// See tasking/review/FIX-BACKLOG.md item 2 - this exact pattern was found in 12 files.
+const ROOT = resolve(root);
 const say = (s) => console.log(s);
 
 /** Directories that are not project documentation. */
@@ -67,6 +71,48 @@ const SKIP_DIRS = new Set([
   'node_modules', '.git', '.expo', 'dist', 'build', '.wrangler',
   // Prior drafts kept for provenance. Never built, never linked from.
   'archive', 'temp', 'tmp',
+  // Agent hand-off area, deliberately NOT skipped.
+  //
+  // tasking/pending/ holds the real task briefs and IS checked like any other
+  // doc, so a broken path in a brief is caught before an agent follows it.
+  //
+  // tasking/completed/ is skipped, and the reason is the same as tmp/ above: a
+  // Sub-Agent stages COPIES of main source files there for review and merge. A
+  // staged copy is not project documentation - it is a diff under review, may be
+  // a deliberately partial intermediate state, and its backticked paths refer to
+  // the ORIGINAL tree, not to tasking/completed/. Checking them would either
+  // fail the build for staged scratch or, worse, report the copy as a broken
+  // reference in a doc that is about to be merged or discarded.
+  //
+  // This was measured, not assumed: a staged .mjs copy failed `npm run lint` and
+  // a staged .md failed `npm run docs:check` (CRLF), before this exclusion.
+  //
+  // Only the BARE directory name goes here. SKIP_DIRS is compared against each
+  // entry's own name as the walk recurses, so a path like 'tasking/completed'
+  // can never match - `readdirSync` yields 'completed'. That was the first
+  // attempt and it silently did nothing, which is exactly the failure mode a
+  // plausible-looking config change hides.
+  //
+  // This is narrower than it looks: 'completed' would also skip any other
+  // directory of that name anywhere in the tree. That is acceptable here
+  // because no project directory is named 'completed', and the alternative -
+  // matching full relative paths - would need the walker to carry state this
+  // function deliberately does not have.
+  'completed',
+  // 'in-progress' for the same reason. An agent's workspace is mid-flight BY
+  // DEFINITION - half-written, deliberately partial, addressed to nobody.
+  // Checking it would fail the build on the NORMAL state of the folder, which
+  // would train everyone to ignore the gate. A staged copy that reaches
+  // completed/ has been read back by its author; one sitting in
+  // in-progress/ has not.
+  'in-progress',
+  // 'review' for the same reason, and it is not hypothetical. The review
+  // agent's templates contain headings inside example fences and bracketed
+  // paths like <task> that resolve to nothing - checked while writing this.
+  // Gating a folder that is written TO the swarm would fail the build on the
+  // review agent's legitimate output, which trains everyone to ignore the
+  // gate. The tier's own README is short and was verified by hand.
+  'review',
 ]);
 
 /** Print a string as code points, so no console can mis-render it. */
@@ -328,6 +374,14 @@ const PATH_ALLOWLIST = new Map([
   // Never implemented. AGENTS.md names the original brief to explain that the
   // delivered scripts use .mjs and different names.
   ['scripts/import-csv.ts', 'the original brief; documented as never built'],
+
+  // A PROPOSAL describes work that has not happened yet. check-docs verifies that
+  // every backticked path exists, which is right for documentation and wrong for
+  // a spec of a file that will be built if the proposal is accepted. An agent
+  // proposing `check-blockers.mjs` is describing intended work, not citing drift.
+  // Listed individually, for the same reason as the archived documents above: a
+  // prefix rule would excuse a genuine typo.
+  ['scripts/gates/check-blockers.mjs', 'proposed in tasking/mail/proposals/blocker-ledger.md; not built yet'],
   // Used as a worked example of the per-file rule system. RMR is not a
   // researched line yet, so the file does not exist.
   ['data/seeds/bullets/rmr.csv', 'illustrative example of the rule system'],
@@ -355,6 +409,21 @@ const PATH_ALLOWLIST = new Map([
   ['apps/website/index.html', 'pre-reorg path, kept in historical/resolved sections'],
   // Stated in ARCHITECTURE.md as the pre-Tailwind-v4 location, since removed.
   ['apps/website/src/tailwind.config.js', 'removed file, referenced as deleted'],
+
+  // Named by multi-agent task T1 (trademark clearance) as its deliverables. T1 is
+  // research-only and writes nothing else, so these do not exist until it runs.
+  // Listed individually rather than by prefix: a prefix rule would silently excuse
+  // a typo, which is the defect this check exists to catch.
+  ['docs/research-trademark/01-name-clearance.md', 'created by multi-agent task T1; not yet written'],
+  ['docs/research-trademark/02-domain-options.md', 'created by multi-agent task T1; not yet written'],
+  ['docs/research-trademark/README.md', 'created by multi-agent task T1; not yet written'],
+
+  // Named by multi-agent task T2 (ballistics oracle research) as its deliverables.
+  // Same reasoning: T2 is research-only and must not touch packages/ballistics-core.
+  ['docs/research-oracles/01-methods-found.md', 'created by multi-agent task T2; not yet written'],
+  ['docs/research-oracles/02-candidate-datasets.md', 'created by multi-agent task T2; not yet written'],
+  ['docs/research-oracles/03-solver-gap-analysis.md', 'created by multi-agent task T2; not yet written'],
+  ['docs/research-oracles/README.md', 'created by multi-agent task T2; not yet written'],
 ]);
 
 /** Lines inside a fence are skipped: a path there is an argument, not a claim. */

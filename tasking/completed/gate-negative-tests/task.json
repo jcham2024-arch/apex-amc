@@ -1,0 +1,27 @@
+{
+  "schema": "apex-task/1",
+  "id": "gate-negative-tests",
+  "title": "Negative tests for every gate in verify",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/gate-negative-tests/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-negative-test-matrix.csv",
+    "02-untestable-gates.md"
+  ],
+  "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not modify any gate. Produce the test vectors; a human decides what to add.",
+    "Do not run a destructive input against the real tree. Use a throwaway copy under tmp/."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

@@ -1,0 +1,104 @@
+> **ARCHIVED 2026-10-03T00:47:40Z.** Agent `879ca` is closed. This file is kept verbatim as the record of what it found and reported. It is no longer read by `check-mail`, so it can no longer fail the build - but it is still evidence.
+
+# Bulletin: 879ca
+
+Read-only to everyone except 879ca, who appends here. Reusable findings, traps,
+open questions, disagreements. Not a task channel - for that, write a proposal.
+
+## 2026-10-02T21:34:08Z - CIP licence: the permissive error, and two traps that both point that way
+
+Resolved the contradiction between my ammoseek-coverage and cartridge-dimensions.
+**There was no contradiction - my task was wrong.**
+
+cartridge-dimensions said CIP sheets carry "Reproduction forbidden as well as in the form of extracts without approval of C.I.P." I said Free download. Both true: free-to-download is the **price of access**; the notice is **rights in the content**. I read the first as evidence of the second.
+
+**The check I skipped:** I fetched the CIP index page and never opened a per-cartridge sheet. **The notice is not on the index page.** It is inside the PDFs.
+
+### Reusable trap 1: kerning defeats literal search
+
+Notice extracts as Reproduc tion forbidden as w e ll as in the form of ex trac ts. includes('Reproduction') returns **false on a sheet carrying it**. Concatenate fragments with **no** separator; joining with a space re-breaks the word. Already documented by T4; I hit it again a task later.
+
+### Reusable trap 2 (new): letter-ratio readability tests fail on kerned text
+
+To tell "no notice" from "no text layer" I used a letter-ratio test. Wrong: kerned page copy has a **lower** letter ratio than a binary font blob, so notice-bearing sheets got classified as having no text layer. Use a **dictionary-word** test instead. That one fix moved my count from 3 to 6 of 11.
+
+### Unreadable is not unrestricted
+
+6 notice present / 5 undetermined / **0 readable-without-notice**. The 5 undetermined are not cleared. Report them undetermined and take the conservative verdict.
+
+### Standing rule
+
+**Never state a licence conclusion from an absence of evidence.** Every error in this family points toward *underestimating* the restriction. Report undetermined; never resolve an ambiguity by picking the convenient reading.
+
+### Trap 3 (workflow, cost me a gate failure)
+
+A generator that writes its output to the **final** path creates the folder early; the later Move-Item in-progress -> completed then **nests** the task one level deep. check-mail caught it. Generate into a scratch dir, or into in-progress, never into the destination.
+
+## gate-negative-tests: four gates are SILENT, and I published a false positive first
+
+Attacked a set of verify stages with one semantic mutation each, on throwaway
+`tmp/` copies. **8 caught, 4 blind.** Vectors:
+`tasking/completed/gate-negative-tests/01-negative-test-matrix.csv`.
+
+### The four silent gates (each observed exit 0)
+
+1. **`claims:check` reads ONLY `apps/website/dist/index.html`.** Wrote a charge
+   weight into `docs/ROADMAP.md` and it reported `claims & compliance ok`. This
+   is the gate that bans load claims, and the whole Markdown corpus is
+   unscanned. Most serious finding of the task.
+2. **`audit:check` passes with the security advisory DELETED.** It wraps
+   `npm audit` and never opens the advisory it is named for.
+3. **`oracle:check`** - delete 4 of 6 measured rows and it still printed
+   "agrees at every compared point", exit 0. No coverage floor, so losing data
+   makes the gate *quieter and greener*. Worst failure direction of the four.
+4. **`regulations:check`** prints "retrievable citation" but never fetches the URL.
+
+### Reusable: I published a false positive and caught it
+
+I recorded `ci:check` as blind after renaming `npm run oracle:check` to
+`oracle:check-BOGUS`; it still said "all stages accounted for". **Wrong.** It
+substring-matches, and `oracle:check-BOGUS` *contains* `oracle:check`.
+Deleting the line fails correctly.
+
+> **Before recording a gate as blind, prove your mutation did what you think.**
+> A rename that keeps the old name as a substring tests nothing. Add a
+> **control** mutation that must still pass, or a broken sandbox manufactures
+> fake CAUGHTs.
+
+### Harness traps (Windows)
+
+- `execFileSync("npm", ...)` fails - npm is a `.cmd` shim. Use `cmd.exe /c`.
+- Piping into `Select-Object` **masks `$LASTEXITCODE`**. Capture
+  `cmd /c "...2>&1"` then read the code.
+- Copy `packages/` for `oracle:check`; missing it gives exit 1 from
+  file-not-found, which looks like a caught violation but is not.
+- **A generator that writes to the FINAL path creates the folder early; the
+  later Move-Item nests it one level deep.** `check-mail` caught it. Write to
+  in-progress or scratch, never the destination.
+
+### TRAP: never append mail via a PowerShell here-string
+
+I appended two bulletin entries with `@"..."@`. **PowerShell treats a backtick
+as its escape character**, so every backtick in the payload was consumed.
+Paths arrived as `\tasking\...`, and a backslash followed by a letter was
+also consumed as an escape sequence: `audit:check` lost its "a" and a literal
+**BEL (ASCII 7) byte** was written into the file.
+
+It still read plausibly and the words were still legible, so it survived two
+inspections. **`docs:check` caught it** - `crlf-line-endings`,
+`heading-without-blank-line`, `bare-cr` - which is the gate doing exactly what
+it exists for.
+
+> **Use the editor tool for any message containing backticks or backslashes.**
+> If a script must write one, build the character as `[char]96`. Then
+> **re-read the file** - never trust the exit code alone.
+
+### Baseline correction
+
+`AGENTS.md` quotes a stage count for `npm run verify` that no longer matches.
+`docs:check` fails on a hand-written count with `verify-stage-count`. Name the
+command instead of typing the number:
+
+```
+node -e "console.log(require('./package.json').scripts.verify.split('&&').length)"
+```

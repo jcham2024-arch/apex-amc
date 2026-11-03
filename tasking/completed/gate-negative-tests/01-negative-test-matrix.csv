@@ -1,0 +1,13 @@
+stage,gate_script,mutation,expected_verdict,observed_verdict,exit_code,evidence,coverage_note
+seed:check,scripts/gates/check-seeds.mjs,Replace an enum value in regulations.csv with a value not in the manifest,fail,CAUGHT,1,FAILURES:,semantic - strong
+docs:check,scripts/gates/check-docs.mjs,Append a backticked path that does not resolve,fail,CAUGHT,1,FAIL docs/ROADMAP.md:620  broken-path,semantic - strong
+docs:check,scripts/gates/check-docs.mjs,Append an unbalanced code fence that swallows following sections,fail,CAUGHT,1,FAIL docs/ROADMAP.md:620  fence-never-closed,semantic - strong
+schema:check,scripts/gates/check-schema.mjs,Corrupt the newest migration so the chain no longer applies,fail,CAUGHT,1,"FAIL 016_affiliate_outreach.sql -> near ""THIS"": syntax error",semantic - strong
+tasking:check,scripts/gates/check-tasking.mjs,Delete a declared required_output from a completed task,fail,CAUGHT,1,x tasking/completed/ammoseek-coverage is missing a DECLARED OUTPUT: REPORT.md,semantic - strong
+mail:check,scripts/gates/check-mail.mjs,Append a mail message whose header is not an HTML comment,fail,CAUGHT,1,check-mail FAILED,structural - strong
+proposals:check,scripts/gates/check-proposals.mjs,Add a proposal with empty evidence and a non-existent derived_from,fail,CAUGHT,1,check-proposals FAILED,semantic - strong
+ci:check,scripts/gates/check-ci-parity.mjs,Remove the oracle:check line from .github/workflows/verify.yml,fail,CAUGHT,1,FAIL oracle:check is in npm run verify but not named in verify.yml,WEAK - see 02-untestable-gates.md; substring match
+regulations:check,scripts/gates/check-regulations.mjs,Point a regulation source_url at an unreachable domain,fail,NOT_CAUGHT,0,regulations OK,BLIND - no network check
+oracle:check,scripts/gates/check-oracle.mjs,Delete 4 of 6 measured_data rows so fewer points are compared,fail,NOT_CAUGHT,0,"measured_data.csv: 2 rows checked / ""agrees at every compared point""",BLIND - weaker oracle passes
+claims:check,scripts/gates/check-claims.mjs,State a charge weight in docs/ROADMAP.md,fail,NOT_CAUGHT,0,claims & compliance   ok,BLIND - reads only built index.html
+audit:check,scripts/security/audit-advisories.mjs,Delete docs/audit/2026-10-02-project-audit.md,fail,NOT_CAUGHT,0,audit OK,"BLIND - scans deps, never reads the advisory"

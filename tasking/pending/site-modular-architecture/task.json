@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "site-modular-architecture",
+  "title": "Every page section becomes a module, not a hardcoded block",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/site-modular-architecture/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-section-inventory.md",
+    "02-module-contract.md",
+    "03-migration-plan.md",
+    "04-csp-and-size-analysis.md"
+  ],
+  "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not restructure the page. Produce the contract, the inventory and the plan.",
+    "Do not propose anything adding a runtime dependency, a new remote origin, an inline style, or a bundler step. check-website-build will fail the build.",
+    "Do not design the visuals of any section. Modularity only."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

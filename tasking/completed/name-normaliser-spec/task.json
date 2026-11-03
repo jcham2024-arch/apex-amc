@@ -1,0 +1,27 @@
+{
+  "schema": "apex-task/1",
+  "id": "name-normaliser-spec",
+  "title": "Two-way cartridge name normaliser",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "medium",
+  "write_set": [
+    "tasking/completed/name-normaliser-spec/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-rules.md",
+    "02-test-corpus.csv"
+  ],
+  "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not implement the normaliser. Produce the rules and the test corpus.",
+    "Do not rename or rewrite any stored cartridge name. That is a data migration and a human decision."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

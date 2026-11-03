@@ -1,0 +1,28 @@
+{
+  "schema": "apex-task/1",
+  "id": "website-design-iteration",
+  "title": "Apply the accumulated UI findings to the live site",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/website-design-iteration/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-defect-diffs.md",
+    "02-csp-verification.md"
+  ],
+  "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not edit apps/website/. Produce diffs. Same rule as every other research task.",
+    "Do not introduce an inline style attribute, a new remote origin or an icon font. The site is one self-contained HTML file under a strict CSP, and the CSP constraint is why the design is coherent.",
+    "Do not redesign anything not on the list. This is a defect sweep, not a redesign."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

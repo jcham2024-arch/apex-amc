@@ -1,0 +1,166 @@
+{
+  "_comment": "Wave 1 of the swarm queue. Every task is derived from a finding in a completed task and quotes it. See .clinerules 12 and scripts/gates/check-proposals.mjs.",
+  "tasks": [
+    {
+      "id": "roadmap-synthesis",
+      "title": "Ranked roadmap across all completed findings",
+      "priority": "highest",
+      "why": "Ten tasks completed and the queue is empty. Nobody has read all ten KNOWLEDGE.md files together, so nobody can rank what to do next. This is the task that turns ten reports into a plan.",
+      "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+      "evidence": "Every completed task ends with an Open-for-the-planner section listing findings it deliberately did not act on. Ten such sections exist and none has been reconciled.",
+      "scope": [
+        "Read the KNOWLEDGE.md of ALL ten completed tasks in full. This is the one task where reading broadly is the job.",
+        "Read any REPORT.md section that names a successor task or an open item.",
+        "Produce one ranked list of candidate work. Rank by: (a) does it unblock other work, (b) is it a defect that produces WRONG OUTPUT rather than a visible failure, (c) how confident is the evidence behind it.",
+        "For each candidate, name the completed task that justifies it and quote the sentence. A candidate with no quotation does not go in the list.",
+        "Separate work that can be done unattended from work that needs an owner decision, and mark every owner decision explicitly.",
+        "List what is BLOCKED and why, so the plan records what cannot be planned around."
+      ],
+      "do_not": [
+        "Do not modify any source file. This task produces a plan, not changes.",
+        "Do not re-summarise findings that are already written. Link to the file.",
+        "Do not propose load-synthesis or charge-weight work as attainable; see tasking/completed/interior-ballistics/KNOWLEDGE.md finding 3."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-ranked-roadmap.md", "02-owner-decisions.md"]
+    },
+    {
+      "id": "cartridge-family-audit",
+      "title": "Cartridges whose family disagrees with their name",
+      "priority": "high",
+      "why": "A completed task found 9 Luger and .22 LR filed under rifle.csv with family=rifle, and called it a real defect it could not fix because it was outside its write-set. Family drives presentation and filtering, so the most-searched cartridge on the index is in the wrong bucket.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "9 Luger sits in data/seeds/cartridge_specs/rifle.csv with family=rifle. So does .22 LR. A real defect, not yet fixed - it was outside this task's write-set. Family drives presentation and filtering, so the most-searched cartridge on the index is currently in the wrong bucket.",
+      "scope": [
+        "Enumerate EVERY cartridge in data/seeds/cartridge_specs/*.csv whose family disagrees with its name. Not just the two known cases - find them all.",
+        "For each: file, name, declared family, what the name implies, and the evidence for the correct family.",
+        "Flag any case where the correct family is genuinely ambiguous, and say so rather than picking one.",
+        "State the blast radius: which parts of the app read family, and what visibly breaks for a user who filters by it.",
+        "Produce the exact rows to change as a diff an owner can apply. Do not apply it."
+      ],
+      "do_not": [
+        "Do not edit data/seeds/. Produce the diff; a human applies it.",
+        "Do not rename cartridges to match their file while you are there. Name normalisation is a separate task with its own over-merge risk."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-family-defects.csv", "02-blast-radius.md", "03-proposed-fix.diff"]
+    },
+    {
+      "id": "cartridge-licence-reconciliation",
+      "title": "Resolve the contradiction between two completed tasks on CIP licensing",
+      "priority": "highest",
+      "why": "Two completed tasks disagree about whether cartridge dimensions are legally transcribable. One says the barrier is transcription effort, not permission. The other says reproduction as well as in the form of extracts is forbidden without approval. Both cannot be right, and the answer decides whether a large body of work is possible at all.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "Every genuine gap in this task's table has a free, named, primary source... The barrier to this work is transcription effort, not permission.",
+      "scope": [
+        "State both positions verbatim with their sources, so the disagreement is on the record and neither task is silently overruled.",
+        "Determine what each actually means: is the disagreement about licence terms, about scope, or about which cartridge subset is in question?",
+        "Identify exactly which cartridges the permissive reading covers and which the restrictive reading covers. The sets may differ even when the readings appear contradictory.",
+        "For each subset, state whether a dimension may be transcribed, may be cited only, or must not be recorded.",
+        "If the conflict cannot be resolved from published terms, say so and state precisely what would need to be asked of a lawyer or of CIP. Do not resolve it by guessing."
+      ],
+      "do_not": [
+        "Do not give legal advice. State what the published terms say and where they are ambiguous.",
+        "Do not transcribe any CIP-derived dimension. Establishing permission is the deliverable."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-the-disagreement.md", "02-licence-terms.md", "03-per-cartridge-verdict.csv"]
+    },
+    {
+      "id": "gate-negative-tests",
+      "title": "Negative tests for every gate in verify",
+      "priority": "high",
+      "why": "A completed audit found check-tasking.mjs shipped with a missing brace that silently reduced it to checking one task per run, and reported zero outputs verified while four completed tasks sat in completed/. ESLint and node --check both passed. It was found by an agent doing its own task, not by a gate.",
+      "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+      "evidence": "A gate in verify can be green and verify nothing. check-tasking.mjs shipped with a missing brace that silently reduced it to checking one task per run, and reported 0 declared output(s) verified while four completed tasks sat in completed/.",
+      "scope": [
+        "For each gate in npm run verify, construct an input that MUST make it fail, and state the expected failure.",
+        "Record which gates you could not falsify, and why. A gate you could not break is an untested gate, and saying so is the finding.",
+        "Identify gates that only read files when they should be checking deployed behaviour or actual output.",
+        "Note gates whose exit code is untrustworthy. Several gates in this repo report pass while producing wrong output, so verify the artefact rather than the exit code.",
+        "On Windows, execFileSync with npm fails because npm is a .cmd shim. Use cmd.exe /c npm run <script>. Getting this wrong manufactures a false every-gate-is-broken finding."
+      ],
+      "do_not": [
+        "Do not modify any gate. Produce the test vectors; a human decides what to add.",
+        "Do not run a destructive input against the real tree. Use a throwaway copy under tmp/."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-negative-test-matrix.csv", "02-untestable-gates.md"]
+    },
+    {
+      "id": "unknown-state-design",
+      "title": "Design the unknown state before the known state",
+      "priority": "high",
+      "why": "Six dimensional columns are 0/229 populated. A design with no vocabulary for absence renders a blank cell, and a blank cell reads as zero. That is a silent data error, and it is invisible to every test that checks for rendering failures.",
+      "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+      "evidence": "an em-dash is not an adequate unknown marker. The em-dash reads as zero to anyone scanning a column. The slot must carry a word.",
+      "scope": [
+        "Specify the unknown state for every data surface in the product: which components render data, and what each shows when the value is absent.",
+        "State the vocabulary. An em-dash is explicitly ruled out; propose and justify what replaces it.",
+        "Distinguish not-recorded from not-applicable from unknown-to-us from restricted-by-licence. Four different absences; one marker collapses them wrongly.",
+        "Check docs/mockups/_tokens.css and the mockups before designing anything - they may already have solved part of it.",
+        "Note the related defect: one accent colour currently marks both interactive elements and positive results, so this-is-good-news and click-me cannot be told apart."
+      ],
+      "do_not": [
+        "Do not edit apps/website/. Produce the specification; a human implements it.",
+        "Do not design the populated-data presentation until the empty case is specified. That ordering is the finding."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-unknown-state-spec.md", "02-surface-inventory.md"]
+    },
+    {
+      "id": "shotgun-dimensions",
+      "title": "Shotgun gauge coverage and dimension source availability",
+      "priority": "medium",
+      "why": "The emptiest category is among the cheapest to fill. SAAMI free drawings explicitly name 12 Gauge and 28 Gauge, and CIP TDCC covers shotgun dimensions. This task establishes which sources exist and what they permit; it does not touch safety limits.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "We hold 0 of 8 gauges... But SAAMI's free drawings page names 12 Gauge and 28 Gauge explicitly, and CIP TDCC covers shotgun dimensions. So the emptiest category is also among the cheapest to fill.",
+      "scope": [
+        "Establish which of the 8 gauges have a free, named, primary dimensional source, and which are paywalled or restricted.",
+        "Identify what the 4 Bore Rifle row - the only row filed as shotgun, created as a pressure placeholder - should actually be, or whether it should not exist.",
+        "Record, per gauge, whether any safety-limit figure is available, and mark it as a separate open item if it is paywalled. Do not seek the value and do not reason about it.",
+        "Cross-reference the licence question in tasking/completed/cartridge-dimensions/REPORT.md. Do not re-derive it."
+      ],
+      "do_not": [
+        "Do not transcribe a value from a restricted source. Record the source and the permission status only.",
+        "Do not resolve the CIP licensing question here. cartridge-licence-reconciliation owns it.",
+        "Do not source, compare, or reason about any chamber safety limit. Recording availability is the deliverable; the value is not. See tasking/completed/interior-ballistics/KNOWLEDGE.md."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-source-availability.csv", "02-per-gauge-verdict.md"]
+    },
+    {
+      "id": "group-standard-error",
+      "title": "Standard error for centre-of-impact rules",
+      "priority": "medium",
+      "why": "A completed task named this the gap most likely to produce confident nonsense. centreOfImpact returns the mean of the shots taken, so any threshold rule fires on sampling noise unless the threshold is expressed in the group's own standard error.",
+      "derived_from": "tasking/completed/shot-group-taxonomy/KNOWLEDGE.md",
+      "evidence": "Before any threshold rule fires, the threshold must be expressed in units of the group's own standard error - otherwise the rule fires on sampling noise. dispersion.ts does not compute that standard error today, and no source states a threshold. This is the gap most likely to produce confident nonsense.",
+      "scope": [
+        "Derive the standard error of the mean for each axis given n shots, and state the small-n caveats. Verify numerically against synthetic groups with a known sigma.",
+        "State what happens at low n, where the standard error itself is unreliable. A threshold based on an unstable standard error is worse than no threshold.",
+        "Specify how many shots are needed before a threshold rule is defensible. No source states this, so derive it and label it derived, not published.",
+        "Confirm whether dispersion.ts computes standard error today. If not, specify the function signature only. Do not implement it."
+      ],
+      "do_not": [
+        "Do not implement anything in packages/. Produce the specification.",
+        "Do not propose a threshold value as if it were sourced. If it is derived, label it derived.",
+        "Do not name shooter faults. A named instructor calls target-photo fault diagnosis the most misused tool in the training industry; see the source KNOWLEDGE.md."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-derivation.md", "02-small-n-behaviour.md"]
+    },
+    {
+      "id": "name-normaliser-spec",
+      "title": "Two-way cartridge name normaliser",
+      "priority": "medium",
+      "why": "A coverage comparison run on raw strings manufactures gaps out of abbreviations. The normaliser must be tested in both directions: does it find cartridges naive matching called absent, and does it keep genuinely different cartridges apart.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "A normaliser that only tests the first direction will quietly merge distinct cartridges, and that is the failure that hides real differences.",
+      "scope": [
+        "Specify the normalisation rules, and for each state whether it can over-merge or under-match. Both are defects and they are not symmetrical.",
+        "Build a test corpus with expected outcomes in BOTH directions: under-match cases that abbreviations caused naive matching to miss, and over-merge cases that must stay separate.",
+        "The over-merge corpus must include real near-collisions in this dataset. Find them rather than inventing them.",
+        "State where normalisation is safe to apply and where it is not. Never silently normalise a stored name."
+      ],
+      "do_not": [
+        "Do not implement the normaliser. Produce the rules and the test corpus.",
+        "Do not rename or rewrite any stored cartridge name. That is a data migration and a human decision."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-rules.md", "02-test-corpus.csv"]
+    }
+  ]
+}

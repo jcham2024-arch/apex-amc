@@ -1,0 +1,31 @@
+{
+  "schema": "apex-task/1",
+  "id": "published-load-lookup-spec",
+  "title": "Give the user the manufacturer's own published load data, cited",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/published-load-lookup-spec/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-what-is-published-and-where.md",
+    "02-licence-and-permissions.md",
+    "03-lookup-and-refusal-design.md",
+    "04-primers-and-edition-dating.md"
+  ],
+  "derived_from": "tasking/completed/interior-ballistics/03-load-synthesis-literature.md",
+  "prohibits": [
+    "Do NOT compute, interpolate, extrapolate, average or fit any charge weight, powder constant or burn rate. This task produces a specification for a LOOKUP and a citation. The owner's instruction is explicit: give the user what the manufacturer published, not our own calculated load.",
+    "Do not store a manufacturer's VALUES. The owner decided on 3 Oct 2026: cite and link only. Storing grain weights, even with attribution, is exactly what that decision excludes. Metadata about where to find them is permitted and necessary; the figures are not.",
+    "Do not design a scraper for a manufacturer's load tables. The same terms-of-service reasoning that rules out retailer price scraping rules this out.",
+    "Do not present a sourced figure and a derived one in the same visual treatment. That is the single failure this design exists to prevent."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

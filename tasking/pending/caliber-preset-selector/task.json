@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "caliber-preset-selector",
+  "title": "A searchable caliber dropdown covering every cartridge we hold",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "highest",
+  "write_set": [
+    "tasking/completed/caliber-preset-selector/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-selector-spec.md",
+    "02-search-and-alias-rules.md",
+    "03-unknown-state.md",
+    "04-a11y-options.md"
+  ],
+  "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not edit apps/website/. Produce the specification.",
+    "Do not normalise any stored cartridge name. That is a data migration and a human decision.",
+    "Do not design the selector without specifying the empty state. A selector over mostly-empty records that looks fine with full data is the defect ui-research already found once."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

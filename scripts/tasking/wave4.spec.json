@@ -1,0 +1,114 @@
+{
+  "_comment": "Wave 4: the product. Modular site, caliber presets, cost model, component data, load-ladder spec. Every task states the constraint that bounds it. See .clinerules 12.",
+  "tasks": [
+    {
+      "id": "site-modular-architecture",
+      "title": "Every page section becomes a module, not a hardcoded block",
+      "priority": "highest",
+      "why": "The owner asked that every piece of the main page be a module we add, not a hardcoded item. Today apps/website/src/index.html is one 593-line file with the calculator, the retailer directory and the content sections all inline. Nothing can be added, removed or reordered without editing that file, and two agents adding two sections at once would collide in the same markup.",
+      "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+      "evidence": "The site is one self-contained HTML file under a strict CSP. The CSP constraint is why the design is coherent, and it also decides which module mechanisms are available.",
+      "scope": [
+        "Inventory every section currently in index.html: its id, purpose, data dependencies, and whether it renders from a data module or hardcoded markup. This table is the input to everything else here.",
+        "Define a module contract: what a section declares (id, title, data source, render function, whether it needs a nav entry) and what the page does with it. Concrete enough that a third party could add a section without reading the page source.",
+        "State the ORDER problem honestly. A registry gives add and remove, but visual order matters on a landing page and a registry has no natural order. Propose the mechanism and say what it costs.",
+        "Specify migration as INDEPENDENT change sets, one per section, each verified alone. A migration that only passes as a whole cannot be reviewed.",
+        "Address the CSP head-on, because it decides the answer: no inline styles, no new remote origins, no icon fonts, one self-contained HTML file. State which module mechanisms survive - ES modules are fine, a bundler is not, dynamic import may be.",
+        "Say what this costs in bytes. The site is 96.3 KB today and the CSP forbids loading anything it did not already load. If modularity pushes past a threshold that matters, give the number."
+      ],
+      "do_not": [
+        "Do not restructure the page. Produce the contract, the inventory and the plan.",
+        "Do not propose anything adding a runtime dependency, a new remote origin, an inline style, or a bundler step. check-website-build will fail the build.",
+        "Do not design the visuals of any section. Modularity only."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-section-inventory.md", "02-module-contract.md", "03-migration-plan.md", "04-csp-and-size-analysis.md"]
+    },
+    {
+      "id": "caliber-preset-selector",
+      "title": "A searchable caliber dropdown covering every cartridge we hold",
+      "priority": "highest",
+      "why": "The owner asked for all caliber presets and said a dropdown beats a set of buttons. A dropdown over 229 cartridges is unusable without search, and search is where the alias problem lives: our names are abbreviated (9 Luger, .22 LR, .223) while users type what they know.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "Always alias-normalise before claiming a caliber gap. This took a ten-line script. A normaliser that only tests one direction will quietly merge distinct cartridges, and that is the failure that hides real differences.",
+      "scope": [
+        "Specify the selector precisely: type-ahead matching, keyboard navigation, ARIA combobox semantics, and what happens on a cartridge with no data. That last one matters most - 6 dimensional columns are 0/229, so almost any selection lands on a mostly-empty record and the selector must not pretend otherwise.",
+        "Define the UNKNOWN state before the known one, per ui-research: a blank reads as zero. Specify what shows when a cartridge has no dimensions, no powder data and no load data. This is the most important part of the task.",
+        "Specify search across aliases WITHOUT merging distinct cartridges. Define what must not be merged and give real near-collisions from our own dataset, not invented ones.",
+        "Say how the list stays current. It comes from data/seeds/cartridge_specs/*.csv and the family-defect audit is still in flight - state how the selector behaves while that is unresolved.",
+        "Note the a11y trade-off: this replaces buttons, and a native <select> over 229 options has no search. Compare native select, custom combobox and datalist, and recommend one with reasons."
+      ],
+      "do_not": [
+        "Do not edit apps/website/. Produce the specification.",
+        "Do not normalise any stored cartridge name. That is a data migration and a human decision.",
+        "Do not design the selector without specifying the empty state. A selector over mostly-empty records that looks fine with full data is the defect ui-research already found once."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-selector-spec.md", "02-search-and-alias-rules.md", "03-unknown-state.md", "04-a11y-options.md"]
+    },
+    {
+      "id": "component-cost-model",
+      "title": "Cost model - tax, shipping, provenance, and user override",
+      "priority": "highest",
+      "why": "The owner wants cost-per-round from real components - primer type and price, powder type and price, projectile - plus tax and shipping. None of that model exists. We hold powders with NO price and no load data: the columns are manufacturer, product_name, product_line, burn_rate_class, relative_burn_rate_position, geometry, source_url. A price is a NEW field with a NEW provenance requirement, not a value to fill in.",
+      "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+      "evidence": "This project's dominant data state is absent: six dimensional columns are 0/229 populated. A design that has no vocabulary for absence renders a blank cell, and a blank cell is read as 0. That is a silent data error, invisible to every test that checks for rendering failures.",
+      "scope": [
+        "Design the cost model as a SCHEMA, not as numbers. Every price needs: value, currency, unit (per round, per 100, per pound, per 1000), retailer, capture timestamp, and whether it is observed or user-entered. A price without a timestamp is a claim that decays silently - that is the argument against scraping, made structural.",
+        "Specify PRIMER data, which we hold none of. Required distinctions include manufacturer (CCI, Federal, Winchester), type (standard, match, magnum, non-magnum), and magnum status specifically, because it changes the calculation and getting it wrong changes the result. Name the fields and sources. DO NOT populate it with plausible values.",
+        "Specify tax handling. Sales tax is jurisdiction-dependent and a national average is a fiction. Say whether tax is entered by the user, looked up, or shown as a range, and be honest about which is feasible without a tax API.",
+        "Specify shipping as an ESTIMATOR with visible assumptions, because actual shipping needs retailer data we do not have. Cover flat-rate, free-shipping threshold, weight-based and per-item. Every assumption must be visible, because a silently assumed shipping cost is an invented datum wearing a UI.",
+        "Specify the USER OVERRIDE path. The owner wants users able to enter their own prices. Make override structurally distinct from sourced data so nobody later mistakes a typed number for an observed one. That distinction is the difference between a useful tool and a confident wrong answer.",
+        "Define provenance end to end: how a price travels from source to screen, and what renders when the chain is incomplete."
+      ],
+      "do_not": [
+        "Do not populate any price, primer or component value. Design the schema. A fabricated price in a cost calculator is worse than no calculator.",
+        "Do not build the feature. Produce the specification.",
+        "Do not scrape a retailer. Real price acquisition is owned by retailer-price-data-options; coordinate rather than duplicate.",
+        "Do not state a national average sales tax as if it were the user's tax."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-cost-schema.md", "02-primer-data-spec.md", "03-tax-and-shipping.md", "04-override-and-provenance.md"]
+    },
+    {
+      "id": "load-ladder-interpolation-spec",
+      "title": "Safe load ladder as published-data interpolation, with mandatory EMPTY",
+      "priority": "high",
+      "why": "The owner wants a user to pick components they can buy and get a safe load ladder plus cost per round. The physics cannot do that: interior-ballistics established that no manufacturer publishes burn rate, pressure exponent or force curve for retail powder, and that fitting constants from published load data is DEGENERATE rather than merely noisy. But the same task concluded the achievable product IS an interpolation engine over published load tables with mandatory EMPTY on an unresolvable match - exactly what Berger and Hornady do by hand. This specifies that, safely. It remains blocked on licensed load data, which is the owner's decision.",
+      "derived_from": "tasking/completed/interior-ballistics/05-feasibility-verdict.md",
+      "evidence": "The achievable goal is an interpolation engine over published load data, with mandatory EMPTY on an unresolvable match - which is exactly what Berger and Hornady do by hand.",
+      "scope": [
+        "Specify the MATCH KEYS: which published fields must agree for a row to be a candidate, and which have usable coverage across readable sources. Include which are likely absent - an unmatchable key is the most likely EMPTY trigger.",
+        "Enumerate EMPTY conditions exhaustively: no powder match, no projectile match, single-source-only row, and any case where the answer would extrapolate beyond the matched envelope. EMPTY is a correctness property, not an error path, and must be a designed output rather than a blank that looks like a bug.",
+        "Specify the RESOLVER'S REFUSAL, which interior-ballistics calls the single most important design requirement: a resolver that cannot say 'I am not sure this is the same thing' is unsafe by construction. The documented failure is Hornady's own handbook listing a misprinted powder for 6.5 PRC - one wrong name in a printed table, and a name-matching system carries identical risk with no erratum channel.",
+        "Specify provenance for every returned value: a number must name its source row, and a number that cannot is EMPTY by definition.",
+        "State the data dependency precisely. This cannot be built without licensed, citable load observations and we currently hold NONE. Name the owner decision required and what each option costs.",
+        "Design how the ladder displays: the range, its source, and its date. A ladder presented as current fact when the underlying handbook is twelve years old is a claim we cannot substantiate."
+      ],
+      "do_not": [
+        "Do NOT compute, interpolate, extrapolate or fit any charge weight, not even as an example or placeholder. This task produces a specification; producing a charge weight is out of scope and unsafe.",
+        "Do not treat this as unblocked. It is blocked on a licensing decision recorded in FIX-BACKLOG.md item 10.",
+        "Do not design a lookup that could return a confident answer it cannot source. Refusal is the feature."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-match-keys.md", "02-empty-semantics.md", "03-resolver-refusal.md", "04-data-dependency.md"]
+    },
+    {
+      "id": "ballistics-surface-spec",
+      "title": "Make the ballistics module reachable from the main page",
+      "priority": "medium",
+      "why": "The owner asked for the ballistics module to be accessible from the main page. Today packages/ballistics-core is a library with 7 test files and no user-facing entry: the site has a cost calculator but no trajectory or zeroing surface at all. This specifies the entry point rather than building it.",
+      "derived_from": "tasking/completed/exterior-ballistics/REPORT.md",
+      "evidence": "A numbers product's most important design decision is how it renders we do not know.",
+      "scope": [
+        "Inventory what packages/ballistics-core actually exposes and what each function needs as input. Several require a full BallisticProfile, which a visitor will never have - state which surfaces are genuinely reachable by a first-time visitor and which are not.",
+        "Specify the entry point on the page: what the user sees, what they input, and what comes out. Identify the smallest useful slice - the exterior-ballistics verdict is that these are the measurements dispersion.ts already makes correctly: group size, sigma, cep50, extremeSpread, and which axis a group is elongated on.",
+        "State honestly what this module CANNOT do. shot-group-taxonomy established that naming a shooter fault from a target photo is unsafe and unsourced, that no confidence percentage exists anywhere, and that centreOfImpact is the mean of the shots taken so any threshold rule fires on sampling noise without a standard error. The surface must not imply it can diagnose anything.",
+        "Address the same unknown-state rule: a trajectory result computed from a 0/229 dimensional record is meaningless, and the surface must refuse or label it rather than render a confident number.",
+        "Specify how it links to the cost calculator, since the owner's stated intent is a user arriving to decide what to build, how, and where to buy the parts."
+      ],
+      "do_not": [
+        "Do not build the surface. Produce the specification.",
+        "Do not design any shooter-fault diagnosis, confidence percentage, or threshold rule. shot-group-taxonomy records that a named instructor calls target-photo fault diagnosis the most misused tool in the training industry, and that no diagnostic accuracy figure exists in any source retrieved.",
+        "Do not compute a charge weight, powder constant, or pressure figure."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-module-surface.md", "02-reachable-inputs.md", "03-limits-and-refusals.md"]
+    }
+  ]
+}

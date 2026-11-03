@@ -1,0 +1,30 @@
+{
+  "schema": "apex-task/1",
+  "id": "code-review-sweep",
+  "title": "Adversarial review of gates, physics core, and website",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "high",
+  "write_set": [
+    "tasking/completed/code-review-sweep/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-gate-adversarial-review.md",
+    "02-core-correctness.md",
+    "03-website-findings.md",
+    "04-defect-list.csv"
+  ],
+  "derived_from": "tasking/completed/code-audit/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not fix anything. Produce reproductions and proposed diffs.",
+    "Do not run a destructive input against the real tree. Use a throwaway copy under tmp/ - and note that a probe under tmp/ with a broken relative import measures a different module graph than the real gate, which is how a false finding gets filed.",
+    "Do not report style preferences as defects. Rank by consequence: a wrong number a user acts on, then a check that passes while verifying nothing, then everything else."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

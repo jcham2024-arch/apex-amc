@@ -1,0 +1,88 @@
+{
+  "_comment": "Wave 2: product direction - local shops, pricing, competitors, design. Each is grounded in a finding or a verified external source.",
+  "tasks": [
+    {
+      "id": "local-shop-directory",
+      "title": "Local shop directory from the ATF FFL licensee list",
+      "priority": "highest",
+      "why": "The owner asked for a location function so users can find nearby gun shops for ammo and reloading supplies. This is the cheapest and most authoritative source available, and it is free: the ATF publishes a complete, PUBLIC DOMAIN listing of every federal firearms licensee in the US, updated MONTHLY, with name, street address, city, state, zip, and a licence type that separates a dealer (01), a pawnbroker (02) and a RELOADER (06). That last one is the key: type 06 is legally a reloading business, a far better filter for this site than any hand-assembled directory. Verified at catalog.data.gov dataset 4092, publisher ATF Open Data, accessLevel public, accrualPeriodicity R/P1M, contact atfopendata@atf.gov.",
+      "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+      "evidence": "A numbers product's most important design decision is how it renders we do not know. This project's dominant data state is absent: six dimensional columns are 0/229 populated. A design that has no vocabulary for absence renders a blank cell, and a blank cell is read as 0.",
+      "scope": [
+        "Fetch and profile the ATF FFL dataset. Report the EXACT schema: every column name, the licence type codes and their meanings, and the row count. Do not summarise from the catalogue page - download the file and read it.",
+        "Determine which licence types are relevant. Type 06 (reloader) is the strongest signal for reloading supplies; 01 (dealer) covers retail; 02 (pawnbroker) implies some gunsmithing. Say what each implies and what it does NOT - a 01 does not necessarily sell ammunition, and an 06 does not necessarily have a storefront.",
+        "State the staleness honestly. The catalogue entry lists December 2021 data with a September 2025 update timestamp. Determine the real currency of the file before anything depends on it, because a shop that closed two years ago is worse than no shop.",
+        "Establish the licence position explicitly. It is a US federal government work in the public domain, but record the attribution requirement and any restriction ATF states, because we still cite the source.",
+        "Specify the geographic index. The owner asked for a location lookup, so state whether the data carries latitude/longitude or is street address only. That decides whether distance-sort is possible at all, and it must be answered before any design is proposed.",
+        "Design the data model for a local shop record, including what we do NOT know and how absence is marked. A shop with no recorded hours must not render as open 24 hours."
+      ],
+      "do_not": [
+        "Do not build the feature. Produce the specification, the schema report and the licence position. A human implements.",
+        "Do not scrape or geocode anything. Reading the file the publisher provides is not scraping.",
+        "Do not add a storefront, phone or hours field from any source other than this dataset. If hours are found elsewhere, record them as a separate clearly-labelled source - never merge unverified attributes into an authoritative record.",
+        "Do not claim a listed business currently sells ammunition. The FFL list says a licence exists, not what is on the shelf."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-schema-and-licence.md", "02-license-type-meaning.md", "03-data-model.md"]
+    },
+    {
+      "id": "retailer-price-data-options",
+      "title": "How to get retailer pricing - feeds, APIs, and why not scraping",
+      "priority": "highest",
+      "why": "The owner asked for scripts that search vendor websites so the site can display what they have and at what price. That goal is legitimate but the obvious implementation - scrape the storefronts - is the wrong one and probably unlawful. This task finds the lawful routes and prices them. It matters that our own retailers.js already reasons carefully about FTC endorsement rules, so a pricing feature must not undo that work.",
+      "derived_from": "apps/website/src/data/retailers.js",
+      "evidence": "That combination is the single highest-risk thing on the site, for reasons that have nothing to do with taste: FTC Endorsement Guides (16 CFR 255.5) require a material connection to be disclosed, but disclosure only cures an endorsement; it does not make an unsupported endorsement true.",
+      "scope": [
+        "Research the lawful routes and say what each costs and requires. Known to exist: AmmoSeek publishes a public XML feed specification for retailers and runs an affiliate network; Gunfinder and DOPE both publish feed specifications; Impact, Awin and AvantLink are affiliate networks carrying firearms-adjacent merchants. For each state: what data it gives, whether price and stock are included, the cost to join, and whether it needs the merchant's participation.",
+        "State the terms-of-service position on scraping retailer storefronts, concretely and with sources. ToS is not scraping etiquette - a site that prohibits automated access in its ToS is prohibiting it in law in most jurisdictions. Include the CFAA and hiQ v LinkedIn, and state plainly whether a retailer can revoke permission for content we link to commercially.",
+        "Quantify staleness, because it is the strongest technical argument against scraping and the owner should see a number not an opinion. A scraped price is a snapshot. How long is it true? What does a price look like to a user an hour, a day and a week after capture? What must the UI say for a price of unknown age not to mislead?",
+        "Assess the affiliate-network route as the recommended path and state what we give up: commissions, and dependency on one intermediary. Say whether a zero-cost route exists.",
+        "Recommend ONE approach with reasoning, and state what would change the recommendation. A recommendation without a falsifier is an opinion."
+      ],
+      "do_not": [
+        "Do not write a scraper. Do not fetch a retailer storefront to test whether scraping works - that is the action this task exists to evaluate, and doing it to find out would repeat the mistake.",
+        "Do not give legal advice. Cite what the terms say and what the case law holds; say plainly when it is unsettled.",
+        "Do not recommend a price display until the staleness and ToS questions are answered. A price shown without provenance and age is a claim we cannot substantiate."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-feed-and-api-options.md", "02-scraping-legality.md", "03-staleness-and-display.md", "04-recommendation.md"]
+    },
+    {
+      "id": "competitor-gap-analysis",
+      "title": "Competitor teardown - features we lack",
+      "priority": "high",
+      "why": "The owner asked what competitors are doing that we are not. We have partial coverage: ammoseek-coverage compared cartridge NAME coverage and found 36.30 percent of their search share is already held by us. That compared names. Nobody has compared features, calculators or the shopping experience.",
+      "derived_from": "tasking/completed/ammoseek-coverage/KNOWLEDGE.md",
+      "evidence": "Only naive string matching produces the brief's answer. Always alias-normalise before claiming a caliber gap. This took a ten-line script.",
+      "scope": [
+        "Enumerate the competitors. AmmoSeek is already studied for coverage; find the others - gun.deals, gunammo.deals, FIREARMSDATA, reloadus, AmmoReady and whatever else carries real traffic. Record each URL and the date observed.",
+        "For each, list what they offer that we do not, ranked by how much a user would care. Distinguish a genuine capability from a presentation difference - a prettier page is not a feature, and a feature we have but present worse is a different fix.",
+        "State what THEY lack that we have, and say so plainly. A teardown that only finds gaps is marketing, not research, and it would mislead the owner into thinking we are behind.",
+        "For the top five gaps, give a rough effort estimate and the write-set each would touch, so the owner can approve a batch the way the low-risk fixes were approved."
+      ],
+      "do_not": [
+        "Do not copy a competitor's design, copy, code or layout. Record what capability exists and what problem it solves. We build our own expression of it.",
+        "Do not scrape a competitor to measure anything. Read what they publish.",
+        "Do not rank by what is easiest for us to build. Rank by what a user would actually notice missing."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-competitor-inventory.md", "02-feature-gap-matrix.csv", "03-effort-and-write-sets.md"]
+    },
+    {
+      "id": "website-design-iteration",
+      "title": "Apply the accumulated UI findings to the live site",
+      "priority": "high",
+      "why": "ui-research produced a specific, verified list of defects and none are fixed, because agents cannot edit the application. Four are concrete enough to act on and none need a design decision to settle.",
+      "derived_from": "tasking/completed/ui-research/KNOWLEDGE.md",
+      "evidence": "The affiliate disclosure currently lives in a permanent top bar and in the footer. Neither is where the decision happens. A reader choosing a retailer should see that retailer is an affiliate on the card, next to the button. A disclosure the reader must scroll back to find is not a disclosure.",
+      "scope": [
+        "Produce a concrete diff for each of the four verified defects: move affiliate disclosure onto the retailer card adjacent to the link; add font-variant-numeric tabular-nums to live numeric fields, noting docs/mockups/_tokens.css line 17 already has it and was never ported; split the accent so action and positive-status are never the same token; and replace any em-dash unknown marker with a word.",
+        "State precisely where each change goes, by file and line, so it can be applied without re-deriving the analysis.",
+        "Re-run the CSP grep against your own proposed diff before submitting it. The original task's grep found 19 violations in the author's OWN first draft - inline style= attributes written while styling quickly. A check that passed on someone else's artefact failed on the one just made, and it will fail on yours."
+      ],
+      "do_not": [
+        "Do not edit apps/website/. Produce diffs. Same rule as every other research task.",
+        "Do not introduce an inline style attribute, a new remote origin or an icon font. The site is one self-contained HTML file under a strict CSP, and the CSP constraint is why the design is coherent.",
+        "Do not redesign anything not on the list. This is a defect sweep, not a redesign."
+      ],
+      "outputs": ["REPORT.md", "KNOWLEDGE.md", "01-defect-diffs.md", "02-csp-verification.md"]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "apex-task/1",
+  "id": "group-standard-error",
+  "title": "Standard error for centre-of-impact rules",
+  "status": "ready",
+  "blocked_by": [],
+  "blocked_reason": null,
+  "agent": null,
+  "priority": "medium",
+  "write_set": [
+    "tasking/completed/group-standard-error/"
+  ],
+  "required_outputs": [
+    "REPORT.md",
+    "KNOWLEDGE.md",
+    "01-derivation.md",
+    "02-small-n-behaviour.md"
+  ],
+  "derived_from": "tasking/completed/shot-group-taxonomy/KNOWLEDGE.md",
+  "prohibits": [
+    "Do not implement anything in packages/. Produce the specification.",
+    "Do not propose a threshold value as if it were sourced. If it is derived, label it derived.",
+    "Do not name shooter faults. A named instructor calls target-photo fault diagnosis the most misused tool in the training industry; see the source KNOWLEDGE.md."
+  ],
+  "verification": [
+    "npm run verify"
+  ]
+}

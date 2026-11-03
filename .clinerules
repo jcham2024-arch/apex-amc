@@ -22,14 +22,59 @@ multi-agent guide disagree, this file is right, and the reason is stated inline.
 ## 1. The isolation rule
 
 > **A Sub-Agent may only write files listed in its own task's Allowed Write
-> Paths. If a needed file is not in that list, the task is blocked — report it
-> and halt. Do not "just add it".**
+> Paths. If a needed file is not in that list, note it in `NOTES.md`, work around it
+> if you can, and carry on. Do not "just add it" — and do not stop.**
 
-`npm run verify` is a shared global gate. If it is red when you start, **stop and
-report** — a red baseline invalidates every Definition of Done in every task.
+### The sandbox is real. Nothing you write reaches production unreviewed.
 
-Baseline: **exit 0, 235 tests, 14 stages.** If the count differs, measure and
-report; do not assume your prompt is current.
+> **You are working in a sandbox. Your work is reviewed and verified before it
+> reaches the main project. A concern is not a reason to stop working.**
+
+This rule was rewritten on 3 Oct 2026 because the previous version - "if a needed file
+is not in the list, the task is blocked; report it and halt" - **stopped working
+agents on 2 Oct 2026 and was the single biggest cause of idle time.**
+
+Measured, not assumed. Across one swarm session, 4 of 8 status messages were BLOCKED or
+QUESTION. Reading them:
+
+- `dc408` finished both of its tasks, then halted: *"four decisions that are not mine,
+  plus two red gates I will not fix."* It then sat idle through the rest of the session.
+- `ee247` halted on a gate red it had no write-path to.
+- `4880a` halted on a gate bug - correctly, since it had found a real defect, but it
+  stopped rather than continuing.
+
+All three were behaving exactly as instructed. **The instruction was the defect.**
+
+### The rules, in order
+
+1. **A red gate is information, not a stop.** Record the failing gate and its message
+   in `NOTES.md`, then **keep working**. Your task's own completion is judged by
+   `npm run tasking:check`, which checks *your* declared outputs and is scoped to your
+   work. A failure outside your write-set is someone else's defect, and reporting it
+   is useful - halting over it is not.
+2. **You are not the last line of defence.** Every output is reviewed before it reaches
+   the main project. If you ship something wrong with an honest `NOTES.md` saying so,
+   the reviewer catches it. If you ship nothing because you were unsure, nobody catches
+   anything, and the work does not exist.
+3. **Finishing is not optional.** A task with a known gap is finished when the gap is
+   written down. "I completed 80% and documented the remaining 20%" is a **successful**
+   task. An empty folder with an explanation is not.
+4. **Only two things genuinely stop you:** the task folder is gone (another agent has
+   it), or `pending/` is empty. Both are correct results. Report **"queue empty"** and
+   stop.
+5. **Never weaken a gate, and never `handoff:accept`.** Not because you need permission -
+   because accepting a checksum change is a judgement about production, and that is
+   exactly the class of decision the review step exists to catch.
+
+### Baseline, when you do need to check one
+
+`npm run verify` is a shared global gate. Measure the baseline **before you start**, so
+you can tell later whether *you* broke something. Never quote a stage or test count from
+memory, from a task brief, or from another document — those drift, and a stale count in
+a rules file is worse than no count because agents trust it. Measure it: `npm run
+verify` for the exit code, and count the `&&` segments in `package.json`'s
+`verify` script for the stages. If your measurement disagrees with a number written
+anywhere, trust the measurement and say so in your report.
 
 ---
 
@@ -167,3 +212,480 @@ If the tooling provides a shared task board or mailbox:
 - **Never assume a peer's uncommitted work exists.** Only committed, merged state
   is visible to you.
 
+---
+
+## 10. The swarm
+
+> **The brief queue is `tasking/`. Read `tasking/README.md` before taking any task.
+> It is binding and it contains the four-tier protocol.**
+
+### 10.1 Ownership of `tasking/pending/`
+
+> **`pending/` is read-only to every Sub-Agent.** Claiming a task means taking an
+> atomic lock on it, then MOVING its brief out of `pending/` into `in-progress/`:
+>
+> ```bash
+> npm run claim:lock -- take <task>     # exit 0 = you own it, 1 = someone else does
+> mv tasking/pending/<task> tasking/in-progress/
+> ```
+>
+> If the lock command exits 1, **pick a different task.** Do not retry it. Release with
+> `npm run claim:lock -- release <task>` when you stop, including when you abandon the task.
+>
+> The folder move alone is NOT a lock. The eight agent directories are linked git worktrees
+> of ONE repository — shared objects and refs, but each has its own `tasking/pending/`. A
+> move in your tree is invisible to the other seven. That gap let three tasks be claimed by
+> two or three agents at once on 3 Oct 2026, each producing different output and each
+> believing it owned the work.
+>
+> Locks never expire and nothing will steal yours mid-task, so a long task is safe. If an
+> agent dies holding a lock, `npm run claim:lock -- stale` reports it; reclaiming it is a
+> deliberate act, never a scheduled one.
+
+This has already been violated. On 2 Oct 2026 several agents edited briefs in
+`pending/` at once; one brief was corrupted into a single collapsed line, another was
+renamed out from under a third agent, and `tasks:check` went red on a dangling path.
+Recoverable only because git happened to have the prior state.
+
+**If a brief is wrong, report it. Never repair it.** Fixing briefs is the Master
+Planner's job. A Sub-Agent that "helpfully" corrects a path has crossed the boundary
+that makes concurrent work safe.
+
+### 10.2 Take the next task without prompting
+
+> **After completing a task, if any brief remains in `pending/` that nobody has
+> claimed, claim it and start. Do not stop after one task. Do not wait to be
+> asked.**
+
+An idle worker is the most expensive outcome in this scheme, because every idle
+worker is work not being done. Before claiming, confirm the task's `blocked_by` is
+satisfied and that its write-set does not collide with a task already in flight —
+`.cline/tasks/ledger.json` is authoritative on overlap.
+
+**When the queue is empty, say "queue empty" and stop.** Do not invent work, do not
+tidie the codebase unasked, and do not begin a task with no brief. "Queue empty" is a
+correct result and a useful signal to the planner.
+
+### 10.3 Inter-agent communication
+
+**Write it in a file.** Any agent can read any file:
+
+| Path | Purpose |
+| --- | --- |
+| `tasking/in-progress/<task>/NOTES.md` | Anything you want a peer to know |
+| `tasking/review/FINDINGS.md` | The Integrator's merge decisions, readable by all |
+| `tasking/completed/<task>/NOTES.md` | A finding that must reach the planner |
+
+A file survives a dead session and is version-controlled; a message sent to an agent
+that has exited is simply gone. Prefer files. Write a note only when it changes what
+another agent would do — everything else is noise.
+
+### 10.4 Context economy - read your task, not the repo
+
+> **Read ONLY: your task's `task.json` and `BRIEF.md`, the files they name, and
+> whatever you must write. Do not scan the repository.**
+
+This is a real constraint, not politeness. An agent that lists the whole tree and
+reads broadly burns its window on context that has nothing to do with the task, and
+ends up with less room for the actual work by the time it starts. It also makes
+wrong-target mistakes more likely: having read thirty files, it starts reasoning
+from what it half-remembers instead of what the brief says.
+
+Exceptions, and only when genuinely needed:
+
+- You are **blocked** and must establish why. Report the blocker; do not go spelunking.
+- The brief names a directory rather than a file. Read the directory listing, then
+  the files. Not more than that.
+- You are the **planner** writing new briefs, where repository-wide context is the job.
+
+`npm run verify` output is worth reading in full when it fails. That is the one place
+where broad reading is correct, because the failure is by definition about something
+you did not expect.
+
+### 10.5 What the gates will not tell you
+
+`tasking/completed/`, `in-progress/` and `review/` are excluded from `npm run lint`
+and `npm run docs:check` **on purpose**: a staged copy may be deliberately partial or
+mid-way through removing a defect, and failing the build for it would be wrong.
+
+The consequence, which is easy to miss: **running the gates does not validate your
+output. It only proves you stayed inside your folder.** You must read your own staged
+work back and check it. That is also the entire reason the review step exists.
+
+---
+
+## 10.6 The agent roles — and why there are more than four
+
+Added 3 Oct 2026 after too many worker agents stalled. The stall evidence is in §1: four
+of eight status messages in one session were BLOCKED or QUESTION, and the agents were
+obeying instructions rather than being timid.
+
+One generic "agent" prompt produced three different failure modes: workers stalled on
+concerns, nobody caught their work before it moved, and the eventual fixes had nowhere
+safe to go. Roles exist to separate those jobs so each has an owner and a boundary.
+
+| Role | Owns | May write | May NOT |
+|---|---|---|---|
+| **task author** | `tasking/pending/`, seeding | `tasking/pending/` | implement, review, seed duplicates |
+| **worker-monitor** | the live swarm | `outbox/taskmaster/**` | implement, review, ignore a stall |
+| **worker** (N) | one task at a time | its own task folder | `pending/`, app source, gates |
+| **data-steward** (1) | `data/seeds/`, honesty of values | `data/seeds/`, `data/reference/` | invent, interpolate, or delete a row |
+| **reviewer** (N) | auditing, never authoring | `tasking/review/`, verdicts | fix anything it reviews |
+| **qa-gate-tester** (1) | proving gates bite | `scripts/tests/**` | edit the gate it is testing |
+| **implementation** (1) | code | `apps/`, `packages/`, `scripts/` | decide what to build |
+
+The rules that carry the weight are the "May NOT" column: **the reviewer never edits
+what it reviews**, **the implementation agent never decides what to build**, and **the
+qa-gate-tester never edits the gate it is testing**. Each of those three, broken, removes
+the only independent check in its step.
+
+### Read your own file first
+
+```
+tasking/roles/README.md           the index, the pipeline, and how to scale
+tasking/roles/TASK-AUTHOR.md      plan — turn findings into well-specified tasks
+tasking/roles/WORKER-MONITOR.md   watch — keep the swarm moving, answer stalls
+tasking/roles/WORKER.md          produce — take a task, finish it, never stall
+tasking/roles/DATA-STEWARD.md     own — reference data correctness, honest EMPTY
+tasking/roles/REVIEWER.md        check — audit findings, never fix them
+tasking/roles/QA-GATE-TESTER.md  check — prove the gates actually catch defects
+tasking/roles/IMPLEMENTATION.md  build — write code a review has approved
+```
+
+Read yours before starting. They are short and they are binding.
+
+### Any agent may claim any role
+
+There is no assignment queue. An agent asks what the swarm most needs, claims it, reads
+that role's file, and does the work:
+
+```bash
+npm run role -- next              ranked by what is actually blocking the swarm
+npm run role -- claim <your-id>   take it; you are told to read the role file
+npm run role -- release <your-id> done - then claim again, or take a task
+```
+
+**The ranking is computed from the live queue, and each rule cites the number that makes
+it fire.** A role nobody needs scores zero and is not suggested. That property is the
+whole design: an agent told to "be useful" from a list of seven roles will pick one that
+is not needed and then sit idle in it, which is precisely the failure this swarm has
+been fighting.
+
+`WORKER` is always the fallback — there is always a pending task, so an agent that finds
+every specialist role occupied still has somewhere to go.
+
+A claim is a file created exclusively at `tasking/roles/held/<ROLE>/<id>.md`. This is the
+same "the move IS the lock" idea as claiming a task: no registry to race on, no lock to
+expire. Two agents cannot both hold `DATA-STEWARD`, and an agent that tries is told who
+has it.
+
+### Never wait for input — a prompt is a stall with better manners
+
+Lifted from the Convex skill, which sets `CONVEX_AGENT_MODE=anonymous` "so it skips every
+interactive prompt" for headless agents. It matters more here than there.
+
+An agent that waits for a prompt **is** an agent that has stalled. This project has
+stalled repeatedly, and the cause was always an agent obeying an instruction to escalate.
+Measured on 2 Oct: four of eight status messages were BLOCKED or QUESTION.
+
+So, in order of how often it happens here:
+
+- **A red gate is not a prompt.** Record it and keep working. `tasking:check` is scoped
+  to your outputs; `verify` is not yours to fix.
+- **A wrong brief is not a prompt.** Report it. Reporting is the contribution.
+- **An unknown value is not a prompt.** Leave it EMPTY and say so.
+- **A decision you cannot make is not a prompt — unless it genuinely is one.** Name the
+  decision, say who owns it, route it, then **take the next task.** Escalating and then
+  waiting is the failure; escalating and continuing is the fix.
+
+The only things that stop you are the two in §10.6: the folder is gone, or `pending/` is
+empty.
+
+### Failure output carries a code
+
+Lifted from the same skill, which lists bare error strings as an anti-pattern: *"gives
+clients no way to react."* Every refusal here prints a `CODE:` line before the prose:
+
+```
+CODE: ROLE_HELD
+means: The role is at capacity. Someone already holds it.
+do:    pick another role
+```
+
+**Branch on the code, not the wording.** Prose gets reworded by the next person who
+touches the file; a code does not. This project already has an agent that could not tell
+a gate false-alarm from a real defect because both printed sentences. The list lives in
+`scripts/shared/swarm-errors.mjs` and every code carries the action it implies — a code
+that does not say what to do is just a shorter sentence.
+
+### Roles are instanced, not unique
+
+Most roles scale by adding agents. Some must not:
+
+- **worker, reviewer** — scale freely. **The reviewer is the current bottleneck**: 22
+  tasks completed, 1 verdict. Partition the queue or two reviewers audit one folder.
+- **worker-monitor, task-author** — one each. The monitor's job is holding the whole
+  picture; two means two agents messaging the same worker.
+- **data-steward, qa-gate-tester, implementation** — **one at a time.** Each takes a lock
+  or owns files that collide immediately. A second instance waits; it does not work.
+
+### The pipeline
+
+```
+task author ──seeds──▶ pending/
+                          │
+worker ──claims──▶ in-progress/ ──▶ completed/ + HANDOVER.md
+                          │                    │
+              worker-monitor              data-steward (if data changed)
+              watches, routes                  │
+                          └──────────▶ reviewer ──▶ PASS │ FAIL │ SUSPEND
+                                                            │
+                                              PASS ────────┤
+                                              FAIL ────────┘ back to a worker
+                                                            │
+                                                    implementation
+                                                            │
+                                                  qa-gate-tester proves
+                                                  the gate still bites
+```
+
+### `HANDOVER.md` — required of every worker, and the answer to stalling
+
+A worker that stops for any reason other than "queue empty" **must** leave a
+`HANDOVER.md` in its task folder before stopping. This is not a report of success. It is
+the thing that lets the next person continue without re-deriving your work.
+
+```markdown
+# HANDOVER — <task-id>
+
+**Status:** complete | partial | stalled | blocked
+**Claimed:** <task id> · **Finished/abandoned:** <ISO-8601>
+**Declared outputs written:** N/M  (list which, if not all)
+
+## What I did
+## What I found — the actual result, cited to a file
+## What is NOT done, specifically
+## Why I stopped
+## What the next agent should do first
+```
+
+Four statuses, and they are not interchangeable:
+
+- **`complete`** — every `required_outputs` file exists.
+- **`partial`** — real work landed, gaps documented. **This is a successful outcome**,
+  not a failure. An agent that documents what it could not do has handed over
+  something usable. An empty folder with an explanation has not.
+- **`stalled`** — you hit something you could not resolve. Say exactly what.
+- **`blocked`** — waiting on a human decision. Name the decision and who owns it.
+
+**Never leave a task folder without one of these.** A stalled agent that wrote down its
+state is a normal event. A stalled agent that left nothing is work that will be
+rediscovered from scratch, or worse, silently duplicated.
+
+### What "stalled" is no longer allowed to mean
+
+Per §1: a red gate, a missing write-path, a wrong brief, or an unknown value are all
+**things to document, not reasons to stop**. Write the `HANDOVER.md`, claim the next
+task, and keep going. You are not the last line of defence.
+
+The only reasons to stop are:
+
+1. `tasking/pending/` is empty — report **"queue empty"** and stop.
+2. Your task folder has been claimed by someone else.
+3. You are the implementation agent and no approved change exists.
+
+### The reviewer's job, precisely
+
+The reviewer audits `tasking/completed/*/` **and** every `HANDOVER.md` marked `stalled`
+or `blocked`. It does not fix what it finds. Its output is a verdict per item:
+
+- **PASS** — sound, complete, cites its evidence. Approved for implementation.
+- **FAIL** — with the specific defect, the file and line, and what would fix it. Goes
+  back to a worker, not to the implementer.
+- **SUSPEND** — needs a human decision. Name the decision.
+
+Reviewer findings become `tasking/review/FINDINGS.md`. The reviewer **never edits
+`completed/`, the application, or a gate.** If it fixed things itself, there would be no
+one checking its work.
+
+### The implementation agent's job, precisely
+
+It touches **only** code that a reviewer has marked PASS, and it works from the review's
+finding — not from its own reading of the raw research. It is the only role permitted to
+write `apps/`, `packages/`, `scripts/` or `data/seeds/`.
+
+It still may not: weaken a gate, run `handoff:accept` without the owner's note, state a
+charge weight, or decide that a FAIL should be implemented anyway. **If the review says
+FAIL, the code does not get written.** That is the entire reason the roles are separate.
+
+---
+
+## 11. Agent mail — how the swarm talks to itself
+
+> **Check your outbox when you start a task and when you finish one. Write to your
+> inbox when you start, stop, or get blocked.**
+
+Full protocol: [`tasking/mail/README.md`](tasking/mail/README.md). Binding summary:
+
+Your agent ID is your worktree directory name — you are in
+`C:/Users/Justin/.cline/worktrees/<your-id>/ApexProject`. With no worktree, it is `main`.
+
+```
+your inbox:   tasking/mail/inbox/<your-id>.md              only YOU write this
+your outbox:  tasking/mail/outbox/taskmaster/<your-id>.md  only the TASKMASTER writes this
+```
+
+**One writer per file, no exceptions.** Never write another agent's inbox; never
+write your own outbox. To reach another agent, message the taskmaster and let it
+route. This is not bureaucracy: a shared append-only message file is
+read-modify-write, and two agents appending at once means one message is silently
+destroyed with no trace — the failure that corrupted `pending/` once already.
+
+| Type | When | Must contain |
+| --- | --- | --- |
+| `START` | after claiming a folder, before first edit | task, the folder move, expected output count |
+| `STOP` | after `tasking:check` passes, before going idle | task, `Status:`, `Written: N/M`, key finding |
+| `BLOCKED` | the moment you would otherwise guess | what you tried, and **what you will not do** |
+| `QUESTION` | only if STOP cannot carry it | question, why it matters, your reading |
+
+Header format `<!-- ISO8601 | AGENT <your-id> | TYPE -->`. Append only; never
+rewrite an earlier message. Your inbox is a ledger, not a status field.
+
+**Send BLOCKED before inventing anything.** A blocked agent costs one message. A
+plausible invented number costs every later reader's trust, because it stays
+indistinguishable from a real one forever after.
+
+**A STOP claiming `complete` is verified against disk.** `check-mail` counts the
+files in `tasking/completed/<task>/` against what you declared and fails on a
+mismatch. That is exactly the check that would have caught twelve tasks finishing
+with nothing written down.
+
+**`REDIRECT` and `COLLISION` outrank your brief.** Your `task.json` predates the
+other agents, so a collision is information the manifest cannot hold. Follow it, and
+say in STOP that it contradicted the brief — that is a finding about the brief.
+
+---
+
+## 12. The swarm refills its own queue
+
+> **When you finish a task, propose what follows. Cite the file that proves it. Only
+> research-shaped proposals run unattended.**
+
+A finished task almost always names its own successor — `interior-ballistics`
+concluded the achievable product is an interpolation engine over published load
+data. That conclusion is evidence. Losing it because the session ended is the
+failure this replaces.
+
+Write **one file per proposal** at `tasking/mail/proposals/<slug>.md`. Unique
+filename means one writer, so proposals need no lock and no routing.
+
+```markdown
+---
+proposal: <id>
+title: <what it is>
+derived_from: tasking/completed/<task>/<file.md>
+evidence: "<a quotation from that file>"
+shape: research | change
+priority: low | medium | high
+write_set:
+  - tasking/completed/<id>/
+required_outputs:
+  - REPORT.md
+  - KNOWLEDGE.md
+---
+```
+
+### The rules that are not negotiable
+
+**Evidence or it does not exist.** `derived_from` must name a real file and
+`evidence` must quote it. `check-proposals` rejects the rest. A proposal with no
+surviving source is a guess wearing a manifest — this one rule is what stops
+autonomous generation from becoming confident fiction.
+
+**`shape: research` writes only inside its own `completed/` folder.** You may
+discover what needs changing and write it down. **You may not change the
+application** without a human reading it. Use `shape: change` for anything else;
+it waits for the owner and is never dispatched.
+
+**Never auto-generate safety-critical work.** Charge weights, powder constants,
+burn rates, load synthesis: barred from `shape: research` however well evidenced.
+`interior-ballistics` concluded the physics cannot be inferred from published data,
+so a task generated from that finding must not try. Write it as `shape: change`.
+
+**Do not propose to fix the protocol.** If your conclusion is "the swarm protocol is
+broken", that is a BLOCKED message, not a proposal. Protocol changes alter how every
+agent behaves and are the owner's decision.
+
+### The bulletin
+
+`tasking/mail/bulletin/<agent-id>.md` — you append to yours, you read everyone's.
+For reusable findings, traps, open questions, and disagreements. Read it when you
+---
+
+## 13. The standing slots — the swarm never runs out of work
+
+> **Two slots are always available. If you finish and the queue is empty, take one.**
+> Run `npm run tasking:restock` when you finish either.
+
+The primary goal is finishing ApexProject. The framework built to do it is portable
+and will move to other projects. Two permanent slots keep that work going without a
+human asking, and they are deliberately different subjects:
+
+| Slot | Subject | One rotation = |
+| --- | --- | --- |
+| `swarm-improvement` | **the framework** — how the swarm works | One dimension: reliability, speed, knowledge, portability |
+| `code-health` | **the code** — how the project is built | One dimension: functionality, design, efficiency, commentary |
+
+**Why they are regenerated rather than stocked.** A task in `pending/` stops existing
+the moment an agent claims it, because claiming MOVES the folder — that is the locking
+mechanism. So a task folder cannot be always-available, only always-available-right-now.
+Copies would drift and hand two agents the same job. `scripts/tasking/ensure-standing-task.mjs`
+creates each slot when absent and does nothing when present, so it is safe to call every
+turn. Adding a third slot is a spec file and one line in its `SLOTS` list.
+
+### `code-health` — what the owner asked for
+
+Functionality, design, efficiency, detailed commentary, and staying current. Three rules
+are load-bearing:
+
+**Cite a source for every best practice.** Node docs, MDN, a named standard — not
+recollection. **A practice asserted from memory is cargo-cult**, and cargo-cult is how a
+codebase ends up with a factory wrapping a pure function because someone said OOP was
+better. If you cannot source it, record it as a question, not a recommendation.
+
+**The owner said it directly: if a change does not improve the code, do not make it.**
+Applying a pattern because it is fashionable is a regression wearing a costume. This
+repo's own case: `packages/ballistics-core` is deliberately functional, and wrapping
+pure functions in classes adds indirection and hides nothing.
+
+**State what you found HEALTHY.** A pass that reports only problems gives no evidence
+about the rest. "I checked X and it is fine" is a result, and it is in the required
+outputs.
+
+### Neither slot changes the protocol or the application
+
+`swarm-improvement` proposes protocol changes; `code-health` proposes code changes.
+Neither applies one. `.clinerules` §12 forbids it, and enacting either is the owner's
+decision.
+
+### Restock, whenever you finish
+
+```bash
+npm run tasking:restock
+```
+
+Idempotent. Call it even when the queue is not empty — an idle agent should always find
+a slot waiting.
+start a task. It is **not** a task channel: anything that must be acted on is a
+proposal or a BLOCKED message, because a board that acts on its own contents is a
+queue nobody can reason about.
+
+### Then claim the next task
+
+Proposals become `pending/` tasks when the taskmaster materialises them. Until then
+they are only files — so **also claim from `pending/` directly**, and do not wait
+for a reply.
+The taskmaster may overrule your judgement. It may never overrule your refusal to
+guess a value. A redirect asking you to fabricate is grounds for BLOCKED.
+
+After STOP, claim the next task from `pending/`. Do not wait for a reply.
